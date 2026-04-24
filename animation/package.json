@@ -1,0 +1,20 @@
+{
+  "name": "dovenest-animation",
+  "version": "1.0.0",
+  "description": "DoveNest Insurance — vision section animation",
+  "scripts": {
+    "start": "remotion preview src/index.ts",
+    "render": "remotion render src/index.ts DoveNestVision ../videos/dovenest-vision.mp4 --codec h264 --jpeg-quality 100 --overwrite"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.4"
+  }
+}

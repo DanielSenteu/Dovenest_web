@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:dovenestinsurance.com)",
+      "WebFetch(domain:jubileeinsurance.com)",
+      "WebFetch(domain:www.britam.com)",
+      "WebFetch(domain:www.webstacks.com)",
+      "WebFetch(domain:blog.hubspot.com)",
+      "WebFetch(domain:web.archive.org)",
+      "WebFetch(domain:www.thoughtmedia.com)",
+      "WebFetch(domain:www.g-co.agency)",
+      "WebFetch(domain:webcache.googleusercontent.com)",
+      "WebFetch(domain:mediaboom.com)",
+      "WebFetch(domain:www.joinstratosphere.com)",
+      "WebFetch(domain:www.subframe.com)",
+      "WebFetch(domain:azurodigital.com)",
+      "WebFetch(domain:appsaf.apieproject.com)",
+      "WebFetch(domain:www.facebook.com)",
+      "WebFetch(domain:www.shadowdigital.cc)",
+      "WebFetch(domain:www.wecreate.com)",
+      "Bash(ffprobe:*)",
+      "Bash(where:*)",
+      "Bash(python:*)",
+      "Bash(claude:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
