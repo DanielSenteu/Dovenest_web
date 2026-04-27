@@ -19,13 +19,13 @@ Each item has:
 
 | # | Status | Change | File(s) |
 |---|--------|--------|---------|
-| 1.1 | [ ] | Remove "We Protect What Matters" everywhere | `home.html` |
-| 1.2 | [ ] | Remove "low rates" / "value for money" language | `home.html` |
-| 1.3 | [ ] | Remove "growing provider" | `home.html` |
-| 1.4 | [ ] | Remove "demystify insurance" | `home.html` |
-| 1.5 | [ ] | Remove "just like a doctor" analogy | `home.html` |
-| 1.6 | [ ] | Remove "Protect everyday risks" (General Insurance intro) | `home.html`, `general-insurance.html` |
-| 1.7 | [ ] | Shift overall tone to "risk advisory firm at boardroom level" | All pages |
+| 1.1 | [x] | Remove "We Protect What Matters" everywhere | `home.html`, `about.html` done; check remaining pages |
+| 1.2 | [x] | Remove "low rates" / "value for money" language | `home.html`, `about.html` done |
+| 1.3 | [x] | Remove "growing provider" | `home.html`, `about.html` done |
+| 1.4 | [x] | Remove "demystify insurance" | `home.html`, `about.html` done |
+| 1.5 | [x] | Remove "just like a doctor" analogy | `home.html`, `about.html` done |
+| 1.6 | [x] | Remove "Protect everyday risks" (General Insurance intro) | `home.html`, `general-insurance.html`, `about.html` done |
+| 1.7 | [x] | Shift overall tone to "risk advisory firm at boardroom level" | `home.html`, `about.html`, `general-insurance.html` done |
 
 ---
 
@@ -105,21 +105,21 @@ Each item has:
 ### 4a — Mission, Vision, Values
 | # | Status | Change | File(s) |
 |---|--------|--------|---------|
-| 4.1 | [ ] | Rewrite Mission: "To structure insurance solutions that deliver clarity of cover, responsiveness at claim stage and long-term protection aligned to client realities." | `about.html` — Mission section |
-| 4.2 | [ ] | Rewrite Vision: "To be a trusted risk advisory partner known for structured solutions, disciplined execution and dependable claims outcomes across Kenya and beyond." | `about.html` — Vision section |
-| 4.3 | [ ] | Replace/update Values to: Integrity / Accountability / Client-Centric Thinking / Responsiveness / Professional Excellence | `about.html` — Values section |
+| 4.1 | [x] | Rewrite Mission: "To structure insurance solutions that deliver clarity of cover, responsiveness at claim stage and long-term protection aligned to client realities." | `about.html` — Mission section |
+| 4.2 | [x] | Rewrite Vision: "To be a trusted risk advisory partner known for structured solutions, disciplined execution and dependable claims outcomes across Kenya and beyond." | `about.html` — Vision section |
+| 4.3 | [x] | Replace/update Values to: Integrity / Accountability / Client-Centric Thinking / Responsiveness / Professional Excellence | `about.html` — Values section |
 
 ### 4b — Team Section (full rewrite)
 | # | Status | Change | File(s) |
 |---|--------|--------|---------|
-| 4.4 | [ ] | Remove "Use filters to browse…" | `about.html` — Team section |
-| 4.5 | [ ] | Remove filter labels "Field / Main / Corporate" | `about.html` — Team section |
-| 4.6 | [ ] | Remove "Supports…" weak language from team member descriptions | `about.html` — Team section |
-| 4.7 | [ ] | Replace section header "The people behind your protection" → "The Team Accountable for Your Protection" | `about.html` — Team section header |
-| 4.8 | [ ] | Rewrite intro paragraph to new advisory copy (see feedback for full text) | `about.html` — Team section intro |
-| 4.9 | [ ] | Add full team bios for: Kennedy Mongare (CEO) / Kennedy Ngumbao (COO & Head of General Insurance) / Nelson Masaki (Head of Life, Pensions & Risk Structuring) / Charles Omondi Otieno (Head of Operations & Client Service Delivery) / Oyagi (Finance Lead) / Esther Joshua (Financial Operations) | `about.html` — Team cards |
-| 4.10 | [ ] | Add "How Our Team Works Around You" 4-bullet section | `about.html` — Team section |
-| 4.11 | [ ] | Add "Start with the Right Conversation" CTA at bottom of team section | `about.html` — Team section |
+| 4.4 | [x] | Remove "Use filters to browse…" | `about.html` — Team section |
+| 4.5 | [x] | Remove filter labels "Field / Main / Corporate" | `about.html` — Team section |
+| 4.6 | [x] | Remove "Supports…" weak language from team member descriptions | `about.html` — Team section |
+| 4.7 | [x] | Replace section header "The people behind your protection" → "The Team Accountable for Your Protection" | `about.html` — Team section header |
+| 4.8 | [x] | Rewrite intro paragraph to new advisory copy (see feedback for full text) | `about.html` — Team section intro |
+| 4.9 | [x] | Add full team bios for: Kennedy Mongare (CEO) / Kennedy Ngumbao (COO & Head of General Insurance) / Nelson Masaki (Head of Life, Pensions & Risk Structuring) / Charles Omondi Otieno (Head of Operations & Client Service Delivery) / Oyagi (Finance Lead) / Esther Joshua (Financial Operations) | `about.html` — Team cards |
+| 4.10 | [x] | Add "How Our Team Works Around You" 4-bullet section | `about.html` — Team section |
+| 4.11 | [x] | Add "Start with the Right Conversation" CTA at bottom of team section | `about.html` — Team section |
 
 ---
 
