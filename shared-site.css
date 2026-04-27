@@ -279,6 +279,11 @@
    Overrides per-page navbar styles globally
 ═══════════════════════════════════════════════════════ */
 
+/* Push logo closer to left edge */
+.nav-inner {
+    padding-left: 0.75rem;
+}
+
 /* Logo crop — hides "A trusted partner" tagline from JPEG
    Shows: circular icon + DoveNest + INSURANCE BROKERS (~77% of image height) */
 .nav-logo {
