@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>General Insurance - DoveNest Insurance Brokers</title>
+    <title>General Insurance Solutions — DoveNest Insurance Brokers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
@@ -11,6 +11,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Poppins', sans-serif; background: #f6f8fb; color: #0A2A4A; overflow-x: hidden; }
+
+    /* ── Navbar ── */
     #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
     #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
     .nav-inner { max-width: 1320px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
@@ -28,51 +30,99 @@
     .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
-    #general-hero { min-height: 78vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
+
+    /* ── Hero ── */
+    #gi-hero { min-height: 75vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
     .hero-bg { position: absolute; inset: 0; background: url('images/dove_image1.png') center / cover; transform: scale(1.08); animation: heroDrift 11s ease forwards; }
     @keyframes heroDrift { to { transform: scale(1); } }
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.96), rgba(4,20,44,0.78) 52%, rgba(4,20,44,0.26)), linear-gradient(to top, rgba(2,10,24,0.62), transparent 56%); }
-    .hero-content { position: relative; z-index: 2; max-width: 1320px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; }
-    .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
-    .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
-    .breadcrumb a:hover { color: #E8A020; }
-    .hero-eyebrow, .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
-    .hero-title { color: #fff; font-size: clamp(3rem,7vw,6.8rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; max-width: 940px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.96), rgba(4,20,44,0.80) 52%, rgba(4,20,44,0.30)), linear-gradient(to top, rgba(2,10,24,0.65), transparent 56%); }
+    .hero-content { position: relative; z-index: 2; max-width: 1220px; width: 100%; margin: 0 auto; padding: 8.5rem 2rem 4rem; }
+    .hero-eyebrow { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; margin-bottom: 1.1rem; }
+    .hero-title { color: #fff; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; max-width: 820px; animation: fadeUp 0.8s ease forwards; }
     .hero-title span { color: #E8A020; }
-    .hero-sub { max-width: 760px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.22rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
+    .hero-sub { max-width: 680px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(0.95rem, 1.6vw, 1.12rem); font-weight: 300; line-height: 1.85; animation: fadeUp 0.8s ease 0.15s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-    .section-title { margin-top: 0.8rem; font-size: clamp(2rem,4.5vw,4.3rem); line-height: 1.06; letter-spacing: -0.03em; color: #0A2A4A; }
+
+    /* ── Shared ── */
+    .section-label { display: inline-block; color: #E8A020; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.32em; text-transform: uppercase; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; color: #08375f; margin-top: 0.5rem; }
     .section-title span { color: #E8A020; }
-    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg,#E8A020,#f7c66c); }
-    #products { padding: 5.5rem 2rem 6rem; background: linear-gradient(180deg,#f6f8fb,#fff 58%); }
-    .products-inner { max-width: 1220px; margin: 0 auto; }
-    .product-head { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(280px,0.55fr); gap: 2rem; align-items: end; margin-bottom: 2rem; }
-    .product-head p { color: #52677c; line-height: 1.85; font-size: 1.02rem; }
-    .product-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
-    .product-card { min-height: 280px; padding: 1.2rem; border-radius: 8px; background: #fff; border: 1px solid rgba(8,55,95,0.08); box-shadow: 0 22px 55px rgba(8,55,95,0.1); display: flex; flex-direction: column; transition: transform 0.25s, box-shadow 0.25s; }
-    .product-card:hover { transform: translateY(-6px); box-shadow: 0 28px 70px rgba(8,55,95,0.16); }
-    .card-icon { width: 52px; height: 52px; border-radius: 8px; display: grid; place-items: center; color: #07172a; background: #E8A020; font-weight: 800; font-size: 1rem; }
-    .product-card h3 { color: #08375f; font-size: 1.22rem; line-height: 1.25; margin-top: 1rem; }
-    .product-card p { color: #52677c; line-height: 1.7; margin-top: 0.7rem; font-size: 0.94rem; }
-    .product-more { display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(8,55,95,0.08); }
-    .product-card.open .product-more { display: block; }
-    .read-btn { margin-top: auto; align-self: flex-start; border: 0; background: transparent; color: #E8A020; font: inherit; font-size: 0.88rem; font-weight: 800; cursor: pointer; padding: 1rem 0 0.25rem; }
-    .read-btn:hover { color: #08375f; }
-    .cta-band { margin-top: 3rem; padding: 2rem; border-radius: 8px; background: linear-gradient(135deg,#08375f,#061b31); color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
-    .cta-band h2 { font-size: clamp(1.7rem,3vw,2.6rem); line-height: 1.15; letter-spacing: -0.025em; }
-    .cta-band p { max-width: 620px; color: rgba(255,255,255,0.72); line-height: 1.7; margin-top: 0.65rem; }
-    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; color: #07172a; background: #E8A020; text-decoration: none; font-weight: 800; white-space: nowrap; }
-    #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 3.5rem 2rem 0; }
-    .footer-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(260px,1.2fr) repeat(2,minmax(180px,0.5fr)); gap: 2.5rem; padding-bottom: 2.5rem; }
-    .footer-brand img { height: 48px; width: auto; display: block; margin-bottom: 1rem; }
-    .footer-brand p { max-width: 420px; font-size: 0.94rem; line-height: 1.8; }
-    .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
-    .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
-    .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
-    .footer-col a:hover { color: #E8A020; }
-    .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
-    .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
-    @media (max-width: 980px) { .product-head { grid-template-columns: 1fr; } .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .cta-band { flex-direction: column; align-items: flex-start; } }
+    .gold-rule { width: 52px; height: 3px; background: linear-gradient(90deg, #E8A020, #f5c060); border-radius: 3px; margin: 1rem 0 0; }
+
+    /* ── Before You Choose Cover ── */
+    #before-cover { background: #fff; padding: 4.5rem 2rem; border-bottom: 3px solid rgba(8,55,95,0.06); }
+    .before-cover-inner { max-width: 1000px; margin: 0 auto; }
+    .before-cover-tag { display: inline-block; background: rgba(232,160,32,0.12); color: #a06800; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 4px; margin-bottom: 1.2rem; }
+    .before-cover-title { font-size: clamp(1.2rem, 2.5vw, 1.9rem); font-weight: 700; color: #08375f; line-height: 1.2; margin-bottom: 0.75rem; }
+    .before-cover-intro { color: #52677c; font-size: 0.98rem; line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
+    .distinction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .distinction-item { background: #f6f8fb; border-left: 3px solid #E8A020; border-radius: 0 6px 6px 0; padding: 1.25rem 1.25rem 1.25rem 1.35rem; }
+    .distinction-item p { color: #1a3a5c; font-size: 0.92rem; line-height: 1.7; font-weight: 500; }
+    .before-cover-insight { margin-top: 2rem; padding: 1.25rem 1.5rem; background: #08375f; border-radius: 6px; color: rgba(255,255,255,0.88); font-size: 0.94rem; line-height: 1.75; font-style: italic; }
+    @media (max-width: 768px) { .distinction-grid { grid-template-columns: 1fr; } }
+
+    /* ── Our Approach ── */
+    #gi-approach { background: #f6f8fb; padding: 5rem 2rem; }
+    .gi-approach-inner { max-width: 1220px; margin: 0 auto; }
+    .gi-approach-head { text-align: center; max-width: 620px; margin: 0 auto 3rem; }
+    .gi-approach-rule { width: 48px; height: 3px; background: #E8A020; border-radius: 2px; margin: 1rem auto 0; }
+    .gi-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .gi-step { background: #fff; border-radius: 10px; padding: 1.75rem 1.5rem; border-top: 3px solid #E8A020; box-shadow: 0 4px 22px rgba(8,55,95,0.07); }
+    .gi-step-num { font-size: 2.2rem; font-weight: 800; color: rgba(8,55,95,0.1); line-height: 1; margin-bottom: 0.85rem; }
+    .gi-step h3 { font-size: 1rem; font-weight: 700; color: #08375f; margin-bottom: 0.5rem; }
+    .gi-step p { font-size: 0.88rem; color: #4a6080; line-height: 1.7; }
+    @media (max-width: 900px) { .gi-steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .gi-steps { grid-template-columns: 1fr; } }
+
+    /* ── Product Categories ── */
+    #gi-products { padding: 1rem 0 4rem; }
+    .gi-chapter { margin-bottom: 0; }
+    .gi-chapter-header { background: #08375f; padding: 2.5rem 2rem; }
+    .gi-chapter-header-inner { max-width: 1220px; margin: 0 auto; display: flex; align-items: flex-start; gap: 1.5rem; }
+    .gi-chapter-icon { width: 48px; height: 48px; background: rgba(232,160,32,0.18); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
+    .gi-chapter-icon svg { width: 24px; height: 24px; stroke: #E8A020; }
+    .gi-chapter-title { color: #fff; font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 700; line-height: 1.2; margin-bottom: 0.4rem; }
+    .gi-chapter-desc { color: rgba(255,255,255,0.68); font-size: 0.88rem; line-height: 1.7; max-width: 700px; }
+    .gi-cards-wrap { background: #fff; padding: 2rem; border-bottom: 1px solid rgba(8,55,95,0.06); }
+    .gi-cards-inner { max-width: 1220px; margin: 0 auto; }
+    .gi-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .gi-card { padding: 1.35rem 1.25rem; border-radius: 8px; background: #f6f8fb; border: 1px solid rgba(8,55,95,0.08); transition: box-shadow 0.2s, transform 0.2s; }
+    .gi-card:hover { box-shadow: 0 8px 28px rgba(8,55,95,0.1); transform: translateY(-2px); }
+    .gi-card h4 { font-size: 0.98rem; font-weight: 700; color: #08375f; margin-bottom: 0.45rem; }
+    .gi-card p { font-size: 0.86rem; color: #52677c; line-height: 1.7; }
+    .gi-cards.two-col { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 900px) { .gi-cards, .gi-cards.two-col { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .gi-cards, .gi-cards.two-col { grid-template-columns: 1fr; } .gi-chapter-header { padding: 2rem 1.2rem; } .gi-cards-wrap { padding: 1.5rem 1.2rem; } }
+
+    /* ── Sectors ── */
+    #gi-sectors { background: #f6f8fb; padding: 4.5rem 2rem; }
+    .gi-sectors-inner { max-width: 1220px; margin: 0 auto; }
+    .gi-sectors-head { margin-bottom: 2.5rem; }
+    .gi-sector-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .gi-sector-tag { display: inline-flex; align-items: center; gap: 0.55rem; background: #fff; border: 1px solid rgba(8,55,95,0.12); border-radius: 6px; padding: 0.75rem 1.25rem; font-size: 0.92rem; font-weight: 600; color: #08375f; }
+    .gi-sector-tag svg { width: 16px; height: 16px; stroke: #E8A020; flex-shrink: 0; }
+
+    /* ── CTA ── */
+    #gi-cta { background: #08375f; padding: 5rem 2rem; }
+    .gi-cta-inner { max-width: 820px; margin: 0 auto; text-align: center; }
+    .gi-cta-inner p.gi-cta-intro { color: rgba(255,255,255,0.7); font-size: 0.88rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 1rem; }
+    .gi-cta-inner h2 { color: #fff; font-size: clamp(1.3rem, 2.8vw, 2rem); font-weight: 700; line-height: 1.25; margin-bottom: 1.25rem; }
+    .gi-cta-inner p.gi-cta-sub { color: rgba(255,255,255,0.68); font-size: 0.95rem; line-height: 1.8; max-width: 620px; margin: 0 auto 2.5rem; }
+    .gi-cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .gi-btn-primary { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.75rem; background: #E8A020; color: #07172a; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.92rem; transition: background 0.2s; }
+    .gi-btn-primary:hover { background: #f4bd54; }
+    .gi-btn-secondary { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.75rem; background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.35); border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.92rem; transition: border-color 0.2s, background 0.2s; }
+    .gi-btn-secondary:hover { border-color: #E8A020; background: rgba(232,160,32,0.08); }
+
+    /* ── Disclaimer ── */
+    #gi-disclaimer { background: #04111f; padding: 2rem; }
+    .gi-disclaimer-inner { max-width: 1220px; margin: 0 auto; }
+    #gi-disclaimer p { color: rgba(255,255,255,0.38); font-size: 0.78rem; line-height: 1.8; }
+
+    /* ── Footer ── */
+    #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 0; }
+
+    /* ── Mobile nav ── */
     @media (max-width: 820px) {
         .nav-links { display: none; }
         #nav-toggle { display: flex; }
@@ -83,14 +133,13 @@
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
         .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
-        .footer-inner { grid-template-columns: 1fr; }
-        .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
-    @media (max-width: 620px) { .nav-inner { padding: 0 1.2rem; } .hero-content { padding: 7.5rem 1.2rem 3.5rem; } #products { padding: 4.2rem 1rem; } .product-grid { grid-template-columns: 1fr; } .cta-band { padding: 1.35rem; } }
+    @media (max-width: 620px) { .nav-inner { padding: 0 1.2rem; } .hero-content { padding: 7.5rem 1.2rem 3.5rem; } }
     </style>
     <link rel="stylesheet" href="shared-site.css">
 </head>
 <body>
+
 <nav id="navbar" role="navigation" aria-label="Main navigation">
     <div class="site-contact-strip" aria-label="DoveNest contact shortcuts">
         <div class="site-contact-inner">
@@ -114,9 +163,8 @@
             </a>
         </div>
     </div>
-
     <div class="nav-inner">
-        <a href="home.html" class="nav-logo" aria-label="DoveNest Insurance - Home"><img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers"></a>
+        <a href="home.html" class="nav-logo" aria-label="DoveNest Insurance, Home"><img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers"></a>
         <button id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false"><span></span><span></span><span></span></button>
         <ul class="nav-links" id="nav-links">
             <li><a href="home.html">Home</a></li>
@@ -141,88 +189,407 @@
     </div>
 </nav>
 
-<section id="general-hero">
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section id="gi-hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <div class="breadcrumb"><a href="home.html">Home</a><span>/</span><span>Practice Area</span><span>/</span><span>Products</span></div>
-        <span class="hero-eyebrow">General Insurance Products</span>
-        <h1 class="hero-title">Protection for property, liability, people, and <span>daily risk.</span></h1>
-        <p class="hero-sub">DoveNest helps individuals and organisations choose practical general insurance products for homes, businesses, money movement, accidents, and public exposure.</p>
+        <span class="hero-eyebrow">General Insurance Solutions</span>
+        <h1 class="hero-title">Most insurance programs do not fail at purchase.<br><span>They fail at the moment of claim.</span></h1>
+        <p class="hero-sub">At Dovenest, we approach insurance differently. We diagnose risk, structure cover, negotiate service standards and actively steward claims outcomes. Your protection is not just in place — it is positioned to perform when tested.</p>
     </div>
 </section>
 
-<main id="products">
-    <div class="products-inner">
-        <div class="product-head">
-            <div>
-                <span class="section-label">Products</span>
-                <h2 class="section-title">General cover, <span>made easier to compare.</span></h2>
-                <div class="gold-rule"></div>
-            </div>
-            <p>Browse core general insurance products and open each card for a clearer explanation of what the cover is meant to protect.</p>
-        </div>
 
-        <div class="product-grid">
-            <article class="product-card">
-                <div class="card-icon">01</div>
-                <h3>Fire and Other Hazards</h3>
-                <p>Set up to protect against loss or damage to buildings, furniture, fixtures and fittings, and electrical installations.</p>
-                <div class="product-more"><p>Useful for property owners and businesses that need protection against physical damage to important assets.</p></div>
-                <button class="read-btn" type="button">Read More</button>
-            </article>
-            <article class="product-card">
-                <div class="card-icon">02</div>
-                <h3>Burglary</h3>
-                <p>This insurance covers damage or loss to covered property caused by burglary while it is in use.</p>
-                <div class="product-more"><p>Helps protect stock, contents, equipment, and other covered items from burglary-related loss.</p></div>
-                <button class="read-btn" type="button">Read More</button>
-            </article>
-            <article class="product-card">
-                <div class="card-icon">03</div>
-                <h3>Public Liability</h3>
-                <p>The insured is protected by public liability insurance against accidental physical injury to others.</p>
-                <div class="product-more"><p>Important for businesses, premises, and activities where members of the public may be exposed to risk.</p></div>
-                <button class="read-btn" type="button">Read More</button>
-            </article>
-            <article class="product-card">
-                <div class="card-icon">04</div>
-                <h3>Personal Accident</h3>
-                <p>Provides cover to the insured against accidental bodily injury resulting in death or permanent disability.</p>
-                <div class="product-more"><p>Supports individuals, employees, and groups when accidental injury creates serious financial consequences.</p></div>
-                <button class="read-btn" type="button">Read More</button>
-            </article>
-            <article class="product-card">
-                <div class="card-icon">05</div>
-                <h3>Money Insurance</h3>
-                <p>This insurance policy provides indemnity following theft or loss of money, including money in transit.</p>
-                <div class="product-more"><p>Useful for businesses and organisations handling cash movement, collections, or cash held on premises.</p></div>
-                <button class="read-btn" type="button">Read More</button>
-            </article>
-            <article class="product-card">
-                <div class="card-icon">06</div>
-                <h3>Domestic Package</h3>
-                <p>Designed specifically for your residence, including buildings and contents such as furniture and clothing.</p>
-                <div class="product-more"><p>Combines home-related protections into a practical package for household risks and personal property.</p></div>
-                <button class="read-btn" type="button">Read More</button>
-            </article>
-        </div>
-
-        <section class="cta-band">
-            <div>
-                <h2>Let us solve your problem today.</h2>
-                <p>Tell us what you need protected and DoveNest will help match you with the right general insurance option.</p>
+<!-- ══════════════════════════════════════════════
+     BEFORE YOU CHOOSE COVER
+══════════════════════════════════════════════════ -->
+<section id="before-cover">
+    <div class="before-cover-inner">
+        <div class="before-cover-tag">A Critical Distinction</div>
+        <h2 class="before-cover-title">Before You Choose Cover</h2>
+        <p class="before-cover-intro">A critical distinction most organisations miss when approaching insurance.</p>
+        <div class="distinction-grid">
+            <div class="distinction-item">
+                <p>Renewal is administrative continuity, not risk clarity</p>
             </div>
-            <a class="cta-btn" href="contact.html">Talk to Us</a>
-        </section>
+            <div class="distinction-item">
+                <p>Unchanged policies can conceal evolving exposures</p>
+            </div>
+            <div class="distinction-item">
+                <p>Price comparisons rarely reflect claims experience reality</p>
+            </div>
+        </div>
+        <p class="before-cover-insight">Effective insurance is not about having a policy. It is about how that policy responds under pressure.</p>
     </div>
-</main>
+</section>
 
+
+<!-- ══════════════════════════════════════════════
+     OUR APPROACH
+══════════════════════════════════════════════════ -->
+<section id="gi-approach">
+    <div class="gi-approach-inner">
+        <div class="gi-approach-head">
+            <span class="section-label">Our Framework</span>
+            <h2 class="section-title">Every Solution We Structure Follows a <span>Disciplined Advisory Framework</span></h2>
+            <div class="gi-approach-rule"></div>
+        </div>
+        <div class="gi-steps">
+            <div class="gi-step">
+                <div class="gi-step-num">01</div>
+                <h3>Risk Mapping</h3>
+                <p>We identify actual exposures across operations, assets, people and third-party interactions.</p>
+            </div>
+            <div class="gi-step">
+                <div class="gi-step-num">02</div>
+                <h3>Cover Structuring</h3>
+                <p>We align insurance design to operational realities, not assumptions or off-the-shelf programs.</p>
+            </div>
+            <div class="gi-step">
+                <div class="gi-step-num">03</div>
+                <h3>Underwriter Engagement</h3>
+                <p>We negotiate terms, extensions and service-level commitments upfront.</p>
+            </div>
+            <div class="gi-step">
+                <div class="gi-step-num">04</div>
+                <h3>Claims Stewardship</h3>
+                <p>We remain actively involved to ensure claims are handled promptly, fairly and in line with agreed expectations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     PRODUCT CATEGORIES
+══════════════════════════════════════════════════ -->
+<div id="gi-products">
+
+    <!-- 1. Property & Operational Continuity -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">Property &amp; Operational Continuity</h2>
+                    <p class="gi-chapter-desc">Protection for physical assets and the income they support.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards">
+                    <div class="gi-card">
+                        <h4>Fire &amp; Allied Risks</h4>
+                        <p>Structured to protect buildings, plant, equipment and stock against defined perils such as fire, explosion and related damage.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Property &amp; Industrial All Risks</h4>
+                        <p>Broader protection against accidental damage and complex operational exposures across your physical assets.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Business Interruption</h4>
+                        <p>Safeguards income and operational continuity following insured events that disrupt normal business activity.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Engineering &amp; Equipment Covers</h4>
+                        <p>Protection for machinery, construction works and critical systems where failure directly impacts operations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Mobility & Fleet Risk -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">Mobility &amp; Fleet Risk</h2>
+                    <p class="gi-chapter-desc">Structured protection for vehicles supporting both personal and commercial activity.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards">
+                    <div class="gi-card">
+                        <h4>Motor (Private &amp; Commercial)</h4>
+                        <p>Cover designed around usage, exposure and asset value, not just statutory requirements.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Fleet Solutions</h4>
+                        <p>Consolidated programs for organisations managing multiple vehicles with a focus on control, efficiency and claims coordination.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Specialized Vehicles</h4>
+                        <p>Protection for logistics, PSV, plant and sector-specific mobility risks that require tailored underwriting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Liability & Balance Sheet Protection -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">Liability &amp; Balance Sheet Protection</h2>
+                    <p class="gi-chapter-desc">Where third-party exposure exists, liability risk follows.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards">
+                    <div class="gi-card">
+                        <h4>Public &amp; Products Liability</h4>
+                        <p>Protection against claims arising from injury, damage or defective products affecting third parties.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Employers Liability / Work Injury</h4>
+                        <p>Structured to address statutory obligations and workplace risk exposures for your workforce.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Professional Indemnity</h4>
+                        <p>Designed for advisory and service-based roles where errors or omissions carry financial consequences.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Directors &amp; Officers Liability</h4>
+                        <p>Protection for leadership against personal exposure arising from governance and decision-making responsibilities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Financial & Internal Risk -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">Financial &amp; Internal Risk</h2>
+                    <p class="gi-chapter-desc">Exposure is not always external. Internal and financial risks require equal discipline.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards">
+                    <div class="gi-card">
+                        <h4>Fidelity Guarantee</h4>
+                        <p>Protection against employee dishonesty and internal fraud that can expose organisations to significant financial loss.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Money Insurance</h4>
+                        <p>Structured safeguards for cash handling, transit and storage operations across your business.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Political Violence &amp; Terrorism</h4>
+                        <p>Protection against disruption arising from political or external instability affecting operations.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Trade Credit</h4>
+                        <p>Ensures business continuity where customer default impacts cash flow and receivables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. People & Personal Risk -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">People &amp; Personal Risk</h2>
+                    <p class="gi-chapter-desc">Protection structured around individuals, families and organised groups.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards">
+                    <div class="gi-card">
+                        <h4>Personal &amp; Group Accident</h4>
+                        <p>Financial support following accidental injury, disability or death for individuals and organised employee groups.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Travel Insurance</h4>
+                        <p>Global protection covering medical emergencies, disruptions and unforeseen travel risks locally and internationally.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Home &amp; Domestic Package</h4>
+                        <p>Integrated protection for residential property, contents and personal liability in a single structured cover.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>All Risks (Portable Items)</h4>
+                        <p>Cover for high-value personal items exposed to movement and daily use, including equipment and valuables.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Specialized & Emerging Risks -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">Specialized &amp; Emerging Risks</h2>
+                    <p class="gi-chapter-desc">As risk evolves, so must protection.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards">
+                    <div class="gi-card">
+                        <h4>Marine Cargo</h4>
+                        <p>Protection for goods in transit across local and international supply chains against loss or damage.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Cyber Risk</h4>
+                        <p>Cover for digital exposure including data breaches, ransomware and operational disruption from cyber incidents.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Event Insurance</h4>
+                        <p>Structured protection for planned events with financial and liability exposure from cancellation or third-party claims.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Agricultural Insurance</h4>
+                        <p>Risk solutions for crops, livestock and weather-dependent operations facing environmental and production risks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Structured Packages for Growth -->
+    <div class="gi-chapter">
+        <div class="gi-chapter-header">
+            <div class="gi-chapter-header-inner">
+                <div class="gi-chapter-icon">
+                    <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <div>
+                    <h2 class="gi-chapter-title">Structured Packages for Growth</h2>
+                    <p class="gi-chapter-desc">Simplified, bundled solutions for efficiency without compromising protection.</p>
+                </div>
+            </div>
+        </div>
+        <div class="gi-cards-wrap">
+            <div class="gi-cards-inner">
+                <div class="gi-cards two-col">
+                    <div class="gi-card">
+                        <h4>SME Combined Solutions</h4>
+                        <p>Integrated cover combining property, liability and operational risks into a single, manageable program for growing businesses.</p>
+                    </div>
+                    <div class="gi-card">
+                        <h4>Office &amp; Retail Packages</h4>
+                        <p>Tailored for business environments with predictable but critical exposures across contents, liability and business interruption.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     SOLUTIONS BY SECTOR
+══════════════════════════════════════════════════ -->
+<section id="gi-sectors">
+    <div class="gi-sectors-inner">
+        <div class="gi-sectors-head">
+            <span class="section-label">Sector Alignment</span>
+            <h2 class="section-title">Solutions by <span>Sector</span></h2>
+            <div class="gold-rule"></div>
+            <p style="margin-top:1rem; color:#52677c; font-size:0.95rem; line-height:1.8; max-width:680px;">We structure programs aligned to how different sectors operate, not just what they own.</p>
+        </div>
+        <div class="gi-sector-list">
+            <span class="gi-sector-tag">
+                <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Regional &amp; Intergovernmental Organisations
+            </span>
+            <span class="gi-sector-tag">
+                <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                Transport &amp; Logistics Networks
+            </span>
+            <span class="gi-sector-tag">
+                <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                Schools &amp; Learning Institutions
+            </span>
+            <span class="gi-sector-tag">
+                <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Welfare &amp; Member-Based Schemes
+            </span>
+            <span class="gi-sector-tag">
+                <svg fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                SMEs &amp; Growth Businesses
+            </span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     CTA
+══════════════════════════════════════════════════ -->
+<section id="gi-cta">
+    <div class="gi-cta-inner">
+        <p class="gi-cta-intro">Insurance should not be guesswork</p>
+        <h2>Let us structure a solution aligned to your actual risk profile and operational priorities.</h2>
+        <p class="gi-cta-sub">Get a structured review of your current cover and identify gaps before they become exposures.</p>
+        <div class="gi-cta-actions">
+            <a href="contact.html" class="gi-btn-primary">Request a Risk Review</a>
+            <a href="contact.html" class="gi-btn-secondary">Speak to an Advisor</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     DISCLAIMER
+══════════════════════════════════════════════════ -->
+<div id="gi-disclaimer">
+    <div class="gi-disclaimer-inner">
+        <p>Terms, conditions, exclusions and limits apply. This information is for guidance only and does not constitute a contract of insurance. Full policy wording is available upon request. Dovenest Insurance Brokers Ltd is a licensed intermediary regulated by the Insurance Regulatory Authority of Kenya.</p>
+    </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
 <footer id="site-footer">
     <div class="footer-inner site-footer-grid">
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
-            <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
+            <p>DoveNest Insurance Brokers is an independent advisory firm providing structured insurance solutions to individuals, businesses, and institutions across Kenya and the diaspora.</p>
         </div>
         <div class="footer-col">
             <h4>Company</h4>
@@ -284,13 +651,6 @@
             const group = button.closest('.nav-group');
             const isOpen = group.classList.toggle('open');
             button.setAttribute('aria-expanded', isOpen);
-        });
-    });
-    document.querySelectorAll('.read-btn').forEach((button) => {
-        button.addEventListener('click', () => {
-            const card = button.closest('.product-card');
-            const open = card.classList.toggle('open');
-            button.textContent = open ? 'Show Less' : 'Read More';
         });
     });
 }());
