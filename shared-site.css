@@ -284,6 +284,11 @@
     padding-left: 0.75rem;
 }
 
+/* Global hero title size — overrides all per-page values */
+.hero-title {
+    font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+}
+
 /* Logo crop — hides "A trusted partner" tagline from JPEG
    Shows: circular icon + DoveNest + INSURANCE BROKERS (~77% of image height) */
 .nav-logo {
