@@ -1174,6 +1174,167 @@
         font-weight: 700;
     }
 
+    /* ═══════════════════════════════════════════════════════════
+       HOW WE WORK
+    ═══════════════════════════════════════════════════════════ */
+    #how-we-work {
+        background: #f6f8fb;
+        padding: 5.5rem 2rem;
+    }
+    .how-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+    }
+    .how-header {
+        text-align: center;
+        max-width: 680px;
+        margin: 0 auto 3.5rem;
+    }
+    .how-rule {
+        width: 48px;
+        height: 3px;
+        background: #E8A020;
+        margin: 1rem auto 1.25rem;
+        border-radius: 2px;
+    }
+    .how-steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+    .how-step {
+        background: #fff;
+        border-radius: 10px;
+        padding: 2rem 1.5rem;
+        border-top: 3px solid #E8A020;
+        box-shadow: 0 4px 24px rgba(8,55,95,0.07);
+    }
+    .how-num {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(8,55,95,0.12);
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+    .how-content h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #08375f;
+        margin-bottom: 0.6rem;
+    }
+    .how-content p {
+        font-size: 0.9rem;
+        color: #4a6080;
+        line-height: 1.7;
+    }
+    @media (max-width: 980px) { .how-steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .how-steps { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════════════════════════ */
+    #testimonials {
+        background: #08375f;
+        padding: 5.5rem 2rem;
+    }
+    .testimonials-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+    }
+    .testimonials-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    .testimonials-header .section-label { color: rgba(232,160,32,0.8); }
+    .testimonials-header .section-title { color: #fff; }
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+    .testi-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    .testi-quote-icon { color: #E8A020; width: 28px; height: 28px; flex-shrink: 0; }
+    .testi-quote-icon svg { width: 28px; height: 28px; }
+    .testi-card p {
+        color: rgba(255,255,255,0.82);
+        font-size: 0.95rem;
+        line-height: 1.8;
+        font-style: italic;
+        flex: 1;
+    }
+    .testi-card footer {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 1rem;
+    }
+    .testi-card footer strong { display: block; color: #fff; font-size: 0.88rem; font-weight: 700; }
+    .testi-card footer span { display: block; color: rgba(232,160,32,0.75); font-size: 0.82rem; margin-top: 0.2rem; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════════
+       RISK SIGNAL — before footer
+    ═══════════════════════════════════════════════════════════ */
+    #risk-signal {
+        background: #04111f;
+        padding: 4rem 2rem;
+        border-top: 1px solid rgba(232,160,32,0.25);
+    }
+    .risk-signal-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .risk-signal-header { margin-bottom: 2.5rem; }
+    .risk-signal-header .section-label { color: rgba(232,160,32,0.7); }
+    .risk-signal-header h2 {
+        color: #fff;
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        font-weight: 700;
+        margin-top: 0.5rem;
+    }
+    .risk-signal-grid {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+    }
+    .risk-signal-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        max-width: 280px;
+        text-align: left;
+    }
+    .risk-signal-item svg { width: 22px; height: 22px; color: #E8A020; flex-shrink: 0; margin-top: 0.1rem; }
+    .risk-signal-item p { color: rgba(255,255,255,0.72); font-size: 0.95rem; line-height: 1.6; }
+    .risk-signal-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 1.75rem;
+        background: #E8A020;
+        color: #07172a;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+    }
+    .risk-signal-btn:hover { background: #f4bd54; }
+    @media (max-width: 720px) {
+        .risk-signal-grid { flex-direction: column; align-items: center; }
+        .risk-signal-item { max-width: 100%; }
+    }
+
 
     </style>
     <link rel="stylesheet" href="shared-site.css">
@@ -1258,41 +1419,39 @@
 ════════════════════════════════════════════════════════════ -->
 <section id="hero">
 
-    <!-- Slide 1 — Protect and Care -->
+    <!-- Slide 1 — Structured Protection -->
     <div class="hero-slide" id="hs-0">
         <div class="hs-bg" style="background-image:url('images/dove_image1.png'); background-position:center top;"></div>
         <div class="hs-overlay"></div>
         <div class="hs-content">
             <p class="hero-eyebrow">DoveNest Insurance Brokers — Nairobi, Kenya</p>
-            <h1 class="hero-title">Protect<br>and <span>Care.</span></h1>
-            <p class="hero-sub">Protect yourself and your loved ones from accidents, loss, and liabilities — with the right cover, matched to your life.</p>
-            <a href="general-insurance.html" class="hero-btn">Learn More</a>
+            <h1 class="hero-title">Structured Protection.<br><span>When Risk Tests You,<br>It Should Hold.</span></h1>
+            <p class="hero-sub">Two decades of insurance advisory—structuring protection for individuals, institutions, and diaspora clients with a focus on clarity, performance, and claims certainty.</p>
+            <a href="contact.html" class="hero-btn">Speak to an Advisor</a>
         </div>
     </div>
 
-    <!-- Slide 2 — Get Insured -->
+    <!-- Slide 2 — Your Broker -->
     <div class="hero-slide" id="hs-1">
         <div class="hs-bg" style="background-image:url('images/home_image2.jpg'); background-position:center right;"></div>
         <div class="hs-overlay"></div>
         <div class="hs-content">
-            <p class="hero-eyebrow">By accredited insurance providers</p>
-            <h2 class="hero-title">Get Insured.</h2>
-            <p class="hero-sub">Get yourself, your property and your loved ones insured against loss — with trusted, regulated cover that works when you need it most.</p>
-            <p class="hero-nudge">Get started today.</p>
-            <a href="general-insurance.html" class="hero-btn">Get a Quote</a>
+            <p class="hero-eyebrow">Independent Risk Advisory</p>
+            <h2 class="hero-title">Your Broker Is Only<br>as Good as Your<br><span>Last Claim.</span></h2>
+            <p class="hero-sub">We do not simply arrange policies. We diagnose risk, structure cover, negotiate terms, and actively support claims outcomes from placement to resolution.</p>
+            <a href="contact.html" class="hero-btn">Request a Risk Review</a>
         </div>
     </div>
 
-    <!-- Slide 3 — We Are DoveNest -->
+    <!-- Slide 3 — Two Decades -->
     <div class="hero-slide" id="hs-2">
         <div class="hs-bg" style="background-image:url('images/home_image3.jpg'); background-position:center; filter:brightness(0.9);"></div>
         <div class="hs-overlay" style="background:linear-gradient(100deg,rgba(3,18,38,0.92) 0%,rgba(3,18,38,0.70) 52%,rgba(3,18,38,0.32) 100%);"></div>
         <div class="hs-content">
-            <p class="hero-eyebrow">Personal &amp; Business Insurance</p>
-            <h2 class="hero-title">We are<br>DoveNest.</h2>
-            <p class="hero-sub">We provide super flexible insurance cover that puts you in control — for individuals, families and businesses.</p>
-            <p class="hero-nudge">Get your instant quote in less than 5 minutes.</p>
-            <a href="general-insurance.html" class="hero-btn">Get a Quote</a>
+            <p class="hero-eyebrow">Kenya &amp; Diaspora Coverage</p>
+            <h2 class="hero-title">Two Decades.<br><span>One Standard:</span><br>Cover That Performs.</h2>
+            <p class="hero-sub">Serving individuals, businesses, and institutions across Kenya and the diaspora with structured insurance solutions built for clarity, performance, and dependable claims outcomes.</p>
+            <a href="general-insurance.html" class="hero-btn">Explore Our Solutions</a>
         </div>
     </div>
 
@@ -1387,57 +1546,57 @@
 <section id="why-dovenest">
 
     <div class="why-header">
-        <span class="why-label">Our Strengths</span>
-        <h2 class="why-title">Why <span>DoveNest?</span></h2>
+        <span class="why-label">Our Approach</span>
+        <h2 class="why-title">Advisory-Led. <span>Performance-Focused.</span></h2>
         <div class="why-divider"></div>
-        <p class="why-sub">For over two decades we've been matching Kenyans with the right cover — fast, personal, and built around your life.</p>
+        <p class="why-sub">Effective insurance is not about having a policy. It is about how that policy responds under pressure.</p>
     </div>
 
     <div class="features-grid">
 
-        <!-- Card 1 — Short Time Result -->
+        <!-- Card 1 — Independent Advisory -->
         <div class="feature-card" style="--delay: 0ms">
             <div class="feature-img">
-                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=700&q=80" alt="Fast insurance results">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=700&q=80" alt="Independent insurance advisory">
             </div>
             <div class="feature-body">
-                <span class="feature-tag">Efficiency</span>
-                <h3 class="feature-title">Short Time Result</h3>
-                <p class="feature-text">We maintain a high efficiency and professional standard. With the world on the move, our mandate is to engage, review and prepare you an insurance plan offer in the shortest time possible.</p>
-                <a href="contact.html" class="feature-link">
-                    Reach Us
+                <span class="feature-tag">Independent Advisory</span>
+                <h3 class="feature-title">We Work For You, Not the Insurer</h3>
+                <p class="feature-text">As an independent broker, our loyalty is to your risk profile—not to any single underwriter. We select coverage and insurers based on what your exposure demands, not what earns the highest commission.</p>
+                <a href="about.html" class="feature-link">
+                    Our Story
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
             </div>
         </div>
 
-        <!-- Card 2 — Customize Your Insurance -->
+        <!-- Card 2 — Structured Cover -->
         <div class="feature-card" style="--delay: 150ms">
             <div class="feature-img">
-                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=700&q=80" alt="Customize your insurance">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=700&q=80" alt="Structured insurance cover">
             </div>
             <div class="feature-body">
-                <span class="feature-tag">Personalised Cover</span>
-                <h3 class="feature-title">Customize Your Insurance</h3>
-                <p class="feature-text">Dig in and understand your insurance cover. Customize it to suit your needs by comparing plans, services and working alongside our experts to build your perfect cover.</p>
+                <span class="feature-tag">Structured Cover</span>
+                <h3 class="feature-title">Cover Designed for Your Risk Reality</h3>
+                <p class="feature-text">We map actual exposures across your operations, assets, and liabilities—then align insurance design to those realities. Cover is built around your actual risk profile, not off-the-shelf assumptions.</p>
                 <a href="general-insurance.html" class="feature-link">
-                    Read More
+                    Our Solutions
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
             </div>
         </div>
 
-        <!-- Card 3 — Business Growth -->
+        <!-- Card 3 — Claims Partnership -->
         <div class="feature-card" style="--delay: 300ms">
             <div class="feature-img">
-                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=80" alt="Business growth partnership">
+                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=80" alt="Active claims partnership">
             </div>
             <div class="feature-body">
-                <span class="feature-tag">Partnership</span>
-                <h3 class="feature-title">Business Growth</h3>
-                <p class="feature-text">In order to realize the potential of your business, you need a water-tight plan. Our collaboration with your growth ensures we triumph together as partners, every step of the way.</p>
-                <a href="about.html" class="feature-link">
-                    Share
+                <span class="feature-tag">Claims Partnership</span>
+                <h3 class="feature-title">Present When It Matters Most</h3>
+                <p class="feature-text">Most brokers disappear after placement. We remain actively involved through the claims process—ensuring outcomes are handled promptly, fairly, and in line with agreed policy expectations.</p>
+                <a href="contact.html" class="feature-link">
+                    Speak to Us
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
             </div>
@@ -1454,17 +1613,18 @@
 <section id="stats-banner">
     <div class="stats-strip">
 
-        <!-- Stat 1 — Happy Clients -->
+        <!-- Stat 1 — Years of Advisory Experience -->
         <div class="stat-item" style="--sd:0ms">
             <svg class="stat-icon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
             </svg>
-            <span class="stat-number" data-target="100" data-suffix="%">0%</span>
+            <span class="stat-number" data-target="20" data-suffix="+">0+</span>
             <span class="stat-rule"></span>
-            <span class="stat-label">Happy Clients</span>
+            <span class="stat-label">Years of Advisory Experience</span>
         </div>
 
-        <!-- Stat 2 — Insurance Experts -->
+        <!-- Stat 2 — Clients Served -->
         <div class="stat-item" style="--sd:140ms">
             <svg class="stat-icon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -1472,30 +1632,31 @@
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            <span class="stat-number" data-target="21" data-suffix="+">0+</span>
+            <span class="stat-number" data-target="20000" data-suffix="+">0+</span>
             <span class="stat-rule"></span>
-            <span class="stat-label">Insurance Experts</span>
+            <span class="stat-label">Clients Served</span>
         </div>
 
-        <!-- Stat 3 — Weekly Consultations -->
+        <!-- Stat 3 — Consultations Weekly -->
         <div class="stat-item" style="--sd:280ms">
             <svg class="stat-icon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
             <span class="stat-number" data-target="1000" data-suffix="+">0+</span>
             <span class="stat-rule"></span>
-            <span class="stat-label">Weekly Consultations</span>
+            <span class="stat-label">Consultations Weekly</span>
         </div>
 
-        <!-- Stat 4 — Insured Clients -->
+        <!-- Stat 4 — Underwriter Partners -->
         <div class="stat-item" style="--sd:420ms">
             <svg class="stat-icon" viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <polyline points="9 12 11 14 15 10"/>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
             </svg>
-            <span class="stat-number" data-target="20106" data-suffix="+">0+</span>
+            <span class="stat-number" data-target="12" data-suffix="+">0+</span>
             <span class="stat-rule"></span>
-            <span class="stat-label">Insured Clients</span>
+            <span class="stat-label">Underwriter Partners</span>
         </div>
 
     </div>
@@ -1530,14 +1691,104 @@
         <!-- RIGHT: Vision text -->
         <div class="vision-text">
             <span class="vision-eyebrow">Who We Are</span>
-            <h2 class="vision-title">Protecting What <span>Matters Most</span></h2>
+            <h2 class="vision-title">Your Broker Is Only as Good as Your <span>Last Claim.</span></h2>
             <div class="vision-rule"></div>
             <div class="vision-body">
-                <p>DoveNest Insurance Brokers is a growing provider of quality protection for families, businesses and thousands of individuals locally and in the Diaspora. Our ability to diagnose true customer coverage needs enables us to give unparalleled superior customer experience at low rates.</p>
-                <p>We customize insurance plans with our partners in simple and easily understandable ways. We offer Motor, Domestic, Business, Health, Pensions and Life solutions.</p>
+                <p>DoveNest Insurance Brokers is an independent advisory firm providing structured insurance solutions to individuals, businesses, and institutions in Kenya and across the diaspora.</p>
+                <p>We do not simply arrange policies. We diagnose risk, structure cover, negotiate terms, and actively support claims outcomes. Our approach ensures that protection is not only in place—but fit for purpose when tested.</p>
             </div>
         </div>
 
+    </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     HOW WE WORK — 4-step advisory framework
+════════════════════════════════════════════════════════ -->
+<section id="how-we-work">
+    <div class="how-inner">
+        <div class="how-header">
+            <span class="section-label">Our Process</span>
+            <h2 class="section-title">How We <span>Work</span></h2>
+            <div class="how-rule"></div>
+            <p class="section-sub">Every solution we structure follows a disciplined advisory framework—from initial risk diagnosis to active claims stewardship.</p>
+        </div>
+        <div class="how-steps">
+            <div class="how-step">
+                <div class="how-num">01</div>
+                <div class="how-content">
+                    <h3>Risk Mapping</h3>
+                    <p>We identify actual exposures across operations, assets, people and third-party interactions—not assumed ones.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">02</div>
+                <div class="how-content">
+                    <h3>Cover Structuring</h3>
+                    <p>We align insurance design to operational realities. Cover is built around your actual risk profile, not off-the-shelf assumptions.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">03</div>
+                <div class="how-content">
+                    <h3>Underwriter Negotiation</h3>
+                    <p>We negotiate terms, extensions and service-level commitments upfront—ensuring your cover performs before you need it.</p>
+                </div>
+            </div>
+            <div class="how-step">
+                <div class="how-num">04</div>
+                <div class="how-content">
+                    <h3>Claims Stewardship</h3>
+                    <p>We remain actively involved to ensure claims are handled promptly, fairly and in line with agreed expectations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════
+     TESTIMONIALS — executive-grade client voices
+════════════════════════════════════════════════════════ -->
+<section id="testimonials">
+    <div class="testimonials-inner">
+        <div class="testimonials-header">
+            <span class="section-label">Client Perspectives</span>
+            <h2 class="section-title">What Clients <span>Say</span></h2>
+        </div>
+        <div class="testimonials-grid">
+            <blockquote class="testi-card">
+                <div class="testi-quote-icon">
+                    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/></svg>
+                </div>
+                <p>"Dovenest brought clarity to our insurance program in a way we had not experienced before. They did not just present options—they structured the cover around our actual risk profile and ensured alignment with our operations. Their approach reflects true advisory depth."</p>
+                <footer>
+                    <strong>Operations Director</strong>
+                    <span>Regional Logistics Firm</span>
+                </footer>
+            </blockquote>
+            <blockquote class="testi-card">
+                <div class="testi-quote-icon">
+                    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/></svg>
+                </div>
+                <p>"The real value of Dovenest became evident at claim stage. Their involvement ensured responsiveness, proper interpretation of cover, and a smooth resolution process. It is rare to find a broker that remains this engaged when it matters most."</p>
+                <footer>
+                    <strong>Finance Lead</strong>
+                    <span>Multinational NGO</span>
+                </footer>
+            </blockquote>
+            <blockquote class="testi-card">
+                <div class="testi-quote-icon">
+                    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/></svg>
+                </div>
+                <p>"Over the years, Dovenest has consistently demonstrated professionalism, responsiveness, and a clear understanding of our evolving needs. They have become a dependable partner in protecting both our people and our business."</p>
+                <footer>
+                    <strong>Chief Executive Officer</strong>
+                    <span>Regional Group</span>
+                </footer>
+            </blockquote>
+        </div>
     </div>
 </section>
 
@@ -1548,9 +1799,9 @@
 <section id="partners">
 
     <div class="partners-header">
-        <span class="section-label">Trusted Partners</span>
-        <h2 class="section-title">Insurers We <span>Work With</span></h2>
-        <p class="section-sub">Backed by Kenya's most trusted and globally recognised insurance providers.</p>
+        <span class="section-label">Underwriting Partners</span>
+        <h2 class="section-title">Underwriters &amp; <span>Risk Partners</span></h2>
+        <p class="section-sub">We work with licensed and reputable insurers, selecting partners based on financial strength, responsiveness, and claims reliability—not just price.</p>
         <div class="partners-divider"></div>
     </div>
 
@@ -1593,7 +1844,7 @@
     </div>
 
     <div class="partners-footer">
-        <p>Partnered with <strong>12+ accredited</strong> insurance providers across Kenya</p>
+        <p>Selecting underwriters based on <strong>financial strength, responsiveness, and claims reliability</strong></p>
     </div>
 
 </section>
@@ -1603,18 +1854,48 @@
     <div class="general-cta-inner">
         <div>
             <span class="general-cta-eyebrow">General Insurance</span>
-            <h2>Protect the everyday risks that can slow life and business down.</h2>
-            <p>Explore practical cover for homes, property, liability, money movement, accidents, and domestic packages with guidance from DoveNest.</p>
+            <h2>Structured cover for operational, financial, and personal risk exposures.</h2>
+            <p>We design protection across property, liability, mobility and financial risk—ensuring alignment between what is covered and what is at stake.</p>
         </div>
         <a class="general-cta-link" href="general-insurance.html">Explore General Insurance</a>
     </div>
 </section>
 
+<!-- ════════════════════════════════════════════════════════
+     RISK SIGNAL — before footer
+════════════════════════════════════════════════════════ -->
+<section id="risk-signal">
+    <div class="risk-signal-inner">
+        <div class="risk-signal-header">
+            <span class="section-label">A Note Before You Renew</span>
+            <h2>Before You Rely on Your Insurance</h2>
+        </div>
+        <div class="risk-signal-grid">
+            <div class="risk-signal-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p>Renewal does not equal risk review</p>
+            </div>
+            <div class="risk-signal-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <p>Unchanged cover can hide new exposures</p>
+            </div>
+            <div class="risk-signal-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <p>Claims outcomes depend on structure—not just price</p>
+            </div>
+        </div>
+        <div class="risk-signal-cta">
+            <a href="contact.html" class="risk-signal-btn">Speak to an Advisor</a>
+        </div>
+    </div>
+</section>
+
+
 <footer id="site-footer">
     <div class="footer-inner site-footer-grid">
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
-            <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
+            <p>DoveNest Insurance Brokers is an independent advisory firm providing structured insurance solutions to individuals, businesses, and institutions across Kenya and the diaspora.</p>
         </div>
         <div class="footer-col">
             <h4>Company</h4>
