@@ -959,6 +959,149 @@
         .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
     }
 
+
+    /* ═══════════════════════════════════════════════════
+       TEAM SECTION
+    ═══════════════════════════════════════════════════ */
+    #team-section {
+        background: #f7f9fc;
+        padding: 6rem 2rem;
+    }
+    .team-header {
+        max-width: 720px;
+        margin: 0 auto 3.5rem;
+        text-align: center;
+    }
+    .team-intro {
+        font-size: 0.97rem;
+        color: #64748b;
+        line-height: 1.85;
+        margin-top: 0.9rem;
+    }
+    .team-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.6rem;
+    }
+    .team-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 2rem 1.8rem;
+        border: 1px solid rgba(8,55,95,0.08);
+        box-shadow: 0 4px 24px rgba(8,55,95,0.06);
+        transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease;
+    }
+    .team-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 48px rgba(8,55,95,0.12);
+    }
+    .team-avatar {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #08375f, #0A4C7C);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #fff;
+        border: 3px solid rgba(232,160,32,0.4);
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.02em;
+    }
+    .team-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #0A2A4A;
+        margin-bottom: 0.28rem;
+    }
+    .team-role {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #E8A020;
+        margin-bottom: 1rem;
+    }
+    .team-bio {
+        font-size: 0.875rem;
+        color: #64748b;
+        line-height: 1.8;
+    }
+    .team-works-wrap {
+        max-width: 1200px;
+        margin: 3rem auto 0;
+        background: #08375f;
+        border-radius: 14px;
+        padding: 2.5rem 3rem;
+    }
+    .team-works-wrap h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.01em;
+    }
+    .team-works-list {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem 2.5rem;
+    }
+    .team-works-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.78);
+        line-height: 1.65;
+    }
+    .team-works-list li::before {
+        content: '';
+        flex-shrink: 0;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #E8A020;
+        margin-top: 0.48rem;
+    }
+    .team-cta-block {
+        max-width: 1200px;
+        margin: 2.5rem auto 0;
+        text-align: center;
+    }
+    .team-cta-block p {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-bottom: 1.2rem;
+    }
+    .team-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 48px;
+        padding: 0 2rem;
+        background: #E8A020;
+        color: #07172a;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+    .team-cta-btn:hover { background: #f4bd54; }
+    @media (max-width: 920px) {
+        .team-grid { grid-template-columns: repeat(2, 1fr); }
+        .team-works-list { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 580px) {
+        .team-grid { grid-template-columns: 1fr; }
+        .team-works-wrap { padding: 2rem 1.5rem; }
+    }
+
     </style>
     <link rel="stylesheet" href="shared-site.css">
 </head>
@@ -1042,8 +1185,8 @@
 
     <div class="hero-content">
         <span class="hero-eyebrow">DoveNest Insurance Brokers</span>
-        <h1 class="hero-title">We Protect<br>What <span>Matters.</span></h1>
-        <p class="hero-sub">Two decades of trusted insurance brokerage, matching Kenyans with the right cover, locally and in the Diaspora.</p>
+        <h1 class="hero-title">Risk-Led Advisory.<br>Built Over <span>Two Decades.</span></h1>
+        <p class="hero-sub">An independent insurance broker structuring cover, negotiating terms, and delivering claims support for individuals, businesses, and diaspora clients across Kenya and beyond.</p>
         <div class="hero-divider"></div>
     </div>
 
@@ -1070,14 +1213,14 @@
 
     <div class="who-text reveal-right">
         <span class="section-label">Who We Are</span>
-        <h2 class="section-title">Your Trusted<br><span>Insurance Partner</span></h2>
+        <h2 class="section-title">Independent Advisory.<br><span>Accountable at Every Stage.</span></h2>
         <div class="gold-rule"></div>
 
-        <p>DoveNest Insurance Brokers is a growing provider of quality protection for families, businesses and thousands of individuals locally and in the Diaspora. Our ability to diagnose true customer coverage needs enables us to give unparalleled superior customer experience at low rates.</p>
+        <p>DoveNest Insurance Brokers is an independent advisory firm established to serve individuals, institutions, and diaspora clients across Kenya. We do not simply arrange policies. We diagnose risk, structure cover, negotiate terms, and actively support claims outcomes.</p>
 
-        <p>We customize insurance plans with our partners in simple and easily understandable ways. We demystify Insurance and enable all to make sense of it, ensuring generations a guaranteed and secure future. Just like a doctor.</p>
+        <p>Our independence allows us to select underwriting partners based on financial strength, claims responsiveness, and sector fit. Our clients are not matched to products. Products are structured around their exposures.</p>
 
-        <p>We evaluate needs and match them with reputable insurance providers to provide value-for-money protection at the most competitive terms. Reach us on <strong>+254 726 001 122</strong> or <strong>+254 20 760 2122</strong> or email <strong>info@dovenestinsurance.com</strong></p>
+        <p>Speak to an advisor on <strong>+254 726 001 122</strong> or <strong>+254 20 760 2122</strong> or email <strong>info@dovenestinsurance.com</strong></p>
 
         <div class="product-pills">
             <span class="pill">Motor</span>
@@ -1102,20 +1245,20 @@
 <section id="about-stats">
     <div class="about-stats-grid">
         <div class="a-stat reveal" style="--d:0ms">
-            <span class="a-stat-num" data-target="20106" data-suffix="+">0+</span>
-            <span class="a-stat-label">Insured Clients</span>
+            <span class="a-stat-num" data-target="20" data-suffix="+">0+</span>
+            <span class="a-stat-label">Years Advisory Experience</span>
         </div>
         <div class="a-stat reveal" style="--d:120ms">
-            <span class="a-stat-num" data-target="21" data-suffix="+">0+</span>
-            <span class="a-stat-label">Insurance Experts</span>
+            <span class="a-stat-num" data-target="20000" data-suffix="+">0+</span>
+            <span class="a-stat-label">Clients Served</span>
         </div>
         <div class="a-stat reveal" style="--d:240ms">
             <span class="a-stat-num" data-target="1000" data-suffix="+">0+</span>
-            <span class="a-stat-label">Weekly Consultations</span>
+            <span class="a-stat-label">Consultations Weekly</span>
         </div>
         <div class="a-stat reveal" style="--d:360ms">
-            <span class="a-stat-num" data-target="100" data-suffix="%">0%</span>
-            <span class="a-stat-label">Happy Clients</span>
+            <span class="a-stat-num" data-target="12" data-suffix="+">0+</span>
+            <span class="a-stat-label">Underwriter Partners</span>
         </div>
     </div>
 </section>
@@ -1144,7 +1287,7 @@
             </div>
             <span class="mvv-card-label">Mission</span>
             <h3 class="mvv-card-title">Our Mission</h3>
-            <p class="mvv-card-text">To provide our insureds with superb coverage and claims handling experience through careful and diligent choice of underwriting their risks, with business-friendly solutions matched with memorable, rich experience.</p>
+            <p class="mvv-card-text">To structure insurance solutions that deliver clarity of cover, responsiveness at claim stage and long-term protection aligned to client realities.</p>
         </div>
 
         <!-- Vision -->
@@ -1157,7 +1300,7 @@
             </div>
             <span class="mvv-card-label">Vision</span>
             <h3 class="mvv-card-title">Our Vision</h3>
-            <p class="mvv-card-text">To set excellent standards among insurance distributors through memorable customer experience, innovation and trustworthy partnerships, attracting the best employees, agents and strategic partners to help us achieve this with effectiveness and efficiency.</p>
+            <p class="mvv-card-text">To be a trusted risk advisory partner known for structured solutions, disciplined execution and dependable claims outcomes across Kenya and beyond.</p>
         </div>
 
         <!-- Values -->
@@ -1169,17 +1312,96 @@
             </div>
             <span class="mvv-card-label">Values</span>
             <h3 class="mvv-card-title">Our Values</h3>
-            <p class="mvv-card-text">Genuinely inspired to love, care and share, with our employees, clients, agents and community as the foundation of everything we do.</p>
+            <p class="mvv-card-text">Our practice is grounded in professional disciplines that protect client interests at every stage of the advisory relationship.</p>
             <ul class="values-list">
-                <li>Customer Focus</li>
                 <li>Integrity</li>
-                <li>Reliability</li>
-                <li>Teamwork</li>
-                <li>Caring</li>
+                <li>Accountability</li>
+                <li>Client-Centric Thinking</li>
+                <li>Responsiveness</li>
+                <li>Professional Excellence</li>
             </ul>
         </div>
 
     </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     TEAM
+═══════════════════════════════════════════════════ -->
+<section id="team-section">
+
+    <div class="team-header reveal">
+        <span class="section-label">The Advisory Team</span>
+        <h2 class="section-title">The Team <span>Accountable for Your Protection</span></h2>
+        <div class="gold-rule" style="margin:1.2rem auto 1.4rem;"></div>
+        <p class="team-intro">Every client engagement at DoveNest is supported by advisors who understand your risk context. Our team does not rotate you through generalists. Each person here holds a defined accountability, and that accountability extends to the performance of your cover.</p>
+    </div>
+
+    <div class="team-grid">
+
+        <div class="team-card reveal" style="--d:0ms">
+            <div class="team-avatar">KM</div>
+            <p class="team-name">Kennedy Mongare</p>
+            <p class="team-role">Chief Executive Officer</p>
+            <p class="team-bio">Kennedy leads DoveNest with over two decades of experience in insurance advisory and risk structuring. His approach centers on ensuring that every client's cover is built to perform when it is needed most, not just at the point of purchase.</p>
+        </div>
+
+        <div class="team-card reveal" style="--d:80ms">
+            <div class="team-avatar">KN</div>
+            <p class="team-name">Kennedy Ngumbao</p>
+            <p class="team-role">COO &amp; Head of General Insurance</p>
+            <p class="team-bio">Kennedy oversees operational delivery and leads the firm's general insurance practice. He ensures that cover structuring, underwriter engagement, and claims tracking meet the standard DoveNest's clients depend on.</p>
+        </div>
+
+        <div class="team-card reveal" style="--d:160ms">
+            <div class="team-avatar">NM</div>
+            <p class="team-name">Nelson Masaki</p>
+            <p class="team-role">Head of Life, Pensions &amp; Risk Structuring</p>
+            <p class="team-bio">Nelson leads DoveNest's long-term risk division, bringing analytical depth to life cover, pension design, and multi-year risk structuring for individuals and institutional clients across Kenya.</p>
+        </div>
+
+        <div class="team-card reveal" style="--d:0ms">
+            <div class="team-avatar">CO</div>
+            <p class="team-name">Charles Omondi Otieno</p>
+            <p class="team-role">Head of Operations &amp; Client Service Delivery</p>
+            <p class="team-bio">Charles manages client service delivery and internal operations, maintaining the responsiveness, documentation discipline, and process consistency that underpin every client relationship.</p>
+        </div>
+
+        <div class="team-card reveal" style="--d:80ms">
+            <div class="team-avatar">OY</div>
+            <p class="team-name">Oyagi</p>
+            <p class="team-role">Finance Lead</p>
+            <p class="team-bio">Oyagi leads financial oversight at DoveNest, ensuring sound governance, regulatory compliance, and the financial accuracy that supports the firm's obligations to both clients and underwriting partners.</p>
+        </div>
+
+        <div class="team-card reveal" style="--d:160ms">
+            <div class="team-avatar">EJ</div>
+            <p class="team-name">Esther Joshua</p>
+            <p class="team-role">Financial Operations</p>
+            <p class="team-bio">Esther manages day-to-day financial operations, bringing accuracy and accountability to client transactions, premium processing, and underwriter settlement across the firm's portfolio.</p>
+        </div>
+
+    </div>
+
+    <div class="team-works-wrap reveal">
+        <h3>How Our Team Works Around You</h3>
+        <ul class="team-works-list">
+            <li>Each client is assigned a named advisor accountable for the structure and performance of their cover</li>
+            <li>Cover is built to reflect actual risk exposure, not minimum compliance requirements</li>
+            <li>Claims support is active, not passive. We track outcomes and intervene where needed</li>
+            <li>Reviews are structured, periodic, and aligned to changes in your business or personal circumstances</li>
+        </ul>
+    </div>
+
+    <div class="team-cta-block reveal">
+        <p>Ready to speak with an advisor who understands your risk?</p>
+        <a class="team-cta-btn" href="contact.html">
+            Start with the Right Conversation
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+    </div>
+
 </section>
 
 
@@ -1431,8 +1653,8 @@
     <div class="general-cta-inner">
         <div>
             <span class="general-cta-eyebrow">General Insurance</span>
-            <h2>Protect the everyday risks that can slow life and business down.</h2>
-            <p>Explore practical cover for homes, property, liability, money movement, accidents, and domestic packages with guidance from DoveNest.</p>
+            <h2>Structured cover for operational, financial, and personal risk exposures.</h2>
+            <p>We design protection across property, liability, mobility, and financial risk, ensuring alignment between what is covered and what is at stake.</p>
         </div>
         <a class="general-cta-link" href="general-insurance.html">Explore General Insurance</a>
     </div>
@@ -1441,7 +1663,7 @@
     <div class="footer-inner site-footer-grid">
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
-            <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
+            <p>DoveNest Insurance Brokers is an independent risk advisory firm structuring cover, negotiating terms, and supporting claims outcomes for individuals, institutions, and diaspora clients across Kenya.</p>
         </div>
         <div class="footer-col">
             <h4>Company</h4>
