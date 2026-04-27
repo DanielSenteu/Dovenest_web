@@ -142,9 +142,9 @@ Each item has:
 
 | # | Status | Change | File(s) |
 |---|--------|--------|---------|
-| 6.1 | [ ] | Update address everywhere to: Consolidated Bank House, Suite 208, 2nd Floor, Koinange Street, P.O. Box 57180–00200, Nairobi, Kenya | All HTML pages — footer + contact.html |
-| 6.2 | [ ] | Update phone numbers to: +254 726 001 122 \| +254 20 760 2122 | All HTML pages — footer, navbar contact strip, contact.html |
-| 6.3 | [ ] | Verify email remains: info@dovenestinsurance.com | All HTML pages |
+| 6.1 | [x] | Address updated to: Consolidated Bank House, Suite 208, 2nd Floor, Koinange Street, P.O. Box 57180–00200, Nairobi, Kenya | All HTML pages — contact.html + footer |
+| 6.2 | [x] | Phone updated: +254 726 001 122 \| +254 20 760 2122 — both numbers in footers, contact page, and about page body | All HTML pages |
+| 6.3 | [x] | Email confirmed: info@dovenestinsurance.com — unchanged | All HTML pages |
 
 ---
 
