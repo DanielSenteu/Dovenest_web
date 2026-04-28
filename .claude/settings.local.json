@@ -23,7 +23,11 @@
       "Bash(where:*)",
       "Bash(python:*)",
       "Bash(claude:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(grep:*)",
+      "Bash(sed:*)",
+      "Bash(mv:*)",
+      "Bash(do sed:*)"
     ]
   }
 }
