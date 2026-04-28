@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archives - DoveNest Insurance Brokers</title>
+    <title>Blogs - DoveNest Insurance Brokers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
@@ -30,7 +30,8 @@
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
 
-    #archives-hero { min-height: 78vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
+    /* ── HERO ── */
+    #blogs-hero { min-height: 72vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
     .hero-bg { position: absolute; inset: 0; background: url('images/archive_1.jpg') center / cover; transform: scale(1.08); animation: heroDrift 11s ease forwards; }
     @keyframes heroDrift { to { transform: scale(1); } }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.94), rgba(4,20,44,0.78) 50%, rgba(4,20,44,0.28)), linear-gradient(to top, rgba(2,10,24,0.62), transparent 56%); }
@@ -38,19 +39,172 @@
     .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
     .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
     .breadcrumb a:hover { color: #E8A020; }
-    .hero-eyebrow, .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .hero-eyebrow { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
     .hero-title { color: #fff; font-size: clamp(3.1rem, 7vw, 6.8rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; max-width: 900px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
     .hero-title span { color: #E8A020; }
-    .hero-sub { max-width: 720px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.22rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
+    .hero-sub { max-width: 680px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.18rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
-    #archives-main { padding: 5.5rem 2rem 6rem; background: linear-gradient(180deg, #f6f8fb, #fff 58%); }
-    .archives-inner { max-width: 1220px; margin: 0 auto; }
-    .archives-head { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.55fr); gap: 2rem; align-items: end; margin-bottom: 2.2rem; }
-    .section-title { margin-top: 0.8rem; font-size: clamp(2rem, 4.5vw, 4.3rem); line-height: 1.06; letter-spacing: -0.03em; color: #0A2A4A; }
+    /* ── SHARED UTILITIES ── */
+    .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .section-title { margin-top: 0.8rem; font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; color: #0A2A4A; }
     .section-title span { color: #E8A020; }
-    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg, #E8A020, #f7c66c); }
-    .archives-head p { color: #52677c; line-height: 1.85; font-size: 1.02rem; }
+    .gold-rule { width: 64px; height: 3px; margin-top: 1.1rem; border-radius: 999px; background: linear-gradient(90deg, #E8A020, #f7c66c); }
+
+    /* ── IN THE MEDIA SECTION ── */
+    #in-the-media {
+        background: #061b31;
+        padding: 5.5rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    #in-the-media::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 70% 45% at 50% -5%, rgba(232,160,32,0.08) 0%, transparent 62%),
+            radial-gradient(ellipse 50% 60% at 8% 110%, rgba(8,55,95,0.6) 0%, transparent 55%),
+            radial-gradient(ellipse 50% 60% at 92% 110%, rgba(8,55,95,0.6) 0%, transparent 55%);
+        pointer-events: none;
+    }
+    .media-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+    .media-header {
+        margin-bottom: 3rem;
+    }
+    .media-header .section-label { color: #E8A020; }
+    .media-header .section-title { color: #fff; }
+    .media-header p {
+        margin-top: 0.9rem;
+        font-size: 0.97rem;
+        color: rgba(255,255,255,0.55);
+        max-width: 620px;
+        line-height: 1.8;
+    }
+
+    /* Video grid */
+    .video-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .video-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 14px;
+        overflow: hidden;
+        transition: border-color 0.3s, transform 0.3s;
+    }
+    .video-card:hover {
+        border-color: rgba(232,160,32,0.35);
+        transform: translateY(-4px);
+    }
+    .video-embed {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: #020c1a;
+    }
+    .video-embed iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .video-meta {
+        padding: 1.1rem 1.3rem 1.3rem;
+    }
+    .video-channel {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #E8A020;
+        margin-bottom: 0.45rem;
+    }
+    .video-channel svg {
+        width: 13px; height: 13px;
+        fill: #E8A020;
+    }
+    .video-title {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.88);
+        line-height: 1.5;
+    }
+
+    /* Press card */
+    .press-card {
+        display: flex;
+        align-items: center;
+        gap: 1.8rem;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 14px;
+        padding: 1.6rem 2rem;
+        text-decoration: none;
+        transition: background 0.3s, border-color 0.3s;
+    }
+    .press-card:hover {
+        background: rgba(255,255,255,0.07);
+        border-color: rgba(232,160,32,0.35);
+    }
+    .press-icon {
+        flex-shrink: 0;
+        width: 56px; height: 56px;
+        border-radius: 12px;
+        background: rgba(232,160,32,0.12);
+        border: 1px solid rgba(232,160,32,0.22);
+        display: flex; align-items: center; justify-content: center;
+    }
+    .press-icon svg { width: 26px; height: 26px; stroke: #E8A020; fill: none; }
+    .press-text { flex: 1; min-width: 0; }
+    .press-pub {
+        font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em;
+        text-transform: uppercase; color: #E8A020; margin-bottom: 0.35rem;
+    }
+    .press-headline {
+        font-size: 1rem; font-weight: 700;
+        color: rgba(255,255,255,0.9); line-height: 1.45;
+    }
+    .press-date {
+        font-size: 0.82rem; color: rgba(255,255,255,0.38);
+        margin-top: 0.3rem;
+    }
+    .press-arrow {
+        flex-shrink: 0;
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        background: rgba(232,160,32,0.12);
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.25s;
+    }
+    .press-card:hover .press-arrow { background: #E8A020; }
+    .press-arrow svg { width: 18px; height: 18px; stroke: #E8A020; fill: none; transition: stroke 0.25s; }
+    .press-card:hover .press-arrow svg { stroke: #07172a; }
+
+    /* ── STORIES & INITIATIVES SECTION ── */
+    #stories-initiatives { padding: 5.5rem 2rem 6rem; background: linear-gradient(180deg, #f6f8fb, #fff 58%); }
+    .stories-inner { max-width: 1220px; margin: 0 auto; }
+    .stories-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.55fr);
+        gap: 2rem;
+        align-items: end;
+        margin-bottom: 2.2rem;
+    }
+    .stories-head p { color: #52677c; line-height: 1.85; font-size: 0.97rem; }
+
     .archive-filters { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 2rem; }
     .archive-filter { min-height: 42px; border: 1px solid rgba(8,55,95,0.12); border-radius: 999px; padding: 0 1rem; background: #fff; color: #52677c; font: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s; }
     .archive-filter:hover { transform: translateY(-2px); border-color: rgba(232,160,32,0.55); }
@@ -69,15 +223,12 @@
     .date-mon { margin-top: -0.3rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
     .archive-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; flex: 1; }
     .archive-cat { align-self: flex-start; padding: 0.34rem 0.65rem; border-radius: 999px; background: rgba(232,160,32,0.13); color: #986411; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-    .archive-title { color: #08375f; font-size: 1.24rem; line-height: 1.28; }
-    .archive-text { color: #52677c; line-height: 1.7; font-size: 0.94rem; }
+    .archive-title { color: #08375f; font-size: 1.1rem; line-height: 1.32; }
+    .archive-text { color: #52677c; line-height: 1.7; font-size: 0.92rem; }
     .archive-btn { margin-top: auto; align-self: flex-start; border: 0; background: transparent; color: #E8A020; font: inherit; font-size: 0.88rem; font-weight: 800; cursor: pointer; padding: 0.25rem 0; }
     .archive-btn:hover { color: #08375f; }
 
-    .timeline-band { margin-top: 3rem; padding: 1.6rem; border-radius: 8px; background: linear-gradient(135deg, #08375f, #061b31); color: #fff; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
-    .timeline-band h2 { font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.15; letter-spacing: -0.025em; }
-    .timeline-band p { max-width: 760px; margin-top: 0.7rem; color: rgba(255,255,255,0.74); line-height: 1.75; }
-
+    /* ── MODAL ── */
     .modal { position: fixed; inset: 0; z-index: 2000; display: none; align-items: center; justify-content: center; padding: 1.2rem; background: rgba(2,10,24,0.72); }
     .modal.open { display: flex; }
     .modal-panel { max-width: 820px; width: 100%; max-height: min(82vh, 760px); overflow: auto; border-radius: 8px; background: #fff; box-shadow: 0 28px 80px rgba(0,0,0,0.3); }
@@ -85,10 +236,11 @@
     .modal-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .modal-body { padding: 1.6rem; }
     .modal-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem; color: #986411; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
-    .modal-title { color: #08375f; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -0.03em; margin-top: 0.75rem; }
+    .modal-title { color: #08375f; font-size: clamp(1.5rem, 3.5vw, 2.4rem); line-height: 1.15; letter-spacing: -0.025em; margin-top: 0.75rem; }
     .modal-copy { color: #52677c; line-height: 1.82; margin-top: 1rem; }
     .modal-close { float: right; width: 40px; height: 40px; border: 0; border-radius: 999px; background: rgba(8,55,95,0.08); color: #08375f; font-size: 1.35rem; cursor: pointer; }
 
+    /* ── FOOTER ── */
     #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 3.5rem 2rem 0; }
     .footer-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(260px,1.2fr) repeat(2,minmax(180px,0.5fr)); gap: 2.5rem; padding-bottom: 2.5rem; }
     .footer-brand img { height: 48px; width: auto; display: block; margin-bottom: 1rem; }
@@ -100,9 +252,13 @@
     .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
     .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 980px) {
-        .archives-head { grid-template-columns: 1fr; }
+        .stories-head { grid-template-columns: 1fr; }
         .archive-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+        .video-grid { grid-template-columns: 1fr; }
+        .press-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        .press-arrow { display: none; }
     }
     @media (max-width: 820px) {
         .nav-links { display: none; }
@@ -120,7 +276,8 @@
     @media (max-width: 620px) {
         .nav-inner { padding: 0 1.2rem; }
         .hero-content { padding: 7.5rem 1.2rem 3.5rem; }
-        #archives-main { padding: 4.2rem 1rem; }
+        #in-the-media { padding: 4rem 1.2rem; }
+        #stories-initiatives { padding: 4rem 1rem; }
         .archive-grid { grid-template-columns: 1fr; }
         .modal { padding: 0.6rem; }
         .modal-img { aspect-ratio: 4 / 3; }
@@ -185,34 +342,140 @@
                     <li><a href="faq.html">FAQ</a></li>
                 </ul>
             </li>
-            <li><a class="active" href="archives.html">Archives</a></li>
+            <li><a class="active" href="archives.html">Blogs</a></li>
         </ul>
     </div>
 </nav>
 
-<section id="archives-hero">
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════ -->
+<section id="blogs-hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-        <div class="breadcrumb"><a href="home.html">Home</a><span>/</span><span>Gallery</span></div>
-        <span class="hero-eyebrow">Archives</span>
-        <h1 class="hero-title">News, gallery &amp; <span>general information.</span></h1>
-        <p class="hero-sub">Stories from DoveNest Insurance Brokers, including partnerships, community work, and milestones that shape how we protect families and organisations.</p>
+        <div class="breadcrumb"><a href="home.html">Home</a><span>/</span><span>Blogs</span></div>
+        <span class="hero-eyebrow">DoveNest Insurance Brokers</span>
+        <h1 class="hero-title">News, media &amp; <span>community stories.</span></h1>
+        <p class="hero-sub">Media appearances, press coverage, community initiatives, and moments that reflect how DoveNest shows up for clients and the broader community.</p>
     </div>
 </section>
 
-<main id="archives-main">
-    <div class="archives-inner">
-        <div class="archives-head">
-            <div>
-                <span class="section-label">DoveNest Insurance Brokers</span>
-                <h2 class="section-title">Trusted &amp; protecting <span>accomplishments.</span></h2>
-                <div class="gold-rule"></div>
-            </div>
-            <p>Browse the latest highlighted moments from the DoveNest archive. The filters below are live, so visitors can quickly move between partnerships, community initiatives, health updates, and general information.</p>
+
+<!-- ═══════════════════════════════════════════════════
+     IN THE MEDIA
+═══════════════════════════════════════════════════ -->
+<section id="in-the-media">
+    <div class="media-inner">
+
+        <div class="media-header">
+            <span class="section-label">Media Appearances</span>
+            <h2 class="section-title">In the <span>Media</span></h2>
+            <div class="gold-rule"></div>
+            <p>CEO Kennedy Mongare has been featured on national and regional television, speaking on insurance advisory, diaspora coverage, and risk structuring for the Kenyan market.</p>
         </div>
 
-        <div class="archive-filters" aria-label="Archive category filters">
+        <div class="video-grid">
+
+            <div class="video-card">
+                <div class="video-embed">
+                    <iframe
+                        src="https://www.youtube.com/embed/wbXZU5i-N00"
+                        title="Kennedy Mongare on KTN News"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div class="video-meta">
+                    <span class="video-channel">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#061b31"/></svg>
+                        KTN News
+                    </span>
+                    <p class="video-title">Kennedy Mongare on insurance advisory and the Kenyan market</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-embed">
+                    <iframe
+                        src="https://www.youtube.com/embed/WKGwzFLoEY0"
+                        title="Kennedy Mongare on Ndizi TV Africa"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div class="video-meta">
+                    <span class="video-channel">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#061b31"/></svg>
+                        Ndizi TV Africa
+                    </span>
+                    <p class="video-title">Kennedy Mongare discusses diaspora insurance and risk coverage</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-embed">
+                    <iframe
+                        src="https://www.youtube.com/embed/JT0ChtUk4lA"
+                        title="Kennedy Mongare on KTN News"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div class="video-meta">
+                    <span class="video-channel">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#061b31"/></svg>
+                        KTN News
+                    </span>
+                    <p class="video-title">Kennedy Mongare on structured cover and client protection outcomes</p>
+                </div>
+            </div>
+
+        </div>
+
+        <a class="press-card" href="https://www.the-star.co.ke/news/2021-08-23-local-insurance-broker-dovenest-goes-big-on-diaspora-market" target="_blank" rel="noopener noreferrer" aria-label="Read The Star article about DoveNest Insurance">
+            <div class="press-icon">
+                <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 4h16v16H4z" fill="none"/>
+                    <path d="M8 8h8M8 12h8M8 16h5" fill="none"/>
+                </svg>
+            </div>
+            <div class="press-text">
+                <p class="press-pub">The Star — Press Coverage</p>
+                <p class="press-headline">Local insurance broker DoveNest goes big on diaspora market</p>
+                <p class="press-date">23 August 2021</p>
+            </div>
+            <div class="press-arrow">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     STORIES & INITIATIVES
+═══════════════════════════════════════════════════ -->
+<section id="stories-initiatives">
+    <div class="stories-inner">
+
+        <div class="stories-head">
+            <div>
+                <span class="section-label">DoveNest Insurance Brokers</span>
+                <h2 class="section-title">Stories &amp; <span>Initiatives</span></h2>
+                <div class="gold-rule"></div>
+            </div>
+            <p>Partnerships, community work, and team milestones from across the DoveNest journey. Use the filters to move between categories.</p>
+        </div>
+
+        <div class="archive-filters" aria-label="Category filters">
             <button class="archive-filter active" type="button" data-filter="all">All</button>
             <button class="archive-filter" type="button" data-filter="partnership">Partnerships</button>
             <button class="archive-filter" type="button" data-filter="community">Community</button>
@@ -221,7 +484,8 @@
         </div>
 
         <div class="archive-grid">
-            <article class="archive-card" data-category="health partnership" data-title="Health Insurance Partnership" data-date="26 Mar" data-img="images/archive_1.jpg" data-copy="Natalie Mong'are, Head of Medical & Care, leads DoveNest to sign a partnership agreement with Springboard MHC & C Ltd. The collaboration strengthens access to health-focused support and care services for clients and partner communities.">
+
+            <article class="archive-card" data-category="health partnership" data-title="Health Insurance Partnership" data-date="26 Mar" data-img="images/archive_1.jpg" data-copy="Natalie Mong'are, Head of Medical &amp; Care, leads DoveNest to sign a partnership agreement with Springboard MHC &amp; C Ltd. The collaboration strengthens access to health-focused support and care services for clients and partner communities.">
                 <div class="archive-img">
                     <img src="images/archive_1.jpg" alt="Health Insurance Partnership signing ceremony">
                     <div class="archive-date"><span class="date-day">26</span><span class="date-mon">Mar</span></div>
@@ -247,7 +511,7 @@
                 </div>
             </article>
 
-            <article class="archive-card" data-category="partnership health" data-title="DoveNest ABSA Life Partnership" data-date="08 May" data-img="images/archive_3.jpeg" data-copy="Partnership agreement between Absa Life Assurance Company and DoveNest Insurance Brokers for provision of counseling services by Springboard Mental Health Counseling & Consultancy Ltd. This archive moment highlights the broader care network behind client protection.">
+            <article class="archive-card" data-category="partnership health" data-title="DoveNest ABSA Life Partnership" data-date="08 May" data-img="images/archive_3.jpeg" data-copy="Partnership agreement between Absa Life Assurance Company and DoveNest Insurance Brokers for provision of counseling services by Springboard Mental Health Counseling &amp; Consultancy Ltd. This archive moment highlights the broader care network behind client protection.">
                 <div class="archive-img">
                     <img src="images/archive_3.jpeg" alt="DoveNest ABSA Life partnership agreement">
                     <div class="archive-date"><span class="date-day">08</span><span class="date-mon">May</span></div>
@@ -259,15 +523,40 @@
                     <button class="archive-btn" type="button">Read More</button>
                 </div>
             </article>
+
+            <article class="archive-card" data-category="community" data-title="Staff Team Building — Malindi 2021" data-date="2021" data-img="images/malindi-team-building-2021.jpeg" data-copy="The DoveNest team came together in Malindi for a staff team building retreat in 2021. The event brought together advisors, operations, and leadership for a day of team development, reflecting the firm's investment in the people who serve its clients.">
+                <div class="archive-img">
+                    <img src="images/malindi-team-building-2021.jpeg" alt="DoveNest staff team building in Malindi 2021">
+                    <div class="archive-date"><span class="date-day">2021</span></div>
+                </div>
+                <div class="archive-body">
+                    <span class="archive-cat">Community</span>
+                    <h3 class="archive-title">Staff Team Building — Malindi 2021</h3>
+                    <p class="archive-text">The DoveNest team came together in Malindi for a staff team building retreat, investing in the people behind every client engagement.</p>
+                    <button class="archive-btn" type="button">View Story</button>
+                </div>
+            </article>
+
+            <article class="archive-card" data-category="community" data-title="CSR: School Donation — Malindi, August 2021" data-date="Aug 21" data-img="images/malindi-csr-donation-2021.jpeg" data-copy="DoveNest Insurance Brokers made a CSR donation to a school in Malindi in August 2021. The contribution is part of the firm's commitment to giving back to the communities in which it operates, supporting access to education and demonstrating that the firm's values extend beyond its client portfolio.">
+                <div class="archive-img">
+                    <img src="images/malindi-csr-donation-2021.jpeg" alt="DoveNest CSR donation to school in Malindi August 2021">
+                    <div class="archive-date"><span class="date-day">Aug</span><span class="date-mon">2021</span></div>
+                </div>
+                <div class="archive-body">
+                    <span class="archive-cat">Community</span>
+                    <h3 class="archive-title">CSR: School Donation — Malindi, August 2021</h3>
+                    <p class="archive-text">DoveNest made a CSR donation to a school in Malindi, demonstrating the firm's commitment to the communities it operates in.</p>
+                    <button class="archive-btn" type="button">View Story</button>
+                </div>
+            </article>
+
         </div>
 
-        <section class="timeline-band">
-            <h2>More archive pages can grow from here.</h2>
-            <p>The old gallery had inactive pagination. This version keeps the experience focused on the available stories while leaving a clear structure for adding future news, galleries, and community updates.</p>
-        </section>
     </div>
-</main>
+</section>
 
+
+<!-- MODAL -->
 <div class="modal" id="archiveModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-panel">
         <div class="modal-img"><img id="modalImg" src="images/archive_1.jpg" alt=""></div>
@@ -280,21 +569,23 @@
     </div>
 </div>
 
+
 <section class="general-cta" aria-label="General insurance call to action">
     <div class="general-cta-inner">
         <div>
             <span class="general-cta-eyebrow">General Insurance</span>
-            <h2>Protect the everyday risks that can slow life and business down.</h2>
-            <p>Explore practical cover for homes, property, liability, money movement, accidents, and domestic packages with guidance from DoveNest.</p>
+            <h2>Structured cover for operational, financial, and personal risk exposures.</h2>
+            <p>We design protection across property, liability, mobility, and financial risk, ensuring alignment between what is covered and what is at stake.</p>
         </div>
         <a class="general-cta-link" href="general-insurance.html">Explore General Insurance</a>
     </div>
 </section>
+
 <footer id="site-footer">
     <div class="footer-inner site-footer-grid">
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
-            <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
+            <p>DoveNest Insurance Brokers is an independent risk advisory firm structuring cover, negotiating terms, and supporting claims outcomes for individuals, institutions, and diaspora clients across Kenya.</p>
         </div>
         <div class="footer-col">
             <h4>Company</h4>
@@ -302,7 +593,7 @@
                 <li><a href="home.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="archives.html">Archives</a></li>
+                <li><a href="archives.html">Blogs</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -340,6 +631,7 @@
     </div>
 </footer>
 
+
 <script>
 (function () {
     'use strict';
@@ -364,6 +656,7 @@
         });
     });
 
+    /* Filter system */
     const filterBtns = document.querySelectorAll('.archive-filter');
     const cards = document.querySelectorAll('.archive-card');
     filterBtns.forEach((button) => {
@@ -378,6 +671,7 @@
         });
     });
 
+    /* Modal */
     const modal = document.getElementById('archiveModal');
     const modalImg = document.getElementById('modalImg');
     const modalTitle = document.getElementById('modalTitle');
@@ -398,17 +692,11 @@
         });
     });
 
-    function closeModal() {
-        modal.classList.remove('open');
-    }
-
+    function closeModal() { modal.classList.remove('open'); }
     document.querySelector('.modal-close').addEventListener('click', closeModal);
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeModal();
-    });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
 }());
 </script>
 
