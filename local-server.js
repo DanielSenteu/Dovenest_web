@@ -104,6 +104,32 @@ function validateMotorQuotePayload(body) {
   return errors;
 }
 
+// ── Rate limiting ────────────────────────────────────────────────────────────
+const RATE_LIMIT_MAP    = new Map(); // ip -> { count, windowStart }
+const RATE_LIMIT_MAX    = 5;                  // max submissions per window
+const RATE_LIMIT_WINDOW = 60 * 60 * 1000;    // 1 hour in ms
+
+function checkRateLimit(ip) {
+  const now    = Date.now();
+  const record = RATE_LIMIT_MAP.get(ip);
+
+  if (!record || now - record.windowStart > RATE_LIMIT_WINDOW) {
+    RATE_LIMIT_MAP.set(ip, { count: 1, windowStart: now });
+    return true;
+  }
+  if (record.count >= RATE_LIMIT_MAX) return false;
+  record.count++;
+  return true;
+}
+
+// Purge expired entries every 5 minutes to prevent memory growth
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, rec] of RATE_LIMIT_MAP.entries()) {
+    if (now - rec.windowStart > RATE_LIMIT_WINDOW) RATE_LIMIT_MAP.delete(ip);
+  }
+}, 5 * 60 * 1000);
+
 // ── Quote storage ────────────────────────────────────────────────────────────
 const DATA_DIR   = path.join(root, 'data');
 const QUOTES_FILE = path.join(DATA_DIR, 'motor-quotes.json');
@@ -191,13 +217,28 @@ http.createServer(async (req, res) => {
       return;
     }
 
-    // 1. Validate CSRF token — reject without explanation if missing/invalid
+    // 1. Honeypot check — bots fill hidden fields, humans never see them
+    //    Return a fake success so bots don't know they've been caught
+    if (body.website && String(body.website).trim().length > 0) {
+      console.log('[motor-quote] Honeypot triggered — bot submission silently dropped');
+      sendJson(res, 200, { success: true, ref: generateRef() });
+      return;
+    }
+
+    // 2. Rate limit — max 5 submissions per IP per hour
+    const clientIp = req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(clientIp)) {
+      sendJson(res, 429, { error: 'Too many requests. Please try again later.' });
+      return;
+    }
+
+    // 3. Validate CSRF token — reject without explanation if missing/invalid
     if (!validateCsrfToken(body.csrf_token)) {
       sendJson(res, 403, { error: 'Invalid or expired session. Please refresh the page and try again.' });
       return;
     }
 
-    // 2. Validate all required fields (server-side — cannot be bypassed)
+    // 4. Validate all required fields (server-side — cannot be bypassed)
     const errors = validateMotorQuotePayload(body);
     if (errors.length > 0) {
       sendJson(res, 400, { error: errors[0], errors });

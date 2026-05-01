@@ -496,6 +496,17 @@
     .qf-footer a { color: #9aafca; text-decoration: none; }
     .qf-footer a:hover { color: #08375f; }
 
+    /* ── Honeypot: invisible to humans, bots fill it ──────── */
+    .hp-trap {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     /* ── Responsive ────────────────────────────────────────── */
     @media (max-width: 600px) {
       .qf-main { padding: 1.5rem 1rem 3rem; }
@@ -559,6 +570,13 @@
       <!-- FORM -->
       <form id="motorQuoteForm" novalidate autocomplete="off">
         <input type="hidden" name="csrf_token" id="csrfToken">
+
+        <!-- Honeypot: real users never see or fill this; bots do -->
+        <div class="hp-trap" aria-hidden="true">
+          <label for="hp_website">Website</label>
+          <input type="text" id="hp_website" name="website"
+                 tabindex="-1" autocomplete="off" value="">
+        </div>
 
         <!-- ────────────────────────────────── -->
         <!-- SECTION 1 · Policy Type            -->
