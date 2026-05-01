@@ -809,6 +809,11 @@
   (() => {
     'use strict';
 
+    // ─── n8n webhook (GitHub Pages / static fallback only) ────
+    // When the Node.js server is running this call is made server-side
+    // from the .env — the URL below is only used when there is no server.
+    const N8N_WEBHOOK = 'https://danydan20.app.n8n.cloud/webhook-test/Motor-Insurance';
+
     // ─── State ────────────────────────────────────────────────
     const state = {
       policy_type:      null,
@@ -1003,14 +1008,58 @@
       });
     });
 
+    // ─── UI helpers ────────────────────────────────────────────
+    function showSuccess(ref) {
+      form.style.display = 'none';
+      successState.classList.add('show');
+      document.getElementById('refNumber').textContent = 'REF: ' + (ref || '—');
+      progressBar.style.width = '100%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showError(msg) {
+      errorBanner.textContent = msg;
+      errorBanner.classList.add('show');
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+
+    // ─── Direct n8n path (GitHub Pages / no server) ────────────
+    // Called when the server API is unavailable (404 or network fail)
+    async function submitToN8n(payload) {
+      const body = {
+        policy_type:      payload.policy_type,
+        first_name:       payload.first_name,
+        last_name:        payload.last_name,
+        date_of_birth:    payload.date_of_birth,
+        experience_years: payload.experience_years,
+        vehicle_category: payload.vehicle_category,
+        submitted_at:     new Date().toISOString(),
+        source:           'motor-quote-form-static',
+      };
+      try {
+        const res = await fetch(N8N_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (res.ok) {
+          const ref = 'DNM-' + Date.now().toString(36).toUpperCase();
+          showSuccess(ref);
+        } else {
+          showError('Unable to submit quote. Please call us on +254 726 001122.');
+        }
+      } catch {
+        showError('Network error — please check your connection or call us on +254 726 001122.');
+      }
+    }
+
     // ─── Form submission ───────────────────────────────────────
     form.addEventListener('submit', async e => {
       e.preventDefault();
       if (submitBtn.disabled) return;
 
-      // Hide previous errors
       errorBanner.classList.remove('show');
-
       submitBtn.classList.add('loading');
       submitBtn.disabled = true;
 
@@ -1032,27 +1081,21 @@
           body: JSON.stringify(payload),
         });
 
-        const data = await res.json().catch(() => ({}));
+        // 404 = no server running (GitHub Pages / static host) → go direct to n8n
+        if (res.status === 404) {
+          await submitToN8n(payload);
+          return;
+        }
 
+        const data = await res.json().catch(() => ({}));
         if (res.ok && data.success) {
-          // Show success
-          form.style.display = 'none';
-          successState.classList.add('show');
-          document.getElementById('refNumber').textContent = 'REF: ' + (data.ref || '—');
-          progressBar.style.width = '100%';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          showSuccess(data.ref);
         } else {
-          const msg = data.error || 'Something went wrong. Please try again.';
-          errorBanner.textContent = msg;
-          errorBanner.classList.add('show');
-          submitBtn.classList.remove('loading');
-          submitBtn.disabled = false;
+          showError(data.error || 'Something went wrong. Please try again.');
         }
       } catch {
-        errorBanner.textContent = 'Network error — please check your connection and try again.';
-        errorBanner.classList.add('show');
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
+        // Network / CORS error — try n8n directly
+        await submitToN8n(payload);
       }
     });
 

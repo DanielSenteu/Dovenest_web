@@ -1,13 +1,22 @@
-const http  = require('http');
-const fs    = require('fs');
-const path  = require('path');
+const http   = require('http');
+const https  = require('https');
+const fs     = require('fs');
+const path   = require('path');
 const crypto = require('crypto');
 
 const root = __dirname;
 const port = 4173;
 
+// ── Load .env (never committed to git) ──────────────────────────────────────
+const envFile = path.join(root, '.env');
+if (fs.existsSync(envFile)) {
+  fs.readFileSync(envFile, 'utf8').split('\n').forEach(line => {
+    const m = line.match(/^([^#=\s]+)\s*=\s*(.*)$/);
+    if (m) process.env[m[1]] = m[2].trim().replace(/^['"]|['"]$/g, '');
+  });
+}
+
 // ── CSRF configuration ──────────────────────────────────────────────────────
-// Change this secret in production (set via environment variable)
 const CSRF_SECRET = process.env.CSRF_SECRET || 'dvn-motor-quote-secret-change-in-prod';
 const CSRF_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
@@ -129,6 +138,38 @@ setInterval(() => {
     if (now - rec.windowStart > RATE_LIMIT_WINDOW) RATE_LIMIT_MAP.delete(ip);
   }
 }, 5 * 60 * 1000);
+
+// ── n8n webhook forwarder ────────────────────────────────────────────────────
+// URL is read from .env — never exposed to the client
+function sendToN8n(quote) {
+  const webhookUrl = process.env.N8N_MOTOR_WEBHOOK;
+  if (!webhookUrl) {
+    console.warn('[n8n] N8N_MOTOR_WEBHOOK not set in .env — skipping webhook');
+    return;
+  }
+
+  let url;
+  try { url = new URL(webhookUrl); }
+  catch { console.error('[n8n] Invalid webhook URL in .env'); return; }
+
+  const body = JSON.stringify(quote);
+  const options = {
+    hostname: url.hostname,
+    port:     url.port || 443,
+    path:     url.pathname + url.search,
+    method:   'POST',
+    headers:  { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) },
+  };
+
+  const req = https.request(options, res => {
+    let data = '';
+    res.on('data', c => data += c);
+    res.on('end', () => console.log(`[n8n] webhook ${res.statusCode} — ${quote.ref}`));
+  });
+  req.on('error', e => console.error('[n8n] webhook error:', e.message));
+  req.write(body);
+  req.end();
+}
 
 // ── Quote storage ────────────────────────────────────────────────────────────
 const DATA_DIR   = path.join(root, 'data');
@@ -267,6 +308,7 @@ http.createServer(async (req, res) => {
     }
 
     console.log(`[motor-quote] New quote received: ${ref} — ${quote.first_name} ${quote.last_name}`);
+    sendToN8n(quote); // fire-and-forget — doesn't delay the response
     sendJson(res, 200, { success: true, ref });
     return;
   }
