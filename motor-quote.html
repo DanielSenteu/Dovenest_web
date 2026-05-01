@@ -809,11 +809,6 @@
   (() => {
     'use strict';
 
-    // ─── n8n webhook (GitHub Pages / static fallback only) ────
-    // When the Node.js server is running this call is made server-side
-    // from the .env — the URL below is only used when there is no server.
-    const N8N_WEBHOOK = 'https://danydan20.app.n8n.cloud/webhook/Motor-Insurance';
-
     // ─── State ────────────────────────────────────────────────
     const state = {
       policy_type:      null,
@@ -1030,36 +1025,6 @@
       submitBtn.disabled = false;
     }
 
-    // ─── Direct n8n path (GitHub Pages / no server) ────────────
-    // Called when the server API is unavailable (404 or network fail)
-    async function submitToN8n(payload) {
-      const body = {
-        policy_type:      payload.policy_type,
-        first_name:       payload.first_name,
-        last_name:        payload.last_name,
-        date_of_birth:    payload.date_of_birth,
-        experience_years: payload.experience_years,
-        vehicle_category: payload.vehicle_category,
-        submitted_at:     new Date().toISOString(),
-        source:           'motor-quote-form-static',
-      };
-      try {
-        const res = await fetch(N8N_WEBHOOK, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        });
-        if (res.ok) {
-          const ref = 'DNM-' + Date.now().toString(36).toUpperCase();
-          showSuccess(ref);
-        } else {
-          showError('Unable to submit quote. Please call us on +254 726 001122.');
-        }
-      } catch {
-        showError('Network error — please check your connection or call us on +254 726 001122.');
-      }
-    }
-
     // ─── Form submission ───────────────────────────────────────
     form.addEventListener('submit', async e => {
       e.preventDefault();
@@ -1079,9 +1044,9 @@
         vehicle_category: state.vehicle_category,
       };
 
-      // No server (GitHub Pages / static) — go straight to n8n
+      // No server available — do not leak any endpoints, direct to contact
       if (!serverAvailable) {
-        await submitToN8n(payload);
+        showError('Online submissions are temporarily unavailable. Please call us on +254 726 001122 or email info@dovenestinsurance.com.');
         return;
       }
 
@@ -1100,8 +1065,7 @@
           showError(data.error || 'Something went wrong. Please try again.');
         }
       } catch {
-        // Unexpected network error
-        await submitToN8n(payload);
+        showError('Network error — please check your connection and try again.');
       }
     });
 
