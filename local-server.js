@@ -171,18 +171,59 @@ function sendToN8n(quote) {
   req.end();
 }
 
-// ── Quote storage ────────────────────────────────────────────────────────────
-const DATA_DIR   = path.join(root, 'data');
-const QUOTES_FILE = path.join(DATA_DIR, 'motor-quotes.json');
+// ── Supabase storage ─────────────────────────────────────────────────────────
+const SUPABASE_URL         = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
-function saveQuote(quote) {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
-  let quotes = [];
-  if (fs.existsSync(QUOTES_FILE)) {
-    try { quotes = JSON.parse(fs.readFileSync(QUOTES_FILE, 'utf8')); } catch { quotes = []; }
-  }
-  quotes.push(quote);
-  fs.writeFileSync(QUOTES_FILE, JSON.stringify(quotes, null, 2), 'utf8');
+function saveToSupabase(quote) {
+  return new Promise((resolve, reject) => {
+    if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
+      return reject(new Error('Supabase credentials not set in .env'));
+    }
+
+    const row = {
+      ref:              quote.ref,
+      policy_type:      quote.policy_type,
+      first_name:       quote.first_name,
+      last_name:        quote.last_name,
+      date_of_birth:    quote.date_of_birth,
+      experience_years: quote.experience_years,
+      vehicle_category: quote.vehicle_category,
+      source:           'server',
+      status:           'new',
+    };
+
+    const body = JSON.stringify(row);
+    const url  = new URL('/rest/v1/motor_quotes', SUPABASE_URL);
+
+    const options = {
+      hostname: url.hostname,
+      path:     url.pathname,
+      method:   'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Content-Length': Buffer.byteLength(body),
+        'apikey':        SUPABASE_SERVICE_KEY,
+        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+        'Prefer':        'return=minimal',
+      },
+    };
+
+    const req = https.request(options, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve();
+        } else {
+          reject(new Error(`Supabase ${res.statusCode}: ${data}`));
+        }
+      });
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
 }
 
 function generateRef() {
@@ -286,11 +327,10 @@ http.createServer(async (req, res) => {
       return;
     }
 
-    // 3. All checks passed — save and respond
+    // 5. All checks passed — save to Supabase and respond
     const ref = generateRef();
     const quote = {
       ref,
-      submitted_at:     new Date().toISOString(),
       policy_type:      body.policy_type,
       first_name:       body.first_name.trim(),
       last_name:        body.last_name.trim(),
@@ -300,14 +340,14 @@ http.createServer(async (req, res) => {
     };
 
     try {
-      saveQuote(quote);
+      await saveToSupabase(quote);
     } catch (e) {
-      console.error('Failed to save quote:', e);
+      console.error('[supabase] Failed to save quote:', e.message);
       sendJson(res, 500, { error: 'Server error saving quote. Please try again.' });
       return;
     }
 
-    console.log(`[motor-quote] New quote received: ${ref} — ${quote.first_name} ${quote.last_name}`);
+    console.log(`[motor-quote] Saved to Supabase: ${ref} — ${quote.first_name} ${quote.last_name}`);
     sendToN8n(quote); // fire-and-forget — doesn't delay the response
     sendJson(res, 200, { success: true, ref });
     return;
