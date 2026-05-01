@@ -866,16 +866,22 @@
       },
     });
 
-    // ─── CSRF token fetch ─────────────────────────────────────
+    // ─── Server availability check + CSRF fetch ───────────────
+    // Tries /api/csrf-token on load. If it returns a valid JSON token
+    // the Node.js server is running. Any failure means static host → use n8n directly.
+    let serverAvailable = false;
+
     async function fetchCsrf() {
       try {
         const r = await fetch('/api/csrf-token', { credentials: 'same-origin' });
-        if (!r.ok) throw new Error('csrf fetch failed');
-        const { token } = await r.json();
-        csrfInput.value = token;
+        if (!r.ok) throw new Error('not available');
+        const data = await r.json();
+        if (!data.token) throw new Error('no token');
+        csrfInput.value = data.token;
+        serverAvailable = true;
       } catch {
-        // Degrade gracefully in static dev; server will reject if missing
         csrfInput.value = '';
+        serverAvailable = false;
       }
     }
     fetchCsrf();
@@ -1073,6 +1079,12 @@
         vehicle_category: state.vehicle_category,
       };
 
+      // No server (GitHub Pages / static) — go straight to n8n
+      if (!serverAvailable) {
+        await submitToN8n(payload);
+        return;
+      }
+
       try {
         const res = await fetch('/api/motor-quote', {
           method: 'POST',
@@ -1081,12 +1093,6 @@
           body: JSON.stringify(payload),
         });
 
-        // 404 = no server running (GitHub Pages / static host) → go direct to n8n
-        if (res.status === 404) {
-          await submitToN8n(payload);
-          return;
-        }
-
         const data = await res.json().catch(() => ({}));
         if (res.ok && data.success) {
           showSuccess(data.ref);
@@ -1094,7 +1100,7 @@
           showError(data.error || 'Something went wrong. Please try again.');
         }
       } catch {
-        // Network / CORS error — try n8n directly
+        // Unexpected network error
         await submitToN8n(payload);
       }
     });
