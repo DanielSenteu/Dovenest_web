@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Response Recorded — DoveNest Insurance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #eef2f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 12px 40px rgba(8,55,95,0.10);
+      max-width: 460px;
+      width: 100%;
+      overflow: hidden;
+      text-align: center;
+    }
+    .card-header {
+      background: #08375f;
+      padding: 28px 36px 24px;
+    }
+    .card-header p {
+      color: #E8A020;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .card-header h1 {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 40px 36px 36px;
+    }
+    .icon-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .icon-wrap.approved { background: #08375f; }
+    .icon-wrap.declined { background: #f1f5f9; }
+    .icon-wrap svg { width: 32px; height: 32px; }
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #08375f;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 0.875rem;
+      color: #6b87a4;
+      line-height: 1.65;
+    }
+    .divider {
+      height: 1px;
+      background: #f0f4f8;
+      margin: 24px 0;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #E8A020;
+      text-decoration: none;
+    }
+    .back-link:hover { color: #c8880d; }
+    .card-footer {
+      background: #f8fafc;
+      padding: 14px 36px;
+      border-top: 1px solid #f0f4f8;
+    }
+    .card-footer p {
+      font-size: 11px;
+      color: #b0c0d4;
+    }
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #dce3ec;
+      border-top-color: #08375f;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading { display: block; }
+    #content { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="card-header">
+      <p>DoveNest Insurance Brokers</p>
+      <h1>Quote Response</h1>
+    </div>
+
+    <div class="card-body">
+
+      <!-- Loading state while pinging n8n -->
+      <div id="loading">
+        <div class="spinner"></div>
+        <p>Recording your response&hellip;</p>
+      </div>
+
+      <!-- Result (shown after n8n is pinged) -->
+      <div id="content">
+
+        <!-- APPROVED -->
+        <div id="approved-view" style="display:none;">
+          <div class="icon-wrap approved">
+            <svg fill="none" stroke="#E8A020" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h2>Quote Approved</h2>
+          <p>The quote has been approved and the workflow has continued. The team will follow up with the client shortly.</p>
+        </div>
+
+        <!-- DECLINED -->
+        <div id="declined-view" style="display:none;">
+          <div class="icon-wrap declined">
+            <svg fill="none" stroke="#94a3b8" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </div>
+          <h2 style="color:#64748b;">Quote Declined</h2>
+          <p>The quote has been declined and the workflow has been updated accordingly.</p>
+        </div>
+
+        <div class="divider"></div>
+        <a href="home.html" class="back-link">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="13" height="13">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Back to DoveNest
+        </a>
+      </div>
+
+    </div>
+
+    <div class="card-footer">
+      <p>DoveNest Insurance Brokers Ltd &mdash; 4th Floor, Uganda House, Nairobi</p>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const params   = new URLSearchParams(window.location.search);
+    const approved = params.get('approved');
+    const resume   = params.get('resume');
+
+    function showResult() {
+      document.getElementById('loading').style.display  = 'none';
+      document.getElementById('content').style.display  = 'block';
+      if (approved === 'true') {
+        document.getElementById('approved-view').style.display = 'block';
+      } else {
+        document.getElementById('declined-view').style.display = 'block';
+      }
+    }
+
+    if (!resume) {
+      // No resume URL — just show result immediately (direct page visit)
+      showResult();
+      return;
+    }
+
+    // Ping n8n resume URL silently — no-cors so CORS headers don't matter
+    // n8n resumes the execution; we don't need its response
+    const resumeUrl = resume + '?approved=' + (approved === 'true' ? 'true' : 'false');
+
+    fetch(resumeUrl, { method: 'GET', mode: 'no-cors' })
+      .finally(() => showResult());
+
+  })();
+  </script>
+
+</body>
+</html>
