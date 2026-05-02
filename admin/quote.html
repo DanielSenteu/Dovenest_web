@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Detail — DoveNest Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #04111f; --surface: #0d2137;
+      --border: rgba(255,255,255,0.07);
+      --gold: #E8A020; --gold-dim: rgba(232,160,32,0.12);
+      --text: #e8f0f8; --muted: rgba(255,255,255,0.45);
+    }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+    .topbar-logo img { height: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(232,160,32,0.25); }
+    .topbar-email { font-size: 0.78rem; color: var(--muted); }
+    .signout-btn { font-size: 0.78rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 5px 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color 0.2s, border-color 0.2s; }
+    .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+    .layout { display: flex; flex: 1; }
+    .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; flex-shrink: 0; }
+    .nav-section { padding: 0 12px; margin-bottom: 24px; }
+    .nav-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0 8px; margin-bottom: 8px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; text-decoration: none; border: none; background: none; width: 100%; font-family: 'Poppins', sans-serif; text-align: left; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: var(--gold-dim); color: var(--gold); }
+    .nav-item svg { flex-shrink: 0; }
+    .main { flex: 1; padding: 32px 36px; overflow-x: hidden; }
+
+    /* breadcrumb */
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--muted); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { color: rgba(255,255,255,0.2); }
+    .breadcrumb .current { color: var(--text); font-weight: 500; font-family: monospace; font-size: 0.78rem; }
+
+    /* quote header card */
+    .quote-header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .quote-ref { font-family: monospace; font-size: 1.05rem; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+    .quote-meta { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+    .quote-header-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+
+    /* badge */
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-pending  { background: rgba(232,160,32,0.15); color: #E8A020; }
+    .badge-approved { background: rgba(34,197,94,0.15);  color: #86efac; }
+    .badge-rejected { background: rgba(239,68,68,0.15);  color: #fca5a5; }
+    .badge-personal { background: rgba(167,139,250,0.12); color: #c4b5fd; }
+    .badge-business { background: rgba(251,191,36,0.12);  color: #fde68a; }
+
+    /* detail grid */
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .detail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; }
+    .detail-card-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 20px; }
+    .field-list { display: flex; flex-direction: column; gap: 16px; }
+    .field-item {}
+    .field-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+    .field-value { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+    .field-value.mono { font-family: monospace; font-size: 0.85rem; }
+    .field-divider { height: 1px; background: rgba(255,255,255,0.05); }
+
+    /* actions card */
+    .actions-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; }
+    .actions-card-title { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 16px; }
+    .actions-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+    .action-buttons { display: flex; gap: 10px; }
+    .btn-approve {
+      padding: 0.65rem 24px;
+      background: rgba(34,197,94,0.12);
+      color: #86efac;
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-approve:hover { background: rgba(34,197,94,0.2); border-color: rgba(34,197,94,0.4); }
+    .btn-reject {
+      padding: 0.65rem 24px;
+      background: rgba(239,68,68,0.08);
+      color: rgba(252,165,165,0.8);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-reject:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+    .btn-disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    /* spinner / guard */
+    .spinner { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #guard { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    #app   { display: none; flex-direction: column; min-height: 100vh; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: #0d2137; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 12px 18px;
+      font-size: 0.82rem; color: var(--text);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transform: translateY(8px); opacity: 0;
+      transition: all 0.25s ease;
+      pointer-events: none; z-index: 200;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div id="guard">
+  <div style="text-align:center;">
+    <div class="spinner" style="margin:0 auto 14px;"></div>
+    <p style="font-size:0.8rem;color:rgba(255,255,255,0.4);">Verifying session…</p>
+  </div>
+</div>
+
+<div id="app">
+  <header class="topbar">
+    <a class="topbar-logo" href="dashboard.html">
+      <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+      <span class="admin-badge">Admin</span>
+    </a>
+    <span class="topbar-email" id="userEmail"></span>
+    <button class="signout-btn" onclick="handleSignout()">Sign out</button>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <p class="nav-label">Main</p>
+        <a class="nav-item" href="dashboard.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Quotes</p>
+        <a class="nav-item active" href="quotes.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Motor Quotes
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Settings</p>
+        <a class="nav-item" href="invites.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3M13 7a4 4 0 11-8 0 4 4 0 018 0zM6 21v-2a4 4 0 014-4h2"/></svg>
+          Admin Invites
+        </a>
+      </div>
+    </nav>
+
+    <main class="main" id="mainContent">
+      <div style="display:flex;justify-content:center;padding:64px;">
+        <div class="spinner"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient(
+  'https://tbokejycxpaefpccynbh.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+);
+
+let quote = null;
+
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('login.html'); return; }
+  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+
+  document.getElementById('userEmail').textContent = session.user.email;
+  document.getElementById('guard').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id) { renderError('No quote ID provided.'); return; }
+
+  const { data, error } = await sb.from('motor_quotes').select('*').eq('id', id).single();
+  if (error || !data) { renderError('Quote not found.'); return; }
+
+  quote = data;
+  renderQuote(data);
+})();
+
+async function handleSignout() { await sb.auth.signOut(); window.location.replace('login.html'); }
+
+function renderQuote(q) {
+  const submitted = new Date(q.submitted_at);
+  const submittedStr = submitted.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' })
+    + ' at ' + submitted.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+
+  const isPending = q.status === 'pending';
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="dashboard.html">Overview</a>
+      <span>/</span>
+      <a href="quotes.html">Motor Quotes</a>
+      <span>/</span>
+      <span class="current">${esc(q.ref)}</span>
+    </div>
+
+    <div class="quote-header">
+      <div>
+        <div class="quote-ref">${esc(q.ref)}</div>
+        <div class="quote-meta">Submitted ${submittedStr}</div>
+      </div>
+      <div class="quote-header-right">
+        <span class="badge badge-${q.policy_type}">${q.policy_type}</span>
+        <span class="badge badge-${q.status}" id="statusBadge">${q.status}</span>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <p class="detail-card-title">Client Information</p>
+        <div class="field-list">
+          <div class="field-item">
+            <p class="field-label">Full Name</p>
+            <p class="field-value">${esc(q.first_name)} ${esc(q.last_name)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Email Address</p>
+            <p class="field-value">${esc(q.email)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Phone Number</p>
+            <p class="field-value">${esc(q.phone)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Date of Birth</p>
+            <p class="field-value">${fmtDob(q.date_of_birth)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Driving Experience</p>
+            <p class="field-value">${q.experience_years} year${q.experience_years !== 1 ? 's' : ''}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <p class="detail-card-title">Policy Details</p>
+        <div class="field-list">
+          <div class="field-item">
+            <p class="field-label">Policy Type</p>
+            <p class="field-value" style="text-transform:capitalize;">${esc(q.policy_type)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Vehicle Category</p>
+            <p class="field-value">${esc(q.vehicle_category)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Quote Reference</p>
+            <p class="field-value mono">${esc(q.ref)}</p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Current Status</p>
+            <p class="field-value"><span class="badge badge-${q.status}" id="statusBadge2">${q.status}</span></p>
+          </div>
+          <div class="field-divider"></div>
+          <div class="field-item">
+            <p class="field-label">Submission Source</p>
+            <p class="field-value" style="text-transform:capitalize;color:var(--muted);">${esc(q.source || 'server')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions-card">
+      <p class="actions-card-title">Actions</p>
+      <p class="actions-desc" id="actionsDesc">
+        ${isPending
+          ? 'This quote is awaiting review. Approve to continue the client workflow, or reject to close the request.'
+          : `This quote has been <strong>${q.status}</strong> and requires no further action.`}
+      </p>
+      <div class="action-buttons" id="actionButtons">
+        ${isPending ? `
+          <button class="btn-approve" onclick="setStatus('approved')">Approve Quote</button>
+          <button class="btn-reject"  onclick="setStatus('rejected')">Reject Quote</button>
+        ` : `
+          <button class="btn-approve btn-disabled">Approve Quote</button>
+          <button class="btn-reject  btn-disabled">Reject Quote</button>
+        `}
+      </div>
+    </div>`;
+}
+
+async function setStatus(status) {
+  const { error } = await sb.from('motor_quotes').update({ status }).eq('id', quote.id);
+  if (error) { showToast('Failed to update status.'); return; }
+
+  quote.status = status;
+
+  // Update badges + action state
+  ['statusBadge','statusBadge2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.className = `badge badge-${status}`; el.textContent = status; }
+  });
+  document.getElementById('actionsDesc').innerHTML =
+    `This quote has been <strong>${status}</strong> and requires no further action.`;
+  document.getElementById('actionButtons').innerHTML = `
+    <button class="btn-approve btn-disabled">Approve Quote</button>
+    <button class="btn-reject  btn-disabled">Reject Quote</button>`;
+
+  showToast(`Quote marked as ${status}.`);
+}
+
+function renderError(msg) {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="dashboard.html">Overview</a><span>/</span>
+      <a href="quotes.html">Motor Quotes</a><span>/</span>
+      <span class="current">Error</span>
+    </div>
+    <p style="color:var(--muted);font-size:0.88rem;margin-top:16px;">${msg}</p>`;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function fmtDob(s) {
+  if (!s) return '—';
+  return new Date(s).toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+}
+</script>
+</body>
+</html>

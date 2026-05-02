@@ -3,771 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — DoveNest Admin</title>
+  <title>Overview — DoveNest Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:       #04111f;
-      --surface:  #0d2137;
-      --border:   rgba(255,255,255,0.07);
-      --gold:     #E8A020;
-      --gold-dim: rgba(232,160,32,0.12);
-      --text:     #e8f0f8;
-      --muted:    rgba(255,255,255,0.45);
-      --sidebar:  220px;
+      --bg: #04111f; --surface: #0d2137;
+      --border: rgba(255,255,255,0.07);
+      --gold: #E8A020; --gold-dim: rgba(232,160,32,0.12);
+      --text: #e8f0f8; --muted: rgba(255,255,255,0.45);
     }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
 
-    /* ── Top bar ── */
-    .topbar {
-      height: 56px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 24px;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-    .topbar-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      margin-right: auto;
-    }
-    .topbar-logo img {
-      height: 26px;
-      filter: brightness(0) invert(1);
-      opacity: 0.9;
-    }
-    .topbar-logo .admin-badge {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      background: var(--gold-dim);
-      padding: 2px 7px;
-      border-radius: 4px;
-      border: 1px solid rgba(232,160,32,0.25);
-    }
+    /* topbar */
+    .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+    .topbar-logo img { height: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(232,160,32,0.25); }
     .topbar-email { font-size: 0.78rem; color: var(--muted); }
-    .signout-btn {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--muted);
-      background: none;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 7px;
-      padding: 5px 12px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      transition: color 0.2s, border-color 0.2s;
-    }
+    .signout-btn { font-size: 0.78rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 5px 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color 0.2s, border-color 0.2s; }
     .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
 
-    /* ── Layout ── */
+    /* layout */
     .layout { display: flex; flex: 1; }
-
-    /* ── Sidebar ── */
-    .sidebar {
-      width: var(--sidebar);
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      padding: 20px 0;
-      flex-shrink: 0;
-    }
+    .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; flex-shrink: 0; }
     .nav-section { padding: 0 12px; margin-bottom: 24px; }
-    .nav-label {
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      padding: 0 8px;
-      margin-bottom: 8px;
-    }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--muted);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      text-decoration: none;
-      border: none;
-      background: none;
-      width: 100%;
-      font-family: 'Poppins', sans-serif;
-      text-align: left;
-    }
+    .nav-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0 8px; margin-bottom: 8px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; text-decoration: none; border: none; background: none; width: 100%; font-family: 'Poppins', sans-serif; text-align: left; }
     .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
     .nav-item.active { background: var(--gold-dim); color: var(--gold); }
     .nav-item svg { flex-shrink: 0; }
 
-    /* ── Main ── */
-    .main { flex: 1; padding: 28px 32px; overflow-x: hidden; }
-    .page-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .page-sub   { font-size: 0.8rem; color: var(--muted); margin-bottom: 28px; }
+    /* main */
+    .main { flex: 1; padding: 32px 36px; overflow-x: hidden; max-width: 1100px; }
+    .greeting { margin-bottom: 28px; }
+    .greeting h1 { font-size: 1.25rem; font-weight: 700; color: #fff; }
+    .greeting p { font-size: 0.82rem; color: var(--muted); margin-top: 3px; }
 
-    /* ── Stats ── */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px 20px;
-    }
-    .stat-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-    }
-    .stat-value { font-size: 1.75rem; font-weight: 800; color: #fff; line-height: 1; }
-    .stat-card.highlight .stat-value { color: var(--gold); }
+    /* stats */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 36px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .stat-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+    .stat-value { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1; }
+    .stat-card.gold .stat-value { color: var(--gold); }
 
-    /* ── Section header ── */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .section-title { font-size: 0.95rem; font-weight: 700; color: #fff; flex: 1; }
-    .filter-row { display: flex; gap: 8px; }
-    .filter-btn {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: none;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-      transition: all 0.15s;
-    }
-    .filter-btn:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
-    .filter-btn.active { background: var(--gold-dim); border-color: rgba(232,160,32,0.35); color: var(--gold); }
+    /* section */
+    .section-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
 
-    /* ── Table ── */
-    .table-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
+    /* product cards */
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 36px; }
+    .product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 0; transition: border-color 0.2s; }
+    .product-card:hover { border-color: rgba(255,255,255,0.14); }
+    .product-card.disabled { opacity: 0.45; pointer-events: none; }
+    .product-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--gold-dim); border: 1px solid rgba(232,160,32,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .product-icon svg { color: var(--gold); }
+    .product-card h3 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .product-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; flex: 1; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-metric { font-size: 0.75rem; color: var(--gold); font-weight: 600; }
+    .product-metric.muted { color: var(--muted); }
+    .view-btn { font-size: 0.78rem; font-weight: 700; color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(232,160,32,0.2); border-radius: 7px; padding: 5px 14px; cursor: pointer; font-family: 'Poppins', sans-serif; text-decoration: none; transition: background 0.15s, border-color 0.15s; }
+    .view-btn:hover { background: rgba(232,160,32,0.2); border-color: rgba(232,160,32,0.4); }
+    .coming-soon-tag { font-size: 0.68rem; font-weight: 700; color: var(--muted); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 5px; padding: 3px 8px; }
+
+    /* recent table */
+    .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .table-card-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .table-card-header span { font-size: 0.85rem; font-weight: 600; color: #fff; }
+    .table-card-header a { font-size: 0.75rem; font-weight: 600; color: var(--gold); text-decoration: none; }
+    .table-card-header a:hover { color: #d4911a; }
     table { width: 100%; border-collapse: collapse; }
-    thead tr { border-bottom: 1px solid var(--border); }
-    th {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      padding: 12px 16px;
-      text-align: left;
-    }
-    tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: background 0.1s;
-    }
-    tbody tr:last-child { border-bottom: none; }
+    th { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 11px 20px; text-align: left; }
+    tbody tr { border-top: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.1s; }
     tbody tr:hover { background: rgba(255,255,255,0.03); }
-    td { font-size: 0.82rem; padding: 13px 16px; color: var(--text); }
-    td.muted { color: var(--muted); }
-    td.mono  { font-family: monospace; font-size: 0.78rem; color: var(--muted); }
+    td { font-size: 0.82rem; padding: 13px 20px; color: var(--text); }
+    td.muted { color: var(--muted); font-size: 0.78rem; }
+    td.mono { font-family: monospace; font-size: 0.76rem; color: var(--muted); }
+    .badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .badge-pending  { background: rgba(232,160,32,0.15); color: #E8A020; }
+    .badge-approved { background: rgba(34,197,94,0.15); color: #86efac; }
+    .badge-rejected { background: rgba(239,68,68,0.15); color: #fca5a5; }
 
-    /* ── Badges ── */
-    .badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .badge-pending  { background: rgba(232,160,32,0.15);  color: #E8A020; }
-    .badge-approved { background: rgba(34,197,94,0.15);   color: #86efac; }
-    .badge-rejected { background: rgba(239,68,68,0.15);   color: #fca5a5; }
-    .badge-personal { background: rgba(167,139,250,0.12); color: #c4b5fd; }
-    .badge-business { background: rgba(251,191,36,0.12);  color: #fde68a; }
-    .badge-used     { background: rgba(34,197,94,0.12);   color: #86efac; }
-    .badge-open     { background: rgba(232,160,32,0.12);  color: #E8A020; }
-
-    .table-empty {
-      padding: 48px 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    /* ── Invite form ── */
-    .invite-form {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-end;
-    }
-    .invite-form .field { flex: 1; margin: 0; }
-    .invite-form label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-    .invite-form input {
-      width: 100%;
-      padding: 0.65rem 0.9rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.875rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .invite-form input::placeholder { color: rgba(255,255,255,0.25); }
-    .invite-form input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(232,160,32,0.12);
-    }
-    .add-invite-btn {
-      padding: 0.65rem 20px;
-      background: var(--gold);
-      color: #0d2137;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .add-invite-btn:hover:not(:disabled) { background: #d4911a; }
-    .add-invite-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .invite-error {
-      font-size: 0.78rem;
-      color: #fca5a5;
-      margin-top: 6px;
-    }
-
-    /* ── Spinner ── */
-    .spinner-wrap { display: flex; justify-content: center; padding: 48px; }
-    .spinner {
-      width: 28px; height: 28px;
-      border: 2px solid rgba(255,255,255,0.1);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
+    /* spinner / guard */
+    .spinner { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Modal ── */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 480px;
-      padding: 28px;
-      position: relative;
-      animation: fadeUp 0.2s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .modal-close {
-      position: absolute;
-      top: 18px; right: 20px;
-      background: none; border: none;
-      color: var(--muted); cursor: pointer;
-      font-size: 1.2rem; line-height: 1;
-      transition: color 0.15s;
-    }
-    .modal-close:hover { color: #fff; }
-    .modal-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 20px; }
-    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .detail-item.full { grid-column: 1 / -1; }
-    .detail-key {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.3);
-      margin-bottom: 3px;
-    }
-    .detail-val { font-size: 0.85rem; color: var(--text); }
-    .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
-    .modal-btn {
-      flex: 1;
-      padding: 0.65rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      font-family: 'Poppins', sans-serif;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all 0.15s;
-    }
-    .modal-btn.primary { background: var(--gold); color: #0d2137; border-color: var(--gold); }
-    .modal-btn.primary:hover { background: #d4911a; }
-    .modal-btn.secondary { background: none; color: var(--muted); border-color: rgba(255,255,255,0.12); }
-    .modal-btn.secondary:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
-
-    /* ── Page guard ── */
     #guard { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
     #app   { display: none; flex-direction: column; min-height: 100vh; }
   </style>
 </head>
 <body>
 
-  <div id="guard">
-    <div style="text-align:center;">
-      <div class="spinner" style="margin:0 auto 16px;"></div>
-      <p style="font-size:0.82rem; color:rgba(255,255,255,0.4);">Verifying session…</p>
-    </div>
+<div id="guard">
+  <div style="text-align:center;">
+    <div class="spinner" style="margin:0 auto 14px;"></div>
+    <p style="font-size:0.8rem;color:rgba(255,255,255,0.4);">Verifying session…</p>
   </div>
+</div>
 
-  <div id="app">
-    <header class="topbar">
-      <a class="topbar-logo" href="#">
-        <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
-        <span class="admin-badge">Admin</span>
-      </a>
-      <span class="topbar-email" id="userEmail"></span>
-      <button class="signout-btn" onclick="handleSignout()">Sign out</button>
-    </header>
+<div id="app">
+  <header class="topbar">
+    <a class="topbar-logo" href="dashboard.html">
+      <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+      <span class="admin-badge">Admin</span>
+    </a>
+    <span class="topbar-email" id="userEmail"></span>
+    <button class="signout-btn" onclick="handleSignout()">Sign out</button>
+  </header>
 
-    <div class="layout">
-      <nav class="sidebar">
-        <div class="nav-section">
-          <p class="nav-label">Quotes</p>
-          <button class="nav-item active" id="nav-motor" onclick="switchPage('motor')">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-            </svg>
-            Motor Quotes
-          </button>
-        </div>
-        <div class="nav-section">
-          <p class="nav-label">Settings</p>
-          <button class="nav-item" id="nav-invites" onclick="switchPage('invites')">
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3M13 7a4 4 0 11-8 0 4 4 0 018 0zM6 21v-2a4 4 0 014-4h2"/>
-            </svg>
-            Admin Invites
-          </button>
-        </div>
-      </nav>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <p class="nav-label">Main</p>
+        <a class="nav-item active" href="dashboard.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Quotes</p>
+        <a class="nav-item" href="quotes.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Motor Quotes
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Settings</p>
+        <a class="nav-item" href="invites.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3M13 7a4 4 0 11-8 0 4 4 0 018 0zM6 21v-2a4 4 0 014-4h2"/></svg>
+          Admin Invites
+        </a>
+      </div>
+    </nav>
 
-      <main class="main" id="mainContent"></main>
-    </div>
-  </div>
+    <main class="main">
+      <div class="greeting">
+        <h1>Overview</h1>
+        <p id="greetLine">Welcome back</p>
+      </div>
 
-  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModalOnBackdrop(event)">
-    <div class="modal" id="modal">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <p class="modal-title" id="modalTitle">Quote Details</p>
-      <div class="detail-grid" id="modalBody"></div>
-      <div class="modal-actions" id="modalActions"></div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-  const sb = window.supabase.createClient(
-    'https://tbokejycxpaefpccynbh.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
-  );
-
-  let allQuotes    = [];
-  let activeFilter = 'all';
-  let currentUserEmail = '';
-
-  // ── Session guard ────────────────────────────────────────────────────────
-  (async () => {
-    const { data: { session } } = await sb.auth.getSession();
-    if (!session) { window.location.replace('login.html'); return; }
-
-    const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-    if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
-
-    currentUserEmail = session.user.email;
-    document.getElementById('guard').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    document.getElementById('userEmail').textContent = currentUserEmail;
-
-    switchPage('motor');
-  })();
-
-  async function handleSignout() {
-    await sb.auth.signOut();
-    window.location.replace('login.html');
-  }
-
-  // ── Page switcher ─────────────────────────────────────────────────────────
-  function switchPage(page) {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    const navEl = document.getElementById('nav-' + page);
-    if (navEl) navEl.classList.add('active');
-
-    if (page === 'motor')   renderMotorPage();
-    if (page === 'invites') renderInvitesPage();
-  }
-
-  // ── Motor Quotes page ─────────────────────────────────────────────────────
-  async function renderMotorPage() {
-    document.getElementById('mainContent').innerHTML = `
-      <p class="page-title">Motor Quotes</p>
-      <p class="page-sub">All incoming motor insurance quote requests</p>
-      <div class="stats-row">
-        <div class="stat-card"><p class="stat-label">Total</p><p class="stat-value" id="statTotal">—</p></div>
-        <div class="stat-card highlight"><p class="stat-label">Pending</p><p class="stat-value" id="statPending">—</p></div>
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card"><p class="stat-label">Total Quotes</p><p class="stat-value" id="statTotal">—</p></div>
+        <div class="stat-card gold"><p class="stat-label">Pending</p><p class="stat-value" id="statPending">—</p></div>
         <div class="stat-card"><p class="stat-label">Approved</p><p class="stat-value" id="statApproved">—</p></div>
         <div class="stat-card"><p class="stat-label">Rejected</p><p class="stat-value" id="statRejected">—</p></div>
       </div>
-      <div class="section-header">
-        <p class="section-title">All Quotes</p>
-        <div class="filter-row">
-          <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-          <button class="filter-btn" onclick="setFilter('pending',this)">Pending</button>
-          <button class="filter-btn" onclick="setFilter('approved',this)">Approved</button>
-          <button class="filter-btn" onclick="setFilter('rejected',this)">Rejected</button>
+
+      <p class="section-title">Quote Products</p>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-icon">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <h3>Motor Quotes</h3>
+          <p>All motor insurance quote requests submitted through the website. Review, approve, and manage client submissions.</p>
+          <div class="product-footer">
+            <span class="product-metric" id="pendingLabel">— pending</span>
+            <a class="view-btn" href="quotes.html">View Quotes →</a>
+          </div>
+        </div>
+
+        <div class="product-card disabled">
+          <div class="product-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);">
+            <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3>Home &amp; Domestic</h3>
+          <p>Domestic insurance quote requests for home contents, buildings, and personal effects.</p>
+          <div class="product-footer">
+            <span class="product-metric muted">Not yet active</span>
+            <span class="coming-soon-tag">Coming Soon</span>
+          </div>
+        </div>
+
+        <div class="product-card disabled">
+          <div class="product-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);">
+            <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          </div>
+          <h3>Health &amp; Life</h3>
+          <p>Health insurance and life cover quote requests including group schemes and individual plans.</p>
+          <div class="product-footer">
+            <span class="product-metric muted">Not yet active</span>
+            <span class="coming-soon-tag">Coming Soon</span>
+          </div>
         </div>
       </div>
-      <div class="table-wrap" id="tableWrap">
-        <div class="spinner-wrap"><div class="spinner"></div></div>
-      </div>`;
 
-    await loadQuotes();
-  }
-
-  async function loadQuotes() {
-    const { data, error } = await sb
-      .from('motor_quotes')
-      .select('*')
-      .order('submitted_at', { ascending: false });
-
-    if (error) {
-      document.getElementById('tableWrap').innerHTML =
-        `<p class="table-empty">Failed to load quotes: ${error.message}</p>`;
-      return;
-    }
-
-    allQuotes = data || [];
-    updateStats();
-    renderTable();
-  }
-
-  function updateStats() {
-    document.getElementById('statTotal').textContent    = allQuotes.length;
-    document.getElementById('statPending').textContent  = allQuotes.filter(q => q.status === 'pending').length;
-    document.getElementById('statApproved').textContent = allQuotes.filter(q => q.status === 'approved').length;
-    document.getElementById('statRejected').textContent = allQuotes.filter(q => q.status === 'rejected').length;
-  }
-
-  function setFilter(filter, btn) {
-    activeFilter = filter;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderTable();
-  }
-
-  function renderTable() {
-    const rows = activeFilter === 'all'
-      ? allQuotes
-      : allQuotes.filter(q => q.status === activeFilter);
-
-    if (rows.length === 0) {
-      document.getElementById('tableWrap').innerHTML =
-        `<p class="table-empty">No ${activeFilter !== 'all' ? '"' + activeFilter + '" ' : ''}quotes yet.</p>`;
-      return;
-    }
-
-    document.getElementById('tableWrap').innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>Ref</th><th>Name</th><th>Contact</th>
-            <th>Vehicle</th><th>Type</th><th>Status</th><th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${rows.map(q => `
-            <tr onclick="openModal('${q.id}')" style="cursor:pointer;">
-              <td class="mono">${q.ref}</td>
-              <td>${esc(q.first_name)} ${esc(q.last_name)}</td>
-              <td class="muted" style="font-size:0.76rem;">${esc(q.email)}<br>${esc(q.phone)}</td>
-              <td class="muted">${esc(q.vehicle_category)}</td>
-              <td><span class="badge badge-${q.policy_type}">${q.policy_type}</span></td>
-              <td><span class="badge badge-${q.status}">${q.status}</span></td>
-              <td class="muted">${formatDate(q.submitted_at)}</td>
-            </tr>`).join('')}
-        </tbody>
-      </table>`;
-  }
-
-  // ── Quote modal ───────────────────────────────────────────────────────────
-  function openModal(id) {
-    const q = allQuotes.find(r => r.id === id);
-    if (!q) return;
-
-    document.getElementById('modalTitle').textContent = `Quote — ${q.ref}`;
-    document.getElementById('modalBody').innerHTML = `
-      <div class="detail-item">
-        <p class="detail-key">First Name</p><p class="detail-val">${esc(q.first_name)}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Last Name</p><p class="detail-val">${esc(q.last_name)}</p>
-      </div>
-      <div class="detail-item full">
-        <p class="detail-key">Email</p><p class="detail-val">${esc(q.email)}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Phone</p><p class="detail-val">${esc(q.phone)}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Date of Birth</p><p class="detail-val">${q.date_of_birth || '—'}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Experience</p>
-        <p class="detail-val">${q.experience_years} yr${q.experience_years !== 1 ? 's' : ''}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Policy Type</p><p class="detail-val">${q.policy_type}</p>
-      </div>
-      <div class="detail-item full">
-        <p class="detail-key">Vehicle Category</p><p class="detail-val">${esc(q.vehicle_category)}</p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Status</p>
-        <p class="detail-val"><span class="badge badge-${q.status}">${q.status}</span></p>
-      </div>
-      <div class="detail-item">
-        <p class="detail-key">Submitted</p><p class="detail-val">${formatDate(q.submitted_at)}</p>
-      </div>`;
-
-    // Actions shown while pending — approve flow defined later
-    const actions = document.getElementById('modalActions');
-    if (q.status === 'pending') {
-      actions.innerHTML = `
-        <button class="modal-btn secondary" onclick="closeModal()">Close</button>`;
-    } else {
-      actions.innerHTML = `<button class="modal-btn secondary" onclick="closeModal()">Close</button>`;
-    }
-
-    document.getElementById('modalBackdrop').classList.add('open');
-  }
-
-  function closeModal() { document.getElementById('modalBackdrop').classList.remove('open'); }
-  function closeModalOnBackdrop(e) {
-    if (e.target === document.getElementById('modalBackdrop')) closeModal();
-  }
-
-  async function updateStatus(id, status) {
-    const { error } = await sb.from('motor_quotes').update({ status }).eq('id', id);
-    if (error) { alert('Failed to update: ' + error.message); return; }
-    const q = allQuotes.find(r => r.id === id);
-    if (q) q.status = status;
-    closeModal();
-    updateStats();
-    renderTable();
-  }
-
-  // ── Admin Invites page ────────────────────────────────────────────────────
-  let allInvites = [];
-
-  async function renderInvitesPage() {
-    document.getElementById('mainContent').innerHTML = `
-      <p class="page-title">Admin Invites</p>
-      <p class="page-sub">Invite people to create an admin account. Only invited emails can sign up.</p>
-
-      <div class="invite-form">
-        <div class="field">
-          <label>Email Address</label>
-          <input type="email" id="inviteEmail" placeholder="colleague@dovenest.com" autocomplete="off"
-                 onkeydown="if(event.key==='Enter') addInvite()">
-          <p class="invite-error" id="inviteError" style="display:none;"></p>
+      <div class="table-card">
+        <div class="table-card-header">
+          <span>Recent Submissions</span>
+          <a href="quotes.html">View all →</a>
         </div>
-        <button class="add-invite-btn" id="addInviteBtn" onclick="addInvite()">
-          + Add Invite
-        </button>
+        <div id="recentWrap">
+          <div style="display:flex;justify-content:center;padding:36px;">
+            <div class="spinner"></div>
+          </div>
+        </div>
       </div>
+    </main>
+  </div>
+</div>
 
-      <div class="section-header">
-        <p class="section-title">Invited Accounts</p>
-      </div>
-      <div class="table-wrap" id="inviteTableWrap">
-        <div class="spinner-wrap"><div class="spinner"></div></div>
-      </div>`;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient(
+  'https://tbokejycxpaefpccynbh.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+);
 
-    await loadInvites();
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('login.html'); return; }
+  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+
+  const email = session.user.email;
+  document.getElementById('userEmail').textContent = email;
+  const hour = new Date().getHours();
+  const tod  = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+  document.getElementById('greetLine').textContent = `Good ${tod}, ${email}`;
+
+  document.getElementById('guard').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  loadData();
+})();
+
+async function handleSignout() {
+  await sb.auth.signOut();
+  window.location.replace('login.html');
+}
+
+async function loadData() {
+  const { data } = await sb.from('motor_quotes').select('id,ref,first_name,last_name,status,submitted_at').order('submitted_at', { ascending: false });
+  if (!data) return;
+
+  const total    = data.length;
+  const pending  = data.filter(q => q.status === 'pending').length;
+  const approved = data.filter(q => q.status === 'approved').length;
+  const rejected = data.filter(q => q.status === 'rejected').length;
+
+  document.getElementById('statTotal').textContent    = total;
+  document.getElementById('statPending').textContent  = pending;
+  document.getElementById('statApproved').textContent = approved;
+  document.getElementById('statRejected').textContent = rejected;
+  document.getElementById('pendingLabel').textContent = `${pending} pending`;
+
+  const recent = data.slice(0, 6);
+  if (recent.length === 0) {
+    document.getElementById('recentWrap').innerHTML = '<p style="padding:36px;text-align:center;font-size:0.82rem;color:rgba(255,255,255,0.35);">No quotes submitted yet.</p>';
+    return;
   }
 
-  async function loadInvites() {
-    const { data, error } = await sb
-      .from('admin_invites')
-      .select('*')
-      .order('invited_at', { ascending: false });
+  document.getElementById('recentWrap').innerHTML = `
+    <table>
+      <thead><tr><th>Ref</th><th>Name</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+        ${recent.map(q => `
+          <tr onclick="window.location='quote.html?id=${q.id}'" style="cursor:pointer;">
+            <td class="mono">${esc(q.ref)}</td>
+            <td>${esc(q.first_name)} ${esc(q.last_name)}</td>
+            <td><span class="badge badge-${q.status}">${q.status}</span></td>
+            <td class="muted">${fmtDate(q.submitted_at)}</td>
+            <td style="text-align:right;"><span style="font-size:0.75rem;font-weight:600;color:var(--gold);">View →</span></td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
 
-    if (error) {
-      document.getElementById('inviteTableWrap').innerHTML =
-        `<p class="table-empty">Failed to load invites: ${error.message}</p>`;
-      return;
-    }
-
-    allInvites = data || [];
-    renderInvitesTable();
-  }
-
-  function renderInvitesTable() {
-    if (allInvites.length === 0) {
-      document.getElementById('inviteTableWrap').innerHTML =
-        `<p class="table-empty">No invites yet. Add one above.</p>`;
-      return;
-    }
-
-    document.getElementById('inviteTableWrap').innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>Email</th><th>Invited By</th><th>Invited At</th><th>Status</th><th></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${allInvites.map(inv => `
-            <tr>
-              <td>${esc(inv.email)}</td>
-              <td class="muted">${esc(inv.invited_by || '—')}</td>
-              <td class="muted">${formatDate(inv.invited_at)}</td>
-              <td>
-                <span class="badge ${inv.used_at ? 'badge-used' : 'badge-open'}">
-                  ${inv.used_at ? 'Used' : 'Open'}
-                </span>
-              </td>
-              <td style="text-align:right;">
-                ${!inv.used_at ? `<button onclick="revokeInvite('${inv.email}')"
-                  style="font-size:0.72rem;font-weight:600;color:rgba(239,68,68,0.7);background:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;padding:2px 6px;border-radius:4px;transition:color 0.15s;"
-                  onmouseover="this.style.color='#fca5a5'" onmouseout="this.style.color='rgba(239,68,68,0.7)'">
-                  Revoke
-                </button>` : ''}
-              </td>
-            </tr>`).join('')}
-        </tbody>
-      </table>`;
-  }
-
-  async function addInvite() {
-    const emailEl = document.getElementById('inviteEmail');
-    const errEl   = document.getElementById('inviteError');
-    const btn     = document.getElementById('addInviteBtn');
-    const email   = emailEl.value.trim().toLowerCase();
-
-    errEl.style.display = 'none';
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      errEl.textContent = 'Please enter a valid email address.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (allInvites.some(i => i.email === email)) {
-      errEl.textContent = 'This email already has an invite.';
-      errEl.style.display = 'block';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.textContent = 'Adding…';
-
-    const { error } = await sb.from('admin_invites').insert({
-      email,
-      invited_by: currentUserEmail,
-    });
-
-    btn.disabled = false;
-    btn.textContent = '+ Add Invite';
-
-    if (error) {
-      errEl.textContent = error.message;
-      errEl.style.display = 'block';
-      return;
-    }
-
-    emailEl.value = '';
-    await loadInvites();
-  }
-
-  async function revokeInvite(email) {
-    if (!confirm(`Revoke invite for ${email}?`)) return;
-    const { error } = await sb.from('admin_invites').delete().eq('email', email);
-    if (error) { alert('Failed to revoke: ' + error.message); return; }
-    await loadInvites();
-  }
-
-  // ── Helpers ───────────────────────────────────────────────────────────────
-  function esc(str) {
-    return String(str || '')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function formatDate(iso) {
-    if (!iso) return '—';
-    const d = new Date(iso);
-    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-      + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-  }
-  </script>
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+</script>
 </body>
 </html>
