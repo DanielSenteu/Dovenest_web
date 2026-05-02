@@ -1102,6 +1102,247 @@
         .team-works-wrap { padding: 2rem 1.5rem; }
     }
 
+    /* ── Review modal trigger button ── */
+    .rv-trigger-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 1.6rem;
+        padding: 0.72rem 2rem;
+        background: transparent;
+        border: 2px solid #E8A020;
+        color: #E8A020;
+        border-radius: 50px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        letter-spacing: 0.01em;
+    }
+    .rv-trigger-btn:hover { background: #E8A020; color: #fff; }
+
+    /* ── Review modal backdrop ── */
+    .rv-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(8,55,95,0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+    }
+    .rv-backdrop.open { opacity: 1; pointer-events: all; }
+
+    .rv-modal {
+        background: #fff;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+        transform: translateY(14px) scale(0.98);
+        transition: transform 0.25s ease;
+    }
+    .rv-backdrop.open .rv-modal { transform: translateY(0) scale(1); }
+
+    .rv-modal-head {
+        background: #08375f;
+        padding: 24px 28px 22px;
+        border-radius: 20px 20px 0 0;
+        position: relative;
+    }
+    .rv-modal-head h3 { color: #fff; font-size: 1.05rem; font-weight: 700; margin-bottom: 3px; }
+    .rv-modal-head p  { color: rgba(255,255,255,0.55); font-size: 0.78rem; }
+    .rv-close {
+        position: absolute;
+        top: 16px; right: 18px;
+        width: 30px; height: 30px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        border: none;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+    }
+    .rv-close:hover { background: rgba(255,255,255,0.2); }
+
+    .rv-body { padding: 24px 28px 28px; }
+
+    /* Type toggle */
+    .rv-toggle {
+        display: flex;
+        background: #f1f5f9;
+        border-radius: 10px;
+        padding: 4px;
+        gap: 4px;
+        margin-bottom: 20px;
+    }
+    .rv-toggle-btn {
+        flex: 1;
+        padding: 9px;
+        border-radius: 7px;
+        border: none;
+        background: none;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.83rem;
+        font-weight: 600;
+        color: #64748b;
+        cursor: pointer;
+        transition: all 0.15s;
+    }
+    .rv-toggle-btn.active { background: #fff; color: #08375f; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+
+    /* Fields */
+    .rv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .rv-field { margin-bottom: 16px; }
+    .rv-field:last-child { margin-bottom: 0; }
+    .rv-field label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 6px;
+        letter-spacing: 0.02em;
+    }
+    .rv-field input {
+        width: 100%;
+        padding: 0.65rem 0.9rem;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 9px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.875rem;
+        color: #0A2A4A;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .rv-field input::placeholder { color: #94a3b8; }
+    .rv-field input:focus { border-color: #E8A020; box-shadow: 0 0 0 3px rgba(232,160,32,0.12); }
+    .rv-field input.rv-err { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+    .rv-field .rv-err-msg { font-size: 0.72rem; color: #ef4444; margin-top: 4px; display: none; }
+    .rv-field .rv-err-msg.show { display: block; }
+
+    /* Business fields */
+    .rv-biz-fields {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease;
+    }
+    .rv-biz-fields.open { max-height: 160px; opacity: 1; }
+
+    /* Star rating */
+    .rv-stars-section { margin-bottom: 20px; }
+    .rv-stars-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 10px;
+        letter-spacing: 0.02em;
+    }
+    .rv-stars {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+    .rv-star {
+        width: 38px; height: 38px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: #cbd5e1;
+        transition: color 0.15s, transform 0.1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .rv-star:hover, .rv-star.lit { color: #E8A020; transform: scale(1.12); }
+    .rv-star svg { width: 30px; height: 30px; fill: currentColor; }
+    .rv-stars-hint {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-left: 10px;
+    }
+    .rv-stars-err { font-size: 0.72rem; color: #ef4444; margin-top: 5px; display: none; }
+    .rv-stars-err.show { display: block; }
+
+    /* Submit button */
+    .rv-submit {
+        width: 100%;
+        padding: 0.85rem;
+        background: #E8A020;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s, opacity 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 22px;
+    }
+    .rv-submit:hover:not(:disabled) { background: #d4911a; }
+    .rv-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .rv-submit .rv-spinner {
+        display: none;
+        width: 15px; height: 15px;
+        border: 2px solid rgba(255,255,255,0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: rvSpin 0.7s linear infinite;
+    }
+    .rv-submit.loading .rv-spinner { display: block; }
+    .rv-submit.loading .rv-submit-label { display: none; }
+    @keyframes rvSpin { to { transform: rotate(360deg); } }
+
+    .rv-general-err {
+        background: rgba(239,68,68,0.08);
+        border: 1px solid rgba(239,68,68,0.25);
+        border-radius: 8px;
+        padding: 9px 13px;
+        font-size: 0.78rem;
+        color: #ef4444;
+        margin-bottom: 14px;
+        display: none;
+    }
+    .rv-general-err.show { display: block; }
+
+    /* Success state */
+    .rv-success { display: none; padding: 40px 28px 36px; text-align: center; }
+    .rv-success .rv-check {
+        width: 64px; height: 64px;
+        border-radius: 50%;
+        background: rgba(34,197,94,0.1);
+        border: 1px solid rgba(34,197,94,0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+    }
+    .rv-success .rv-check svg { color: #22c55e; }
+    .rv-success h4 { font-size: 1.1rem; font-weight: 700; color: #08375f; margin-bottom: 8px; }
+    .rv-success p  { font-size: 0.85rem; color: #64748b; line-height: 1.7; }
+
+    /* honeypot */
+    .rv-hp { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+
     </style>
     <link rel="stylesheet" href="shared-site.css">
 </head>
@@ -1414,6 +1655,10 @@
         <h2 class="section-title">What <span>People Say</span></h2>
         <p style="font-size:0.97rem;color:#64748b;line-height:1.8;margin-top:0.9rem;">Real words from real Kenyans we've protected.</p>
         <div class="gold-rule"></div>
+        <button class="rv-trigger-btn" onclick="openReviewModal()">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+          Share Your Experience
+        </button>
     </div>
 
     <div class="testi-row">
@@ -1784,6 +2029,270 @@
         });
     }, { threshold: 0.3 });
     statNums.forEach(el => statObserver.observe(el));
+
+}());
+</script>
+
+<!-- ═══════════════════════════════════════════════════
+     REVIEW MODAL
+═══════════════════════════════════════════════════ -->
+<div class="rv-backdrop" id="rvBackdrop" onclick="closeReviewOnBackdrop(event)">
+  <div class="rv-modal" id="rvModal" role="dialog" aria-modal="true" aria-label="Share your experience">
+
+    <div class="rv-modal-head">
+      <h3>Share Your Experience</h3>
+      <p>We'd love to hear how DoveNest has served you.</p>
+      <button class="rv-close" onclick="closeReviewModal()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Form view -->
+    <div class="rv-body" id="rvFormBody">
+      <div class="rv-general-err" id="rvGenErr"></div>
+
+      <!-- Honeypot -->
+      <input class="rv-hp" type="text" name="website" id="rvHp" tabindex="-1" autocomplete="off">
+
+      <!-- Individual / Business toggle -->
+      <div class="rv-toggle" role="group" aria-label="Client type">
+        <button class="rv-toggle-btn active" id="btnInd" onclick="setType('individual')">Individual</button>
+        <button class="rv-toggle-btn"        id="btnBiz" onclick="setType('business')">Business</button>
+      </div>
+
+      <!-- Name row -->
+      <div class="rv-row">
+        <div class="rv-field">
+          <label>First Name <span style="color:#E8A020">*</span></label>
+          <input type="text" id="rvFirst" placeholder="Jane" maxlength="60" autocomplete="given-name">
+          <p class="rv-err-msg" id="errFirst">Required</p>
+        </div>
+        <div class="rv-field">
+          <label>Last Name <span style="color:#E8A020">*</span></label>
+          <input type="text" id="rvLast" placeholder="Doe" maxlength="60" autocomplete="family-name">
+          <p class="rv-err-msg" id="errLast">Required</p>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="rv-field">
+        <label>Email Address <span style="color:#E8A020">*</span></label>
+        <input type="email" id="rvEmail" placeholder="jane@example.com" maxlength="100" autocomplete="email">
+        <p class="rv-err-msg" id="errEmail">Enter a valid email address</p>
+      </div>
+
+      <!-- Phone -->
+      <div class="rv-field">
+        <label>Phone Number <span style="color:#E8A020">*</span></label>
+        <input type="tel" id="rvPhone" placeholder="0712 345 678" maxlength="10" inputmode="tel" autocomplete="tel">
+        <p class="rv-err-msg" id="errPhone">Enter a valid Kenyan number (e.g. 0712345678)</p>
+      </div>
+
+      <!-- Business-only fields -->
+      <div class="rv-biz-fields" id="rvBizFields">
+        <div class="rv-field">
+          <label>Company Name <span style="color:#E8A020">*</span></label>
+          <input type="text" id="rvCompany" placeholder="Acme Ltd" maxlength="120">
+          <p class="rv-err-msg" id="errCompany">Required for business accounts</p>
+        </div>
+        <div class="rv-field">
+          <label>Your Position <span style="color:#E8A020">*</span></label>
+          <input type="text" id="rvPosition" placeholder="Finance Director" maxlength="100">
+          <p class="rv-err-msg" id="errPosition">Required for business accounts</p>
+        </div>
+      </div>
+
+      <!-- Star rating -->
+      <div class="rv-stars-section">
+        <p class="rv-stars-label">Rating <span style="color:#E8A020">*</span></p>
+        <div class="rv-stars" id="rvStars" role="group" aria-label="Star rating">
+          <button class="rv-star" data-val="1" onclick="selectStar(1)" onmouseover="hoverStar(1)" onmouseout="hoverStar(0)" aria-label="1 star" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
+          <button class="rv-star" data-val="2" onclick="selectStar(2)" onmouseover="hoverStar(2)" onmouseout="hoverStar(0)" aria-label="2 stars" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
+          <button class="rv-star" data-val="3" onclick="selectStar(3)" onmouseover="hoverStar(3)" onmouseout="hoverStar(0)" aria-label="3 stars" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
+          <button class="rv-star" data-val="4" onclick="selectStar(4)" onmouseover="hoverStar(4)" onmouseout="hoverStar(0)" aria-label="4 stars" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
+          <button class="rv-star" data-val="5" onclick="selectStar(5)" onmouseover="hoverStar(5)" onmouseout="hoverStar(0)" aria-label="5 stars" type="button">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </button>
+          <span class="rv-stars-hint" id="rvStarsHint">Tap a star</span>
+        </div>
+        <p class="rv-stars-err" id="errStars">Please select a rating</p>
+      </div>
+
+      <button class="rv-submit" id="rvSubmitBtn" onclick="submitReview()" type="button">
+        <span class="rv-spinner"></span>
+        <span class="rv-submit-label">Submit Review</span>
+      </button>
+    </div>
+
+    <!-- Success view -->
+    <div class="rv-success" id="rvSuccess">
+      <div class="rv-check">
+        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h4>Thank you for your review!</h4>
+      <p>We appreciate you taking the time to share your experience. Your feedback helps us continue improving our service.</p>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  const sbReview = window.supabase.createClient(
+    'https://tbokejycxpaefpccynbh.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+  );
+
+  let reviewType   = 'individual';
+  let selectedStar = 0;
+
+  const starLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+
+  /* ── Modal open / close ── */
+  window.openReviewModal = function () {
+    document.getElementById('rvBackdrop').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+  window.closeReviewModal = function () {
+    document.getElementById('rvBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  window.closeReviewOnBackdrop = function (e) {
+    if (e.target === document.getElementById('rvBackdrop')) closeReviewModal();
+  };
+
+  /* ── Type toggle ── */
+  window.setType = function (type) {
+    reviewType = type;
+    document.getElementById('btnInd').classList.toggle('active', type === 'individual');
+    document.getElementById('btnBiz').classList.toggle('active', type === 'business');
+    document.getElementById('rvBizFields').classList.toggle('open', type === 'business');
+  };
+
+  /* ── Star rating ── */
+  window.hoverStar = function (n) {
+    const val = n === 0 ? selectedStar : n;
+    document.querySelectorAll('.rv-star').forEach((s, i) => s.classList.toggle('lit', i < val));
+    document.getElementById('rvStarsHint').textContent = n > 0 ? starLabels[n] : (selectedStar > 0 ? starLabels[selectedStar] : 'Tap a star');
+  };
+  window.selectStar = function (n) {
+    selectedStar = n;
+    hoverStar(0);
+    document.getElementById('errStars').classList.remove('show');
+  };
+
+  /* ── Phone normalization ── */
+  function normalizePhone(val) {
+    const hasPlus = val.trim().startsWith('+');
+    const digits  = val.trim().replace(/\D/g, '');
+    if (digits.startsWith('0') && digits.length === 10) return '+254' + digits.slice(1);
+    if (digits.startsWith('254') && digits.length === 12) return '+' + digits;
+    if (hasPlus && digits.length >= 9) return '+' + digits;
+    return (hasPlus ? '+' : '') + digits;
+  }
+
+  document.getElementById('rvPhone').addEventListener('blur', function () {
+    if (this.value.trim()) this.value = normalizePhone(this.value);
+  });
+
+  /* ── Validation helpers ── */
+  function showErr(fieldId, msgId) {
+    document.getElementById(fieldId).classList.add('rv-err');
+    document.getElementById(msgId).classList.add('show');
+    return false;
+  }
+  function clearErr(fieldId, msgId) {
+    document.getElementById(fieldId).classList.remove('rv-err');
+    document.getElementById(msgId).classList.remove('show');
+  }
+  ['rvFirst','rvLast','rvEmail','rvPhone','rvCompany','rvPosition'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => {
+      const errMap = { rvFirst:'errFirst', rvLast:'errLast', rvEmail:'errEmail', rvPhone:'errPhone', rvCompany:'errCompany', rvPosition:'errPosition' };
+      clearErr(id, errMap[id]);
+    });
+  });
+
+  /* ── Submit ── */
+  window.submitReview = async function () {
+    // Honeypot
+    if (document.getElementById('rvHp').value.trim().length > 0) {
+      showSuccessView(); return;
+    }
+
+    const genErr = document.getElementById('rvGenErr');
+    genErr.classList.remove('show');
+
+    const firstName   = document.getElementById('rvFirst').value.trim();
+    const lastName    = document.getElementById('rvLast').value.trim();
+    const email       = document.getElementById('rvEmail').value.trim().toLowerCase();
+    const phone       = document.getElementById('rvPhone').value.trim();
+    const companyName = document.getElementById('rvCompany').value.trim();
+    const position    = document.getElementById('rvPosition').value.trim();
+
+    let valid = true;
+    if (!firstName)                          { showErr('rvFirst',  'errFirst');  valid = false; }
+    if (!lastName)                           { showErr('rvLast',   'errLast');   valid = false; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))
+                                             { showErr('rvEmail',  'errEmail');  valid = false; }
+    if (!phone || !/^\+\d{9,15}$/.test(phone))
+                                             { showErr('rvPhone',  'errPhone');  valid = false; }
+    if (reviewType === 'business') {
+      if (!companyName) { showErr('rvCompany',  'errCompany');  valid = false; }
+      if (!position)    { showErr('rvPosition', 'errPosition'); valid = false; }
+    }
+    if (selectedStar === 0) {
+      document.getElementById('errStars').classList.add('show');
+      valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('rvSubmitBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    const row = {
+      first_name:   firstName,
+      last_name:    lastName,
+      type:         reviewType,
+      email,
+      phone,
+      rating:       selectedStar,
+      company_name: reviewType === 'business' ? companyName : null,
+      position:     reviewType === 'business' ? position    : null,
+    };
+
+    const { error } = await sbReview.from('reviews').insert(row);
+
+    btn.classList.remove('loading');
+    btn.disabled = false;
+
+    if (error) {
+      genErr.textContent = 'Something went wrong. Please try again.';
+      genErr.classList.add('show');
+      return;
+    }
+
+    showSuccessView();
+  };
+
+  function showSuccessView() {
+    document.getElementById('rvFormBody').style.display = 'none';
+    document.getElementById('rvSuccess').style.display = 'block';
+    setTimeout(closeReviewModal, 4000);
+  }
+
+  /* ── Keyboard close ── */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeReviewModal();
+  });
 
 }());
 </script>
