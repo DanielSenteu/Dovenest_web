@@ -668,6 +668,23 @@
                   <span class="field-error">Enter a valid whole number (0 – 70).</span>
                 </div>
               </div>
+
+              <!-- Email + Phone row -->
+              <div class="field-row">
+                <div class="field-group" id="fg-email">
+                  <label for="emailInput">Email Address <span class="req">*</span></label>
+                  <input class="qf-input" type="email" id="emailInput" name="email"
+                         placeholder="e.g. john@email.com" autocomplete="email" inputmode="email">
+                  <span class="field-error">Please enter a valid email address.</span>
+                </div>
+                <div class="field-group" id="fg-phone">
+                  <label for="phoneInput">Phone Number <span class="req">*</span></label>
+                  <input class="qf-input" type="tel" id="phoneInput" name="phone"
+                         placeholder="e.g. 0712 345 678" autocomplete="tel" inputmode="tel">
+                  <span class="field-hint">Kenyan or international number</span>
+                  <span class="field-error">Please enter a valid phone number.</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -763,6 +780,12 @@
             <span class="check-item" id="chk-exp">
               <span class="check-dot"></span>Driving experience
             </span>
+            <span class="check-item" id="chk-email">
+              <span class="check-dot"></span>Email address
+            </span>
+            <span class="check-item" id="chk-phone">
+              <span class="check-dot"></span>Phone number
+            </span>
             <span class="check-item" id="chk-vehicle">
               <span class="check-dot"></span>Vehicle category
             </span>
@@ -816,6 +839,8 @@
       last_name:        '',
       date_of_birth:    '',
       experience_years: null,
+      email:            '',
+      phone:            '',
       vehicle_category: null,
     };
 
@@ -838,6 +863,8 @@
     const chkName    = document.getElementById('chk-name');
     const chkDob     = document.getElementById('chk-dob');
     const chkExp     = document.getElementById('chk-exp');
+    const chkEmail   = document.getElementById('chk-email');
+    const chkPhone   = document.getElementById('chk-phone');
     const chkVehicle = document.getElementById('chk-vehicle');
 
     // ─── Flatpickr DOB ────────────────────────────────────────
@@ -914,25 +941,65 @@
       return Number.isInteger(n) && n >= 0 && n <= 70;
     }
 
+    // ─── Email normalization + validation ─────────────────────
+    function normalizeEmail(val) {
+      return val.trim().toLowerCase();
+    }
+    function isValidEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(normalizeEmail(val));
+    }
+
+    // ─── Phone normalization + validation ─────────────────────
+    // Handles: 07XX XXX XXX → +2547XX…  |  +254…  |  international
+    function normalizePhone(val) {
+      let v = val.trim();
+      // Remove formatting characters but keep leading +
+      const hasPlus = v.startsWith('+');
+      const digits  = v.replace(/\D/g, '');
+      // Kenyan local: 07XX or 01XX (10 digits starting with 0)
+      if (digits.startsWith('0') && digits.length === 10) {
+        return '+254' + digits.slice(1);
+      }
+      // Already country-coded without +: 254XXXXXXXXX
+      if (digits.startsWith('254') && digits.length === 12) {
+        return '+' + digits;
+      }
+      // Already fully international
+      if (hasPlus && digits.length >= 9) {
+        return '+' + digits;
+      }
+      // Return cleaned version for anything else
+      return (hasPlus ? '+' : '') + digits;
+    }
+    function isValidPhone(val) {
+      const n = normalizePhone(val);
+      // Must have + and at least 9 digits after it
+      return /^\+\d{9,15}$/.test(n);
+    }
+
     // ─── Master validate ──────────────────────────────────────
     function validateAll() {
-      const p = state.policy_type !== null;
-      const fn = state.first_name.trim().length > 0;
-      const ln = state.last_name.trim().length > 0;
+      const p   = state.policy_type !== null;
+      const fn  = state.first_name.trim().length > 0;
+      const ln  = state.last_name.trim().length > 0;
       const dob = state.date_of_birth !== '';
       const exp = isValidExperience(state.experience_years);
-      const vc = state.vehicle_category !== null;
+      const em  = isValidEmail(state.email);
+      const ph  = isValidPhone(state.phone);
+      const vc  = state.vehicle_category !== null;
 
       // Progress bar
-      const steps = [p, fn && ln, dob, exp, vc];
-      const done = steps.filter(Boolean).length;
+      const steps = [p, fn && ln, dob, exp, em, ph, vc];
+      const done  = steps.filter(Boolean).length;
       progressBar.style.width = `${(done / steps.length) * 100}%`;
 
       // Checklist indicators
       setCheckItem(chkPolicy, p);
-      setCheckItem(chkName, fn && ln);
-      setCheckItem(chkDob, dob);
-      setCheckItem(chkExp, exp);
+      setCheckItem(chkName,   fn && ln);
+      setCheckItem(chkDob,    dob);
+      setCheckItem(chkExp,    exp);
+      setCheckItem(chkEmail,  em);
+      setCheckItem(chkPhone,  ph);
       setCheckItem(chkVehicle, vc);
 
       // Progressive disclosure
@@ -944,7 +1011,7 @@
         chkPolicy.classList.remove('done');
       }
 
-      if (p && fn && ln && dob && exp) {
+      if (p && fn && ln && dob && exp && em && ph) {
         reveal(sec3Reveal);
         markDone(badge2, null);
       }
@@ -956,7 +1023,7 @@
       }
 
       // Enable submit only when ALL fields valid
-      const allValid = p && fn && ln && dob && exp && vc;
+      const allValid = p && fn && ln && dob && exp && em && ph && vc;
       submitBtn.disabled = !allValid;
     }
 
@@ -1001,6 +1068,34 @@
       e.preventDefault();
     });
 
+    // Email — normalize to lowercase on blur
+    const emailInput = document.getElementById('emailInput');
+    emailInput.addEventListener('input', e => {
+      state.email = e.target.value;
+      validateAll();
+    });
+    emailInput.addEventListener('blur', e => {
+      const normalized = normalizeEmail(e.target.value);
+      e.target.value = normalized;
+      state.email = normalized;
+      validateAll();
+    });
+
+    // Phone — normalize to international format on blur
+    const phoneInput = document.getElementById('phoneInput');
+    phoneInput.addEventListener('input', e => {
+      state.phone = e.target.value;
+      validateAll();
+    });
+    phoneInput.addEventListener('blur', e => {
+      if (e.target.value.trim()) {
+        const normalized = normalizePhone(e.target.value);
+        e.target.value = normalized;
+        state.phone = normalized;
+        validateAll();
+      }
+    });
+
     // Vehicle category
     document.querySelectorAll('input[name="vehicle_category"]').forEach(radio => {
       radio.addEventListener('change', e => {
@@ -1041,6 +1136,8 @@
         last_name:        state.last_name.trim(),
         date_of_birth:    state.date_of_birth,
         experience_years: state.experience_years,
+        email:            normalizeEmail(state.email),
+        phone:            normalizePhone(state.phone),
         vehicle_category: state.vehicle_category,
       };
 

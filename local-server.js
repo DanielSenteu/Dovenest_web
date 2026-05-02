@@ -105,7 +105,21 @@ function validateMotorQuotePayload(body) {
     }
   }
 
-  // 6. Vehicle category
+  // 6. Email
+  if (!body.email || typeof body.email !== 'string') {
+    errors.push('email is required');
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(body.email.trim().toLowerCase())) {
+    errors.push('A valid email address is required');
+  }
+
+  // 7. Phone — must normalize to +XXXXXXXXX (9–15 digits after +)
+  if (!body.phone || typeof body.phone !== 'string') {
+    errors.push('phone is required');
+  } else if (!/^\+\d{9,15}$/.test(body.phone.trim())) {
+    errors.push('A valid phone number is required (e.g. +254712345678)');
+  }
+
+  // 8. Vehicle category
   if (!body.vehicle_category || !VALID_VEHICLE_CATEGORIES.includes(body.vehicle_category)) {
     errors.push('vehicle_category must be one of: ' + VALID_VEHICLE_CATEGORIES.join(', '));
   }
@@ -188,6 +202,8 @@ function saveToSupabase(quote) {
       last_name:        quote.last_name,
       date_of_birth:    quote.date_of_birth,
       experience_years: quote.experience_years,
+      email:            quote.email,
+      phone:            quote.phone,
       vehicle_category: quote.vehicle_category,
       source:           'server',
       status:           'new',
@@ -336,6 +352,8 @@ http.createServer(async (req, res) => {
       last_name:        body.last_name.trim(),
       date_of_birth:    body.date_of_birth,
       experience_years: Number(body.experience_years),
+      email:            body.email.trim().toLowerCase(),
+      phone:            body.phone.trim(),
       vehicle_category: body.vehicle_category,
     };
 
