@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — DoveNest Insurance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #04111f;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    /* background grid pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(232,160,32,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,160,32,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .card {
+      background: #0d2137;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .card-top {
+      padding: 32px 36px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .logo-row img {
+      height: 32px;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+    .admin-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #E8A020;
+      background: rgba(232,160,32,0.12);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(232,160,32,0.25);
+    }
+    .card-top h1 {
+      color: #fff;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .card-top p {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+    }
+    .card-body { padding: 28px 36px 32px; }
+
+    /* Steps */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* Form elements */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 7px;
+      letter-spacing: 0.02em;
+    }
+    .field input {
+      width: 100%;
+      padding: 0.72rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 9px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .field input::placeholder { color: rgba(255,255,255,0.25); }
+    .field input:focus {
+      border-color: #E8A020;
+      box-shadow: 0 0 0 3px rgba(232,160,32,0.12);
+    }
+
+    /* MFA code input */
+    .mfa-input {
+      text-align: center;
+      font-size: 1.6rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.3em !important;
+      padding: 0.9rem 1rem !important;
+    }
+    .mfa-hint {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Submit button */
+    .btn {
+      width: 100%;
+      padding: 0.88rem;
+      background: #E8A020;
+      color: #0d2137;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .btn:hover:not(:disabled) { background: #d4911a; transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn .spinner {
+      display: none;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #0d2137;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .btn.loading .spinner { display: block; }
+    .btn.loading .btn-label { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Error */
+    .error-box {
+      display: none;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: #fca5a5;
+      margin-bottom: 16px;
+    }
+    .error-box.show { display: block; }
+
+    /* Step indicator */
+    .step-indicator {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+    .step-dot {
+      height: 3px;
+      border-radius: 2px;
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      transition: background 0.3s;
+    }
+    .step-dot.done { background: #E8A020; }
+
+    .step-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+    }
+    .step-title span { color: #E8A020; }
+
+    .link-row {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+    .link-row a { color: #E8A020; text-decoration: none; font-weight: 600; }
+    .link-row a:hover { color: #d4911a; }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-top">
+      <div class="logo-row">
+        <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+        <span class="admin-badge">Admin</span>
+      </div>
+      <h1>Welcome back</h1>
+      <p>Sign in to the DoveNest admin panel</p>
+    </div>
+
+    <div class="card-body">
+      <div class="error-box" id="errorBox"></div>
+
+      <!-- STEP 1: Email + Password -->
+      <div class="step active" id="step1">
+        <div class="step-indicator">
+          <div class="step-dot done" id="dot1"></div>
+          <div class="step-dot" id="dot2"></div>
+        </div>
+        <p class="step-title"><span>Step 1</span> — Credentials</p>
+
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="you@dovenest.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <button class="btn" id="btnPassword" onclick="handlePassword()">
+          <span class="spinner"></span>
+          <span class="btn-label">Continue →</span>
+        </button>
+
+        <div class="link-row">
+          Don't have an account? <a href="signup.html">Sign up</a>
+        </div>
+      </div>
+
+      <!-- STEP 2: MFA Code -->
+      <div class="step" id="step2">
+        <div class="step-indicator">
+          <div class="step-dot done"></div>
+          <div class="step-dot done"></div>
+        </div>
+        <button class="back-btn" onclick="goBack()">← Back</button>
+        <p class="step-title"><span>Step 2</span> — Two-Factor Authentication</p>
+
+        <div class="field">
+          <label>Authenticator Code</label>
+          <input type="text" id="mfaCode" class="mfa-input" placeholder="000000"
+                 maxlength="6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+          <p class="mfa-hint">Open your authenticator app and enter the 6-digit code</p>
+        </div>
+
+        <button class="btn" id="btnMfa" onclick="handleMfa()">
+          <span class="spinner"></span>
+          <span class="btn-label">Verify & Sign In</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const sb = window.supabase.createClient(
+    'https://tbokejycxpaefpccynbh.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+  );
+
+  let factorId     = null;
+  let challengeId  = null;
+
+  // If already fully authenticated redirect straight to dashboard
+  (async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal.currentLevel === 'aal2') window.location.replace('dashboard.html');
+    }
+  })();
+
+  function showError(msg) {
+    const box = document.getElementById('errorBox');
+    box.textContent = msg;
+    box.classList.add('show');
+  }
+  function clearError() {
+    document.getElementById('errorBox').classList.remove('show');
+  }
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.classList.toggle('loading', loading);
+    btn.disabled = loading;
+  }
+  function goBack() {
+    clearError();
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
+  }
+
+  // Allow Enter key to submit
+  document.getElementById('loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handlePassword();
+  });
+  document.getElementById('mfaCode').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleMfa();
+  });
+  // Auto-submit when 6 digits entered
+  document.getElementById('mfaCode').addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    if (e.target.value.length === 6) handleMfa();
+  });
+
+  async function handlePassword() {
+    clearError();
+    const email    = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if (!email || !password) { showError('Please enter your email and password.'); return; }
+
+    setLoading('btnPassword', true);
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    setLoading('btnPassword', false);
+
+    if (error) { showError(error.message); return; }
+
+    // Check if MFA is required
+    const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal.nextLevel === 'aal2') {
+      // Get TOTP factor
+      const { data: factors } = await sb.auth.mfa.listFactors();
+      const totp = factors.totp[0];
+      if (!totp) { showError('No MFA factor found. Please sign up again.'); return; }
+      factorId = totp.id;
+
+      // Create challenge
+      const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId });
+      if (cErr) { showError(cErr.message); return; }
+      challengeId = challenge.id;
+
+      // Show MFA step
+      document.getElementById('step1').classList.remove('active');
+      document.getElementById('step2').classList.add('active');
+      setTimeout(() => document.getElementById('mfaCode').focus(), 100);
+    } else {
+      window.location.replace('dashboard.html');
+    }
+  }
+
+  async function handleMfa() {
+    clearError();
+    const code = document.getElementById('mfaCode').value.trim();
+    if (code.length !== 6) { showError('Please enter the 6-digit code from your authenticator app.'); return; }
+
+    setLoading('btnMfa', true);
+    const { error } = await sb.auth.mfa.verify({ factorId, challengeId, code });
+    setLoading('btnMfa', false);
+
+    if (error) {
+      showError('Invalid code. Please try again.');
+      document.getElementById('mfaCode').value = '';
+      document.getElementById('mfaCode').focus();
+      return;
+    }
+    window.location.replace('dashboard.html');
+  }
+  </script>
+</body>
+</html>

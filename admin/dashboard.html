@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — DoveNest Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #04111f;
+      --surface: #0d2137;
+      --border:  rgba(255,255,255,0.07);
+      --gold:    #E8A020;
+      --gold-dim: rgba(232,160,32,0.12);
+      --text:    #e8f0f8;
+      --muted:   rgba(255,255,255,0.45);
+      --sidebar: 220px;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      height: 56px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-right: auto;
+    }
+    .topbar-logo img {
+      height: 26px;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+    .topbar-logo .admin-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--gold-dim);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid rgba(232,160,32,0.25);
+    }
+    .topbar-email {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .signout-btn {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+
+    /* ── Body layout ── */
+    .layout {
+      display: flex;
+      flex: 1;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      flex-shrink: 0;
+    }
+    .nav-section {
+      padding: 0 12px;
+      margin-bottom: 24px;
+    }
+    .nav-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+      border: none;
+      background: none;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+      text-align: left;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: var(--gold-dim); color: var(--gold); }
+    .nav-item svg { flex-shrink: 0; }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      padding: 28px 32px;
+      overflow-x: hidden;
+    }
+    .page-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── Stat cards ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+    .stat-card.highlight .stat-value { color: var(--gold); }
+
+    /* ── Table section ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      flex: 1;
+    }
+    .filter-row {
+      display: flex;
+      gap: 8px;
+    }
+    .filter-btn {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
+    .filter-btn.active { background: var(--gold-dim); border-color: rgba(232,160,32,0.35); color: var(--gold); }
+
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      padding: 12px 16px;
+      text-align: left;
+    }
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.1s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    td {
+      font-size: 0.82rem;
+      padding: 13px 16px;
+      color: var(--text);
+    }
+    td.muted { color: var(--muted); }
+    td.mono { font-family: monospace; font-size: 0.78rem; color: var(--muted); }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge-new     { background: rgba(232,160,32,0.15); color: #E8A020; }
+    .badge-contacted { background: rgba(59,130,246,0.15); color: #93c5fd; }
+    .badge-closed  { background: rgba(34,197,94,0.15); color: #86efac; }
+    .badge-personal { background: rgba(167,139,250,0.12); color: #c4b5fd; }
+    .badge-business { background: rgba(251,191,36,0.12); color: #fde68a; }
+
+    .table-empty {
+      padding: 48px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ── Loading spinner ── */
+    .spinner-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 48px;
+    }
+    .spinner {
+      width: 28px; height: 28px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Row detail modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      padding: 28px;
+      position: relative;
+      animation: fadeUp 0.2s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      background: none; border: none;
+      color: var(--muted); cursor: pointer;
+      font-size: 1.2rem; line-height: 1;
+      transition: color 0.15s;
+    }
+    .modal-close:hover { color: #fff; }
+    .modal-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .detail-item { }
+    .detail-item.full { grid-column: 1 / -1; }
+    .detail-key {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 3px;
+    }
+    .detail-val {
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .modal-btn {
+      flex: 1;
+      padding: 0.65rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .modal-btn.primary {
+      background: var(--gold);
+      color: #0d2137;
+      border-color: var(--gold);
+    }
+    .modal-btn.primary:hover { background: #d4911a; }
+    .modal-btn.secondary {
+      background: none;
+      color: var(--muted);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .modal-btn.secondary:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+
+    /* ── Page guard ── */
+    #guard { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    #app   { display: none; flex-direction: column; min-height: 100vh; }
+  </style>
+</head>
+<body>
+
+  <!-- Auth guard — shown while checking session -->
+  <div id="guard">
+    <div style="text-align:center;">
+      <div class="spinner" style="margin:0 auto 16px;"></div>
+      <p style="font-size:0.82rem; color:rgba(255,255,255,0.4);">Verifying session…</p>
+    </div>
+  </div>
+
+  <!-- Dashboard (shown after AAL2 confirmed) -->
+  <div id="app">
+    <!-- Top bar -->
+    <header class="topbar">
+      <a class="topbar-logo" href="#">
+        <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+        <span class="admin-badge">Admin</span>
+      </a>
+      <span class="topbar-email" id="userEmail"></span>
+      <button class="signout-btn" onclick="handleSignout()">Sign out</button>
+    </header>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="nav-section">
+          <p class="nav-label">Quotes</p>
+          <button class="nav-item active" onclick="switchPage('motor')">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+            Motor Quotes
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main -->
+      <main class="main" id="mainContent">
+        <!-- injected by JS -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Row detail modal -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="closeModalOnBackdrop(event)">
+    <div class="modal" id="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <p class="modal-title" id="modalTitle">Quote Details</p>
+      <div class="detail-grid" id="modalBody"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const sb = window.supabase.createClient(
+    'https://tbokejycxpaefpccynbh.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+  );
+
+  let allQuotes  = [];
+  let activeFilter = 'all';
+
+  // ── Session guard ──────────────────────────────────────────────────────────
+  (async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.replace('login.html'); return; }
+
+    const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+
+    // Session valid — show dashboard
+    document.getElementById('guard').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    document.getElementById('userEmail').textContent = session.user.email;
+
+    switchPage('motor');
+  })();
+
+  async function handleSignout() {
+    await sb.auth.signOut();
+    window.location.replace('login.html');
+  }
+
+  // ── Page switcher ──────────────────────────────────────────────────────────
+  function switchPage(page) {
+    if (page === 'motor') renderMotorPage();
+  }
+
+  // ── Motor Quotes page ──────────────────────────────────────────────────────
+  async function renderMotorPage() {
+    const main = document.getElementById('mainContent');
+    main.innerHTML = `
+      <p class="page-title">Motor Quotes</p>
+      <p class="page-sub">All incoming motor insurance quote requests</p>
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card"><p class="stat-label">Total</p><p class="stat-value" id="statTotal">—</p></div>
+        <div class="stat-card highlight"><p class="stat-label">New</p><p class="stat-value" id="statNew">—</p></div>
+        <div class="stat-card"><p class="stat-label">Contacted</p><p class="stat-value" id="statContacted">—</p></div>
+        <div class="stat-card"><p class="stat-label">Closed</p><p class="stat-value" id="statClosed">—</p></div>
+      </div>
+      <div class="section-header">
+        <p class="section-title">All Quotes</p>
+        <div class="filter-row">
+          <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">All</button>
+          <button class="filter-btn" data-filter="new" onclick="setFilter('new',this)">New</button>
+          <button class="filter-btn" data-filter="contacted" onclick="setFilter('contacted',this)">Contacted</button>
+          <button class="filter-btn" data-filter="closed" onclick="setFilter('closed',this)">Closed</button>
+        </div>
+      </div>
+      <div class="table-wrap" id="tableWrap">
+        <div class="spinner-wrap"><div class="spinner"></div></div>
+      </div>`;
+
+    await loadQuotes();
+  }
+
+  async function loadQuotes() {
+    const { data, error } = await sb
+      .from('motor_quotes')
+      .select('*')
+      .order('submitted_at', { ascending: false });
+
+    if (error) {
+      document.getElementById('tableWrap').innerHTML =
+        `<p class="table-empty">Failed to load quotes: ${error.message}</p>`;
+      return;
+    }
+
+    allQuotes = data || [];
+    updateStats();
+    renderTable();
+  }
+
+  function updateStats() {
+    const total     = allQuotes.length;
+    const newCount  = allQuotes.filter(q => q.status === 'new').length;
+    const contacted = allQuotes.filter(q => q.status === 'contacted').length;
+    const closed    = allQuotes.filter(q => q.status === 'closed').length;
+    document.getElementById('statTotal').textContent     = total;
+    document.getElementById('statNew').textContent       = newCount;
+    document.getElementById('statContacted').textContent = contacted;
+    document.getElementById('statClosed').textContent    = closed;
+  }
+
+  function setFilter(filter, btn) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable();
+  }
+
+  function renderTable() {
+    const rows = activeFilter === 'all'
+      ? allQuotes
+      : allQuotes.filter(q => q.status === activeFilter);
+
+    if (rows.length === 0) {
+      document.getElementById('tableWrap').innerHTML =
+        `<p class="table-empty">No quotes${activeFilter !== 'all' ? ' with status "' + activeFilter + '"' : ''} yet.</p>`;
+      return;
+    }
+
+    const html = `
+      <table>
+        <thead>
+          <tr>
+            <th>Ref</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Vehicle</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(q => `
+            <tr onclick="openModal('${q.id}')" style="cursor:pointer;">
+              <td class="mono">${q.ref}</td>
+              <td>${esc(q.first_name)} ${esc(q.last_name)}</td>
+              <td class="muted" style="font-size:0.76rem;">${esc(q.email)}<br>${esc(q.phone)}</td>
+              <td class="muted">${esc(q.vehicle_category)}</td>
+              <td><span class="badge badge-${q.policy_type}">${q.policy_type}</span></td>
+              <td><span class="badge badge-${q.status}">${q.status}</span></td>
+              <td class="muted">${formatDate(q.submitted_at)}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+
+    document.getElementById('tableWrap').innerHTML = html;
+  }
+
+  // ── Modal ──────────────────────────────────────────────────────────────────
+  function openModal(id) {
+    const q = allQuotes.find(r => r.id === id);
+    if (!q) return;
+
+    document.getElementById('modalTitle').textContent = `Quote — ${q.ref}`;
+    document.getElementById('modalBody').innerHTML = `
+      <div class="detail-item">
+        <p class="detail-key">First Name</p>
+        <p class="detail-val">${esc(q.first_name)}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Last Name</p>
+        <p class="detail-val">${esc(q.last_name)}</p>
+      </div>
+      <div class="detail-item full">
+        <p class="detail-key">Email</p>
+        <p class="detail-val">${esc(q.email)}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Phone</p>
+        <p class="detail-val">${esc(q.phone)}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Date of Birth</p>
+        <p class="detail-val">${q.date_of_birth || '—'}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Experience</p>
+        <p class="detail-val">${q.experience_years} yr${q.experience_years !== 1 ? 's' : ''}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Policy Type</p>
+        <p class="detail-val">${q.policy_type}</p>
+      </div>
+      <div class="detail-item full">
+        <p class="detail-key">Vehicle Category</p>
+        <p class="detail-val">${esc(q.vehicle_category)}</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Status</p>
+        <p class="detail-val"><span class="badge badge-${q.status}">${q.status}</span></p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Submitted</p>
+        <p class="detail-val">${formatDate(q.submitted_at)}</p>
+      </div>`;
+
+    // Status change actions
+    const actions = document.getElementById('modalActions');
+    if (q.status === 'new') {
+      actions.innerHTML = `
+        <button class="modal-btn primary" onclick="updateStatus('${q.id}','contacted')">Mark Contacted</button>
+        <button class="modal-btn secondary" onclick="closeModal()">Close</button>`;
+    } else if (q.status === 'contacted') {
+      actions.innerHTML = `
+        <button class="modal-btn primary" onclick="updateStatus('${q.id}','closed')">Mark Closed</button>
+        <button class="modal-btn secondary" onclick="closeModal()">Close</button>`;
+    } else {
+      actions.innerHTML = `<button class="modal-btn secondary" onclick="closeModal()">Close</button>`;
+    }
+
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+  }
+  function closeModalOnBackdrop(e) {
+    if (e.target === document.getElementById('modalBackdrop')) closeModal();
+  }
+
+  async function updateStatus(id, status) {
+    const { error } = await sb
+      .from('motor_quotes')
+      .update({ status })
+      .eq('id', id);
+
+    if (error) { alert('Failed to update: ' + error.message); return; }
+
+    const q = allQuotes.find(r => r.id === id);
+    if (q) q.status = status;
+
+    closeModal();
+    updateStats();
+    renderTable();
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  function esc(str) {
+    return String(str || '')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      + ' ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  }
+  </script>
+</body>
+</html>
