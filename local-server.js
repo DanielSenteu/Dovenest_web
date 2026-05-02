@@ -206,7 +206,7 @@ function saveToSupabase(quote) {
       phone:            quote.phone,
       vehicle_category: quote.vehicle_category,
       source:           'server',
-      status:           'new',
+      status:           'pending',
     };
 
     const body = JSON.stringify(row);
