@@ -1068,32 +1068,52 @@
       e.preventDefault();
     });
 
-    // Email — normalize to lowercase on blur
+    // ─── Field UI feedback helpers ────────────────────────────
+    function setFieldValid(input) {
+      input.classList.remove('invalid');
+      input.classList.add('valid');
+      input.closest('.field-group').classList.remove('has-error');
+    }
+    function setFieldError(input) {
+      input.classList.remove('valid');
+      input.classList.add('invalid');
+      input.closest('.field-group').classList.add('has-error');
+    }
+    function setFieldNeutral(input) {
+      input.classList.remove('valid', 'invalid');
+      input.closest('.field-group').classList.remove('has-error');
+    }
+
+    // Email — normalize on blur, show inline feedback
     const emailInput = document.getElementById('emailInput');
     emailInput.addEventListener('input', e => {
       state.email = e.target.value;
+      setFieldNeutral(e.target); // clear while typing
       validateAll();
     });
     emailInput.addEventListener('blur', e => {
+      if (!e.target.value.trim()) { setFieldNeutral(e.target); return; }
       const normalized = normalizeEmail(e.target.value);
       e.target.value = normalized;
       state.email = normalized;
+      isValidEmail(normalized) ? setFieldValid(e.target) : setFieldError(e.target);
       validateAll();
     });
 
-    // Phone — normalize to international format on blur
+    // Phone — normalize to +254… on blur, show inline feedback
     const phoneInput = document.getElementById('phoneInput');
     phoneInput.addEventListener('input', e => {
       state.phone = e.target.value;
+      setFieldNeutral(e.target); // clear while typing
       validateAll();
     });
     phoneInput.addEventListener('blur', e => {
-      if (e.target.value.trim()) {
-        const normalized = normalizePhone(e.target.value);
-        e.target.value = normalized;
-        state.phone = normalized;
-        validateAll();
-      }
+      if (!e.target.value.trim()) { setFieldNeutral(e.target); return; }
+      const normalized = normalizePhone(e.target.value);
+      e.target.value = normalized;
+      state.phone = normalized;
+      isValidPhone(normalized) ? setFieldValid(e.target) : setFieldError(e.target);
+      validateAll();
     });
 
     // Vehicle category
