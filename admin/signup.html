@@ -423,9 +423,11 @@
     if (e.target.value.length === 6) handleEnroll();
   });
 
+  let invitedEmail = null; // track for marking used after enroll
+
   async function handleSignup() {
     clearError();
-    const email    = document.getElementById('signupEmail').value.trim();
+    const email    = document.getElementById('signupEmail').value.trim().toLowerCase();
     const password = document.getElementById('signupPassword').value;
     const confirm  = document.getElementById('signupConfirm').value;
 
@@ -443,6 +445,27 @@
     }
 
     setLoading('btnSignup', true);
+
+    // Check invite table before attempting signup
+    const { data: invite } = await sb
+      .from('admin_invites')
+      .select('email, used_at')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (!invite) {
+      showError('This email has not been invited to the admin panel. Contact your administrator.');
+      setLoading('btnSignup', false);
+      return;
+    }
+    if (invite.used_at) {
+      showError('This invite has already been used. Contact your administrator if you need access.');
+      setLoading('btnSignup', false);
+      return;
+    }
+
+    invitedEmail = email;
+
     const { error } = await sb.auth.signUp({ email, password });
     setLoading('btnSignup', false);
 
@@ -506,6 +529,11 @@
       document.getElementById('enrollCode').value = '';
       document.getElementById('enrollCode').focus();
       return;
+    }
+
+    // Mark invite as used
+    if (invitedEmail) {
+      await sb.from('admin_invites').update({ used_at: new Date().toISOString() }).eq('email', invitedEmail);
     }
 
     // Sign out so they go through the full login + MFA flow
