@@ -1,0 +1,116 @@
+{
+  "downloaded": [
+    {
+      "name": "Britam",
+      "file": "images/partners/britam.png",
+      "strategy": "Site favicon"
+    },
+    {
+      "name": "APA Insurance",
+      "file": "images/partners/apa-insurance.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "ICEA Lion Group",
+      "file": "images/partners/icea-lion.png",
+      "strategy": "Site favicon"
+    },
+    {
+      "name": "Old Mutual",
+      "file": "images/partners/old-mutual.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "Jubilee Allianz",
+      "file": "images/partners/jubilee-allianz.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "CIC Insurance Group",
+      "file": "images/partners/cic-insurance.png",
+      "strategy": "Site favicon"
+    },
+    {
+      "name": "Liberty Kenya",
+      "file": "images/partners/liberty-kenya.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "Sanlam",
+      "file": "images/partners/sanlam.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "NCBA Insurance",
+      "file": "images/partners/ncba-insurance.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "KUSCCO Mutual",
+      "file": "images/partners/kuscco.png",
+      "strategy": "Site favicon"
+    },
+    {
+      "name": "Geminia Insurance",
+      "file": "images/partners/geminia.ico",
+      "strategy": "Site favicon"
+    },
+    {
+      "name": "First Assurance",
+      "file": "images/partners/first-assurance.png",
+      "strategy": "Site favicon"
+    },
+    {
+      "name": "MUA Insurance",
+      "file": "images/partners/mua-insurance.png",
+      "strategy": "Google favicon"
+    },
+    {
+      "name": "AMREF Flying Doctors",
+      "file": "images/partners/amref-flying-doctors.ico",
+      "strategy": "Site favicon"
+    }
+  ],
+  "failed": [
+    {
+      "name": "AAR Insurance",
+      "domain": "aarinsurance.co.ke"
+    },
+    {
+      "name": "Absa Life",
+      "domain": "absa.co.ke"
+    },
+    {
+      "name": "GA Insurance",
+      "domain": "gainsurance.co.ke"
+    },
+    {
+      "name": "AMACO",
+      "domain": "amacoke.com"
+    },
+    {
+      "name": "Capex Life",
+      "domain": "capexlife.co.ke"
+    },
+    {
+      "name": "Cannon Insurance",
+      "domain": "cannoninsurance.co.ke"
+    },
+    {
+      "name": "Heritage Insurance",
+      "domain": "heritage.co.ke"
+    },
+    {
+      "name": "Directline Assurance",
+      "domain": "directline.co.ke"
+    },
+    {
+      "name": "PACIS Insurance",
+      "domain": "pacis.co.ke"
+    },
+    {
+      "name": "Monarch Insurance",
+      "domain": "monarchinsurance.co.ke"
+    }
+  ]
+}

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../images/dove_logo.png">
+  <link rel="apple-touch-icon" href="../images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Application Detail — DoveNest Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #04111f; --surface: #0d2137;
+      --border: rgba(255,255,255,0.07);
+      --gold: #E8A020; --gold-dim: rgba(232,160,32,0.12);
+      --text: #e8f0f8; --muted: rgba(255,255,255,0.45);
+    }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+    .topbar-logo img { height: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(232,160,32,0.25); }
+    .topbar-email { font-size: 0.78rem; color: var(--muted); }
+    .signout-btn { font-size: 0.78rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 5px 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color 0.2s, border-color 0.2s; }
+    .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+    .layout { display: flex; flex: 1; }
+    .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; flex-shrink: 0; }
+    .nav-section { padding: 0 12px; margin-bottom: 24px; }
+    .nav-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0 8px; margin-bottom: 8px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; text-decoration: none; border: none; background: none; width: 100%; font-family: 'Poppins', sans-serif; text-align: left; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: var(--gold-dim); color: var(--gold); }
+    .nav-item svg { flex-shrink: 0; }
+    .main { flex: 1; padding: 32px 36px; overflow-x: hidden; max-width: 1100px; }
+
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--muted); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb .sep { color: rgba(255,255,255,0.2); }
+    .breadcrumb .cur { color: var(--text); font-weight: 500; font-family: monospace; font-size: 0.78rem; }
+
+    .app-header { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; display: flex; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+    .app-ref { font-family: monospace; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+    .app-meta { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+    .app-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .app-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .badge { display: inline-flex; align-items: center; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    .badge-pending      { background: rgba(232,160,32,0.15);  color: #E8A020; }
+    .badge-approved     { background: rgba(34,197,94,0.15);   color: #86efac; }
+    .badge-rejected     { background: rgba(239,68,68,0.15);   color: #fca5a5; }
+    .badge-under_review { background: rgba(99,102,241,0.15);  color: #a5b4fc; }
+    .badge-absa         { background: rgba(99,102,241,0.15);  color: #a5b4fc; }
+    .badge-capex        { background: rgba(20,184,166,0.15);  color: #5eead4; }
+    .badge-group        { background: rgba(232,160,32,0.12);  color: #E8A020; }
+    .badge-individual   { background: rgba(255,255,255,0.07); color: var(--muted); }
+
+    .btn { padding: 7px 18px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; font-family: 'Poppins', sans-serif; cursor: pointer; transition: all 0.15s; border: 1px solid; }
+    .btn-approve { background: rgba(34,197,94,0.1);  color: #86efac; border-color: rgba(34,197,94,0.25); }
+    .btn-approve:hover { background: rgba(34,197,94,0.2); border-color: rgba(34,197,94,0.4); }
+    .btn-review  { background: rgba(99,102,241,0.1); color: #a5b4fc; border-color: rgba(99,102,241,0.25); }
+    .btn-review:hover  { background: rgba(99,102,241,0.2); border-color: rgba(99,102,241,0.4); }
+    .btn-reject  { background: rgba(239,68,68,0.08); color: rgba(252,165,165,0.8); border-color: rgba(239,68,68,0.2); }
+    .btn-reject:hover  { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+    .btn-disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .detail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px 26px; }
+    .card-title { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 18px; }
+    .field-list { display: flex; flex-direction: column; gap: 13px; }
+    .field-label { font-size: 0.68rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+    .field-value { font-size: 0.88rem; color: var(--text); font-weight: 500; }
+    .field-value.mono { font-family: monospace; font-size: 0.82rem; }
+    .field-divider { height: 1px; background: rgba(255,255,255,0.05); }
+    .total-row { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .total-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .total-value { font-size: 1.1rem; font-weight: 800; color: var(--gold); }
+
+    .full-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+    .full-card-header { padding: 14px 22px; border-bottom: 1px solid var(--border); }
+    .full-card-header p { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 10px 22px; text-align: left; white-space: nowrap; }
+    tbody tr { border-top: 1px solid rgba(255,255,255,0.04); }
+    td { font-size: 0.82rem; padding: 12px 22px; color: var(--text); }
+    td.muted { color: var(--muted); font-size: 0.78rem; }
+    td.mono  { font-family: monospace; font-size: 0.76rem; color: var(--muted); }
+
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; padding: 20px; }
+    .doc-card { background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .doc-thumb { height: 120px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); overflow: hidden; }
+    .doc-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .doc-thumb .pdf-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .doc-thumb .pdf-icon svg { opacity: 0.35; }
+    .doc-thumb .pdf-icon span { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); opacity: 0.6; }
+    .doc-thumb .sig-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #fff; padding: 8px; }
+    .doc-thumb .sig-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .doc-info { padding: 10px 12px 12px; }
+    .doc-label { font-size: 0.72rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .doc-sublabel { font-size: 0.65rem; color: var(--muted); margin-bottom: 7px; }
+    .doc-link { font-size: 0.7rem; font-weight: 700; color: var(--gold); text-decoration: none; }
+    .doc-link:hover { color: #d4911a; }
+    .doc-unavail { font-size: 0.7rem; color: var(--muted); opacity: 0.5; }
+
+    .spinner { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #guard { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    #app   { display: none; flex-direction: column; min-height: 100vh; }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #0d2137; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 18px; font-size: 0.82rem; color: var(--text); box-shadow: 0 8px 24px rgba(0,0,0,0.4); transform: translateY(8px); opacity: 0; transition: all 0.25s ease; pointer-events: none; z-index: 200; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div id="guard">
+  <div style="text-align:center;">
+    <div class="spinner" style="margin:0 auto 14px;"></div>
+    <p style="font-size:0.8rem;color:rgba(255,255,255,0.4);">Verifying session…</p>
+  </div>
+</div>
+
+<div id="app">
+  <header class="topbar">
+    <a class="topbar-logo" href="dashboard.html">
+      <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+      <span class="admin-badge">Admin</span>
+    </a>
+    <span class="topbar-email" id="userEmail"></span>
+    <button class="signout-btn" onclick="handleSignout()">Sign out</button>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <p class="nav-label">Main</p>
+        <a class="nav-item" href="dashboard.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Submissions</p>
+        <a class="nav-item" href="quotes.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Motor Quotes
+        </a>
+        <a class="nav-item" href="reviews.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Client Reviews
+        </a>
+        <a class="nav-item active" href="last-expense.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Last Expense
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Settings</p>
+        <a class="nav-item" href="invites.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3M13 7a4 4 0 11-8 0 4 4 0 018 0zM6 21v-2a4 4 0 014-4h2"/></svg>
+          Admin Invites
+        </a>
+      </div>
+    </nav>
+
+    <main class="main" id="mainContent">
+      <div style="display:flex;justify-content:center;padding:64px;">
+        <div class="spinner"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient(
+  'https://tbokejycxpaefpccynbh.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+);
+
+let currentApp = null;
+
+const REL_LABELS = {
+  spouse: 'Spouse', child: 'Child', mother: 'Mother', father: 'Father',
+  mother_in_law: 'Mother-in-law', father_in_law: 'Father-in-law',
+  sibling: 'Sibling', grandparent: 'Grandparent', other: 'Other'
+};
+
+const DOC_LABELS = {
+  principal_national_id: 'National ID',
+  principal_kra_pin: 'KRA PIN',
+  signature: 'Signature'
+};
+
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('login.html'); return; }
+  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+
+  document.getElementById('userEmail').textContent = session.user.email;
+  document.getElementById('guard').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id) { renderError('No application ID in URL.'); return; }
+
+  const [appRes, depsRes, docsRes] = await Promise.all([
+    sb.from('last_expense_applications')
+      .select('*, groups(group_code, group_name, group_type, contact_person, contact_phone)')
+      .eq('id', id).single(),
+    sb.from('last_expense_dependents')
+      .select('*').eq('application_id', id).order('sort_order'),
+    sb.from('last_expense_documents')
+      .select('*').eq('application_id', id)
+  ]);
+
+  if (appRes.error || !appRes.data) { renderError('Application not found.'); return; }
+
+  currentApp = appRes.data;
+  const deps = depsRes.data || [];
+  const docs = docsRes.data || [];
+
+  // Resolve signed URLs for all documents in parallel
+  const signedUrls = {};
+  await Promise.all(docs.map(async doc => {
+    const url = await resolveUrl(doc.file_path);
+    if (url) signedUrls[doc.id] = url;
+  }));
+
+  renderPage(currentApp, deps, docs, signedUrls);
+})();
+
+async function handleSignout() { await sb.auth.signOut(); window.location.replace('login.html'); }
+
+async function resolveUrl(filePath) {
+  if (!filePath) return null;
+  if (filePath.startsWith('last-expense-docs/')) {
+    const p = filePath.replace('last-expense-docs/', '');
+    const { data } = await sb.storage.from('last-expense-docs').createSignedUrl(p, 3600);
+    return data?.signedUrl || null;
+  }
+  if (filePath.startsWith('uploads/')) return '/' + filePath;
+  return null;
+}
+
+function renderPage(a, deps, docs, signedUrls) {
+  const submitted = new Date(a.submitted_at);
+  const submittedStr = submitted.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' })
+    + ' at ' + submitted.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+
+  const isGroup = a.application_type === 'group';
+  const group   = a.groups || null;
+
+  // Build dependent lookup by client_id
+  const depByClientId = {};
+  deps.forEach(d => { depByClientId[d.client_id] = d; });
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="dashboard.html">Overview</a>
+      <span class="sep">/</span>
+      <a href="last-expense.html">Last Expense</a>
+      <span class="sep">/</span>
+      <span class="cur">${esc(a.ref)}</span>
+    </div>
+
+    <div class="app-header">
+      <div>
+        <div class="app-ref">${esc(a.ref)}</div>
+        <div class="app-meta">Submitted ${submittedStr}</div>
+      </div>
+      <div class="app-badges">
+        <span class="badge badge-${a.underwriter}">${a.underwriter.toUpperCase()}</span>
+        <span class="badge badge-${a.application_type}">${isGroup ? 'Group' : 'Individual'}</span>
+        <span class="badge badge-${a.status}" id="statusBadge">${fmtStatus(a.status)}</span>
+      </div>
+      <div class="app-actions" id="actionBtns">${buildActions(a.status)}</div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <p class="card-title">Principal Member</p>
+        <div class="field-list">
+          ${f('Full Name', a.full_name)}
+          ${d()}
+          ${f('Date of Birth', fmtDate(a.date_of_birth))}
+          ${d()}
+          ${f('Gender', a.gender === 'M' ? 'Male' : 'Female')}
+          ${d()}
+          ${f('National ID', a.national_id, 'mono')}
+          ${d()}
+          ${f('KRA PIN', a.kra_pin, 'mono')}
+          ${d()}
+          ${f('Email', a.email)}
+          ${d()}
+          ${f('Mobile', a.mobile)}
+          ${d()}
+          ${f('Town', a.town)}
+          ${d()}
+          ${f('Occupation', a.occupation)}
+          ${a.po_box ? d() + f('P.O. Box', a.po_box + (a.postal_code ? ' – ' + a.postal_code : '')) : ''}
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <p class="card-title">Plan &amp; Cover</p>
+        <div class="field-list">
+          ${f('Underwriter', a.underwriter === 'absa' ? 'ABSA Life Assurance' : 'Capex Life Assurance')}
+          ${d()}
+          ${f('Cover Option', 'Option ' + a.cover_option)}
+          ${d()}
+          ${f('Cover Amount', 'Ksh ' + Number(a.cover_amount).toLocaleString())}
+          ${d()}
+          ${f('Base Premium', 'Ksh ' + Number(a.base_premium).toLocaleString() + ' / yr')}
+          ${a.extras_premium ? d() + f('Extras Premium', 'Ksh ' + Number(a.extras_premium).toLocaleString() + ' / yr') : ''}
+          ${d()}
+          ${f('Application Type', isGroup ? 'Group' : 'Individual')}
+          ${isGroup && group ? `
+            ${d()}
+            ${f('Group Name', group.group_name)}
+            ${d()}
+            ${f('Group Code', group.group_code, 'mono')}
+            ${d()}
+            ${f('Group Type', group.group_type)}
+            ${d()}
+            ${f('Contact', group.contact_person + (group.contact_phone ? ' · ' + group.contact_phone : ''))}
+          ` : ''}
+        </div>
+        <div class="total-row">
+          <span class="total-label">Annual Premium</span>
+          <span class="total-value">Ksh ${Number(a.total_premium).toLocaleString()}</span>
+        </div>
+      </div>
+    </div>
+
+    ${deps.length > 0 ? `
+    <div class="full-card">
+      <div class="full-card-header"><p>Dependents (${deps.length})</p></div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Relationship</th>
+            <th>Full Name</th>
+            <th>Date of Birth</th>
+            <th>ID / Doc No.</th>
+            <th>Mobile</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${deps.map((dep, i) => `
+            <tr>
+              <td class="muted">${i + 1}</td>
+              <td>${esc(REL_LABELS[dep.relationship] || dep.relationship)}</td>
+              <td>${esc(dep.full_name)}</td>
+              <td class="muted">${fmtDate(dep.date_of_birth)}</td>
+              <td class="mono">${esc(dep.id_number || '—')}</td>
+              <td class="muted">${esc(dep.mobile || '—')}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    <div class="full-card">
+      <div class="full-card-header"><p>Documents (${docs.length})</p></div>
+      <div class="doc-grid">
+        ${docs.map(doc => renderDocCard(doc, depByClientId, signedUrls[doc.id])).join('')}
+      </div>
+    </div>`;
+}
+
+function renderDocCard(doc, depByClientId, url) {
+  const key = doc.document_key;
+  const fp  = doc.file_path || '';
+  const ext = fp.split('.').pop().toLowerCase();
+  const isImg = ['png','jpg','jpeg','gif','webp'].includes(ext);
+  const isSig = key === 'signature';
+
+  // Resolve label
+  let labelHtml = '';
+  let sublabelHtml = '';
+
+  if (DOC_LABELS[key]) {
+    labelHtml = esc(DOC_LABELS[key]);
+  } else {
+    const m = key.match(/^(dep-\d+)_/);
+    if (m) {
+      const dep = depByClientId[m[1]];
+      if (dep) {
+        const rel  = esc(REL_LABELS[dep.relationship] || dep.relationship);
+        const type = doc.document_type === 'birth_cert' ? 'Birth Certificate'
+                   : doc.document_type === 'passport'   ? 'Passport'
+                   : 'ID Document';
+        labelHtml    = rel + ' &ndash; ' + type;
+        sublabelHtml = esc(dep.full_name);
+      } else {
+        labelHtml = 'Dependent Document';
+      }
+    } else {
+      labelHtml = esc(key.replace(/_/g, ' '));
+    }
+  }
+
+  // Thumbnail
+  let thumb = '';
+  let link  = '';
+
+  if (isSig && url) {
+    thumb = `<div class="sig-wrap"><img src="${url}" alt="Signature" loading="lazy"></div>`;
+    link  = `<a class="doc-link" href="${url}" target="_blank" rel="noopener">View full ↗</a>`;
+  } else if (isImg && url) {
+    thumb = `<img src="${url}" alt="${labelHtml}" loading="lazy">`;
+    link  = `<a class="doc-link" href="${url}" target="_blank" rel="noopener">View full ↗</a>`;
+  } else if (url) {
+    thumb = `<div class="pdf-icon">
+      <svg width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <span>${ext.toUpperCase()}</span>
+    </div>`;
+    link = `<a class="doc-link" href="${url}" target="_blank" rel="noopener">Open ↗</a>`;
+  } else {
+    thumb = `<div class="pdf-icon">
+      <svg width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <span>${ext ? ext.toUpperCase() : 'FILE'}</span>
+    </div>`;
+    link = `<span class="doc-unavail">Not available</span>`;
+  }
+
+  return `
+    <div class="doc-card">
+      <div class="doc-thumb">${thumb}</div>
+      <div class="doc-info">
+        <div class="doc-label">${labelHtml}</div>
+        ${sublabelHtml ? `<div class="doc-sublabel">${sublabelHtml}</div>` : ''}
+        ${link}
+      </div>
+    </div>`;
+}
+
+function buildActions(status) {
+  if (status === 'pending') {
+    return `
+      <button class="btn btn-review"  onclick="setStatus('under_review')">Under Review</button>
+      <button class="btn btn-approve" onclick="setStatus('approved')">Approve</button>
+      <button class="btn btn-reject"  onclick="setStatus('rejected')">Reject</button>`;
+  }
+  if (status === 'under_review') {
+    return `
+      <button class="btn btn-approve" onclick="setStatus('approved')">Approve</button>
+      <button class="btn btn-reject"  onclick="setStatus('rejected')">Reject</button>`;
+  }
+  return `
+    <button class="btn btn-approve btn-disabled">Approve</button>
+    <button class="btn btn-reject  btn-disabled">Reject</button>`;
+}
+
+async function setStatus(status) {
+  const id = new URLSearchParams(window.location.search).get('id');
+  const { error } = await sb.from('last_expense_applications').update({ status }).eq('id', id);
+  if (error) { showToast('Failed to update status.'); return; }
+  currentApp.status = status;
+  const badge = document.getElementById('statusBadge');
+  if (badge) { badge.className = `badge badge-${status}`; badge.textContent = fmtStatus(status); }
+  document.getElementById('actionBtns').innerHTML = buildActions(status);
+  showToast('Status updated to ' + fmtStatus(status) + '.');
+}
+
+function renderError(msg) {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="breadcrumb">
+      <a href="dashboard.html">Overview</a><span class="sep">/</span>
+      <a href="last-expense.html">Last Expense</a><span class="sep">/</span>
+      <span class="cur">Error</span>
+    </div>
+    <p style="color:var(--muted);font-size:0.88rem;margin-top:16px;">${msg}</p>`;
+}
+
+function f(label, value, cls) {
+  return `<div>
+    <p class="field-label">${esc(label)}</p>
+    <p class="field-value${cls ? ' ' + cls : ''}">${esc(String(value == null ? '—' : value))}</p>
+  </div>`;
+}
+function d() { return '<div class="field-divider"></div>'; }
+
+function fmtStatus(s) {
+  return { pending:'Pending', approved:'Approved', rejected:'Rejected', under_review:'Under Review' }[s] || s;
+}
+function fmtDate(s) {
+  if (!s) return '—';
+  return new Date(s).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>

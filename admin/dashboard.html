@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../images/dove_logo.png">
+  <link rel="apple-touch-icon" href="../images/dove_logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Overview — DoveNest Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,21 +54,18 @@
     /* section */
     .section-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
 
-    /* product cards */
-    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 36px; }
-    .product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 0; transition: border-color 0.2s; }
-    .product-card:hover { border-color: rgba(255,255,255,0.14); }
-    .product-card.disabled { opacity: 0.45; pointer-events: none; }
-    .product-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--gold-dim); border: 1px solid rgba(232,160,32,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-    .product-icon svg { color: var(--gold); }
-    .product-card h3 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .product-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-bottom: 20px; flex: 1; }
-    .product-footer { display: flex; align-items: center; justify-content: space-between; }
-    .product-metric { font-size: 0.75rem; color: var(--gold); font-weight: 600; }
-    .product-metric.muted { color: var(--muted); }
-    .view-btn { font-size: 0.78rem; font-weight: 700; color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(232,160,32,0.2); border-radius: 7px; padding: 5px 14px; cursor: pointer; font-family: 'Poppins', sans-serif; text-decoration: none; transition: background 0.15s, border-color 0.15s; }
-    .view-btn:hover { background: rgba(232,160,32,0.2); border-color: rgba(232,160,32,0.4); }
-    .coming-soon-tag { font-size: 0.68rem; font-weight: 700; color: var(--muted); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 5px; padding: 3px 8px; }
+    /* sections table */
+    .sections-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 28px; }
+    .sections-card table { width: 100%; border-collapse: collapse; }
+    .sections-card th { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 11px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+    .sections-card td { font-size: 0.82rem; padding: 13px 20px; color: var(--text); border-top: 1px solid rgba(255,255,255,0.04); }
+    .sections-card tr:hover td { background: rgba(255,255,255,0.02); }
+    .sections-card tr.disabled td { opacity: 0.4; pointer-events: none; }
+    .section-link { font-size: 0.75rem; font-weight: 600; color: var(--gold); text-decoration: none; }
+    .section-link:hover { color: #d4911a; }
+    .pill { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+    .pill-pending { background: rgba(232,160,32,0.12); color: #E8A020; }
+    .pill-soon { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); }
 
     /* recent table */
     .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
@@ -122,10 +121,18 @@
         </a>
       </div>
       <div class="nav-section">
-        <p class="nav-label">Quotes</p>
+        <p class="nav-label">Submissions</p>
         <a class="nav-item" href="quotes.html">
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
           Motor Quotes
+        </a>
+        <a class="nav-item" href="reviews.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Client Reviews
+        </a>
+        <a class="nav-item" href="last-expense.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Last Expense
         </a>
       </div>
       <div class="nav-section">
@@ -150,43 +157,44 @@
         <div class="stat-card"><p class="stat-label">Rejected</p><p class="stat-value" id="statRejected">—</p></div>
       </div>
 
-      <p class="section-title">Quote Products</p>
-      <div class="product-grid">
-        <div class="product-card">
-          <div class="product-icon">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <h3>Motor Quotes</h3>
-          <p>All motor insurance quote requests submitted through the website. Review, approve, and manage client submissions.</p>
-          <div class="product-footer">
-            <span class="product-metric" id="pendingLabel">— pending</span>
-            <a class="view-btn" href="quotes.html">View Quotes →</a>
-          </div>
-        </div>
-
-        <div class="product-card disabled">
-          <div class="product-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);">
-            <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <h3>Home &amp; Domestic</h3>
-          <p>Domestic insurance quote requests for home contents, buildings, and personal effects.</p>
-          <div class="product-footer">
-            <span class="product-metric muted">Not yet active</span>
-            <span class="coming-soon-tag">Coming Soon</span>
-          </div>
-        </div>
-
-        <div class="product-card disabled">
-          <div class="product-icon" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.08);">
-            <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-          </div>
-          <h3>Health &amp; Life</h3>
-          <p>Health insurance and life cover quote requests including group schemes and individual plans.</p>
-          <div class="product-footer">
-            <span class="product-metric muted">Not yet active</span>
-            <span class="coming-soon-tag">Coming Soon</span>
-          </div>
-        </div>
+      <p class="section-title">Sections</p>
+      <div class="sections-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Pending</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Motor Quotes</td>
+              <td><span class="pill pill-pending" id="pendingLabel">—</span></td>
+              <td id="statTotalInline" style="color:var(--muted);font-size:0.78rem;">—</td>
+              <td style="text-align:right;"><a class="section-link" href="quotes.html">View →</a></td>
+            </tr>
+            <tr>
+              <td>Last Expense</td>
+              <td><span class="pill pill-pending" id="lePendingLabel">—</span></td>
+              <td id="leTotalInline" style="color:var(--muted);font-size:0.78rem;">—</td>
+              <td style="text-align:right;"><a class="section-link" href="last-expense.html">View →</a></td>
+            </tr>
+            <tr>
+              <td>Client Reviews</td>
+              <td style="color:var(--muted);font-size:0.78rem;">—</td>
+              <td id="reviewsLabel" style="color:var(--muted);font-size:0.78rem;">—</td>
+              <td style="text-align:right;"><a class="section-link" href="reviews.html">View →</a></td>
+            </tr>
+            <tr class="disabled">
+              <td>Home &amp; Domestic</td>
+              <td>—</td>
+              <td>—</td>
+              <td style="text-align:right;"><span class="pill pill-soon">Coming soon</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="table-card">
@@ -235,19 +243,37 @@ async function handleSignout() {
 }
 
 async function loadData() {
-  const { data } = await sb.from('motor_quotes').select('id,ref,first_name,last_name,status,submitted_at').order('submitted_at', { ascending: false });
-  if (!data) return;
+  const [quotesRes, reviewsRes, leRes] = await Promise.all([
+    sb.from('motor_quotes').select('id,ref,first_name,last_name,status,submitted_at').order('submitted_at', { ascending: false }),
+    sb.from('reviews').select('id,rating'),
+    sb.from('last_expense_applications').select('id,status')
+  ]);
 
-  const total    = data.length;
+  const data    = quotesRes.data  || [];
+  const reviews = reviewsRes.data || [];
+  const leData  = leRes.data      || [];
+
   const pending  = data.filter(q => q.status === 'pending').length;
   const approved = data.filter(q => q.status === 'approved').length;
   const rejected = data.filter(q => q.status === 'rejected').length;
 
-  document.getElementById('statTotal').textContent    = total;
-  document.getElementById('statPending').textContent  = pending;
-  document.getElementById('statApproved').textContent = approved;
-  document.getElementById('statRejected').textContent = rejected;
-  document.getElementById('pendingLabel').textContent = `${pending} pending`;
+  document.getElementById('statTotal').textContent      = data.length;
+  document.getElementById('statPending').textContent    = pending;
+  document.getElementById('statApproved').textContent   = approved;
+  document.getElementById('statRejected').textContent   = rejected;
+  document.getElementById('pendingLabel').textContent   = pending;
+  document.getElementById('statTotalInline').textContent = data.length;
+
+  if (reviews.length > 0) {
+    const avg = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
+    document.getElementById('reviewsLabel').textContent = `${reviews.length}  ·  avg ${avg} / 5`;
+  } else {
+    document.getElementById('reviewsLabel').textContent = '0';
+  }
+
+  const lePending = leData.filter(a => a.status === 'pending').length;
+  document.getElementById('lePendingLabel').textContent  = lePending;
+  document.getElementById('leTotalInline').textContent   = leData.length;
 
   const recent = data.slice(0, 6);
   if (recent.length === 0) {

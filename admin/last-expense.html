@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../images/dove_logo.png">
+  <link rel="apple-touch-icon" href="../images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Last Expense Applications — DoveNest Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #04111f; --surface: #0d2137;
+      --border: rgba(255,255,255,0.07);
+      --gold: #E8A020; --gold-dim: rgba(232,160,32,0.12);
+      --text: #e8f0f8; --muted: rgba(255,255,255,0.45);
+    }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+    .topbar-logo img { height: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(232,160,32,0.25); }
+    .topbar-email { font-size: 0.78rem; color: var(--muted); }
+    .signout-btn { font-size: 0.78rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 5px 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color 0.2s, border-color 0.2s; }
+    .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+    .layout { display: flex; flex: 1; }
+    .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; flex-shrink: 0; }
+    .nav-section { padding: 0 12px; margin-bottom: 24px; }
+    .nav-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0 8px; margin-bottom: 8px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; text-decoration: none; border: none; background: none; width: 100%; font-family: 'Poppins', sans-serif; text-align: left; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: var(--gold-dim); color: var(--gold); }
+    .nav-item svg { flex-shrink: 0; }
+    .main { flex: 1; padding: 32px 36px; overflow-x: hidden; }
+    .page-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+    .page-header h1 { font-size: 1.2rem; font-weight: 700; color: #fff; }
+    .count-tag { font-size: 0.75rem; font-weight: 700; background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(232,160,32,0.25); border-radius: 6px; padding: 2px 10px; }
+    .breadcrumb { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .stat-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+    .stat-value { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1; }
+    .stat-card.gold .stat-value { color: var(--gold); }
+    .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .search-wrap { position: relative; flex: 1; min-width: 220px; }
+    .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .search-input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 8px 12px 8px 36px; font-size: 0.82rem; color: var(--text); font-family: 'Poppins', sans-serif; outline: none; transition: border-color 0.2s; }
+    .search-input:focus { border-color: rgba(255,255,255,0.2); }
+    .search-input::placeholder { color: var(--muted); }
+    .tabs { display: flex; gap: 4px; }
+    .tab { padding: 7px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: none; color: var(--muted); font-family: 'Poppins', sans-serif; transition: all 0.15s; }
+    .tab:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+    .tab.active { background: var(--gold-dim); color: var(--gold); border-color: rgba(232,160,32,0.3); }
+    .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 11px 20px; text-align: left; white-space: nowrap; }
+    tbody tr { border-top: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.1s; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    td { font-size: 0.82rem; padding: 13px 20px; color: var(--text); white-space: nowrap; }
+    td.muted { color: var(--muted); font-size: 0.78rem; }
+    td.mono { font-family: monospace; font-size: 0.76rem; color: var(--muted); }
+    .badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .badge-pending  { background: rgba(232,160,32,0.15); color: #E8A020; }
+    .badge-approved { background: rgba(34,197,94,0.15); color: #86efac; }
+    .badge-rejected { background: rgba(239,68,68,0.15); color: #fca5a5; }
+    .badge-absa  { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+    .badge-capex { background: rgba(20,184,166,0.15); color: #5eead4; }
+    .badge-group      { background: rgba(232,160,32,0.12); color: #E8A020; }
+    .badge-individual { background: rgba(255,255,255,0.07); color: var(--muted); }
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); font-size: 0.85rem; }
+    .spinner { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #guard { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    #app   { display: none; flex-direction: column; min-height: 100vh; }
+  </style>
+</head>
+<body>
+
+<div id="guard">
+  <div style="text-align:center;">
+    <div class="spinner" style="margin:0 auto 14px;"></div>
+    <p style="font-size:0.8rem;color:rgba(255,255,255,0.4);">Verifying session…</p>
+  </div>
+</div>
+
+<div id="app">
+  <header class="topbar">
+    <a class="topbar-logo" href="dashboard.html">
+      <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+      <span class="admin-badge">Admin</span>
+    </a>
+    <span class="topbar-email" id="userEmail"></span>
+    <button class="signout-btn" onclick="handleSignout()">Sign out</button>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <p class="nav-label">Main</p>
+        <a class="nav-item" href="dashboard.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Submissions</p>
+        <a class="nav-item" href="quotes.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Motor Quotes
+        </a>
+        <a class="nav-item" href="reviews.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Client Reviews
+        </a>
+        <a class="nav-item active" href="last-expense.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Last Expense
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Settings</p>
+        <a class="nav-item" href="invites.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3M13 7a4 4 0 11-8 0 4 4 0 018 0zM6 21v-2a4 4 0 014-4h2"/></svg>
+          Admin Invites
+        </a>
+      </div>
+    </nav>
+
+    <main class="main">
+      <p class="breadcrumb"><a href="dashboard.html">Overview</a> / Last Expense Applications</p>
+      <div class="page-header">
+        <h1>Last Expense Applications</h1>
+        <span class="count-tag" id="countTag">—</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><p class="stat-label">Total</p><p class="stat-value" id="sTotal">—</p></div>
+        <div class="stat-card gold"><p class="stat-label">Pending</p><p class="stat-value" id="sPending">—</p></div>
+        <div class="stat-card"><p class="stat-label">Approved</p><p class="stat-value" id="sApproved">—</p></div>
+        <div class="stat-card"><p class="stat-label">Rejected</p><p class="stat-value" id="sRejected">—</p></div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input class="search-input" type="text" id="searchInput" placeholder="Search by name, email, ref, group…" oninput="applyFilters()">
+        </div>
+        <div class="tabs">
+          <button class="tab active" onclick="setTab('all',this)">All</button>
+          <button class="tab" onclick="setTab('pending',this)">Pending</button>
+          <button class="tab" onclick="setTab('approved',this)">Approved</button>
+          <button class="tab" onclick="setTab('rejected',this)">Rejected</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div id="tableWrap">
+          <div style="display:flex;justify-content:center;padding:48px;">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient(
+  'https://tbokejycxpaefpccynbh.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+);
+
+let allApps = [];
+let activeTab = 'all';
+
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('login.html'); return; }
+  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+  document.getElementById('userEmail').textContent = session.user.email;
+  document.getElementById('guard').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  loadData();
+})();
+
+async function handleSignout() {
+  await sb.auth.signOut();
+  window.location.replace('login.html');
+}
+
+async function loadData() {
+  const { data, error } = await sb.from('last_expense_applications')
+    .select('id,ref,full_name,email,mobile,underwriter,cover_option,cover_amount,application_type,groups(group_name),status,submitted_at')
+    .order('submitted_at', { ascending: false });
+
+  if (error) {
+    document.getElementById('tableWrap').innerHTML = '<p style="padding:36px;text-align:center;font-size:0.82rem;color:#fca5a5;">Failed to load data.</p>';
+    return;
+  }
+
+  allApps = data || [];
+  const pending  = allApps.filter(a => a.status === 'pending').length;
+  const approved = allApps.filter(a => a.status === 'approved').length;
+  const rejected = allApps.filter(a => a.status === 'rejected').length;
+
+  document.getElementById('sTotal').textContent    = allApps.length;
+  document.getElementById('sPending').textContent  = pending;
+  document.getElementById('sApproved').textContent = approved;
+  document.getElementById('sRejected').textContent = rejected;
+
+  applyFilters();
+}
+
+function setTab(tab, el) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  let filtered = activeTab === 'all' ? allApps : allApps.filter(a => a.status === activeTab);
+  if (q) {
+    filtered = filtered.filter(a =>
+      (a.full_name  || '').toLowerCase().includes(q) ||
+      (a.email      || '').toLowerCase().includes(q) ||
+      (a.ref        || '').toLowerCase().includes(q) ||
+      (a.groups?.group_name || '').toLowerCase().includes(q) ||
+      (a.mobile     || '').toLowerCase().includes(q)
+    );
+  }
+  document.getElementById('countTag').textContent = filtered.length + ' application' + (filtered.length !== 1 ? 's' : '');
+  renderTable(filtered);
+}
+
+function renderTable(rows) {
+  if (rows.length === 0) {
+    document.getElementById('tableWrap').innerHTML = '<div class="empty-state">No applications found.</div>';
+    return;
+  }
+  document.getElementById('tableWrap').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Reference</th>
+          <th>Name</th>
+          <th>Underwriter</th>
+          <th>Cover</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map(a => `
+          <tr onclick="window.location='last-expense-detail.html?id=${a.id}'">
+            <td class="mono">${esc(a.ref)}</td>
+            <td>${esc(a.full_name)}</td>
+            <td><span class="badge badge-${a.underwriter}">${a.underwriter.toUpperCase()}</span></td>
+            <td class="muted">Opt ${a.cover_option} · Ksh ${Number(a.cover_amount).toLocaleString()}</td>
+            <td><span class="badge badge-${a.application_type}">${a.application_type === 'group' ? esc(a.groups?.group_name || 'Group') : 'Individual'}</span></td>
+            <td><span class="badge badge-${a.status}">${a.status}</span></td>
+            <td class="muted">${fmtDate(a.submitted_at)}</td>
+            <td style="text-align:right;"><span style="font-size:0.75rem;font-weight:600;color:var(--gold);">View →</span></td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+</script>
+</body>
+</html>

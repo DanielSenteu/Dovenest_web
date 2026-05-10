@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../images/dove_logo.png">
+  <link rel="apple-touch-icon" href="../images/dove_logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Sign Up — DoveNest Insurance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -393,6 +395,7 @@
     const box = document.getElementById('errorBox');
     box.textContent = msg;
     box.classList.add('show');
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   function clearError() {
     document.getElementById('errorBox').classList.remove('show');
@@ -431,81 +434,58 @@
     const password = document.getElementById('signupPassword').value;
     const confirm  = document.getElementById('signupConfirm').value;
 
-    if (!email || !password || !confirm) {
-      showError('Please fill in all fields.');
-      return;
-    }
-    if (password.length < 8) {
-      showError('Password must be at least 8 characters.');
-      return;
-    }
-    if (password !== confirm) {
-      showError('Passwords do not match.');
-      return;
-    }
+    if (!email || !password || !confirm) { showError('Please fill in all fields.'); return; }
+    if (password.length < 8) { showError('Password must be at least 8 characters.'); return; }
+    if (password !== confirm) { showError('Passwords do not match.'); return; }
 
     setLoading('btnSignup', true);
 
-    // Check invite table before attempting signup
-    const { data: invite } = await sb
-      .from('admin_invites')
-      .select('email, used_at')
-      .eq('email', email)
-      .maybeSingle();
+    try {
+      // Check invite
+      const { data: invite } = await sb.from('admin_invites').select('email, used_at').eq('email', email).maybeSingle();
+      if (!invite) { showError('This email has not been invited. Contact your administrator.'); setLoading('btnSignup', false); return; }
+      if (invite.used_at) { showError('This invite has already been used.'); setLoading('btnSignup', false); return; }
 
-    if (!invite) {
-      showError('This email has not been invited to the admin panel. Contact your administrator.');
+      invitedEmail = email;
+
+      // Sign up
+      const { error: signUpErr } = await sb.auth.signUp({ email, password });
+      if (signUpErr) { showError(signUpErr.message); setLoading('btnSignup', false); return; }
+
+      // Enroll TOTP
+      const { data: enroll, error: eErr } = await sb.auth.mfa.enroll({ factorType: 'totp', issuer: 'DoveNest Admin' });
+      if (eErr) { showError('MFA setup failed: ' + eErr.message); setLoading('btnSignup', false); return; }
+      if (!enroll || !enroll.totp) { showError('MFA setup failed: no TOTP data returned. Check Supabase MFA is enabled.'); setLoading('btnSignup', false); return; }
+
+      enrollFactorId = enroll.id;
+
+      // Show QR code — use img fallback since qr_code is already a data URI
+      const qrEl = document.getElementById('qrCode');
+      const img = document.createElement('img');
+      img.src = enroll.totp.qr_code;
+      img.width = 180;
+      img.style.borderRadius = '8px';
+      qrEl.appendChild(img);
+
+      document.getElementById('secretText').textContent = enroll.totp.secret;
+
+      // Challenge
+      const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId: enrollFactorId });
+      if (cErr) { showError('Challenge failed: ' + cErr.message); setLoading('btnSignup', false); return; }
+      if (!challenge) { showError('Challenge failed: no response from server.'); setLoading('btnSignup', false); return; }
+      enrollChallengeId = challenge.id;
+
       setLoading('btnSignup', false);
-      return;
-    }
-    if (invite.used_at) {
-      showError('This invite has already been used. Contact your administrator if you need access.');
+
+      // Advance to QR step
+      document.getElementById('step1').classList.remove('active');
+      document.getElementById('step2').classList.add('active');
+      setTimeout(() => document.getElementById('enrollCode').focus(), 150);
+
+    } catch (err) {
+      showError('Unexpected error: ' + (err.message || err));
       setLoading('btnSignup', false);
-      return;
     }
-
-    invitedEmail = email;
-
-    const { error } = await sb.auth.signUp({ email, password });
-    setLoading('btnSignup', false);
-
-    if (error) { showError(error.message); return; }
-
-    // Enroll TOTP factor
-    setLoading('btnSignup', true);
-    const { data: enroll, error: eErr } = await sb.auth.mfa.enroll({ factorType: 'totp', issuer: 'DoveNest Admin' });
-    setLoading('btnSignup', false);
-
-    if (eErr) { showError(eErr.message); return; }
-
-    enrollFactorId = enroll.id;
-
-    // Render QR code
-    const qrEl = document.getElementById('qrCode');
-    QRCode.toCanvas(enroll.totp.qr_code, { width: 180, margin: 1 }, (err, canvas) => {
-      if (err) {
-        // Fallback to img tag
-        const img = document.createElement('img');
-        img.src = enroll.totp.qr_code;
-        img.width = 180;
-        qrEl.appendChild(img);
-      } else {
-        qrEl.appendChild(canvas);
-      }
-    });
-
-    // Show secret for manual entry
-    document.getElementById('secretText').textContent = enroll.totp.secret;
-
-    // Create challenge for verification
-    const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId: enrollFactorId });
-    if (cErr) { showError(cErr.message); return; }
-    enrollChallengeId = challenge.id;
-
-    // Move to step 2
-    document.getElementById('step1').classList.remove('active');
-    document.getElementById('step2').classList.add('active');
-    setTimeout(() => document.getElementById('enrollCode').focus(), 150);
   }
 
   async function handleEnroll() {

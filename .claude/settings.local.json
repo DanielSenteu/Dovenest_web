@@ -27,7 +27,11 @@
       "Bash(grep:*)",
       "Bash(sed:*)",
       "Bash(mv:*)",
-      "Bash(do sed:*)"
+      "Bash(do sed:*)",
+      "Bash(gh api:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(ngrok http:*)"
     ]
   }
 }

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../images/dove_logo.png">
+  <link rel="apple-touch-icon" href="../images/dove_logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login — DoveNest Insurance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -344,31 +346,37 @@
     if (!email || !password) { showError('Please enter your email and password.'); return; }
 
     setLoading('btnPassword', true);
-    const { error } = await sb.auth.signInWithPassword({ email, password });
-    setLoading('btnPassword', false);
 
-    if (error) { showError(error.message); return; }
+    try {
+      const { error: signInErr } = await sb.auth.signInWithPassword({ email, password });
+      if (signInErr) { showError(signInErr.message); setLoading('btnPassword', false); return; }
 
-    // Check if MFA is required
-    const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-    if (aal.nextLevel === 'aal2') {
-      // Get TOTP factor
-      const { data: factors } = await sb.auth.mfa.listFactors();
-      const totp = factors.totp[0];
-      if (!totp) { showError('No MFA factor found. Please sign up again.'); return; }
-      factorId = totp.id;
+      const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aal.nextLevel === 'aal2') {
+        const { data: factors, error: fErr } = await sb.auth.mfa.listFactors();
+        if (fErr) { showError('Could not load MFA factors: ' + fErr.message); setLoading('btnPassword', false); return; }
 
-      // Create challenge
-      const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId });
-      if (cErr) { showError(cErr.message); return; }
-      challengeId = challenge.id;
+        const totp = factors?.totp?.[0];
+        if (!totp) { await sb.auth.signOut(); showError('No MFA factor found. Please sign up again.'); setLoading('btnPassword', false); return; }
+        factorId = totp.id;
 
-      // Show MFA step
-      document.getElementById('step1').classList.remove('active');
-      document.getElementById('step2').classList.add('active');
-      setTimeout(() => document.getElementById('mfaCode').focus(), 100);
-    } else {
-      window.location.replace('dashboard.html');
+        const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId });
+        if (cErr) { showError('MFA challenge failed: ' + cErr.message); setLoading('btnPassword', false); return; }
+        if (!challenge) { showError('MFA challenge returned no data.'); setLoading('btnPassword', false); return; }
+        challengeId = challenge.id;
+
+        setLoading('btnPassword', false);
+        document.getElementById('step1').classList.remove('active');
+        document.getElementById('step2').classList.add('active');
+        setTimeout(() => document.getElementById('mfaCode').focus(), 100);
+      } else {
+        await sb.auth.signOut();
+        showError('This account does not have MFA set up. Please sign up again.');
+        setLoading('btnPassword', false);
+      }
+    } catch (err) {
+      showError('Unexpected error: ' + (err.message || err));
+      setLoading('btnPassword', false);
     }
   }
 

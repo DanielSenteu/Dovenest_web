@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Last Expense (Funeral) Cover — DoveNest Insurance Brokers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef2f7;
+      color: #0A2A4A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    .qf-header { background: #08375f; padding: 0 1.5rem; }
+    .qf-header-inner {
+      max-width: 860px; margin: 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .qf-eyebrow {
+      display: block; color: #E8A020; font-size: 0.58rem; font-weight: 800;
+      letter-spacing: 0.36em; text-transform: uppercase; line-height: 1; margin-bottom: 3px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .qf-header h1 {
+      color: #fff; font-size: clamp(0.82rem, 2.2vw, 1rem);
+      font-weight: 700; font-family: 'Poppins', sans-serif;
+    }
+    .qf-header-badge {
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px; padding: 4px 10px; font-size: 0.68rem; color: #fff;
+      font-weight: 500; white-space: nowrap;
+    }
+
+    /* ── Progress bar ────────────────────────────────────────── */
+    .progress-wrap { background: #08375f; padding-bottom: 1rem; }
+    .progress-inner { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+    .progress-labels {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-label-text { color: rgba(255,255,255,0.7); font-size: 0.72rem; }
+    .progress-step-text { color: #E8A020; font-size: 0.72rem; font-weight: 600; }
+    .progress-track {
+      height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: #E8A020; border-radius: 2px;
+      transition: width 0.4s ease; width: 0%;
+    }
+
+    /* ── Main layout ─────────────────────────────────────────── */
+    .qf-main { flex: 1; padding: 2rem 1rem 4rem; }
+    .qf-card {
+      max-width: 860px; margin: 0 auto; background: #fff;
+      border-radius: 16px; box-shadow: 0 4px 24px rgba(8,55,95,0.10);
+      overflow: hidden;
+    }
+
+    /* ── Step wrapper ────────────────────────────────────────── */
+    .step { display: none; padding: 2rem 2rem 2.5rem; animation: fadeIn 0.25s ease; }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-heading { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; color: #08375f; margin-bottom: 0.35rem; }
+    .step-sub { font-size: 0.85rem; color: #5a7080; margin-bottom: 1.75rem; line-height: 1.5; }
+
+    /* ── Type selection cards ────────────────────────────────── */
+    .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 500px) { .type-grid { grid-template-columns: 1fr; } }
+    .type-card {
+      border: 2px solid #d0dce8; border-radius: 12px; padding: 1.5rem 1.25rem;
+      cursor: pointer; background: #fff; text-align: left; transition: all 0.2s;
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .type-card:hover { border-color: #08375f; background: #f0f7ff; }
+    .type-card.selected { border-color: #08375f; background: #f0f7ff; box-shadow: 0 0 0 3px rgba(8,55,95,0.12); }
+    .type-card-icon { font-size: 2rem; }
+    .type-card-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: #08375f; }
+    .type-card-desc { font-size: 0.8rem; color: #5a7080; line-height: 1.4; }
+
+    /* ── Underwriter cards ───────────────────────────────────── */
+    .underwriter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    @media (max-width: 520px) { .underwriter-grid { grid-template-columns: 1fr; } }
+    .uw-card {
+      border: 2px solid #d0dce8; border-radius: 12px; padding: 1.25rem;
+      cursor: pointer; background: #fff; transition: all 0.2s; position: relative;
+    }
+    .uw-card:hover { border-color: #08375f; }
+    .uw-card.selected { border-color: #08375f; box-shadow: 0 0 0 3px rgba(8,55,95,0.12); }
+    .uw-card-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.95rem; color: #08375f; margin-bottom: 0.75rem; }
+    .uw-feature { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #3a5568; margin-bottom: 0.35rem; }
+    .uw-feature .tick { color: #16a34a; font-weight: 700; }
+    .uw-feature .cross { color: #9ca3af; }
+    .uw-badge {
+      position: absolute; top: -1px; right: -1px; background: #E8A020;
+      color: #fff; font-size: 0.62rem; font-weight: 700; padding: 3px 8px;
+      border-radius: 0 10px 0 8px; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .uw-price-preview { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e8edf2; font-size: 0.8rem; color: #5a7080; }
+    .uw-price-preview strong { color: #08375f; font-size: 1rem; font-family: 'Poppins', sans-serif; }
+
+    /* ── Option selector ─────────────────────────────────────── */
+    .option-label { font-size: 0.85rem; font-weight: 600; color: #08375f; margin-bottom: 0.75rem; }
+    .option-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.4rem; margin-bottom: 1.5rem; }
+    @media (max-width: 600px) { .option-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 380px) { .option-grid { grid-template-columns: repeat(3, 1fr); } }
+    .opt-btn {
+      border: 2px solid #d0dce8; border-radius: 8px; padding: 0.6rem 0.2rem;
+      cursor: pointer; background: #fff; text-align: center; transition: all 0.2s;
+      font-family: 'Poppins', sans-serif;
+    }
+    .opt-btn:hover { border-color: #08375f; }
+    .opt-btn.selected { border-color: #08375f; background: #08375f; color: #fff; }
+    .opt-btn .opt-num { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
+    .opt-btn .opt-cover { font-size: 0.72rem; font-weight: 700; margin-top: 2px; }
+    .opt-btn.selected .opt-num { opacity: 0.7; }
+
+    /* ── Premium summary ticker ──────────────────────────────── */
+    .premium-ticker {
+      background: #f0f7ff; border: 1px solid #b8d4ed; border-radius: 10px;
+      padding: 1rem 1.25rem; display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .ticker-label { font-size: 0.78rem; color: #5a7080; }
+    .ticker-breakdown { font-size: 0.8rem; color: #3a5568; }
+    .ticker-total { text-align: right; }
+    .ticker-total-label { font-size: 0.72rem; color: #5a7080; }
+    .ticker-amount { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 800; color: #08375f; }
+    .ticker-period { font-size: 0.72rem; color: #5a7080; }
+    .ticker-empty { color: #9ca3af; font-size: 0.85rem; font-style: italic; }
+
+    /* ── Form fields ─────────────────────────────────────────── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 600px) { .form-grid, .form-grid.cols-3 { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-group.full { grid-column: 1 / -1; }
+    label {
+      font-size: 0.78rem; font-weight: 600; color: #2d4a5e;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    label .req { color: #e53e3e; margin-left: 2px; }
+    label .opt { color: #9ca3af; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 0.72rem; margin-left: 4px; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea {
+      width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #d0dce8;
+      border-radius: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      color: #0A2A4A; background: #fff; transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: #08375f; box-shadow: 0 0 0 3px rgba(8,55,95,0.08);
+    }
+    input.invalid, select.invalid { border-color: #e53e3e !important; }
+    .field-error { font-size: 0.75rem; color: #e53e3e; display: none; }
+    .field-error.visible { display: block; }
+    .field-hint { font-size: 0.72rem; color: #7a90a0; margin-top: 1px; }
+
+    /* Gender radio row */
+    .gender-row { display: flex; gap: 0.75rem; }
+    .gender-btn {
+      flex: 1; border: 1.5px solid #d0dce8; border-radius: 8px; padding: 0.6rem;
+      cursor: pointer; background: #fff; text-align: center; font-size: 0.85rem;
+      font-weight: 600; color: #5a7080; transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .gender-btn:hover { border-color: #08375f; }
+    .gender-btn.selected { border-color: #08375f; background: #08375f; color: #fff; }
+
+    /* ── Group sub-tabs ──────────────────────────────────────── */
+    .subtab-row { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 2px solid #e8edf2; }
+    .subtab {
+      padding: 0.65rem 1.25rem; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+      color: #5a7080; border: none; background: none; border-bottom: 3px solid transparent;
+      margin-bottom: -2px; transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .subtab.active { color: #08375f; border-bottom-color: #08375f; }
+    .subtab-content { display: none; }
+    .subtab-content.active { display: block; }
+
+    /* Group code verification */
+    .code-row { display: flex; gap: 0.75rem; align-items: flex-start; }
+    .code-row input { flex: 1; text-transform: uppercase; letter-spacing: 0.1em; }
+    .btn-verify {
+      padding: 0.65rem 1.25rem; background: #08375f; color: #fff; border: none;
+      border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+      white-space: nowrap; font-family: 'Inter', sans-serif; transition: background 0.2s;
+    }
+    .btn-verify:hover { background: #0a4a7a; }
+    .btn-verify:disabled { background: #9ca3af; cursor: not-allowed; }
+    .group-verified-banner {
+      display: none; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px;
+      padding: 0.75rem 1rem; font-size: 0.85rem; color: #15803d; margin-top: 0.75rem;
+    }
+    .group-verified-banner.visible { display: flex; align-items: center; gap: 0.5rem; }
+
+    /* Group code display (after registration) */
+    .group-code-display {
+      display: none; background: #f0f7ff; border: 2px solid #08375f; border-radius: 12px;
+      padding: 1.25rem; text-align: center; margin-top: 1rem;
+    }
+    .group-code-display.visible { display: block; }
+    .group-code-display .code-label { font-size: 0.75rem; color: #5a7080; margin-bottom: 0.35rem; }
+    .group-code-display .code-value {
+      font-family: 'Poppins', sans-serif; font-size: 1.75rem; font-weight: 800;
+      color: #08375f; letter-spacing: 0.15em;
+    }
+    .group-code-display .code-share { font-size: 0.8rem; color: #5a7080; margin-top: 0.5rem; }
+
+    /* ── Dependents ──────────────────────────────────────────── */
+    .dep-section { margin-bottom: 1.5rem; }
+    .dep-section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .dep-section-title { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.95rem; color: #08375f; }
+    .btn-add-dep {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.9rem;
+      border: 1.5px solid #08375f; border-radius: 8px; cursor: pointer; background: #fff;
+      color: #08375f; font-size: 0.8rem; font-weight: 600; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-add-dep:hover { background: #08375f; color: #fff; }
+    .btn-add-dep:disabled { border-color: #d0dce8; color: #9ca3af; cursor: not-allowed; background: #f7f9fb; }
+
+    .dep-card {
+      border: 1.5px solid #d0dce8; border-radius: 10px; padding: 1rem 1.1rem;
+      margin-bottom: 0.75rem; background: #fafbfc; animation: fadeIn 0.2s ease;
+    }
+    .dep-card-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.9rem;
+    }
+    .dep-card-title { font-weight: 600; font-size: 0.88rem; color: #2d4a5e; }
+    .btn-remove-dep {
+      border: none; background: none; cursor: pointer; color: #9ca3af; font-size: 0.8rem;
+      padding: 0.25rem; border-radius: 4px; transition: color 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .btn-remove-dep:hover { color: #e53e3e; }
+    .dep-age-badge {
+      display: inline-block; padding: 2px 7px; border-radius: 12px; font-size: 0.7rem;
+      font-weight: 600; margin-left: 0.5rem;
+    }
+    .dep-age-badge.ok { background: #dcfce7; color: #15803d; }
+    .dep-age-badge.warn { background: #fef3c7; color: #b45309; }
+    .dep-age-badge.error { background: #fee2e2; color: #dc2626; }
+    .dep-age-note { font-size: 0.75rem; color: #7a90a0; margin-top: 0.25rem; }
+
+    /* Children 25-29 warning */
+    .absa-only-note {
+      background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px;
+      padding: 0.6rem 0.9rem; font-size: 0.78rem; color: #92400e; margin-top: 0.5rem;
+      display: none;
+    }
+    .absa-only-note.visible { display: block; }
+
+    /* Premium per dependent */
+    .dep-premium-note { font-size: 0.75rem; color: #E8A020; font-weight: 600; margin-top: 0.5rem; }
+
+    /* Biological checkbox */
+    .checkbox-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+    .checkbox-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: #08375f; }
+    .checkbox-row label { font-size: 0.82rem; font-weight: 400; text-transform: none; letter-spacing: 0; color: #3a5568; }
+    .non-bio-note { font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem; }
+
+    /* Section divider */
+    .dep-divider { height: 1px; background: #e8edf2; margin: 1.25rem 0; }
+
+    /* ── Document upload slots ───────────────────────────────── */
+    .doc-intro { font-size: 0.85rem; color: #5a7080; margin-bottom: 1.25rem; line-height: 1.5; }
+    .doc-slot {
+      border: 1.5px solid #d0dce8; border-radius: 10px; padding: 1rem 1.1rem;
+      margin-bottom: 0.75rem; background: #fafbfc;
+    }
+    .doc-slot.uploaded { border-color: #86efac; background: #f0fdf4; }
+    .doc-slot-header { display: flex; align-items: flex-start; gap: 0.75rem; }
+    .doc-slot-icon {
+      width: 40px; height: 40px; min-width: 40px; border-radius: 8px;
+      background: #e8edf2; display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .doc-slot.uploaded .doc-slot-icon { background: #dcfce7; }
+    .doc-slot-info { flex: 1; }
+    .doc-slot-label { font-weight: 600; font-size: 0.88rem; color: #2d4a5e; }
+    .doc-slot-desc { font-size: 0.75rem; color: #7a90a0; margin-top: 2px; }
+    .doc-slot-actions { display: flex; gap: 0.5rem; margin-top: 0.65rem; flex-wrap: wrap; }
+    .btn-camera, .btn-upload {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.85rem;
+      border-radius: 7px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      border: 1.5px solid #d0dce8; background: #fff; color: #2d4a5e;
+      transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .btn-camera:hover, .btn-upload:hover { border-color: #08375f; color: #08375f; }
+    .btn-doc-remove {
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.85rem;
+      border-radius: 7px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      border: 1.5px solid #fca5a5; background: #fff; color: #dc2626;
+      transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .doc-preview-wrap { display: none; margin-top: 0.65rem; }
+    .doc-preview-wrap.visible { display: flex; align-items: center; gap: 0.75rem; }
+    .doc-preview { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; border: 1.5px solid #d0dce8; }
+    .doc-preview-name { font-size: 0.75rem; color: #5a7080; }
+    .doc-slot-required-err { font-size: 0.75rem; color: #e53e3e; display: none; margin-top: 0.35rem; }
+    .doc-slot-required-err.visible { display: block; }
+    /* Hidden file inputs */
+    input.file-hidden { display: none; }
+
+    /* ── Review table ────────────────────────────────────────── */
+    .review-section { margin-bottom: 1.5rem; }
+    .review-section-title {
+      font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 700;
+      color: #08375f; text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid #e8edf2;
+    }
+    .review-row { display: flex; gap: 0.5rem; padding: 0.45rem 0; border-bottom: 1px solid #f0f3f6; }
+    .review-row:last-child { border-bottom: none; }
+    .review-key { font-size: 0.8rem; color: #7a90a0; min-width: 160px; flex-shrink: 0; }
+    .review-val { font-size: 0.85rem; color: #0A2A4A; font-weight: 500; }
+    .review-dep-card {
+      background: #f7f9fb; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 0.5rem;
+    }
+    .review-dep-name { font-weight: 600; font-size: 0.88rem; color: #2d4a5e; }
+    .review-dep-detail { font-size: 0.78rem; color: #7a90a0; margin-top: 2px; }
+    .review-premium-box {
+      background: #f0f7ff; border: 1px solid #b8d4ed; border-radius: 10px; padding: 1rem 1.25rem;
+    }
+    .review-premium-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 0.25rem 0; }
+    .review-premium-total {
+      display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 700;
+      padding-top: 0.6rem; margin-top: 0.4rem; border-top: 2px solid #08375f; color: #08375f;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Declaration ─────────────────────────────────────────── */
+    .declaration-box {
+      background: #f7f9fb; border: 1px solid #d0dce8; border-radius: 10px;
+      padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+    }
+    .declaration-text { font-size: 0.8rem; color: #5a7080; line-height: 1.6; }
+    .declaration-check { display: flex; align-items: flex-start; gap: 0.6rem; margin-top: 0.75rem; cursor: pointer; }
+    .declaration-check input { margin-top: 2px; width: 16px; height: 16px; accent-color: #08375f; flex-shrink: 0; }
+    .declaration-check span { font-size: 0.82rem; color: #2d4a5e; font-weight: 500; }
+
+    /* ── Navigation buttons ──────────────────────────────────── */
+    .step-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; gap: 1rem; }
+    .btn-back {
+      padding: 0.75rem 1.5rem; border: 1.5px solid #d0dce8; border-radius: 10px;
+      background: #fff; color: #5a7080; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .btn-back:hover { border-color: #08375f; color: #08375f; }
+    .btn-next, .btn-submit {
+      padding: 0.75rem 2rem; border: none; border-radius: 10px; background: #08375f;
+      color: #fff; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; font-family: 'Poppins', sans-serif; display: flex;
+      align-items: center; gap: 0.5rem;
+    }
+    .btn-next:hover, .btn-submit:hover { background: #0a4a7a; }
+    .btn-next:disabled, .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+    .btn-submit { background: #16a34a; }
+    .btn-submit:hover { background: #15803d; }
+    .btn-submit.loading { background: #9ca3af; cursor: not-allowed; }
+    .spinner { display: none; width: 16px; height: 16px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .spinner.visible { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Confirmation ────────────────────────────────────────── */
+    .confirm-wrap { text-align: center; padding: 2rem 1rem; }
+    .confirm-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .confirm-heading { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 800; color: #08375f; margin-bottom: 0.5rem; }
+    .confirm-sub { font-size: 0.9rem; color: #5a7080; margin-bottom: 1.5rem; line-height: 1.6; }
+    .confirm-ref {
+      display: inline-block; background: #f0f7ff; border: 2px solid #08375f; border-radius: 10px;
+      padding: 0.75rem 1.5rem; font-family: 'Poppins', sans-serif; font-size: 1rem;
+      font-weight: 700; color: #08375f; letter-spacing: 0.06em; margin-bottom: 1.5rem;
+    }
+    .confirm-next-steps {
+      background: #f7f9fb; border-radius: 10px; padding: 1.25rem; text-align: left; margin-bottom: 1.5rem;
+    }
+    .confirm-next-steps h3 { font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; color: #08375f; margin-bottom: 0.75rem; }
+    .confirm-step { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; font-size: 0.83rem; color: #3a5568; }
+    .confirm-step-num { width: 22px; height: 22px; min-width: 22px; border-radius: 50%; background: #08375f; color: #fff; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.75rem;
+      background: #25D366; color: #fff; border: none; border-radius: 10px;
+      font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* ── Global error banner ─────────────────────────────────── */
+    .global-error {
+      display: none; background: #fee2e2; border: 1px solid #fca5a5;
+      border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem;
+      color: #dc2626; margin-top: 1rem;
+    }
+    .global-error.visible { display: block; }
+
+    /* ── Info callout ────────────────────────────────────────── */
+    .info-box {
+      background: #f0f7ff; border-left: 3px solid #08375f; border-radius: 0 8px 8px 0;
+      padding: 0.75rem 1rem; font-size: 0.8rem; color: #2d4a5e; margin-bottom: 1rem; line-height: 1.5;
+    }
+    .info-box strong { color: #08375f; }
+
+    /* ── Waiting period note ─────────────────────────────────── */
+    .waiting-note { font-size: 0.75rem; color: #7a90a0; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid #e8edf2; }
+    .waiting-note strong { color: #2d4a5e; }
+
+    /* ── Signature pad ───────────────────────────────────────── */
+    .signature-wrap {
+      border: 2px solid #d0dce8; border-radius: 10px; overflow: hidden;
+      position: relative; background: #fafbfc; cursor: crosshair;
+      touch-action: none;
+    }
+    .signature-wrap canvas { display: block; width: 100%; height: 160px; }
+    .signature-placeholder {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      color: #c0ccd8; font-size: 0.88rem; pointer-events: none; user-select: none;
+      white-space: nowrap;
+    }
+    .sig-actions {
+      display: flex; justify-content: flex-end; margin-top: 0.4rem;
+    }
+    .btn-sig-clear {
+      border: 1px solid #d0dce8; background: #fff; padding: 0.35rem 0.85rem;
+      border-radius: 6px; font-size: 0.75rem; color: #5a7080; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .btn-sig-clear:hover { border-color: #e53e3e; color: #e53e3e; }
+    .sig-label { font-size: 0.82rem; color: #2d4a5e; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.5rem; }
+
+    /* Honeypot — never visible */
+    .hp-trap { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+
+    /* ── Section spacing ─────────────────────────────────────── */
+    .mt-1 { margin-top: 0.75rem; }
+    .mt-2 { margin-top: 1.25rem; }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header class="qf-header">
+  <div class="qf-header-inner">
+    <div>
+      <span class="qf-eyebrow">DoveNest Insurance Brokers</span>
+      <h1>Last Expense (Funeral) Cover</h1>
+    </div>
+    <span class="qf-header-badge">IRA Licensed</span>
+  </div>
+</header>
+
+<!-- ── Progress bar ────────────────────────────────────────── -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-labels">
+      <span class="progress-label-text" id="progressStepName">Application Type</span>
+      <span class="progress-step-text" id="progressStepCount">Step 1 of 6</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:16.6%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Main form card ───────────────────────────────────────── -->
+<main class="qf-main">
+<div class="qf-card">
+
+  <!-- Honeypot -->
+  <div class="hp-trap" aria-hidden="true">
+    <input type="text" name="website" id="hp-website" tabindex="-1" autocomplete="off">
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 1 — Application Type
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-type" class="step active">
+    <h2 class="step-heading">How are you applying?</h2>
+    <p class="step-sub">Individual families and groups (chamas, churches, SACCOs) are both welcome. Groups need a minimum of 10 principal members to activate cover.</p>
+
+    <div class="type-grid">
+      <button class="type-card" onclick="selectType('individual')" id="card-individual">
+        <span class="type-card-icon">👨‍👩‍👧‍👦</span>
+        <span class="type-card-title">Individual Family</span>
+        <span class="type-card-desc">Apply for yourself and your family — spouse, children, parents.</span>
+      </button>
+      <button class="type-card" onclick="selectType('group')" id="card-group">
+        <span class="type-card-icon">🏛️</span>
+        <span class="type-card-title">Group</span>
+        <span class="type-card-desc">Chama, church, SACCO, alumni, welfare group or institution.</span>
+      </button>
+    </div>
+
+    <div class="global-error" id="err-type">Please select how you are applying before continuing.</div>
+
+    <div class="step-nav" style="justify-content:flex-end">
+      <button class="btn-next" onclick="goNext()">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 2 — Group Setup (group path only)
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-group" class="step">
+    <h2 class="step-heading">Group Details</h2>
+    <p class="step-sub">Are you registering a new group or joining one that's already been set up?</p>
+
+    <div class="subtab-row">
+      <button class="subtab active" onclick="switchGroupTab('new')" id="tab-new">Register new group</button>
+      <button class="subtab" onclick="switchGroupTab('join')" id="tab-join">Join existing group</button>
+    </div>
+
+    <!-- New group form -->
+    <div id="subtab-new" class="subtab-content active">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="g-name">Group Name <span class="req">*</span></label>
+          <input type="text" id="g-name" placeholder="e.g. Umoja Chama, St. Mary's Church Welfare">
+          <span class="field-error" id="err-g-name">Group name is required</span>
+        </div>
+        <div class="form-group">
+          <label for="g-type">Group Type <span class="req">*</span></label>
+          <select id="g-type">
+            <option value="">Select type…</option>
+            <option value="chama">Chama / Investment Group</option>
+            <option value="church">Church / Religious Group</option>
+            <option value="sacco">SACCO</option>
+            <option value="alumni">Alumni Association</option>
+            <option value="welfare">Welfare Group</option>
+            <option value="other">Other</option>
+          </select>
+          <span class="field-error" id="err-g-type">Please select a group type</span>
+        </div>
+        <div class="form-group">
+          <label for="g-registered">Registration Status</label>
+          <select id="g-registered">
+            <option value="">Select…</option>
+            <option value="yes">Formally registered</option>
+            <option value="no">Informal group</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="g-contact">Contact Person <span class="req">*</span></label>
+          <input type="text" id="g-contact" placeholder="Group leader or welfare officer">
+          <span class="field-error" id="err-g-contact">Contact person name is required</span>
+        </div>
+        <div class="form-group">
+          <label for="g-position">Position / Role <span class="req">*</span></label>
+          <input type="text" id="g-position" placeholder="e.g. Chairperson, Secretary">
+          <span class="field-error" id="err-g-position">Position is required</span>
+        </div>
+        <div class="form-group">
+          <label for="g-phone">Group Contact Phone <span class="req">*</span></label>
+          <input type="tel" id="g-phone" placeholder="07XX XXX XXX">
+          <span class="field-error" id="err-g-phone">A valid Kenyan phone number is required</span>
+        </div>
+      </div>
+
+      <div class="group-code-display" id="groupCodeDisplay">
+        <div class="code-label">Your group code — share with members</div>
+        <div class="code-value" id="groupCodeValue">—</div>
+        <div class="code-share">Each member enters this code when they apply. Keep it safe.</div>
+      </div>
+    </div>
+
+    <!-- Join existing group -->
+    <div id="subtab-join" class="subtab-content">
+      <div class="info-box">
+        <strong>Ask your group leader</strong> for the group code (format: GRP-XXXXXX). Enter it below to link your application to your group.
+      </div>
+      <div class="form-group">
+        <label for="g-join-code">Group Code <span class="req">*</span></label>
+        <div class="code-row">
+          <input type="text" id="g-join-code" placeholder="GRP-XXXXXX" maxlength="10"
+            oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')verifyGroupCode()">
+          <button class="btn-verify" onclick="verifyGroupCode()" id="btnVerify">Verify</button>
+        </div>
+        <span class="field-error" id="err-g-join">Please enter and verify your group code</span>
+        <div class="group-verified-banner" id="groupVerifiedBanner">
+          <span>✓</span> <span id="groupVerifiedName">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="global-error" id="err-group-step"></div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack()">&larr; Back</button>
+      <button class="btn-next" onclick="goNext()">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 3 — Plan Selection
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-plan" class="step">
+    <h2 class="step-heading">Choose Your Cover</h2>
+    <p class="step-sub">Select your insurer and the cover amount that works for your family. Your annual premium updates as you choose.</p>
+
+    <p class="option-label">1. Choose your underwriter</p>
+    <div class="underwriter-grid">
+      <div class="uw-card" id="uw-absa" onclick="selectUnderwriter('absa')">
+        <div class="uw-card-name">ABSA Life Assurance</div>
+        <div class="uw-feature"><span class="tick">✓</span> Up to 5 claims per family/year</div>
+        <div class="uw-feature"><span class="tick">✓</span> Payout within 48 working hours</div>
+        <div class="uw-feature"><span class="tick">✓</span> Complimentary grief counseling</div>
+        <div class="uw-feature"><span class="tick">✓</span> Children aged 25–29 covered</div>
+        <div class="uw-price-preview">Option 1 from <strong>Ksh 5,000</strong>/year</div>
+      </div>
+      <div class="uw-card" id="uw-capex" onclick="selectUnderwriter('capex')">
+        <div class="uw-badge">Budget-friendly</div>
+        <div class="uw-card-name">Capex Life Assurance</div>
+        <div class="uw-feature"><span class="tick">✓</span> Up to 3 claims per family/year</div>
+        <div class="uw-feature"><span class="tick">✓</span> Payout within 2 business days</div>
+        <div class="uw-feature"><span class="cross">—</span> Grief counseling not included</div>
+        <div class="uw-feature"><span class="cross">—</span> Children 25–29 not available</div>
+        <div class="uw-price-preview">Option 1 from <strong>Ksh 2,200</strong>/year</div>
+      </div>
+    </div>
+    <div class="field-error visible" id="err-underwriter" style="display:none">Please select an underwriter</div>
+
+    <p class="option-label" style="margin-top:1.25rem">2. Choose your cover amount</p>
+    <div class="option-grid" id="optionGrid">
+      <button class="opt-btn" onclick="selectOption(1)"><span class="opt-num">Opt 1</span><span class="opt-cover">50K</span></button>
+      <button class="opt-btn" onclick="selectOption(2)"><span class="opt-num">Opt 2</span><span class="opt-cover">100K</span></button>
+      <button class="opt-btn" onclick="selectOption(3)"><span class="opt-num">Opt 3</span><span class="opt-cover">150K</span></button>
+      <button class="opt-btn" onclick="selectOption(4)"><span class="opt-num">Opt 4</span><span class="opt-cover">200K</span></button>
+      <button class="opt-btn" onclick="selectOption(5)"><span class="opt-num">Opt 5</span><span class="opt-cover">300K</span></button>
+      <button class="opt-btn" onclick="selectOption(6)"><span class="opt-num">Opt 6</span><span class="opt-cover">400K</span></button>
+      <button class="opt-btn" onclick="selectOption(7)"><span class="opt-num">Opt 7</span><span class="opt-cover">500K</span></button>
+    </div>
+    <div class="field-error" id="err-option" style="display:none">Please choose a cover option</div>
+
+    <div class="premium-ticker" id="premiumTicker">
+      <div>
+        <div class="ticker-label">Base family premium covers:</div>
+        <div class="ticker-breakdown" id="tickerBreakdown">Principal + 1 spouse + up to 4 children + up to 4 parents</div>
+      </div>
+      <div class="ticker-total">
+        <div class="ticker-total-label">Annual premium</div>
+        <div class="ticker-amount" id="tickerAmount"><span class="ticker-empty">Select options above</span></div>
+        <div class="ticker-period" id="tickerPeriod"></div>
+      </div>
+    </div>
+
+    <div class="waiting-note">
+      <strong>Waiting periods:</strong> 1 month for nuclear family (natural death) &bull; 3 months for parents &amp; in-laws (natural death) &bull; No waiting period for accidental death. HIV/AIDS, COVID-19, political violence and suicide (after waiting period) are covered.
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack()">&larr; Back</button>
+      <button class="btn-next" onclick="goNext()">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 4 — Principal Member Details
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-principal" class="step">
+    <h2 class="step-heading">Your Details</h2>
+    <p class="step-sub">All information must match exactly what appears on your National ID or passport. This is what will be used at the claim stage.</p>
+
+    <div class="form-grid">
+      <div class="form-group full">
+        <label for="p-name">Full Name (as on ID) <span class="req">*</span></label>
+        <input type="text" id="p-name" placeholder="e.g. John Kamau Mwangi" autocomplete="name">
+        <span class="field-error" id="err-p-name">Full name is required</span>
+      </div>
+      <div class="form-group">
+        <label for="p-dob">Date of Birth <span class="req">*</span></label>
+        <input type="date" id="p-dob" onchange="onPrincipalDobChange()">
+        <span class="field-error" id="err-p-dob">Must be aged 18–69</span>
+      </div>
+      <div class="form-group">
+        <label>Gender <span class="req">*</span></label>
+        <div class="gender-row">
+          <button class="gender-btn" onclick="selectGender('M')" id="g-M">Male</button>
+          <button class="gender-btn" onclick="selectGender('F')" id="g-F">Female</button>
+        </div>
+        <span class="field-error" id="err-p-gender">Please select your gender</span>
+      </div>
+      <div class="form-group">
+        <label for="p-id">National ID Number <span class="req">*</span></label>
+        <input type="text" id="p-id" placeholder="e.g. 12345678" inputmode="numeric">
+        <span class="field-error" id="err-p-id">National ID number is required</span>
+      </div>
+      <div class="form-group">
+        <label for="p-kra">KRA PIN <span class="req">*</span></label>
+        <input type="text" id="p-kra" placeholder="e.g. A123456789Z" style="text-transform:uppercase"
+          oninput="this.value=this.value.toUpperCase()">
+        <span class="field-hint">Format: letter + 9 digits + letter</span>
+        <span class="field-error" id="err-p-kra">Valid KRA PIN is required (e.g. A123456789Z)</span>
+      </div>
+      <div class="form-group">
+        <label for="p-email">Email Address <span class="req">*</span></label>
+        <input type="email" id="p-email" placeholder="you@example.com" autocomplete="email">
+        <span class="field-error" id="err-p-email">A valid email address is required</span>
+      </div>
+      <div class="form-group">
+        <label for="p-mobile">Mobile Number <span class="req">*</span></label>
+        <input type="tel" id="p-mobile" placeholder="07XX XXX XXX" autocomplete="tel" maxlength="10">
+        <span class="field-error" id="err-p-mobile">A valid Kenyan mobile number is required</span>
+      </div>
+      <div class="form-group">
+        <label for="p-town">Town / City <span class="req">*</span></label>
+        <input type="text" id="p-town" placeholder="e.g. Nairobi, Mombasa, Kisumu">
+        <span class="field-error" id="err-p-town">Town is required</span>
+      </div>
+      <div class="form-group">
+        <label for="p-occupation">Occupation <span class="req">*</span></label>
+        <input type="text" id="p-occupation" placeholder="e.g. Teacher, Business Owner">
+        <span class="field-error" id="err-p-occupation">Occupation is required</span>
+      </div>
+      <div class="form-group">
+        <label for="p-pobox">P.O. Box <span class="opt">(optional)</span></label>
+        <input type="text" id="p-pobox" placeholder="e.g. 12345">
+      </div>
+      <div class="form-group">
+        <label for="p-postal">Postal Code <span class="opt">(optional)</span></label>
+        <input type="text" id="p-postal" placeholder="e.g. 00200" inputmode="numeric">
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack()">&larr; Back</button>
+      <button class="btn-next" onclick="goNext()">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 5 — Dependents
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-dependents" class="step">
+    <h2 class="step-heading">Add Family Members</h2>
+    <p class="step-sub">Add anyone you want covered under this policy. Up to 4 children are included in your base premium. Adding parents and parents-in-law is also included in your base price.</p>
+
+    <div class="premium-ticker" id="depTicker" style="margin-bottom:1.5rem">
+      <div>
+        <div class="ticker-label">Your selected plan</div>
+        <div class="ticker-breakdown" id="depTickerPlan">—</div>
+      </div>
+      <div class="ticker-total">
+        <div class="ticker-total-label">Running total</div>
+        <div class="ticker-amount" id="depTickerAmount">Ksh —</div>
+        <div class="ticker-period">per year</div>
+      </div>
+    </div>
+
+    <!-- Spouse -->
+    <div class="dep-section">
+      <div class="dep-section-header">
+        <span class="dep-section-title">Spouse</span>
+        <button class="btn-add-dep" id="btnAddSpouse" onclick="addSpouse()">+ Add Spouse</button>
+      </div>
+      <div id="spouseContainer"></div>
+    </div>
+
+    <div class="dep-divider"></div>
+
+    <!-- Children -->
+    <div class="dep-section">
+      <div class="dep-section-header">
+        <span class="dep-section-title">Children</span>
+        <button class="btn-add-dep" id="btnAddChild" onclick="addChild()">+ Add Child</button>
+      </div>
+      <div id="childrenContainer"></div>
+      <div class="absa-only-note" id="absaOnlyNote">
+        Children aged 25–29 are only available under <strong>ABSA Life Assurance</strong>. Your current plan is Capex. To include a 25–29 year old child, go back and switch to ABSA.
+      </div>
+    </div>
+
+    <div class="dep-divider"></div>
+
+    <!-- Parents -->
+    <div class="dep-section">
+      <div class="dep-section-header">
+        <span class="dep-section-title">Your Parents</span>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="btn-add-dep" id="btnAddMother" onclick="addParent('mother','Your Mother')">+ Mother</button>
+          <button class="btn-add-dep" id="btnAddFather" onclick="addParent('father','Your Father')">+ Father</button>
+        </div>
+      </div>
+      <div id="parentsContainer"></div>
+    </div>
+
+    <div class="dep-divider"></div>
+
+    <!-- Parents-in-Law -->
+    <div class="dep-section">
+      <div class="dep-section-header">
+        <span class="dep-section-title">Parents-in-Law</span>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="btn-add-dep" id="btnAddMotherIL" onclick="addParent('mother_in_law','Mother-in-Law')">+ Mother-in-Law</button>
+          <button class="btn-add-dep" id="btnAddFatherIL" onclick="addParent('father_in_law','Father-in-Law')">+ Father-in-Law</button>
+        </div>
+      </div>
+      <div id="parentsILContainer"></div>
+    </div>
+
+    <div class="waiting-note">
+      <strong>Ages (age at next birthday):</strong> Spouse 18–70 &bull; Children 2 weeks–24 yrs (25–29 ABSA only) &bull; Parents &amp; in-laws 31–85 yrs
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack()">&larr; Back</button>
+      <button class="btn-next" onclick="goNext()">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 6 — Document Uploads
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-documents" class="step">
+    <h2 class="step-heading">Upload Documents</h2>
+    <p class="doc-intro">
+      Take a clear photo of each document or upload a saved image. All documents must be <strong>legible</strong> and show the <strong>front side</strong>. These will be reviewed by our team before your cover is confirmed.
+    </p>
+    <div id="docSlotsContainer"></div>
+    <div class="global-error" id="err-docs">Please upload all required documents before continuing.</div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack()">&larr; Back</button>
+      <button class="btn-next" onclick="goNext()">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 7 — Review & Declaration
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-review" class="step">
+    <h2 class="step-heading">Review Your Application</h2>
+    <p class="step-sub">Please check every detail carefully. This information will be used throughout your policy and at claims stage.</p>
+
+    <div id="reviewContent"></div>
+
+    <div class="declaration-box">
+      <p class="declaration-text">
+        I/We confirm that I/we have read and understood the cover details. I/We warrant that the above statements are true and complete and that I/we have not withheld, distorted or concealed any material information for the proposed insurance. I/We confirm that any falsification made in this application is criminal and will render any claim arising from this application liable to be declined. I/We agree to the terms and conditions of the Dovenest Umbrella Last Expense cover as provided by the selected underwriter.
+      </p>
+      <p class="sig-label">Sign below to confirm your agreement:</p>
+      <div class="signature-wrap" id="signatureWrap">
+        <canvas id="signatureCanvas"></canvas>
+        <div class="signature-placeholder" id="sigPlaceholder">✍️ Sign here — finger on mobile, mouse on desktop</div>
+      </div>
+      <div class="sig-actions">
+        <button type="button" class="btn-sig-clear" onclick="clearSignature()">Clear signature</button>
+      </div>
+      <div class="field-error" id="err-signature" style="margin-top:0.4rem">Please sign the declaration before submitting</div>
+    </div>
+
+    <div class="global-error" id="err-review"></div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goBack()">&larr; Back</button>
+      <button class="btn-submit" id="btnSubmit" onclick="submitApplication()" disabled>
+        <div class="spinner" id="submitSpinner"></div>
+        Submit Application
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       STEP 8 — Confirmation
+  ══════════════════════════════════════════════════════════ -->
+  <div id="step-confirm" class="step">
+    <div class="confirm-wrap">
+      <div class="confirm-icon">✅</div>
+      <h2 class="confirm-heading">Application Submitted!</h2>
+      <p class="confirm-sub">Your last expense cover application has been received. Our team will review your documents and be in touch within 2 business days.</p>
+      <div class="confirm-ref" id="confirmRef">LE-XXXXXXXX</div>
+
+      <div class="confirm-next-steps">
+        <h3>What happens next</h3>
+        <div class="confirm-step">
+          <div class="confirm-step-num">1</div>
+          <span>Our team reviews your documents and verifies your details (1–2 business days).</span>
+        </div>
+        <div class="confirm-step">
+          <div class="confirm-step-num">2</div>
+          <span>We send you payment instructions via email and WhatsApp.</span>
+        </div>
+        <div class="confirm-step">
+          <div class="confirm-step-num">3</div>
+          <span>Once payment is confirmed, your cover is activated and you receive your membership certificate.</span>
+        </div>
+      </div>
+
+      <a class="btn-whatsapp" href="https://wa.me/254726001122" target="_blank" rel="noopener">
+        💬 Follow up on WhatsApp
+      </a>
+    </div>
+  </div>
+
+</div><!-- /.qf-card -->
+</main>
+
+<script>
+// ============================================================
+// CONSTANTS
+// ============================================================
+const COVER_AMOUNTS = [50000, 100000, 150000, 200000, 300000, 400000, 500000];
+const PRICING = {
+  absa: {
+    base:        [5000,  7000,  9000,  13200, 14100, 18500, 24000],
+    extra_child: [250,   500,   500,   1000,  1000,  1000,  1000],
+    child_25_29: [300,   500,   750,   1200,  1800,  2800,  4000]
+  },
+  capex: {
+    base:        [2200,  4400,  6500,  8700,  12900, 17000, 21200],
+    extra_child: [100,   200,   300,   400,   600,   800,   1000],
+    child_25_29: null
+  }
+};
+
+const INDIVIDUAL_STEPS = ['type', 'plan', 'principal', 'dependents', 'documents', 'review'];
+const GROUP_STEPS      = ['type', 'group', 'plan', 'principal', 'dependents', 'documents', 'review'];
+const STEP_NAMES = {
+  type: 'Application Type', group: 'Group Details', plan: 'Cover Selection',
+  principal: 'Your Details', dependents: 'Family Members',
+  documents: 'Documents', review: 'Review & Submit'
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let csrfToken = null;
+let currentStepIndex = 0;
+let depCounter = 0;
+
+const fd = {
+  application_type: null,
+  group_code: null, group_name: null, group_type: null,
+  group_contact_person: null, group_contact_position: null,
+  group_contact_phone: null, group_registered: null, group_is_new: null,
+  underwriter: null, cover_option: null, cover_amount: null,
+  base_premium: null, extras_premium: 0, total_premium: null,
+  full_name: '', date_of_birth: '', gender: '', national_id: '',
+  kra_pin: '', email: '', mobile: '', town: '', occupation: '',
+  po_box: '', postal_code: '',
+  dependents: [],
+  documents: {}
+};
+
+// ============================================================
+// STEP NAVIGATION
+// ============================================================
+function getSteps() {
+  return fd.application_type === 'group' ? GROUP_STEPS : INDIVIDUAL_STEPS;
+}
+function currentStepId() { return getSteps()[currentStepIndex]; }
+
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step-' + id);
+  if (el) { el.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  updateProgress();
+}
+
+function updateProgress() {
+  const steps = getSteps();
+  const total = steps.length;
+  const current = currentStepIndex + 1;
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressStepCount').textContent = 'Step ' + current + ' of ' + total;
+  document.getElementById('progressStepName').textContent = STEP_NAMES[currentStepId()] || '';
+}
+
+function goNext() {
+  const id = currentStepId();
+  if (!validateStep(id)) return;
+  currentStepIndex++;
+  const nextId = currentStepId();
+  if (nextId === 'documents') generateDocSlots();
+  if (nextId === 'review') { renderReview(); initSignaturePad(); }
+  showStep(nextId);
+}
+
+function goBack() {
+  if (currentStepIndex === 0) return;
+  currentStepIndex--;
+  showStep(currentStepId());
+}
+
+// ============================================================
+// STEP 1 — TYPE SELECTION
+// ============================================================
+function selectType(type) {
+  fd.application_type = type;
+  document.getElementById('card-individual').classList.toggle('selected', type === 'individual');
+  document.getElementById('card-group').classList.toggle('selected', type === 'group');
+  hide('err-type');
+}
+
+// ============================================================
+// STEP 2 — GROUP SETUP
+// ============================================================
+let groupSubTab = 'new';
+
+function switchGroupTab(tab) {
+  groupSubTab = tab;
+  document.getElementById('tab-new').classList.toggle('active', tab === 'new');
+  document.getElementById('tab-join').classList.toggle('active', tab === 'join');
+  document.getElementById('subtab-new').classList.toggle('active', tab === 'new');
+  document.getElementById('subtab-join').classList.toggle('active', tab === 'join');
+  hide('err-group-step');
+}
+
+async function verifyGroupCode() {
+  const code = val('g-join-code').trim().toUpperCase();
+  if (!code) { showFieldError('err-g-join', 'Please enter a group code'); return; }
+  const btn = document.getElementById('btnVerify');
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try {
+    const res = await fetch('/api/last-expense/group/' + encodeURIComponent(code));
+    if (res.ok) {
+      const data = await res.json();
+      fd.group_code = data.group_code;
+      fd.group_name = data.group_name;
+      fd.group_is_new = false;
+      document.getElementById('groupVerifiedName').textContent = 'Joining: ' + data.group_name;
+      document.getElementById('groupVerifiedBanner').classList.add('visible');
+      hide('err-g-join');
+    } else {
+      fd.group_code = null; fd.group_name = null;
+      document.getElementById('groupVerifiedBanner').classList.remove('visible');
+      showFieldError('err-g-join', 'Group code not found. Please check with your group leader.');
+    }
+  } catch {
+    showFieldError('err-g-join', 'Network error. Please try again.');
+  }
+  btn.disabled = false; btn.textContent = 'Verify';
+}
+
+// ============================================================
+// STEP 3 — PLAN SELECTION
+// ============================================================
+function selectUnderwriter(uw) {
+  fd.underwriter = uw;
+  document.getElementById('uw-absa').classList.toggle('selected', uw === 'absa');
+  document.getElementById('uw-capex').classList.toggle('selected', uw === 'capex');
+  hide('err-underwriter');
+  recalcPremium();
+  updateAbsaOnlyNote();
+}
+
+function selectOption(opt) {
+  fd.cover_option = opt;
+  fd.cover_amount = COVER_AMOUNTS[opt - 1];
+  document.querySelectorAll('.opt-btn').forEach((b, i) => b.classList.toggle('selected', i + 1 === opt));
+  hide('err-option');
+  recalcPremium();
+}
+
+function recalcPremium() {
+  if (!fd.underwriter || !fd.cover_option) {
+    document.getElementById('tickerAmount').innerHTML = '<span class="ticker-empty">Select options above</span>';
+    document.getElementById('tickerPeriod').textContent = '';
+    return;
+  }
+  const idx = fd.cover_option - 1;
+  const pricing = PRICING[fd.underwriter];
+  fd.base_premium = pricing.base[idx];
+
+  // Calculate extras from current dependents
+  fd.extras_premium = calcExtrasPremium();
+  fd.total_premium = fd.base_premium + fd.extras_premium;
+
+  const fmt = n => 'Ksh ' + n.toLocaleString();
+  document.getElementById('tickerAmount').textContent = fmt(fd.total_premium);
+  document.getElementById('tickerPeriod').textContent = '/ year';
+  updateDepTicker();
+}
+
+function calcExtrasPremium() {
+  if (!fd.underwriter || !fd.cover_option) return 0;
+  const idx = fd.cover_option - 1;
+  const pricing = PRICING[fd.underwriter];
+  let extras = 0;
+  const children = fd.dependents.filter(d => d.relationship === 'child');
+  children.forEach((c, i) => {
+    const age = calcAge(c.date_of_birth);
+    if (age >= 25 && age <= 29 && pricing.child_25_29) {
+      extras += pricing.child_25_29[idx];
+    } else if (i >= 4) {
+      extras += pricing.extra_child[idx];
+    }
+  });
+  return extras;
+}
+
+function updateDepTicker() {
+  const el = document.getElementById('depTickerPlan');
+  const amtEl = document.getElementById('depTickerAmount');
+  if (!fd.underwriter || !fd.cover_option) { return; }
+  const uwName = fd.underwriter === 'absa' ? 'ABSA Life' : 'Capex Life';
+  el.textContent = uwName + ' · Option ' + fd.cover_option + ' · Ksh ' + fd.cover_amount.toLocaleString() + ' cover';
+  recalcPremium();
+  amtEl.textContent = 'Ksh ' + fd.total_premium.toLocaleString();
+}
+
+// ============================================================
+// STEP 4 — PRINCIPAL
+// ============================================================
+function selectGender(g) {
+  fd.gender = g;
+  document.getElementById('g-M').classList.toggle('selected', g === 'M');
+  document.getElementById('g-F').classList.toggle('selected', g === 'F');
+  hide('err-p-gender');
+}
+
+function onPrincipalDobChange() {
+  const dob = val('p-dob');
+  const age = calcAge(dob);
+  if (age < 18 || age > 69) {
+    document.getElementById('p-dob').classList.add('invalid');
+    showFieldError('err-p-dob', 'Principal member must be aged 18–69');
+  } else {
+    document.getElementById('p-dob').classList.remove('invalid');
+    hide('err-p-dob');
+  }
+}
+
+// ============================================================
+// STEP 5 — DEPENDENTS
+// ============================================================
+function addSpouse() {
+  if (fd.dependents.find(d => d.relationship === 'spouse')) return;
+  const id = nextDepId();
+  fd.dependents.push({ id, relationship: 'spouse', full_name: '', date_of_birth: '', id_number: '', doc_type: 'id', mobile: '', is_biological: null, additional_premium: 0 });
+  document.getElementById('btnAddSpouse').disabled = true;
+  renderDepCard(id, 'spouseContainer', 'Spouse', false);
+}
+
+function addChild() {
+  const id = nextDepId();
+  fd.dependents.push({ id, relationship: 'child', full_name: '', date_of_birth: '', id_number: '', doc_type: 'birth_cert', mobile: '', is_biological: true, additional_premium: 0 });
+  const childCount = fd.dependents.filter(d => d.relationship === 'child').length;
+  renderDepCard(id, 'childrenContainer', 'Child ' + childCount, true);
+  recalcPremium();
+}
+
+function addParent(relationship, label) {
+  if (fd.dependents.find(d => d.relationship === relationship)) return;
+  const id = nextDepId();
+  fd.dependents.push({ id, relationship, full_name: '', date_of_birth: '', id_number: '', doc_type: 'id', mobile: '', is_biological: null, additional_premium: 0 });
+  const btnId = { mother: 'btnAddMother', father: 'btnAddFather', mother_in_law: 'btnAddMotherIL', father_in_law: 'btnAddFatherIL' }[relationship];
+  if (btnId) document.getElementById(btnId).disabled = true;
+  const containerId = (relationship === 'mother_in_law' || relationship === 'father_in_law') ? 'parentsILContainer' : 'parentsContainer';
+  renderDepCard(id, containerId, label, false);
+}
+
+function nextDepId() { depCounter++; return 'dep-' + depCounter; }
+
+function renderDepCard(id, containerId, label, isChild) {
+  const dep = fd.dependents.find(d => d.id === id);
+  const container = document.getElementById(containerId);
+  const card = document.createElement('div');
+  card.className = 'dep-card';
+  card.id = 'card-' + id;
+
+  const isParent = ['mother','father','mother_in_law','father_in_law'].includes(dep.relationship);
+  const minAge = isParent ? 31 : (dep.relationship === 'spouse' ? 18 : 0);
+  const maxAge = isParent ? 85 : (dep.relationship === 'spouse' ? 69 : 29);
+
+  card.innerHTML = `
+    <div class="dep-card-header">
+      <span class="dep-card-title">${label} <span class="dep-age-badge" id="badge-${id}"></span></span>
+      <button class="btn-remove-dep" onclick="removeDep('${id}', '${dep.relationship}')">✕ Remove</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group ${isChild ? '' : 'full'}">
+        <label>Full Name <span class="req">*</span></label>
+        <input type="text" id="${id}-name" placeholder="As on ID / birth certificate"
+          oninput="updateDep('${id}','full_name',this.value)">
+        <span class="field-error" id="err-${id}-name">Name is required</span>
+      </div>
+      <div class="form-group">
+        <label>Date of Birth <span class="req">*</span></label>
+        <input type="date" id="${id}-dob" onchange="onDepDobChange('${id}')">
+        <span class="field-error" id="err-${id}-dob">Date of birth required${isParent ? ' (age 31–85)' : dep.relationship === 'spouse' ? ' (age 18–69)' : ''}</span>
+      </div>
+      ${isChild ? `
+      <div class="form-group">
+        <label>ID / Doc Number <span class="opt">(if 18+)</span></label>
+        <input type="text" id="${id}-idnum" placeholder="ID or passport number"
+          oninput="updateDep('${id}','id_number',this.value)">
+      </div>
+      ` : `
+      <div class="form-group">
+        <label>ID / Passport Number <span class="req">*</span></label>
+        <input type="text" id="${id}-idnum" placeholder="As on ID or passport"
+          oninput="updateDep('${id}','id_number',this.value)">
+        <span class="field-error" id="err-${id}-idnum">ID number is required</span>
+      </div>
+      `}
+      ${!isChild ? `
+      <div class="form-group">
+        <label>Mobile Number <span class="opt">(optional)</span></label>
+        <input type="tel" id="${id}-mobile" placeholder="07XX XXX XXX" maxlength="10"
+          oninput="updateDep('${id}','mobile',this.value)">
+      </div>
+      ` : ''}
+    </div>
+    ${isChild ? `
+    <div class="checkbox-row">
+      <input type="checkbox" id="${id}-bio" checked onchange="updateDep('${id}','is_biological',this.checked)">
+      <label for="${id}-bio">This is my biological child</label>
+    </div>
+    <div class="non-bio-note" id="${id}-nonbionote" style="display:none">An affidavit of support will be required for non-biological children.</div>
+    ` : ''}
+    <div class="dep-premium-note" id="extra-${id}" style="display:none"></div>
+  `;
+  container.appendChild(card);
+
+  // Wire biological checkbox
+  if (isChild) {
+    document.getElementById(id + '-bio').addEventListener('change', function () {
+      document.getElementById(id + '-nonbionote').style.display = this.checked ? 'none' : 'block';
+      updateDep(id, 'is_biological', this.checked);
+    });
+  }
+}
+
+function updateDep(id, field, value) {
+  const dep = fd.dependents.find(d => d.id === id);
+  if (dep) dep[field] = value;
+}
+
+function onDepDobChange(id) {
+  const dep = fd.dependents.find(d => d.id === id);
+  if (!dep) return;
+  const dob = document.getElementById(id + '-dob').value;
+  dep.date_of_birth = dob;
+  const age = calcAge(dob);
+  const badge = document.getElementById('badge-' + id);
+  const extraNote = document.getElementById('extra-' + id);
+  const isParent = ['mother','father','mother_in_law','father_in_law'].includes(dep.relationship);
+
+  badge.textContent = '';
+  if (!dob) return;
+
+  // Show age badge
+  if (dep.relationship === 'child') {
+    dep.doc_type = age >= 18 ? 'id' : 'birth_cert';
+    if (age > 29) {
+      badge.textContent = 'Over 29 — not eligible'; badge.className = 'dep-age-badge error';
+    } else if (age >= 25) {
+      badge.textContent = 'Age ' + Math.floor(age) + ' — ABSA only'; badge.className = 'dep-age-badge warn';
+      if (fd.underwriter === 'capex') document.getElementById('absaOnlyNote').classList.add('visible');
+      // Show extra premium
+      if (fd.underwriter === 'absa' && fd.cover_option) {
+        const extra = PRICING.absa.child_25_29[fd.cover_option - 1];
+        extraNote.textContent = '+ Ksh ' + extra.toLocaleString() + '/yr (age 25–29 additional premium)';
+        extraNote.style.display = 'block';
+      }
+    } else {
+      badge.textContent = age < 1 ? 'Infant' : 'Age ' + Math.floor(age); badge.className = 'dep-age-badge ok';
+      extraNote.style.display = 'none';
+    }
+    // Check if 5th+ standard child
+    const standardChildIdx = fd.dependents.filter(d => d.relationship === 'child' && (calcAge(d.date_of_birth) < 25 || !d.date_of_birth)).indexOf(dep);
+    if (standardChildIdx >= 4 && fd.cover_option) {
+      const extra = PRICING[fd.underwriter] ? PRICING[fd.underwriter].extra_child[fd.cover_option - 1] : 0;
+      if (extra) { extraNote.textContent = '+ Ksh ' + extra.toLocaleString() + '/yr (5th+ child additional premium)'; extraNote.style.display = 'block'; }
+    }
+  } else if (isParent) {
+    if (age < 31 || age > 85) {
+      badge.textContent = 'Not eligible (31–85 only)'; badge.className = 'dep-age-badge error';
+    } else {
+      badge.textContent = 'Age ' + Math.floor(age); badge.className = 'dep-age-badge ok';
+    }
+  } else if (dep.relationship === 'spouse') {
+    if (age < 18 || age > 69) {
+      badge.textContent = 'Not eligible (18–69 only)'; badge.className = 'dep-age-badge error';
+    } else {
+      badge.textContent = 'Age ' + Math.floor(age); badge.className = 'dep-age-badge ok';
+    }
+  }
+  recalcPremium();
+}
+
+function removeDep(id, relationship) {
+  fd.dependents = fd.dependents.filter(d => d.id !== id);
+  const card = document.getElementById('card-' + id);
+  if (card) card.remove();
+  // Re-enable add buttons
+  if (relationship === 'spouse') document.getElementById('btnAddSpouse').disabled = false;
+  if (relationship === 'mother') document.getElementById('btnAddMother').disabled = false;
+  if (relationship === 'father') document.getElementById('btnAddFather').disabled = false;
+  if (relationship === 'mother_in_law') document.getElementById('btnAddMotherIL').disabled = false;
+  if (relationship === 'father_in_law') document.getElementById('btnAddFatherIL').disabled = false;
+  recalcPremium();
+  updateAbsaOnlyNote();
+  // Renumber child cards
+  if (relationship === 'child') {
+    const children = fd.dependents.filter(d => d.relationship === 'child');
+    children.forEach((c, i) => {
+      const hdr = document.querySelector('#card-' + c.id + ' .dep-card-title');
+      if (hdr) { const badge = hdr.querySelector('.dep-age-badge'); hdr.firstChild.textContent = 'Child ' + (i + 1) + ' '; if (badge) hdr.appendChild(badge); }
+    });
+  }
+}
+
+function updateAbsaOnlyNote() {
+  const has25plus = fd.dependents.some(d => d.relationship === 'child' && calcAge(d.date_of_birth) >= 25);
+  if (has25plus && fd.underwriter === 'capex') {
+    document.getElementById('absaOnlyNote').classList.add('visible');
+  } else {
+    document.getElementById('absaOnlyNote').classList.remove('visible');
+  }
+}
+
+// ============================================================
+// STEP 6 — DOCUMENT UPLOADS
+// ============================================================
+function getRequiredDocs() {
+  const docs = [];
+  docs.push({ key: 'principal_national_id', label: 'Your National ID', desc: 'Front side clearly visible', icon: '🪪', type: 'national_id', depId: null });
+  docs.push({ key: 'principal_kra_pin', label: 'Your KRA PIN Certificate', desc: 'Physical certificate or KRA portal printout', icon: '📄', type: 'kra_pin', depId: null });
+
+  fd.dependents.forEach(dep => {
+    const age = calcAge(dep.date_of_birth);
+    const name = dep.full_name || relLabel(dep.relationship);
+    if (dep.relationship === 'spouse') {
+      docs.push({ key: dep.id + '_document', label: name + ' — ID / Passport', desc: 'Front side clearly visible', icon: '🪪', type: 'id', depId: dep.id });
+    } else if (dep.relationship === 'child') {
+      if (age >= 18) {
+        docs.push({ key: dep.id + '_document', label: name + ' — National ID / Passport', desc: 'Front side clearly visible (age 18+)', icon: '🪪', type: 'id', depId: dep.id });
+      } else {
+        docs.push({ key: dep.id + '_document', label: name + ' — Birth Certificate', desc: age < 0.17 ? 'Birth notification accepted for infants' : 'Original or certified copy', icon: '📋', type: 'birth_cert', depId: dep.id });
+      }
+      if (dep.is_biological === false) {
+        docs.push({ key: dep.id + '_affidavit', label: name + ' — Affidavit of Support', desc: 'Required for non-biological children', icon: '⚖️', type: 'affidavit', depId: dep.id });
+      }
+    } else {
+      docs.push({ key: dep.id + '_document', label: name + ' — ID / Passport', desc: 'Front side clearly visible', icon: '🪪', type: 'id', depId: dep.id });
+    }
+  });
+  return docs;
+}
+
+function relLabel(rel) {
+  return { spouse: 'Spouse', child: 'Child', mother: 'Mother', father: 'Father', mother_in_law: 'Mother-in-Law', father_in_law: 'Father-in-Law' }[rel] || rel;
+}
+
+function generateDocSlots() {
+  const container = document.getElementById('docSlotsContainer');
+  container.innerHTML = '';
+  getRequiredDocs().forEach(doc => {
+    const slot = document.createElement('div');
+    slot.className = 'doc-slot';
+    slot.id = 'slot-' + doc.key;
+    slot.innerHTML = `
+      <div class="doc-slot-header">
+        <div class="doc-slot-icon" id="icon-${doc.key}">${doc.icon}</div>
+        <div class="doc-slot-info">
+          <div class="doc-slot-label">${doc.label}</div>
+          <div class="doc-slot-desc">${doc.desc}</div>
+          <div class="doc-slot-actions">
+            <label class="btn-camera" for="cam-${doc.key}">📷 Take Photo</label>
+            <input class="file-hidden" type="file" id="cam-${doc.key}" accept="image/*" capture="environment" onchange="handleFile('${doc.key}', this)">
+            <label class="btn-upload" for="file-${doc.key}">📁 Upload File</label>
+            <input class="file-hidden" type="file" id="file-${doc.key}" accept="image/*,application/pdf" onchange="handleFile('${doc.key}', this)">
+            <button class="btn-doc-remove" id="remove-${doc.key}" onclick="removeDoc('${doc.key}')" style="display:none">✕ Remove</button>
+          </div>
+        </div>
+      </div>
+      <div class="doc-preview-wrap" id="preview-${doc.key}">
+        <img class="doc-preview" id="previewImg-${doc.key}" src="" alt="Preview">
+        <div class="doc-preview-name" id="previewName-${doc.key}"></div>
+      </div>
+      <div class="doc-slot-required-err" id="err-slot-${doc.key}">This document is required</div>
+    `;
+    container.appendChild(slot);
+
+    // Restore if already uploaded
+    if (fd.documents[doc.key]) {
+      markDocUploaded(doc.key, fd.documents[doc.key].name || 'Document uploaded');
+    }
+  });
+}
+
+async function handleFile(key, input) {
+  const file = input.files[0];
+  if (!file) return;
+  try {
+    const compressed = await compressImage(file);
+    fd.documents[key] = { data: compressed, mimeType: 'image/jpeg', name: file.name };
+    markDocUploaded(key, file.name);
+    hide('err-slot-' + key);
+  } catch {
+    fd.documents[key] = null;
+  }
+  input.value = '';
+}
+
+function compressImage(file) {
+  return new Promise((resolve, reject) => {
+    if (file.type === 'application/pdf') {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = e => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const MAX = 1400;
+        let { width: w, height: h } = img;
+        if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+        if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function markDocUploaded(key, name) {
+  const slot = document.getElementById('slot-' + key);
+  if (slot) slot.classList.add('uploaded');
+  document.getElementById('icon-' + key).textContent = '✅';
+  const preview = document.getElementById('preview-' + key);
+  const previewImg = document.getElementById('previewImg-' + key);
+  const previewName = document.getElementById('previewName-' + key);
+  if (fd.documents[key] && fd.documents[key].data && !fd.documents[key].data.startsWith('data:application/pdf')) {
+    previewImg.src = fd.documents[key].data;
+    preview.classList.add('visible');
+  }
+  if (previewName) previewName.textContent = name;
+  const removeBtn = document.getElementById('remove-' + key);
+  if (removeBtn) removeBtn.style.display = 'inline-flex';
+}
+
+function removeDoc(key) {
+  delete fd.documents[key];
+  const slot = document.getElementById('slot-' + key);
+  if (slot) slot.classList.remove('uploaded');
+  document.getElementById('icon-' + key).textContent = '🪪';
+  document.getElementById('preview-' + key).classList.remove('visible');
+  document.getElementById('previewImg-' + key).src = '';
+  const removeBtn = document.getElementById('remove-' + key);
+  if (removeBtn) removeBtn.style.display = 'none';
+}
+
+// ============================================================
+// STEP 7 — REVIEW
+// ============================================================
+function renderReview() {
+  const uwName = { absa: 'ABSA Life Assurance Kenya Ltd', capex: 'Capex Life Assurance' }[fd.underwriter] || fd.underwriter;
+  const fmt = n => 'Ksh ' + Number(n).toLocaleString();
+
+  let html = '';
+
+  // Plan
+  html += section('Cover Details', `
+    <div class="review-row"><span class="review-key">Underwriter</span><span class="review-val">${uwName}</span></div>
+    <div class="review-row"><span class="review-key">Cover Option</span><span class="review-val">Option ${fd.cover_option} — ${fmt(fd.cover_amount)} per person</span></div>
+    <div class="review-row"><span class="review-key">Application Type</span><span class="review-val">${fd.application_type === 'group' ? 'Group — ' + (fd.group_name || '') : 'Individual Family'}</span></div>
+  `);
+
+  // Principal
+  html += section('Your Details', `
+    <div class="review-row"><span class="review-key">Full Name</span><span class="review-val">${esc(fd.full_name)}</span></div>
+    <div class="review-row"><span class="review-key">Date of Birth</span><span class="review-val">${fd.date_of_birth}</span></div>
+    <div class="review-row"><span class="review-key">Gender</span><span class="review-val">${fd.gender === 'M' ? 'Male' : 'Female'}</span></div>
+    <div class="review-row"><span class="review-key">National ID</span><span class="review-val">${esc(fd.national_id)}</span></div>
+    <div class="review-row"><span class="review-key">KRA PIN</span><span class="review-val">${esc(fd.kra_pin)}</span></div>
+    <div class="review-row"><span class="review-key">Email</span><span class="review-val">${esc(fd.email)}</span></div>
+    <div class="review-row"><span class="review-key">Mobile</span><span class="review-val">${esc(fd.mobile)}</span></div>
+    <div class="review-row"><span class="review-key">Town</span><span class="review-val">${esc(fd.town)}</span></div>
+    <div class="review-row"><span class="review-key">Occupation</span><span class="review-val">${esc(fd.occupation)}</span></div>
+    ${fd.po_box ? `<div class="review-row"><span class="review-key">P.O. Box</span><span class="review-val">${esc(fd.po_box)} ${fd.postal_code || ''}</span></div>` : ''}
+  `);
+
+  // Dependents
+  if (fd.dependents.length > 0) {
+    let depHtml = '';
+    fd.dependents.forEach(dep => {
+      const age = dep.date_of_birth ? Math.floor(calcAge(dep.date_of_birth)) : '—';
+      depHtml += `<div class="review-dep-card">
+        <div class="review-dep-name">${esc(dep.full_name || '—')} <span style="font-weight:400;color:#7a90a0"> — ${relLabel(dep.relationship)}</span></div>
+        <div class="review-dep-detail">DOB: ${dep.date_of_birth || '—'} · Age: ${age} · Doc: ${dep.doc_type || '—'}${dep.is_biological === false ? ' · Non-biological (affidavit required)' : ''}</div>
+      </div>`;
+    });
+    html += section('Family Members (' + fd.dependents.length + ')', depHtml);
+  }
+
+  // Documents
+  const docKeys = Object.keys(fd.documents);
+  html += section('Documents Uploaded', `<div class="review-row"><span class="review-key">Files ready</span><span class="review-val">${docKeys.length} document${docKeys.length !== 1 ? 's' : ''} uploaded</span></div>`);
+
+  // Premium breakdown
+  let premHtml = `<div class="review-premium-box">
+    <div class="review-premium-row"><span>Base family premium (Option ${fd.cover_option})</span><span>${fmt(fd.base_premium)}</span></div>`;
+  if (fd.extras_premium > 0) {
+    premHtml += `<div class="review-premium-row"><span>Additional premiums</span><span>${fmt(fd.extras_premium)}</span></div>`;
+  }
+  premHtml += `<div class="review-premium-total"><span>Total Annual Premium</span><span>${fmt(fd.total_premium)}</span></div></div>`;
+  html += section('Premium Summary', premHtml);
+
+  document.getElementById('reviewContent').innerHTML = html;
+}
+
+function section(title, content) {
+  return `<div class="review-section"><div class="review-section-title">${title}</div>${content}</div>`;
+}
+
+
+// ============================================================
+// SIGNATURE PAD
+// ============================================================
+let signaturePad = null;
+
+function initSignaturePad() {
+  const canvas = document.getElementById('signatureCanvas');
+  if (!canvas) return;
+  document.getElementById('btnSubmit').disabled = true;
+  // Wait for layout so we can measure the wrapper width
+  setTimeout(() => {
+    const wrap = document.getElementById('signatureWrap');
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width  = wrap.offsetWidth * ratio;
+    canvas.height = 160 * ratio;
+    canvas.style.height = '160px';
+    canvas.getContext('2d').scale(ratio, ratio);
+    if (signaturePad) signaturePad.off();
+    signaturePad = new SignaturePad(canvas, {
+      backgroundColor: 'rgb(250,251,252)',
+      penColor: '#08375f',
+      minWidth: 1.2,
+      maxWidth: 3
+    });
+    signaturePad.addEventListener('endStroke', () => {
+      if (!signaturePad.isEmpty()) {
+        document.getElementById('sigPlaceholder').style.display = 'none';
+        document.getElementById('btnSubmit').disabled = false;
+        hide('err-signature');
+      }
+    });
+  }, 80);
+}
+
+function clearSignature() {
+  if (!signaturePad) return;
+  signaturePad.clear();
+  document.getElementById('sigPlaceholder').style.display = '';
+  document.getElementById('btnSubmit').disabled = true;
+}
+
+// ============================================================
+// FORM SUBMISSION
+// ============================================================
+async function submitApplication() {
+  const btn = document.getElementById('btnSubmit');
+  const spinner = document.getElementById('submitSpinner');
+  btn.disabled = true; btn.classList.add('loading'); spinner.classList.add('visible');
+  hide('err-review');
+
+  // Build payload (strip base64 data from documents for size estimate, then include)
+  const payload = {
+    website: document.getElementById('hp-website').value,
+    csrf_token: csrfToken,
+    application_type: fd.application_type,
+    group_code: fd.group_code,
+    group_name: fd.group_name,
+    group_type: fd.group_type,
+    group_contact_person: fd.group_contact_person,
+    group_contact_position: fd.group_contact_position,
+    group_contact_phone: fd.group_contact_phone,
+    group_registered: fd.group_registered,
+    group_is_new: fd.group_is_new,
+    underwriter: fd.underwriter,
+    cover_option: fd.cover_option,
+    cover_amount: fd.cover_amount,
+    base_premium: fd.base_premium,
+    extras_premium: fd.extras_premium,
+    total_premium: fd.total_premium,
+    full_name: fd.full_name.trim(),
+    date_of_birth: fd.date_of_birth,
+    gender: fd.gender,
+    national_id: fd.national_id.trim(),
+    kra_pin: fd.kra_pin.trim(),
+    email: fd.email.trim().toLowerCase(),
+    mobile: normalizePhone(fd.mobile),
+    town: fd.town.trim(),
+    occupation: fd.occupation.trim(),
+    po_box: fd.po_box.trim(),
+    postal_code: fd.postal_code.trim(),
+    dependents: fd.dependents.map(d => ({
+      id: d.id, relationship: d.relationship, full_name: d.full_name.trim(),
+      date_of_birth: d.date_of_birth, id_number: d.id_number ? d.id_number.trim() : null,
+      doc_type: d.doc_type, mobile: d.mobile ? normalizePhone(d.mobile) : null,
+      is_biological: d.is_biological, additional_premium: d.additional_premium
+    })),
+    documents: {}
+  };
+
+  // Attach signature
+  if (!signaturePad || signaturePad.isEmpty()) {
+    showGlobalError('err-review', 'Please sign the declaration before submitting.');
+    btn.disabled = false; btn.classList.remove('loading'); spinner.classList.remove('visible');
+    show('err-signature');
+    return;
+  }
+  fd.documents['signature'] = { data: signaturePad.toDataURL('image/png'), mimeType: 'image/png', name: 'signature.png' };
+
+  // Include document data
+  for (const [key, doc] of Object.entries(fd.documents)) {
+    if (doc && doc.data) payload.documents[key] = { data: doc.data, mimeType: doc.mimeType || 'image/jpeg' };
+  }
+
+  try {
+    const res = await fetch('/api/last-expense/apply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('confirmRef').textContent = data.ref;
+      currentStepIndex = getSteps().length; // past end
+      showStep('confirm');
+      document.getElementById('progressFill').style.width = '100%';
+      document.getElementById('progressStepCount').textContent = 'Complete';
+      document.getElementById('progressStepName').textContent = 'Application Submitted';
+    } else {
+      showGlobalError('err-review', data.error || 'Submission failed. Please try again.');
+      btn.disabled = false; btn.classList.remove('loading'); spinner.classList.remove('visible');
+      document.getElementById('declarationCheck').checked = false;
+    }
+  } catch {
+    showGlobalError('err-review', 'Network error. Please check your connection and try again.');
+    btn.disabled = false; btn.classList.remove('loading'); spinner.classList.remove('visible');
+  }
+}
+
+// ============================================================
+// VALIDATION
+// ============================================================
+function validateStep(id) {
+  let ok = true;
+
+  if (id === 'type') {
+    if (!fd.application_type) { show('err-type'); ok = false; }
+    else hide('err-type');
+  }
+
+  if (id === 'group') {
+    if (groupSubTab === 'new') {
+      fd.group_is_new = true;
+      ok = requireField('g-name', 'err-g-name', 'Group name is required') && ok;
+      ok = requireSelect('g-type', 'err-g-type', 'Please select a group type') && ok;
+      ok = requireField('g-contact', 'err-g-contact', 'Contact person name is required') && ok;
+      ok = requireField('g-position', 'err-g-position', 'Position is required') && ok;
+      ok = requirePhone('g-phone', 'err-g-phone') && ok;
+      if (ok) {
+        fd.group_name = val('g-name').trim();
+        fd.group_type = val('g-type');
+        fd.group_registered = val('g-registered') === 'yes';
+        fd.group_contact_person = val('g-contact').trim();
+        fd.group_contact_position = val('g-position').trim();
+        fd.group_contact_phone = normalizePhone(val('g-phone'));
+      }
+    } else {
+      fd.group_is_new = false;
+      if (!fd.group_code) {
+        showFieldError('err-g-join', 'Please enter and verify your group code');
+        ok = false;
+      }
+    }
+    if (!ok) { hide('err-group-step'); }
+  }
+
+  if (id === 'plan') {
+    if (!fd.underwriter) { document.getElementById('err-underwriter').style.display = 'block'; ok = false; }
+    else document.getElementById('err-underwriter').style.display = 'none';
+    if (!fd.cover_option) { document.getElementById('err-option').style.display = 'block'; ok = false; }
+    else document.getElementById('err-option').style.display = 'none';
+  }
+
+  if (id === 'principal') {
+    ok = requireField('p-name', 'err-p-name', 'Full name is required') && ok;
+    ok = requireDob('p-dob', 'err-p-dob', 18, 69) && ok;
+    if (!fd.gender) { showFieldError('err-p-gender', 'Please select your gender'); ok = false; } else hide('err-p-gender');
+    ok = requireField('p-id', 'err-p-id', 'National ID number is required') && ok;
+    ok = requireKra('p-kra', 'err-p-kra') && ok;
+    ok = requireEmail('p-email', 'err-p-email') && ok;
+    ok = requirePhone('p-mobile', 'err-p-mobile') && ok;
+    ok = requireField('p-town', 'err-p-town', 'Town is required') && ok;
+    ok = requireField('p-occupation', 'err-p-occupation', 'Occupation is required') && ok;
+    if (ok) {
+      fd.full_name = val('p-name').trim();
+      fd.date_of_birth = val('p-dob');
+      fd.national_id = val('p-id').trim();
+      fd.kra_pin = val('p-kra').trim().toUpperCase();
+      fd.email = val('p-email').trim().toLowerCase();
+      fd.mobile = val('p-mobile').trim();
+      fd.town = val('p-town').trim();
+      fd.occupation = val('p-occupation').trim();
+      fd.po_box = val('p-pobox').trim();
+      fd.postal_code = val('p-postal').trim();
+    }
+  }
+
+  if (id === 'dependents') {
+    // Validate each dependent's required fields
+    fd.dependents.forEach(dep => {
+      const nameEl = document.getElementById(dep.id + '-name');
+      const dobEl  = document.getElementById(dep.id + '-dob');
+      const idEl   = document.getElementById(dep.id + '-idnum');
+      const isParent = ['mother','father','mother_in_law','father_in_law'].includes(dep.relationship);
+
+      if (nameEl && !nameEl.value.trim()) {
+        showFieldError('err-' + dep.id + '-name', 'Name is required'); ok = false;
+      }
+      if (dobEl && !dobEl.value) {
+        showFieldError('err-' + dep.id + '-dob', 'Date of birth is required'); ok = false;
+      }
+      if (dobEl && dobEl.value) {
+        const age = calcAge(dobEl.value);
+        if (dep.relationship === 'spouse' && (age < 18 || age > 69)) {
+          showFieldError('err-' + dep.id + '-dob', 'Spouse must be aged 18–69'); ok = false;
+        }
+        if (isParent && (age < 31 || age > 85)) {
+          showFieldError('err-' + dep.id + '-dob', 'Parents must be aged 31–85'); ok = false;
+        }
+        if (dep.relationship === 'child' && age > 29) {
+          showFieldError('err-' + dep.id + '-dob', 'Maximum age for children cover is 29 years (ABSA only)'); ok = false;
+        }
+        if (dep.relationship === 'child' && age >= 25 && fd.underwriter === 'capex') {
+          showFieldError('err-' + dep.id + '-dob', 'Children 25–29 are only available under ABSA'); ok = false;
+        }
+      }
+      if (!isParent && dep.relationship !== 'child' && idEl && !idEl.value.trim()) {
+        showFieldError('err-' + dep.id + '-idnum', 'ID number is required'); ok = false;
+      }
+      // Sync dep data
+      if (nameEl) dep.full_name = nameEl.value.trim();
+      if (dobEl)  dep.date_of_birth = dobEl.value;
+      if (idEl)   dep.id_number = idEl.value.trim() || null;
+    });
+  }
+
+  if (id === 'documents') {
+    const required = getRequiredDocs();
+    let missingAny = false;
+    required.forEach(doc => {
+      if (!fd.documents[doc.key]) {
+        document.getElementById('err-slot-' + doc.key).classList.add('visible');
+        missingAny = true;
+      } else {
+        document.getElementById('err-slot-' + doc.key).classList.remove('visible');
+      }
+    });
+    if (missingAny) { show('err-docs'); ok = false; } else hide('err-docs');
+  }
+
+  return ok;
+}
+
+// ============================================================
+// VALIDATION HELPERS
+// ============================================================
+function val(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+
+function requireField(fieldId, errId, msg) {
+  const v = val(fieldId).trim();
+  if (!v) { showFieldError(errId, msg); document.getElementById(fieldId).classList.add('invalid'); return false; }
+  hide(errId); document.getElementById(fieldId).classList.remove('invalid'); return true;
+}
+
+function requireSelect(fieldId, errId, msg) {
+  const v = val(fieldId);
+  if (!v) { showFieldError(errId, msg); document.getElementById(fieldId).classList.add('invalid'); return false; }
+  hide(errId); document.getElementById(fieldId).classList.remove('invalid'); return true;
+}
+
+function requireDob(fieldId, errId, minAge, maxAge) {
+  const v = val(fieldId);
+  if (!v) { showFieldError(errId, 'Date of birth is required'); document.getElementById(fieldId).classList.add('invalid'); return false; }
+  const age = calcAge(v);
+  if (age < minAge || age > maxAge) {
+    showFieldError(errId, `Must be aged ${minAge}–${maxAge}`);
+    document.getElementById(fieldId).classList.add('invalid'); return false;
+  }
+  hide(errId); document.getElementById(fieldId).classList.remove('invalid'); return true;
+}
+
+function requireEmail(fieldId, errId) {
+  const v = val(fieldId).trim().toLowerCase();
+  if (!v || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+    showFieldError(errId, 'A valid email address is required');
+    document.getElementById(fieldId).classList.add('invalid'); return false;
+  }
+  hide(errId); document.getElementById(fieldId).classList.remove('invalid'); return true;
+}
+
+function requirePhone(fieldId, errId) {
+  const v = val(fieldId).trim().replace(/\s+/g, '');
+  const digits = v.replace(/^\+254/, '0').replace(/^254/, '0');
+  if (!/^0[17]\d{8}$/.test(digits)) {
+    showFieldError(errId, 'Enter a valid Kenyan mobile number (e.g. 0712 345 678)');
+    document.getElementById(fieldId).classList.add('invalid'); return false;
+  }
+  hide(errId); document.getElementById(fieldId).classList.remove('invalid'); return true;
+}
+
+function requireKra(fieldId, errId) {
+  const v = val(fieldId).trim().toUpperCase();
+  if (!/^[A-Z]\d{9}[A-Z]$/.test(v)) {
+    showFieldError(errId, 'Valid KRA PIN required (e.g. A123456789Z)');
+    document.getElementById(fieldId).classList.add('invalid'); return false;
+  }
+  hide(errId); document.getElementById(fieldId).classList.remove('invalid'); return true;
+}
+
+function normalizePhone(raw) {
+  if (!raw) return '';
+  const v = raw.trim().replace(/\s+/g, '');
+  if (v.startsWith('+254')) return v;
+  if (v.startsWith('254')) return '+' + v;
+  if (v.startsWith('0')) return '+254' + v.slice(1);
+  return v;
+}
+
+function calcAge(dob) {
+  if (!dob) return -1;
+  const d = new Date(dob); const now = new Date();
+  let age = now.getFullYear() - d.getFullYear();
+  const m = now.getMonth() - d.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+  return age;
+}
+
+function showFieldError(errId, msg) {
+  const el = document.getElementById(errId);
+  if (el) { el.textContent = msg; el.classList.add('visible'); }
+}
+function showGlobalError(errId, msg) {
+  const el = document.getElementById(errId);
+  if (el) { el.textContent = msg; el.classList.add('visible'); }
+}
+function show(id) { const el = document.getElementById(id); if (el) el.classList.add('visible'); }
+function hide(id) { const el = document.getElementById(id); if (el) el.classList.remove('visible'); }
+function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  try {
+    const res = await fetch('/api/csrf-token');
+    const data = await res.json();
+    csrfToken = data.token;
+  } catch { console.warn('Could not fetch CSRF token'); }
+  updateProgress();
+}
+
+init();
+</script>
+</body>
+</html>
