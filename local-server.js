@@ -7,6 +7,10 @@ const crypto = require('crypto');
 const root = __dirname;
 const port = 4173;
 
+// Windows schannel certificate-revocation workaround for local dev
+// Remove this when deploying to production
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 // ── Load .env (never committed to git) ──────────────────────────────────────
 const envFile = path.join(root, '.env');
 if (fs.existsSync(envFile)) {
