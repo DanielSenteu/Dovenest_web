@@ -35,7 +35,7 @@
         box-shadow: 0 2px 20px rgba(0,0,0,0.28);
     }
     .nav-inner {
-        max-width: 1320px;
+        max-width: 1220px;
         height: 68px;
         margin: 0 auto;
         padding: 0 2rem;
@@ -74,7 +74,7 @@
     .nav-links a:hover,
     .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
     .nav-links a.active,
-    .nav-menu-btn.active { color: #E8A020; }
+    .nav-menu-btn.active { color: #52B44B; }
     .nav-group { position: relative; }
     .nav-menu-btn::after {
         content: "";
@@ -103,7 +103,7 @@
     }
     .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
     .nav-dropdown a:hover,
-    .nav-dropdown a.active { color: #08375f; background: rgba(232,160,32,0.14); }
+    .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
     .nav-group:hover .nav-dropdown,
     .nav-group.open .nav-dropdown,
     .nav-group:focus-within .nav-dropdown {
@@ -131,7 +131,7 @@
 
     .section-label {
         display: inline-block;
-        color: #E8A020;
+        color: #52B44B;
         font-size: 0.76rem;
         font-weight: 800;
         letter-spacing: 0.34em;
@@ -144,13 +144,13 @@
         letter-spacing: -0.03em;
         color: #0A2A4A;
     }
-    .section-title span { color: #E8A020; }
+    .section-title span { color: #52B44B; }
     .gold-rule {
         width: 76px;
         height: 3px;
         margin-top: 1.25rem;
         border-radius: 999px;
-        background: linear-gradient(90deg, #E8A020, #f7c66c);
+        background: linear-gradient(90deg, #52B44B, #7fd478);
     }
 
     #contact-hero {
@@ -206,10 +206,10 @@
         color: rgba(255,255,255,0.84);
         text-decoration: none;
     }
-    .breadcrumb a:hover { color: #E8A020; }
+    .breadcrumb a:hover { color: #52B44B; }
     .hero-eyebrow {
         display: inline-block;
-        color: #E8A020;
+        color: #52B44B;
         font-size: 0.76rem;
         font-weight: 800;
         letter-spacing: 0.34em;
@@ -230,7 +230,7 @@
         transform: translateY(24px);
         animation: fadeUp 0.8s ease 0.45s forwards;
     }
-    .hero-title span { color: #E8A020; }
+    .hero-title span { color: #52B44B; }
     .hero-sub {
         max-width: 650px;
         margin-top: 1.5rem;
@@ -266,8 +266,8 @@
     }
     .btn-primary {
         color: #07172a;
-        background: #E8A020;
-        box-shadow: 0 18px 34px rgba(232,160,32,0.24);
+        background: #52B44B;
+        box-shadow: 0 18px 34px rgba(82,180,75,0.24);
     }
     .btn-secondary {
         color: #fff;
@@ -276,7 +276,7 @@
     }
     .btn:hover { transform: translateY(-2px); }
     .btn-primary:hover { background: #f2b64a; }
-    .btn-secondary:hover { border-color: #E8A020; color: #E8A020; }
+    .btn-secondary:hover { border-color: #52B44B; color: #52B44B; }
 
     .hero-card {
         align-self: center;
@@ -317,7 +317,7 @@
     }
     .hero-mini span {
         display: block;
-        color: #E8A020;
+        color: #52B44B;
         font-size: 1.4rem;
         font-weight: 800;
         line-height: 1;
@@ -335,7 +335,7 @@
         padding: 6rem 2rem;
         background:
             linear-gradient(180deg, #f6f8fb 0%, #fff 58%),
-            radial-gradient(circle at 15% 8%, rgba(232,160,32,0.1), transparent 32%);
+            radial-gradient(circle at 15% 8%, rgba(82,180,75,0.1), transparent 32%);
     }
     .contact-inner {
         max-width: 1220px;
@@ -377,8 +377,8 @@
         border-radius: 8px;
         display: grid;
         place-items: center;
-        color: #E8A020;
-        background: rgba(232,160,32,0.12);
+        color: #52B44B;
+        background: rgba(82,180,75,0.12);
     }
     .contact-icon svg {
         width: 23px;
@@ -399,7 +399,7 @@
         line-height: 1.65;
         text-decoration: none;
     }
-    .contact-card a:hover { color: #E8A020; }
+    .contact-card a:hover { color: #52B44B; }
 
     .form-shell {
         border-radius: 8px;
@@ -417,7 +417,7 @@
     }
     .form-head span {
         display: inline-block;
-        color: #E8A020;
+        color: #52B44B;
         font-size: 0.72rem;
         font-weight: 800;
         letter-spacing: 0.26em;
@@ -457,7 +457,8 @@
         text-transform: uppercase;
     }
     .field input,
-    .field textarea {
+    .field textarea,
+    .field select {
         width: 100%;
         border: 1px solid rgba(8,55,95,0.14);
         border-radius: 7px;
@@ -469,15 +470,25 @@
         outline: none;
         transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
     }
+    .field select {
+        min-height: 52px;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2308375f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 2.5rem;
+    }
     .field textarea {
         min-height: 168px;
         resize: vertical;
     }
     .field input:focus,
-    .field textarea:focus {
+    .field textarea:focus,
+    .field select:focus {
         background: #fff;
-        border-color: #E8A020;
-        box-shadow: 0 0 0 4px rgba(232,160,32,0.13);
+        border-color: #52B44B;
+        box-shadow: 0 0 0 4px rgba(82,180,75,0.13);
     }
     .form-actions {
         display: flex;
@@ -492,11 +503,11 @@
         border-radius: 6px;
         padding: 0 1.45rem;
         color: #07172a;
-        background: #E8A020;
+        background: #52B44B;
         font: inherit;
         font-weight: 800;
         cursor: pointer;
-        box-shadow: 0 18px 34px rgba(232,160,32,0.23);
+        box-shadow: 0 18px 34px rgba(82,180,75,0.23);
         transition: transform 0.2s, background 0.2s;
     }
     .send-btn:hover {
@@ -552,7 +563,7 @@
         box-shadow: 0 18px 38px rgba(0,0,0,0.16);
     }
     .office-badge span {
-        color: #E8A020;
+        color: #52B44B;
         font-size: 0.72rem;
         font-weight: 800;
         letter-spacing: 0.22em;
@@ -603,7 +614,7 @@
         display: grid;
         place-items: center;
         color: #07172a;
-        background: #E8A020;
+        background: #52B44B;
         font-weight: 800;
         font-size: 0.8rem;
     }
@@ -661,7 +672,7 @@
         font-size: 0.92rem;
         transition: color 0.2s;
     }
-    .footer-col a:hover { color: #E8A020; }
+    .footer-col a:hover { color: #52B44B; }
     .footer-bottom {
         max-width: 1220px;
         margin: 0 auto;
@@ -677,7 +688,7 @@
         color: rgba(255,255,255,0.72);
         text-decoration: none;
     }
-    .footer-bottom a:hover { color: #E8A020; }
+    .footer-bottom a:hover { color: #52B44B; }
 
     @media (max-width: 980px) {
         .hero-content,
@@ -718,7 +729,7 @@
         }
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
-        .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
         .field-grid { grid-template-columns: 1fr; }
         .footer-inner { grid-template-columns: 1fr; }
         .footer-bottom { flex-direction: column; align-items: flex-start; }
@@ -737,7 +748,6 @@
         .send-btn { width: 100%; }
         .office-photo { min-height: 430px; }
         .office-badge { left: 1rem; right: 1rem; bottom: 1rem; }
-    }
     </style>
     <link rel="stylesheet" href="shared-site.css">
 </head>
@@ -780,29 +790,26 @@
             <li class="nav-group">
                 <button class="nav-menu-btn" type="button" aria-expanded="false">Insurance</button>
                 <ul class="nav-dropdown">
-                    <li><a href="life-insurance.html">Life Insurance</a></li>
-                    <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                    <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                     <li><a href="health-insurance.html">Health Insurance</a></li>
                     <li><a href="education-insurance.html">Education Insurance</a></li>
                     <li><a href="motor-insurance.html">Motor Insurance</a></li>
                     <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
                     <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
                 </ul>
             </li>
             <li><a href="contact.html" class="active">Contact</a></li>
             <li class="nav-group">
-                <button class="nav-menu-btn" type="button" aria-expanded="false">Office</button>
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
                 <ul class="nav-dropdown">
-                    <li><a href="team.html">Our Team</a></li>
-                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
                 </ul>
             </li>
-            <li class="nav-group">
-                <button class="nav-menu-btn" type="button" aria-expanded="false">Tools &amp; Resources</button>
-                <ul class="nav-dropdown">
-                    <li><a href="faq.html">FAQ</a></li>
-                </ul>
-            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
             <li><a href="blogs.html">Blogs</a></li>
         </ul>
     </div>
@@ -845,7 +852,7 @@
 
 <main id="contact-main">
     <div class="contact-inner">
-        <section class="contact-intro reveal" aria-labelledby="connect-title">
+        <section class="contact-intro reveal" data-reveal aria-labelledby="connect-title">
             <span class="section-label">Reach DoveNest</span>
             <h2 class="section-title" id="connect-title">Connect With <span>Us</span></h2>
             <div class="gold-rule"></div>
@@ -869,7 +876,6 @@
                     <div>
                         <h3>Phone Number</h3>
                         <a href="tel:+254726001122">+254 726 001 122</a>
-                        <a href="tel:+254207602122">+254 20 760 2122</a>
                     </div>
                 </article>
 
@@ -880,13 +886,13 @@
                     <div>
                         <h3>Email Address</h3>
                         <a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a>
-                        <a href="mailto:sales@dovenestinsurance.com">sales@dovenestinsurance.com</a>
                     </div>
                 </article>
             </div>
+
         </section>
 
-        <section class="form-shell reveal" id="message-form" aria-labelledby="form-title">
+        <section class="form-shell reveal" data-reveal id="message-form" aria-labelledby="form-title">
             <div class="form-head">
                 <span>Share Your Thoughts</span>
                 <h2 id="form-title">Tell us what you need covered.</h2>
@@ -906,6 +912,19 @@
                 <div class="field">
                     <label for="phone">Your phone</label>
                     <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+254 700 000000">
+                </div>
+                <div class="field">
+                    <label for="product">Insurance product</label>
+                    <select id="product" name="product">
+                        <option value="" disabled selected>Select a product</option>
+                        <option>Group Life &amp; Expense Insurance</option>
+                        <option>Other Life &amp; Pension Products</option>
+                        <option>Health Insurance</option>
+                        <option>Motor Insurance</option>
+                        <option>Education Insurance</option>
+                        <option>Diaspora Insurance</option>
+                        <option>Other / Not sure</option>
+                    </select>
                 </div>
                 <div class="field">
                     <label for="message">Write your message here</label>
@@ -943,7 +962,7 @@
 </section>
 
 <section class="general-cta" aria-label="General insurance call to action">
-    <div class="general-cta-inner">
+    <div class="general-cta-inner" data-reveal>
         <div>
             <span class="general-cta-eyebrow">General Insurance</span>
             <h2>Protect the everyday risks that can slow life and business down.</h2>
@@ -953,7 +972,7 @@
     </div>
 </section>
 <footer id="site-footer">
-    <div class="footer-inner site-footer-grid">
+    <div class="footer-inner site-footer-grid" data-reveal>
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
             <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
@@ -970,9 +989,10 @@
         <div class="footer-col">
             <h4>Insurance</h4>
             <ul>
-                <li><a href="life-insurance.html">Life Insurance</a></li>
-                <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                 <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -985,14 +1005,20 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Office &amp; Resources</h4>
+            <h4>Careers &amp; Contact</h4>
             <ul>
-                <li><a href="team.html">Our Team</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
                 <li><a href="tel:+254726001122">+254 726 001 122</a></li>
-                <li><a href="tel:+254207602122">+254 20 760 2122</a></li>
             </ul>
         </div>
     </div>
@@ -1058,6 +1084,18 @@
         window.location.href = 'mailto:info@dovenestinsurance.com?subject=' + subject + '&body=' + body;
     });
 }());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
 </script>
 
 </body>

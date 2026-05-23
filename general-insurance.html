@@ -17,18 +17,18 @@
     /* ── Navbar ── */
     #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
     #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
-    .nav-inner { max-width: 1320px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
     .nav-logo img { height: 42px; width: auto; display: block; object-fit: contain; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
     .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
     .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
     .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
-    .nav-links a.active, .nav-menu-btn.active { color: #E8A020; }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
     .nav-group { position: relative; }
     .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
     .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 250px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
     .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
-    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(232,160,32,0.14); }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
     .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
@@ -39,26 +39,27 @@
     @keyframes heroDrift { to { transform: scale(1); } }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.96), rgba(4,20,44,0.80) 52%, rgba(4,20,44,0.30)), linear-gradient(to top, rgba(2,10,24,0.65), transparent 56%); }
     .hero-content { position: relative; z-index: 2; max-width: 1220px; width: 100%; margin: 0 auto; padding: 8.5rem 2rem 4rem; }
-    .hero-eyebrow { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; margin-bottom: 1.1rem; }
+    .hero-eyebrow { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; margin-bottom: 1.1rem; }
     .hero-title { color: #fff; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; max-width: 820px; animation: fadeUp 0.8s ease forwards; }
-    .hero-title span { color: #E8A020; }
+    .hero-title span { color: #52B44B; }
     .hero-sub { max-width: 680px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(0.95rem, 1.6vw, 1.12rem); font-weight: 300; line-height: 1.85; animation: fadeUp 0.8s ease 0.15s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ── Shared ── */
-    .section-label { display: inline-block; color: #E8A020; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.32em; text-transform: uppercase; }
+    .section-label { display: inline-block; color: #52B44B; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.32em; text-transform: uppercase; }
     .section-title { font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; color: #08375f; margin-top: 0.5rem; }
-    .section-title span { color: #E8A020; }
-    .gold-rule { width: 52px; height: 3px; background: linear-gradient(90deg, #E8A020, #f5c060); border-radius: 3px; margin: 1rem 0 0; }
+    .section-title span { color: #52B44B; }
+    .gold-rule { width: 52px; height: 3px; background: linear-gradient(90deg, #52B44B, #6ec966); border-radius: 3px; margin: 1rem 0 0; }
 
     /* ── Before You Choose Cover ── */
     #before-cover { background: #fff; padding: 4.5rem 2rem; border-bottom: 3px solid rgba(8,55,95,0.06); }
-    .before-cover-inner { max-width: 1000px; margin: 0 auto; }
-    .before-cover-tag { display: inline-block; background: rgba(232,160,32,0.12); color: #a06800; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 4px; margin-bottom: 1.2rem; }
+    .before-cover-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(0,1fr) minmax(300px,0.42fr); gap: 2.5rem; align-items: start; }
+    @media (max-width: 1040px) { .before-cover-inner { grid-template-columns: 1fr; } }
+    .before-cover-tag { display: inline-block; background: rgba(82,180,75,0.12); color: #a06800; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 4px; margin-bottom: 1.2rem; }
     .before-cover-title { font-size: clamp(1.2rem, 2.5vw, 1.9rem); font-weight: 700; color: #08375f; line-height: 1.2; margin-bottom: 0.75rem; }
     .before-cover-intro { color: #52677c; font-size: 0.98rem; line-height: 1.8; max-width: 780px; margin-bottom: 2rem; }
     .distinction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-    .distinction-item { background: #f6f8fb; border-left: 3px solid #E8A020; border-radius: 0 6px 6px 0; padding: 1.25rem 1.25rem 1.25rem 1.35rem; }
+    .distinction-item { background: #f6f8fb; border-left: 3px solid #52B44B; border-radius: 0 6px 6px 0; padding: 1.25rem 1.25rem 1.25rem 1.35rem; }
     .distinction-item p { color: #1a3a5c; font-size: 0.92rem; line-height: 1.7; font-weight: 500; }
     .before-cover-insight { margin-top: 2rem; padding: 1.25rem 1.5rem; background: #08375f; border-radius: 6px; color: rgba(255,255,255,0.88); font-size: 0.94rem; line-height: 1.75; font-style: italic; }
     @media (max-width: 768px) { .distinction-grid { grid-template-columns: 1fr; } }
@@ -67,9 +68,9 @@
     #gi-approach { background: #f6f8fb; padding: 5rem 2rem; }
     .gi-approach-inner { max-width: 1220px; margin: 0 auto; }
     .gi-approach-head { text-align: center; max-width: 620px; margin: 0 auto 3rem; }
-    .gi-approach-rule { width: 48px; height: 3px; background: #E8A020; border-radius: 2px; margin: 1rem auto 0; }
+    .gi-approach-rule { width: 48px; height: 3px; background: #52B44B; border-radius: 2px; margin: 1rem auto 0; }
     .gi-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-    .gi-step { background: #fff; border-radius: 10px; padding: 1.75rem 1.5rem; border-top: 3px solid #E8A020; box-shadow: 0 4px 22px rgba(8,55,95,0.07); }
+    .gi-step { background: #fff; border-radius: 10px; padding: 1.75rem 1.5rem; border-top: 3px solid #52B44B; box-shadow: 0 4px 22px rgba(8,55,95,0.07); }
     .gi-step-num { font-size: 2.2rem; font-weight: 800; color: rgba(8,55,95,0.1); line-height: 1; margin-bottom: 0.85rem; }
     .gi-step h3 { font-size: 1rem; font-weight: 700; color: #08375f; margin-bottom: 0.5rem; }
     .gi-step p { font-size: 0.88rem; color: #4a6080; line-height: 1.7; }
@@ -81,8 +82,8 @@
     .gi-chapter { margin-bottom: 0; }
     .gi-chapter-header { background: #08375f; padding: 2.5rem 2rem; }
     .gi-chapter-header-inner { max-width: 1220px; margin: 0 auto; display: flex; align-items: flex-start; gap: 1.5rem; }
-    .gi-chapter-icon { width: 48px; height: 48px; background: rgba(232,160,32,0.18); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
-    .gi-chapter-icon svg { width: 24px; height: 24px; stroke: #E8A020; }
+    .gi-chapter-icon { width: 48px; height: 48px; background: rgba(82,180,75,0.18); border-radius: 8px; display: grid; place-items: center; flex-shrink: 0; }
+    .gi-chapter-icon svg { width: 24px; height: 24px; stroke: #52B44B; }
     .gi-chapter-title { color: #fff; font-size: clamp(1rem, 2vw, 1.4rem); font-weight: 700; line-height: 1.2; margin-bottom: 0.4rem; }
     .gi-chapter-desc { color: rgba(255,255,255,0.68); font-size: 0.88rem; line-height: 1.7; max-width: 700px; }
     .gi-cards-wrap { background: #fff; padding: 2rem; border-bottom: 1px solid rgba(8,55,95,0.06); }
@@ -102,7 +103,7 @@
     .gi-sectors-head { margin-bottom: 2.5rem; }
     .gi-sector-list { display: flex; flex-wrap: wrap; gap: 0.75rem; }
     .gi-sector-tag { display: inline-flex; align-items: center; gap: 0.55rem; background: #fff; border: 1px solid rgba(8,55,95,0.12); border-radius: 6px; padding: 0.75rem 1.25rem; font-size: 0.92rem; font-weight: 600; color: #08375f; }
-    .gi-sector-tag svg { width: 16px; height: 16px; stroke: #E8A020; flex-shrink: 0; }
+    .gi-sector-tag svg { width: 16px; height: 16px; stroke: #52B44B; flex-shrink: 0; }
 
     /* ── CTA ── */
     #gi-cta { background: #08375f; padding: 5rem 2rem; }
@@ -111,10 +112,10 @@
     .gi-cta-inner h2 { color: #fff; font-size: clamp(1.3rem, 2.8vw, 2rem); font-weight: 700; line-height: 1.25; margin-bottom: 1.25rem; }
     .gi-cta-inner p.gi-cta-sub { color: rgba(255,255,255,0.68); font-size: 0.95rem; line-height: 1.8; max-width: 620px; margin: 0 auto 2.5rem; }
     .gi-cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-    .gi-btn-primary { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.75rem; background: #E8A020; color: #07172a; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.92rem; transition: background 0.2s; }
-    .gi-btn-primary:hover { background: #f4bd54; }
+    .gi-btn-primary { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.75rem; background: #52B44B; color: #07172a; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 0.92rem; transition: background 0.2s; }
+    .gi-btn-primary:hover { background: #6ec966; }
     .gi-btn-secondary { display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.75rem; background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.35); border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.92rem; transition: border-color 0.2s, background 0.2s; }
-    .gi-btn-secondary:hover { border-color: #E8A020; background: rgba(232,160,32,0.08); }
+    .gi-btn-secondary:hover { border-color: #52B44B; background: rgba(82,180,75,0.08); }
 
     /* ── Disclaimer ── */
     #gi-disclaimer { background: #04111f; padding: 2rem; }
@@ -134,7 +135,7 @@
         .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
-        .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
     }
     @media (max-width: 620px) { .nav-inner { padding: 0 1.2rem; } .hero-content { padding: 7.5rem 1.2rem 3.5rem; } }
     </style>
@@ -174,8 +175,8 @@
             <li class="nav-group">
                 <button class="nav-menu-btn active" type="button" aria-expanded="false">Insurance</button>
                 <ul class="nav-dropdown">
-                    <li><a href="life-insurance.html">Life Insurance</a></li>
-                    <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                    <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                     <li><a href="health-insurance.html">Health Insurance</a></li>
                     <li><a href="education-insurance.html">Education Insurance</a></li>
                     <li><a href="motor-insurance.html">Motor Insurance</a></li>
@@ -184,8 +185,15 @@
                 </ul>
             </li>
             <li><a href="contact.html">Contact</a></li>
-            <li class="nav-group"><button class="nav-menu-btn" type="button" aria-expanded="false">Office</button><ul class="nav-dropdown"><li><a href="team.html">Our Team</a></li><li><a href="careers.html">Careers</a></li></ul></li>
-            <li class="nav-group"><button class="nav-menu-btn" type="button" aria-expanded="false">Tools &amp; Resources</button><ul class="nav-dropdown"><li><a href="faq.html">FAQ</a></li></ul></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
             <li><a href="blogs.html">Blogs</a></li>
         </ul>
     </div>
@@ -210,22 +218,65 @@
      BEFORE YOU CHOOSE COVER
 ══════════════════════════════════════════════════ -->
 <section id="before-cover">
-    <div class="before-cover-inner">
-        <div class="before-cover-tag">A Critical Distinction</div>
-        <h2 class="before-cover-title">Before You Choose Cover</h2>
-        <p class="before-cover-intro">A critical distinction most organisations miss when approaching insurance.</p>
-        <div class="distinction-grid">
-            <div class="distinction-item">
-                <p>Renewal is administrative continuity, not risk clarity</p>
+    <div class="before-cover-inner" data-reveal>
+        <div>
+            <div class="before-cover-tag">A Critical Distinction</div>
+            <h2 class="before-cover-title">Before You Choose Cover</h2>
+            <p class="before-cover-intro">A critical distinction most organisations miss when approaching insurance.</p>
+            <div class="distinction-grid">
+                <div class="distinction-item">
+                    <p>Renewal is administrative continuity, not risk clarity</p>
+                </div>
+                <div class="distinction-item">
+                    <p>Unchanged policies can conceal evolving exposures</p>
+                </div>
+                <div class="distinction-item">
+                    <p>Price comparisons rarely reflect claims experience reality</p>
+                </div>
             </div>
-            <div class="distinction-item">
-                <p>Unchanged policies can conceal evolving exposures</p>
-            </div>
-            <div class="distinction-item">
-                <p>Price comparisons rarely reflect claims experience reality</p>
-            </div>
+            <p class="before-cover-insight">Effective insurance is not about having a policy. It is about how that policy responds under pressure.</p>
         </div>
-        <p class="before-cover-insight">Effective insurance is not about having a policy. It is about how that policy responds under pressure.</p>
+        <aside class="inquiry-aside" data-reveal>
+          <div class="inquiry-header">
+            <h3>Get in Touch</h3>
+            <p>Speak with an advisor today</p>
+          </div>
+          <form class="inquiry-body" onsubmit="return false;">
+            <div class="inquiry-field">
+              <label for="inq-name">Full Names</label>
+              <input id="inq-name" type="text" placeholder="e.g. Jane Wanjiku" required>
+            </div>
+            <div class="inquiry-field">
+              <label for="inq-email">Email Address</label>
+              <input id="inq-email" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="inquiry-field">
+              <label for="inq-phone">Phone Number</label>
+              <input id="inq-phone" type="tel" placeholder="07XX XXX XXX" maxlength="10" required>
+            </div>
+            <div class="inquiry-field">
+              <label for="inq-city">Choose Your Closest City</label>
+              <select id="inq-city" required>
+                <option value="" disabled selected>Select a city</option>
+                <option>Nairobi</option>
+                <option>Mombasa</option>
+                <option>Kisumu</option>
+                <option>Nakuru</option>
+                <option>Eldoret</option>
+                <option>Thika</option>
+                <option>Nyeri</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <label class="inquiry-consent">
+              <input type="checkbox" required>
+              I consent to processing of my personal data as per the
+              <a href="privacy.html">Privacy&nbsp;Policy</a>.
+            </label>
+            <button class="inquiry-submit" type="submit">Send Inquiry</button>
+            <p class="inquiry-note">We typically respond within 2 business hours</p>
+          </form>
+        </aside>
     </div>
 </section>
 
@@ -234,7 +285,7 @@
      OUR APPROACH
 ══════════════════════════════════════════════════ -->
 <section id="gi-approach">
-    <div class="gi-approach-inner">
+    <div class="gi-approach-inner" data-reveal>
         <div class="gi-approach-head">
             <span class="section-label">Our Framework</span>
             <h2 class="section-title">Every Solution We Structure Follows a <span>Disciplined Advisory Framework</span></h2>
@@ -525,7 +576,7 @@
      SOLUTIONS BY SECTOR
 ══════════════════════════════════════════════════ -->
 <section id="gi-sectors">
-    <div class="gi-sectors-inner">
+    <div class="gi-sectors-inner" data-reveal>
         <div class="gi-sectors-head">
             <span class="section-label">Sector Alignment</span>
             <h2 class="section-title">Solutions by <span>Sector</span></h2>
@@ -562,7 +613,7 @@
      CTA
 ══════════════════════════════════════════════════ -->
 <section id="gi-cta">
-    <div class="gi-cta-inner">
+    <div class="gi-cta-inner" data-reveal>
         <p class="gi-cta-intro">Insurance should not be guesswork</p>
         <h2>Let us structure a solution aligned to your actual risk profile and operational priorities.</h2>
         <p class="gi-cta-sub">Get a structured review of your current cover and identify gaps before they become exposures.</p>
@@ -588,7 +639,7 @@
      FOOTER
 ══════════════════════════════════════════════════ -->
 <footer id="site-footer">
-    <div class="footer-inner site-footer-grid">
+    <div class="footer-inner site-footer-grid" data-reveal>
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
             <p>DoveNest Insurance Brokers is an independent advisory firm providing structured insurance solutions to individuals, businesses, and institutions across Kenya and the diaspora.</p>
@@ -605,9 +656,10 @@
         <div class="footer-col">
             <h4>Insurance</h4>
             <ul>
-                <li><a href="life-insurance.html">Life Insurance</a></li>
-                <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                 <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -620,10 +672,17 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Office &amp; Resources</h4>
+            <h4>Careers &amp; Contact</h4>
             <ul>
-                <li><a href="team.html">Our Team</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
                 <li><a href="tel:+254726001122">+254 726 001 122</a></li>
@@ -656,6 +715,18 @@
         });
     });
 }());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
 </script>
 </body>
 </html>

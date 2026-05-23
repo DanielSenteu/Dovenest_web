@@ -14,14 +14,14 @@
     :root {
       --bg: #04111f; --surface: #0d2137;
       --border: rgba(255,255,255,0.07);
-      --gold: #E8A020; --gold-dim: rgba(232,160,32,0.12);
+      --gold: #52B44B; --gold-dim: rgba(82,180,75,0.12);
       --text: #e8f0f8; --muted: rgba(255,255,255,0.45);
     }
     body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
     .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
     .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
     .topbar-logo img { height: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
-    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(232,160,32,0.25); }
+    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(82,180,75,0.25); }
     .topbar-email { font-size: 0.78rem; color: var(--muted); }
     .signout-btn { font-size: 0.78rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 5px 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color 0.2s, border-color 0.2s; }
     .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
@@ -132,6 +132,10 @@
         <a class="nav-item" href="last-expense.html">
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           Last Expense
+        </a>
+        <a class="nav-item" href="last-expense-analytics.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h2v8H3zM9 9h2v12H9zM15 5h2v16h-2zM21 1h2v20h-2z"/></svg>
+          LE Analytics
         </a>
       </div>
       <div class="nav-section">

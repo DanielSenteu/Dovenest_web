@@ -17,18 +17,18 @@
 
     #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
     #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
-    .nav-inner { max-width: 1320px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
     .nav-logo img { height: 42px; width: auto; display: block; object-fit: contain; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
     .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
     .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
     .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
-    .nav-links a.active, .nav-menu-btn.active { color: #E8A020; }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
     .nav-group { position: relative; }
     .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
     .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 190px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
     .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
-    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(232,160,32,0.14); }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
     .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
@@ -40,10 +40,10 @@
     .hero-content { position: relative; z-index: 2; max-width: 1320px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; }
     .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
     .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
-    .breadcrumb a:hover { color: #E8A020; }
-    .hero-eyebrow, .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .breadcrumb a:hover { color: #52B44B; }
+    .hero-eyebrow, .section-label { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
     .hero-title { color: #fff; font-size: clamp(3rem, 7vw, 6.8rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; max-width: 940px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
-    .hero-title span { color: #E8A020; }
+    .hero-title span { color: #52B44B; }
     .hero-sub { max-width: 760px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.22rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -58,27 +58,27 @@
     .terms-card h3 { font-size: 1.2rem; line-height: 1.25; }
     .terms-list { list-style: none; display: grid; gap: 0.65rem; margin-top: 1rem; }
     .terms-list li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 0.65rem; color: rgba(255,255,255,0.76); font-size: 0.9rem; line-height: 1.5; }
-    .terms-list span { width: 26px; height: 26px; border-radius: 999px; display: grid; place-items: center; color: #07172a; background: #E8A020; font-weight: 800; font-size: 0.78rem; }
+    .terms-list span { width: 26px; height: 26px; border-radius: 999px; display: grid; place-items: center; color: #07172a; background: #52B44B; font-weight: 800; font-size: 0.78rem; }
     .aside-actions { display: grid; gap: 0.7rem; }
     .aside-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 1rem; border-radius: 6px; text-decoration: none; font-weight: 800; font-size: 0.9rem; }
-    .aside-btn.primary { color: #07172a; background: #E8A020; }
+    .aside-btn.primary { color: #07172a; background: #52B44B; }
     .aside-btn.secondary { color: #08375f; background: #fff; border: 1px solid rgba(8,55,95,0.1); }
 
     .faq-content { min-width: 0; }
     .faq-head { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
     .faq-head h2 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.08; letter-spacing: -0.03em; color: #0A2A4A; }
-    .faq-head h2 span { color: #E8A020; }
+    .faq-head h2 span { color: #52B44B; }
     .search-wrap { position: relative; margin-bottom: 1rem; }
     .search-wrap input { width: 100%; min-height: 52px; border: 1px solid rgba(8,55,95,0.13); border-radius: 8px; background: #fff; box-shadow: 0 14px 35px rgba(8,55,95,0.08); color: #0A2A4A; font: inherit; padding: 0 1rem; outline: none; }
-    .search-wrap input:focus { border-color: #E8A020; box-shadow: 0 0 0 4px rgba(232,160,32,0.14), 0 14px 35px rgba(8,55,95,0.08); }
+    .search-wrap input:focus { border-color: #52B44B; box-shadow: 0 0 0 4px rgba(82,180,75,0.14), 0 14px 35px rgba(8,55,95,0.08); }
     .quick-filters { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 1.25rem; }
     .quick-filter { min-height: 38px; border: 1px solid rgba(8,55,95,0.12); border-radius: 999px; padding: 0 0.9rem; background: #fff; color: #52677c; font: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
-    .quick-filter.active { color: #07172a; background: #E8A020; border-color: #E8A020; }
+    .quick-filter.active { color: #07172a; background: #52B44B; border-color: #52B44B; }
 
     .accordion { display: grid; gap: 0.85rem; }
     .faq-item { border: 1px solid rgba(8,55,95,0.09); border-radius: 8px; background: #fff; box-shadow: 0 16px 42px rgba(8,55,95,0.08); overflow: hidden; }
     .faq-question { width: 100%; min-height: 66px; display: grid; grid-template-columns: 42px minmax(0,1fr) 26px; align-items: center; gap: 0.85rem; padding: 1rem 1.1rem; border: 0; background: #fff; color: #08375f; text-align: left; font: inherit; cursor: pointer; }
-    .faq-num { width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; background: rgba(232,160,32,0.13); color: #986411; font-weight: 800; font-size: 0.85rem; }
+    .faq-num { width: 42px; height: 42px; border-radius: 999px; display: grid; place-items: center; background: rgba(82,180,75,0.13); color: #986411; font-weight: 800; font-size: 0.85rem; }
     .faq-title { font-size: 1rem; font-weight: 800; line-height: 1.45; }
     .faq-plus { width: 26px; height: 26px; position: relative; border-radius: 999px; background: rgba(8,55,95,0.07); }
     .faq-plus::before, .faq-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; background: #08375f; transform: translate(-50%,-50%); transition: transform 0.2s; }
@@ -101,7 +101,7 @@
     .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
     .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
     .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
-    .footer-col a:hover { color: #E8A020; }
+    .footer-col a:hover { color: #52B44B; }
     .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
     .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
 
@@ -118,7 +118,7 @@
         .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
-        .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
         .footer-inner { grid-template-columns: 1fr; }
         .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
@@ -168,29 +168,26 @@
             <li class="nav-group">
                 <button class="nav-menu-btn" type="button" aria-expanded="false">Insurance</button>
                 <ul class="nav-dropdown">
-                    <li><a href="life-insurance.html">Life Insurance</a></li>
-                    <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                    <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                     <li><a href="health-insurance.html">Health Insurance</a></li>
                     <li><a href="education-insurance.html">Education Insurance</a></li>
                     <li><a href="motor-insurance.html">Motor Insurance</a></li>
                     <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
                     <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
                 </ul>
             </li>
             <li><a href="contact.html">Contact</a></li>
             <li class="nav-group">
-                <button class="nav-menu-btn" type="button" aria-expanded="false">Office</button>
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
                 <ul class="nav-dropdown">
-                    <li><a href="team.html">Our Team</a></li>
-                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
                 </ul>
             </li>
-            <li class="nav-group">
-                <button class="nav-menu-btn active" type="button" aria-expanded="false">Tools &amp; Resources</button>
-                <ul class="nav-dropdown">
-                    <li><a class="active" href="faq.html">FAQ</a></li>
-                </ul>
-            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
             <li><a href="blogs.html">Blogs</a></li>
         </ul>
     </div>
@@ -208,7 +205,7 @@
 </section>
 
 <main id="faq-main">
-    <div class="faq-inner">
+    <div class="faq-inner" data-reveal>
         <aside class="faq-aside">
             <section class="intro-card">
                 <span class="section-label">Introduction</span>
@@ -380,7 +377,7 @@
 </main>
 
 <section class="general-cta" aria-label="General insurance call to action">
-    <div class="general-cta-inner">
+    <div class="general-cta-inner" data-reveal>
         <div>
             <span class="general-cta-eyebrow">General Insurance</span>
             <h2>Protect the everyday risks that can slow life and business down.</h2>
@@ -390,7 +387,7 @@
     </div>
 </section>
 <footer id="site-footer">
-    <div class="footer-inner site-footer-grid">
+    <div class="footer-inner site-footer-grid" data-reveal>
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
             <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
@@ -407,9 +404,10 @@
         <div class="footer-col">
             <h4>Insurance</h4>
             <ul>
-                <li><a href="life-insurance.html">Life Insurance</a></li>
-                <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                 <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -422,10 +420,17 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Office &amp; Resources</h4>
+            <h4>Careers &amp; Contact</h4>
             <ul>
-                <li><a href="team.html">Our Team</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
                 <li><a href="tel:+254726001122">+254 726 001 122</a></li>
@@ -503,6 +508,18 @@
 
     search.addEventListener('input', applyFilters);
 }());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
 </script>
 
 </body>

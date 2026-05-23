@@ -15,50 +15,50 @@
     body { font-family: 'Poppins', sans-serif; background: #f6f8fb; color: #0A2A4A; overflow-x: hidden; }
     #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
     #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
-    .nav-inner { max-width: 1320px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
     .nav-logo img { height: 42px; width: auto; display: block; object-fit: contain; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
     .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
     .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
     .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
-    .nav-links a.active, .nav-menu-btn.active { color: #E8A020; }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
     .nav-group { position: relative; }
     .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
     .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 250px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
     .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
-    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(232,160,32,0.14); }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
     .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
     #diaspora-hero { min-height: 86vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
-    .hero-bg { position: absolute; inset: 0; background: url('images/home_image3.jpg') center / cover; transform: scale(1.08); animation: heroDrift 11s ease forwards; }
+    .hero-bg { position: absolute; inset: 0; background: url('images/diasporainsurance1.jpg') center 35% / cover; transform: scale(1.08); animation: heroDrift 11s ease forwards; }
     @keyframes heroDrift { to { transform: scale(1); } }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.96), rgba(4,20,44,0.78) 52%, rgba(4,20,44,0.26)), linear-gradient(to top, rgba(2,10,24,0.62), transparent 56%); }
     .hero-content { position: relative; z-index: 2; max-width: 1320px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; display: grid; grid-template-columns: minmax(0,1fr) minmax(300px,0.52fr); gap: 3rem; align-items: center; }
     .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
     .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
-    .breadcrumb a:hover { color: #E8A020; }
-    .hero-eyebrow, .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .breadcrumb a:hover { color: #52B44B; }
+    .hero-eyebrow, .section-label { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
     .hero-title { color: #fff; font-size: clamp(3rem,7vw,6.8rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; max-width: 940px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
-    .hero-title span { color: #E8A020; }
+    .hero-title span { color: #52B44B; }
     .hero-sub { max-width: 760px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.22rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
     .hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2rem; }
     .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; font-weight: 800; text-decoration: none; transition: transform 0.2s, background 0.2s, color 0.2s; }
-    .btn-primary { color: #07172a; background: #E8A020; box-shadow: 0 18px 34px rgba(232,160,32,0.24); }
+    .btn-primary { color: #07172a; background: #52B44B; box-shadow: 0 18px 34px rgba(82,180,75,0.24); }
     .btn-secondary { color: #fff; border: 1px solid rgba(255,255,255,0.24); background: rgba(255,255,255,0.08); }
     .btn:hover { transform: translateY(-2px); }
     .poster-card { border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.18); animation: fadeUp 0.8s ease 0.25s both; }
     .poster-card img { width: 100%; display: block; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     .section-title { margin-top: 0.8rem; font-size: clamp(2rem,4.5vw,4.3rem); line-height: 1.06; letter-spacing: -0.03em; color: #0A2A4A; }
-    .section-title span { color: #E8A020; }
-    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg,#E8A020,#f7c66c); }
+    .section-title span { color: #52B44B; }
+    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg,#52B44B,#7fd478); }
     #overview { padding: 5.5rem 2rem; background: #fff; }
     .overview-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(0,0.88fr) minmax(300px,0.62fr); gap: 2rem; align-items: start; }
     .overview-copy p { color: #52677c; line-height: 1.85; margin-top: 1.15rem; font-size: 1.02rem; }
     .benefit-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0.85rem; margin-top: 1.5rem; }
     .benefit-card { padding: 1rem; border-radius: 8px; background: #f8fafc; border: 1px solid rgba(8,55,95,0.08); display: grid; grid-template-columns: 36px minmax(0,1fr); gap: 0.75rem; align-items: center; }
-    .benefit-card span { width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: #E8A020; color: #07172a; font-weight: 800; }
+    .benefit-card span { width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: #52B44B; color: #07172a; font-weight: 800; }
     .benefit-card p { color: #08375f; font-weight: 700; line-height: 1.45; margin: 0; font-size: 0.94rem; }
     .travel-panel { padding: 1.5rem; border-radius: 8px; background: linear-gradient(135deg,#08375f,#061b31); color: #fff; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
     .travel-panel h3 { font-size: 1.5rem; line-height: 1.2; }
@@ -74,19 +74,19 @@
     .traveler-card h3 { color: #08375f; font-size: 1.35rem; line-height: 1.2; }
     .traveler-card ul { list-style: none; display: grid; gap: 0.7rem; margin-top: 1rem; }
     .traveler-card li { display: grid; grid-template-columns: 28px minmax(0,1fr); gap: 0.7rem; color: #52677c; line-height: 1.55; }
-    .traveler-card li::before { content: ""; width: 28px; height: 28px; border-radius: 999px; background: rgba(232,160,32,0.16); box-shadow: inset 0 0 0 8px #fff, inset 0 0 0 12px #E8A020, 0 0 0 1px rgba(232,160,32,0.3); }
+    .traveler-card li::before { content: ""; width: 28px; height: 28px; border-radius: 999px; background: rgba(82,180,75,0.16); box-shadow: inset 0 0 0 8px #fff, inset 0 0 0 12px #52B44B, 0 0 0 1px rgba(82,180,75,0.3); }
     #documents { padding: 0 2rem 5.5rem; background: #fff; }
     .documents-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(0,0.85fr) minmax(280px,0.45fr); gap: 2rem; align-items: center; }
     .documents-inner p { color: #52677c; line-height: 1.85; margin-top: 1rem; }
     .disabled-download { width: 100%; min-height: 152px; padding: 1.4rem; border-radius: 8px; border: 1px dashed rgba(8,55,95,0.22); background: #fff; box-shadow: 0 18px 42px rgba(8,55,95,0.08); text-align: left; }
-    .disabled-download span { display: inline-block; color: #E8A020; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+    .disabled-download span { display: inline-block; color: #52B44B; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
     .disabled-download h3 { color: #08375f; margin-top: 0.7rem; line-height: 1.25; }
     .disabled-download button { margin-top: 1rem; min-height: 42px; padding: 0 1rem; border: 0; border-radius: 6px; background: rgba(8,55,95,0.12); color: #718397; font: inherit; font-weight: 800; cursor: not-allowed; }
     #diaspora-cta { padding: 0 2rem 6rem; background: #fff; }
     .cta-inner { max-width: 1220px; margin: 0 auto; padding: 2rem; border-radius: 8px; background: linear-gradient(135deg,#08375f,#061b31); color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
     .cta-inner h2 { font-size: clamp(1.7rem,3vw,2.6rem); line-height: 1.15; letter-spacing: -0.025em; }
     .cta-inner p { max-width: 620px; margin-top: 0.65rem; color: rgba(255,255,255,0.72); line-height: 1.7; }
-    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; color: #07172a; background: #E8A020; text-decoration: none; font-weight: 800; white-space: nowrap; }
+    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; color: #07172a; background: #52B44B; text-decoration: none; font-weight: 800; white-space: nowrap; }
     #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 3.5rem 2rem 0; }
     .footer-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(260px,1.2fr) repeat(2,minmax(180px,0.5fr)); gap: 2.5rem; padding-bottom: 2.5rem; }
     .footer-brand img { height: 48px; width: auto; display: block; margin-bottom: 1rem; }
@@ -94,7 +94,7 @@
     .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
     .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
     .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
-    .footer-col a:hover { color: #E8A020; }
+    .footer-col a:hover { color: #52B44B; }
     .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
     .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
     @media (max-width: 1040px) { .hero-content, .overview-inner, .documents-inner { grid-template-columns: 1fr; } .poster-card { max-width: 480px; } }
@@ -107,7 +107,7 @@
         .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
-        .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
         .cta-inner { flex-direction: column; align-items: flex-start; }
         .footer-inner { grid-template-columns: 1fr; }
         .footer-bottom { flex-direction: column; align-items: flex-start; }
@@ -149,18 +149,26 @@
             <li class="nav-group">
                 <button class="nav-menu-btn active" type="button" aria-expanded="false">Insurance</button>
                 <ul class="nav-dropdown">
-                    <li><a href="life-insurance.html">Life Insurance</a></li>
-                    <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                    <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                     <li><a href="health-insurance.html">Health Insurance</a></li>
                     <li><a href="education-insurance.html">Education Insurance</a></li>
                     <li><a href="motor-insurance.html">Motor Insurance</a></li>
                     <li><a class="active" href="diaspora-insurance.html">Diaspora Insurance</a></li>
                     <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
                 </ul>
             </li>
             <li><a href="contact.html">Contact</a></li>
-            <li class="nav-group"><button class="nav-menu-btn" type="button" aria-expanded="false">Office</button><ul class="nav-dropdown"><li><a href="team.html">Our Team</a></li><li><a href="careers.html">Careers</a></li></ul></li>
-            <li class="nav-group"><button class="nav-menu-btn" type="button" aria-expanded="false">Tools &amp; Resources</button><ul class="nav-dropdown"><li><a href="faq.html">FAQ</a></li></ul></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
             <li><a href="blogs.html">Blogs</a></li>
         </ul>
     </div>
@@ -177,18 +185,14 @@
             <p class="hero-sub">Travel insurance cover is tailored to compensate for accidental injuries, medical expenses, personal losses, delays, legal expenses, repatriation of mortal remains, and more.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="contact.html">Get Diaspora Cover</a>
-                <a class="btn btn-secondary" href="#documents">Brochure Status</a>
             </div>
         </div>
-        <aside class="poster-card">
-            <img src="images/Diaspora Insurance.jpg" alt="DoveNest Diaspora Insurance poster">
-        </aside>
     </div>
 </section>
 
 <section id="overview">
     <div class="overview-inner">
-        <div class="overview-copy">
+        <div class="overview-copy" data-reveal>
             <span class="section-label">Diaspora Insurance Overview</span>
             <h2 class="section-title">Cover for travel, study, work, and <span>return journeys.</span></h2>
             <div class="gold-rule"></div>
@@ -200,23 +204,53 @@
                 <div class="benefit-card"><span>4</span><p>Repatriation of mortal remains</p></div>
             </div>
         </div>
-        <aside class="travel-panel">
-            <h3>Our Focus</h3>
-            <p>We support both outbound and inbound travelers with options for individuals, students, groups, schools, and corporate teams.</p>
-            <div class="travel-tags">
-                <span>Students</span>
-                <span>Groups</span>
-                <span>Individuals</span>
-                <span>Corporate travelers</span>
-                <span>Schools abroad</span>
+        <aside class="inquiry-aside" data-reveal>
+          <div class="inquiry-header">
+            <h3>Get in Touch</h3>
+            <p>Speak with an advisor today</p>
+          </div>
+          <form class="inquiry-body" onsubmit="return false;">
+            <div class="inquiry-field">
+              <label for="inq-name">Full Names</label>
+              <input id="inq-name" type="text" placeholder="e.g. Jane Wanjiku" required>
             </div>
+            <div class="inquiry-field">
+              <label for="inq-email">Email Address</label>
+              <input id="inq-email" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="inquiry-field">
+              <label for="inq-phone">Phone Number</label>
+              <input id="inq-phone" type="tel" placeholder="07XX XXX XXX" maxlength="10" required>
+            </div>
+            <div class="inquiry-field">
+              <label for="inq-city">Choose Your Closest City</label>
+              <select id="inq-city" required>
+                <option value="" disabled selected>Select a city</option>
+                <option>Nairobi</option>
+                <option>Mombasa</option>
+                <option>Kisumu</option>
+                <option>Nakuru</option>
+                <option>Eldoret</option>
+                <option>Thika</option>
+                <option>Nyeri</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <label class="inquiry-consent">
+              <input type="checkbox" required>
+              I consent to processing of my personal data as per the
+              <a href="privacy.html">Privacy&nbsp;Policy</a>.
+            </label>
+            <button class="inquiry-submit" type="submit">Send Inquiry</button>
+            <p class="inquiry-note">We typically respond within 2 business hours</p>
+          </form>
         </aside>
     </div>
 </section>
 
 <section id="traveler-types">
     <div class="traveler-inner">
-        <div class="traveler-head">
+        <div class="traveler-head" data-reveal>
             <span class="section-label">Traveler Types</span>
             <h2 class="section-title">Outbound and inbound <span>cover routes.</span></h2>
             <div class="gold-rule"></div>
@@ -262,7 +296,7 @@
 </section>
 
 <section id="diaspora-cta">
-    <div class="cta-inner">
+    <div class="cta-inner" data-reveal>
         <div>
             <h2>Let us get your Diaspora cover today.</h2>
             <p>Tell DoveNest where you are traveling, who is traveling, and the purpose of the trip. We will help you compare suitable options.</p>
@@ -272,7 +306,7 @@
 </section>
 
 <footer id="site-footer">
-    <div class="footer-inner site-footer-grid">
+    <div class="footer-inner site-footer-grid" data-reveal>
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
             <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
@@ -289,9 +323,10 @@
         <div class="footer-col">
             <h4>Insurance</h4>
             <ul>
-                <li><a href="life-insurance.html">Life Insurance</a></li>
-                <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                 <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -304,10 +339,17 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Office &amp; Resources</h4>
+            <h4>Careers &amp; Contact</h4>
             <ul>
-                <li><a href="team.html">Our Team</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
                 <li><a href="tel:+254726001122">+254 726 001 122</a></li>
@@ -340,6 +382,18 @@
         });
     });
 }());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
 </script>
 </body>
 </html>

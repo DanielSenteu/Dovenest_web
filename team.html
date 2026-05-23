@@ -16,18 +16,18 @@
 
     #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
     #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
-    .nav-inner { max-width: 1320px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
     .nav-logo img { height: 42px; width: auto; display: block; object-fit: contain; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
     .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
     .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
     .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
-    .nav-links a.active, .nav-menu-btn.active { color: #E8A020; }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
     .nav-group { position: relative; }
     .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
     .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 190px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
     .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
-    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(232,160,32,0.14); }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
     .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
@@ -39,10 +39,10 @@
     .hero-content { position: relative; z-index: 2; max-width: 1320px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; }
     .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
     .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
-    .breadcrumb a:hover { color: #E8A020; }
-    .hero-eyebrow, .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .breadcrumb a:hover { color: #52B44B; }
+    .hero-eyebrow, .section-label { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
     .hero-title { color: #fff; font-size: clamp(3.1rem, 7vw, 7rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; max-width: 900px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
-    .hero-title span { color: #E8A020; }
+    .hero-title span { color: #52B44B; }
     .hero-sub { max-width: 690px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.22rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -50,14 +50,14 @@
     .team-inner { max-width: 1220px; margin: 0 auto; }
     .team-head { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.55fr); gap: 2rem; align-items: end; margin-bottom: 2.4rem; }
     .section-title { margin-top: 0.8rem; font-size: clamp(2rem, 4.5vw, 4.3rem); line-height: 1.06; letter-spacing: -0.03em; color: #0A2A4A; }
-    .section-title span { color: #E8A020; }
+    .section-title span { color: #52B44B; }
     .team-head p { color: #52677c; line-height: 1.85; font-size: 1.02rem; }
-    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg, #E8A020, #f7c66c); }
+    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg, #52B44B, #7fd478); }
 
     .team-tabs { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 2rem; }
     .team-tab { min-height: 42px; border: 1px solid rgba(8,55,95,0.12); border-radius: 999px; padding: 0 1rem; background: #fff; color: #52677c; font: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s; }
-    .team-tab:hover { transform: translateY(-2px); border-color: rgba(232,160,32,0.55); }
-    .team-tab.active { color: #07172a; background: #E8A020; border-color: #E8A020; }
+    .team-tab:hover { transform: translateY(-2px); border-color: rgba(82,180,75,0.55); }
+    .team-tab.active { color: #07172a; background: #52B44B; border-color: #52B44B; }
 
     .team-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
     .team-card { display: flex; flex-direction: column; min-height: 100%; overflow: hidden; border: 1px solid rgba(8,55,95,0.08); border-radius: 8px; background: #fff; box-shadow: 0 22px 55px rgba(8,55,95,0.1); transform: translateY(0); transition: transform 0.25s, box-shadow 0.25s; }
@@ -65,9 +65,9 @@
     .team-photo { position: relative; aspect-ratio: 4 / 4.35; background: linear-gradient(135deg, #08375f, #0A2A4A); overflow: hidden; }
     .team-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .team-photo::after { content: ""; position: absolute; inset: auto 0 0; height: 40%; background: linear-gradient(to top, rgba(4,17,31,0.62), transparent); }
-    .placeholder { height: 100%; display: grid; place-items: center; color: rgba(255,255,255,0.92); font-size: clamp(3.8rem, 8vw, 5.8rem); font-weight: 800; letter-spacing: -0.06em; background: radial-gradient(circle at 70% 20%, rgba(232,160,32,0.32), transparent 34%), linear-gradient(135deg, #08375f, #061b31); }
+    .placeholder { height: 100%; display: grid; place-items: center; color: rgba(255,255,255,0.92); font-size: clamp(3.8rem, 8vw, 5.8rem); font-weight: 800; letter-spacing: -0.06em; background: radial-gradient(circle at 70% 20%, rgba(82,180,75,0.32), transparent 34%), linear-gradient(135deg, #08375f, #061b31); }
     .team-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
-    .team-chip { align-self: flex-start; padding: 0.34rem 0.65rem; border-radius: 999px; background: rgba(232,160,32,0.13); color: #986411; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .team-chip { align-self: flex-start; padding: 0.34rem 0.65rem; border-radius: 999px; background: rgba(82,180,75,0.13); color: #986411; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
     .team-body h3 { color: #08375f; font-size: 1.24rem; line-height: 1.24; }
     .team-role { color: #52677c; font-size: 0.94rem; line-height: 1.65; }
     .team-note { margin-top: auto; padding-top: 0.8rem; border-top: 1px solid rgba(8,55,95,0.08); color: #718397; font-size: 0.84rem; line-height: 1.55; }
@@ -77,7 +77,7 @@
     .cta-inner { max-width: 1220px; margin: 0 auto; padding: 2rem; border-radius: 8px; background: linear-gradient(135deg, #08375f, #061b31); color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
     .cta-inner h2 { font-size: clamp(1.7rem, 3vw, 2.6rem); line-height: 1.15; letter-spacing: -0.025em; }
     .cta-inner p { max-width: 580px; margin-top: 0.65rem; color: rgba(255,255,255,0.72); line-height: 1.7; }
-    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; color: #07172a; background: #E8A020; text-decoration: none; font-weight: 800; white-space: nowrap; }
+    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; color: #07172a; background: #52B44B; text-decoration: none; font-weight: 800; white-space: nowrap; }
 
     #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 3.5rem 2rem 0; }
     .footer-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(260px,1.2fr) repeat(2,minmax(180px,0.5fr)); gap: 2.5rem; padding-bottom: 2.5rem; }
@@ -86,7 +86,7 @@
     .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
     .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
     .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
-    .footer-col a:hover { color: #E8A020; }
+    .footer-col a:hover { color: #52B44B; }
     .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
     .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
 
@@ -104,7 +104,7 @@
         .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
-        .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
         .footer-inner { grid-template-columns: 1fr; }
         .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
@@ -154,29 +154,26 @@
             <li class="nav-group">
                 <button class="nav-menu-btn" type="button" aria-expanded="false">Insurance</button>
                 <ul class="nav-dropdown">
-                    <li><a href="life-insurance.html">Life Insurance</a></li>
-                    <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                    <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                     <li><a href="health-insurance.html">Health Insurance</a></li>
                     <li><a href="education-insurance.html">Education Insurance</a></li>
                     <li><a href="motor-insurance.html">Motor Insurance</a></li>
                     <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
                     <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
                 </ul>
             </li>
             <li><a href="contact.html">Contact</a></li>
             <li class="nav-group">
-                <button class="nav-menu-btn active" type="button" aria-expanded="false">Office</button>
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
                 <ul class="nav-dropdown">
-                    <li><a class="active" href="team.html">Our Team</a></li>
-                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
                 </ul>
             </li>
-            <li class="nav-group">
-                <button class="nav-menu-btn" type="button" aria-expanded="false">Tools &amp; Resources</button>
-                <ul class="nav-dropdown">
-                    <li><a href="faq.html">FAQ</a></li>
-                </ul>
-            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
             <li><a href="blogs.html">Blogs</a></li>
         </ul>
     </div>
@@ -195,7 +192,7 @@
 
 <main id="team-main">
     <div class="team-inner">
-        <div class="team-head">
+        <div class="team-head" data-reveal>
             <div>
                 <span class="section-label">Our Team</span>
                 <h2 class="section-title">Experienced hands, <span>clear guidance.</span></h2>
@@ -212,7 +209,7 @@
             <button class="team-tab" type="button" data-filter="corporate">Corporate</button>
         </div>
 
-        <div class="team-grid" id="teamGrid">
+        <div class="team-grid" id="teamGrid" data-reveal>
             <article class="team-card" data-groups="main">
                 <div class="team-photo"><img src="images/kennedy.jpeg" alt="Kennedy Mongare"></div>
                 <div class="team-body">
@@ -267,7 +264,7 @@
 </main>
 
 <section id="team-cta">
-    <div class="cta-inner">
+    <div class="cta-inner" data-reveal>
         <div>
             <h2>Need the right person for your cover?</h2>
             <p>Tell us what you are working on and we will connect you with the right DoveNest team member.</p>
@@ -277,7 +274,7 @@
 </section>
 
 <section class="general-cta" aria-label="General insurance call to action">
-    <div class="general-cta-inner">
+    <div class="general-cta-inner" data-reveal>
         <div>
             <span class="general-cta-eyebrow">General Insurance</span>
             <h2>Protect the everyday risks that can slow life and business down.</h2>
@@ -287,7 +284,7 @@
     </div>
 </section>
 <footer id="site-footer">
-    <div class="footer-inner site-footer-grid">
+    <div class="footer-inner site-footer-grid" data-reveal>
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
             <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
@@ -304,9 +301,10 @@
         <div class="footer-col">
             <h4>Insurance</h4>
             <ul>
-                <li><a href="life-insurance.html">Life Insurance</a></li>
-                <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                 <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -319,10 +317,17 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Office &amp; Resources</h4>
+            <h4>Careers &amp; Contact</h4>
             <ul>
-                <li><a href="team.html">Our Team</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
                 <li><a href="tel:+254726001122">+254 726 001 122</a></li>
@@ -374,6 +379,18 @@
         });
     });
 }());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
 </script>
 
 </body>

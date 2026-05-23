@@ -49,7 +49,7 @@
 .site-quote-link svg {
     width: 15px;
     height: 15px;
-    color: #E8A020;
+    color: #52B44B;
     flex: 0 0 auto;
 }
 
@@ -63,8 +63,8 @@
     padding: 0 0.78rem;
     border-radius: 6px;
     color: #07172a;
-    background: #E8A020;
-    box-shadow: 0 10px 28px rgba(232,160,32,0.22);
+    background: #52B44B;
+    box-shadow: 0 10px 28px rgba(82,180,75,0.22);
 }
 
 .site-quote-link svg {
@@ -73,7 +73,7 @@
 
 .site-quote-link:hover {
     color: #07172a;
-    background: #f4bd54;
+    background: #6ec966;
 }
 
 #navbar .nav-links.open {
@@ -104,7 +104,7 @@
 .general-cta-eyebrow {
     display: inline-flex;
     align-items: center;
-    color: #E8A020;
+    color: #52B44B;
     font-size: 0.78rem;
     font-weight: 900;
     letter-spacing: 0.14em;
@@ -134,14 +134,14 @@
     padding: 0 1.2rem;
     border-radius: 6px;
     color: #07172a;
-    background: #E8A020;
+    background: #52B44B;
     text-decoration: none;
     font-weight: 900;
     white-space: nowrap;
 }
 
 .general-cta-link:hover {
-    background: #f4bd54;
+    background: #6ec966;
 }
 
 #site-footer {
@@ -193,7 +193,7 @@
 
 #site-footer .footer-col a:hover,
 #site-footer .footer-bottom a:hover {
-    color: #E8A020;
+    color: #52B44B;
 }
 
 #site-footer .footer-bottom {
@@ -279,29 +279,38 @@
    Overrides per-page navbar styles globally
 ═══════════════════════════════════════════════════════ */
 
-/* Push logo closer to left edge */
-.nav-inner {
-    padding-left: 0.75rem;
-}
+/* Nav-inner padding — match footer grid (2rem) for alignment */
 
 /* Global hero title size — overrides all per-page values */
 .hero-title {
     font-size: clamp(1.5rem, 3.2vw, 2.6rem);
 }
 
-/* Logo crop — hides "A trusted partner" tagline from JPEG
-   Shows: circular icon + DoveNest + INSURANCE BROKERS (~77% of image height) */
+/* Logo — left-aligned, flush with footer grid (1220px + 2rem padding) */
+.nav-inner {
+    max-width: 1220px !important;
+    padding: 0 2rem !important;
+    justify-content: flex-start !important;
+    gap: 2rem !important;
+}
 .nav-logo {
     display: block;
     line-height: 0;
     overflow: hidden;
-    height: 54px;
+    height: 68px;
+    flex-shrink: 0;
 }
 .nav-logo img {
-    height: 70px;
+    height: 88px;
     width: auto;
     display: block;
     object-fit: initial;
+    background: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+.nav-links {
+    margin-left: auto;
 }
 
 /* White navbar */
@@ -328,7 +337,7 @@
 }
 .nav-links a.active,
 .nav-menu-btn.active {
-    color: #E8A020;
+    color: #52B44B;
 }
 
 /* Hamburger — dark lines for white header */
@@ -353,8 +362,171 @@
         color: #1a3a5c;
     }
     .nav-links.open .nav-dropdown a.active {
-        color: #E8A020;
-        background: rgba(232, 160, 32, 0.10);
+        color: #52B44B;
+        background: rgba(82, 180, 75, 0.10);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   INQUIRY SIDEBAR FORM — used on insurance product pages
+═══════════════════════════════════════════════════════ */
+.inquiry-aside {
+    position: sticky;
+    top: 120px;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid rgba(8,55,95,0.10);
+    box-shadow: 0 20px 56px rgba(8,55,95,0.10);
+    overflow: hidden;
+}
+.inquiry-header {
+    background: linear-gradient(135deg, #08375f, #061b31);
+    padding: 1.25rem 1.35rem;
+    color: #fff;
+}
+.inquiry-header h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+.inquiry-header p {
+    margin-top: 0.35rem;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+}
+.inquiry-body {
+    padding: 1.35rem;
+    display: grid;
+    gap: 0.9rem;
+}
+.inquiry-field {
+    display: grid;
+    gap: 0.3rem;
+}
+.inquiry-field label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #08375f;
+    letter-spacing: 0.01em;
+}
+.inquiry-field input,
+.inquiry-field select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 0.85rem;
+    border: 1px solid rgba(8,55,95,0.14);
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #0A2A4A;
+    font: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.inquiry-field input:focus,
+.inquiry-field select:focus {
+    border-color: #52B44B;
+    box-shadow: 0 0 0 3px rgba(82,180,75,0.12);
+    background: #fff;
+}
+.inquiry-field input::placeholder {
+    color: rgba(82,103,124,0.55);
+}
+.inquiry-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.78rem;
+    color: #52677c;
+    line-height: 1.55;
+}
+.inquiry-consent input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: #52B44B;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.inquiry-consent a {
+    color: #08375f;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(8,55,95,0.2);
+}
+.inquiry-consent a:hover {
+    border-color: #08375f;
+}
+.inquiry-submit {
+    width: 100%;
+    min-height: 48px;
+    border: none;
+    border-radius: 8px;
+    background: #52B44B;
+    color: #07172a;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+.inquiry-submit:hover {
+    background: #d4911a;
+    transform: translateY(-1px);
+}
+.inquiry-note {
+    text-align: center;
+    font-size: 0.72rem;
+    color: rgba(82,103,124,0.6);
+    line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS — shared across all pages
+═══════════════════════════════════════════════════════ */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+[data-reveal="left"] {
+    transform: translateX(-40px) translateY(0);
+}
+[data-reveal="right"] {
+    transform: translateX(40px) translateY(0);
+}
+[data-reveal="scale"] {
+    transform: scale(0.92);
+}
+[data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+}
+/* Stagger children */
+[data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+                transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+[data-reveal-stagger].revealed > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+[data-reveal-stagger].revealed > *:nth-child(1) { transition-delay: 0ms; }
+[data-reveal-stagger].revealed > *:nth-child(2) { transition-delay: 100ms; }
+[data-reveal-stagger].revealed > *:nth-child(3) { transition-delay: 200ms; }
+[data-reveal-stagger].revealed > *:nth-child(4) { transition-delay: 300ms; }
+[data-reveal-stagger].revealed > *:nth-child(5) { transition-delay: 400ms; }
+[data-reveal-stagger].revealed > *:nth-child(6) { transition-delay: 500ms; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal], [data-reveal-stagger] > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
     }
 }
 

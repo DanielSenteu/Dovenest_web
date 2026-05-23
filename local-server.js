@@ -262,6 +262,199 @@ function generateGroupCode() {
   return 'GRP-' + crypto.randomBytes(3).toString('hex').toUpperCase();
 }
 
+function generateTqRef() {
+  const ts   = Date.now().toString(36).toUpperCase();
+  const rand = crypto.randomBytes(3).toString('hex').toUpperCase();
+  return `TQ-${ts}-${rand}`;
+}
+
+// ── Travel quote field validation ────────────────────────────────────────────
+function validateTravelQuotePayload(body) {
+  const errors = [];
+  const VALID_PURPOSES = ['leisure', 'business', 'study', 'pilgrimage', 'employment'];
+  const VALID_COVERS   = ['premier_worldwide', 'europe_schengen', 'inbound', 'incountry'];
+  const VALID_PAYMENTS = ['mpesa', 'bank_transfer', 'cheque'];
+
+  // Destination
+  if (!body.destination || String(body.destination).trim().length < 1 || String(body.destination).trim().length > 120)
+    errors.push('destination is required (max 120 chars)');
+
+  // Dates
+  if (!body.departure_date || !/^\d{4}-\d{2}-\d{2}$/.test(body.departure_date))
+    errors.push('departure_date must be YYYY-MM-DD');
+  else {
+    const dep = new Date(body.departure_date);
+    const now = new Date(); now.setHours(0,0,0,0);
+    if (dep < now) errors.push('departure_date must be today or future');
+  }
+
+  if (!body.return_date || !/^\d{4}-\d{2}-\d{2}$/.test(body.return_date))
+    errors.push('return_date must be YYYY-MM-DD');
+  else if (body.departure_date && body.return_date <= body.departure_date)
+    errors.push('return_date must be after departure_date');
+
+  // Travellers
+  if (!Array.isArray(body.travellers) || body.travellers.length < 1)
+    errors.push('At least 1 traveller is required');
+  else if (body.travellers.length > 15)
+    errors.push('Maximum 15 travellers');
+  else {
+    body.travellers.forEach((t, i) => {
+      const p = `Traveller ${i + 1}`;
+      if (!t.full_name || String(t.full_name).trim().length < 2) errors.push(`${p}: full_name is required`);
+      if (!t.date_of_birth || !/^\d{4}-\d{2}-\d{2}$/.test(t.date_of_birth)) errors.push(`${p}: date_of_birth is required (YYYY-MM-DD)`);
+      else {
+        const age = ageYears(t.date_of_birth);
+        if (age < 0 || age > 99) errors.push(`${p}: invalid age`);
+      }
+    });
+  }
+
+  // Purpose, cover, payment
+  if (!VALID_PURPOSES.includes(body.purpose)) errors.push('purpose must be one of: ' + VALID_PURPOSES.join(', '));
+  if (!VALID_COVERS.includes(body.cover_type)) errors.push('cover_type must be one of: ' + VALID_COVERS.join(', '));
+  if (!VALID_PAYMENTS.includes(body.payment_method)) errors.push('payment_method must be one of: ' + VALID_PAYMENTS.join(', '));
+
+  // Proposer
+  if (!body.full_name || String(body.full_name).trim().length < 2) errors.push('full_name is required');
+  if (!body.date_of_birth || !/^\d{4}-\d{2}-\d{2}$/.test(body.date_of_birth)) errors.push('proposer date_of_birth is required');
+  if (!body.occupation || String(body.occupation).trim().length < 2) errors.push('occupation is required');
+  if (!body.town || String(body.town).trim().length < 2) errors.push('town is required');
+  if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(body.email).trim().toLowerCase()))
+    errors.push('A valid email address is required');
+  if (!body.phone || !/^\+\d{9,15}$/.test(String(body.phone).trim()))
+    errors.push('A valid phone number is required (e.g. +254712345678)');
+
+  // KRA PIN format (optional but validate if provided)
+  if (body.kra_pin && String(body.kra_pin).trim().length > 0) {
+    if (!/^[A-Z]\d{9}[A-Z]$/.test(String(body.kra_pin).trim().toUpperCase()))
+      errors.push('kra_pin must match format A123456789Z');
+  }
+
+  // Beneficiary
+  if (!body.beneficiary_name || String(body.beneficiary_name).trim().length < 2) errors.push('beneficiary_name is required');
+  if (!body.beneficiary_relation || String(body.beneficiary_relation).trim().length < 2) errors.push('beneficiary_relation is required');
+
+  return errors;
+}
+
+// ── Save travel quote to Supabase ────────────────────────────────────────────
+async function saveTqToSupabase(record) {
+  // Insert main quote
+  const [quote] = await supabaseInsert('travel_quotes', {
+    ref:                  record.ref,
+    destination:          record.destination,
+    departure_date:       record.departure_date,
+    return_date:          record.return_date,
+    purpose:              record.purpose,
+    cover_type:           record.cover_type,
+    medical_evac:         record.medical_evac,
+    covid_extension:      record.covid_extension,
+    full_name:            record.full_name,
+    phone:                record.phone,
+    email:                record.email,
+    date_of_birth:        record.date_of_birth,
+    national_id:          record.national_id || null,
+    passport_no:          record.passport_no || null,
+    kra_pin:              record.kra_pin || null,
+    occupation:           record.occupation,
+    town:                 record.town,
+    payment_method:       record.payment_method,
+    beneficiary_name:     record.beneficiary_name,
+    beneficiary_id:       record.beneficiary_id || null,
+    beneficiary_relation: record.beneficiary_relation,
+    beneficiary_phone:    record.beneficiary_phone || null,
+    status:               'pending',
+  });
+
+  // Insert travellers
+  if (record.travellers && record.travellers.length > 0) {
+    const travRows = record.travellers.map((t, i) => ({
+      quote_id:      quote.id,
+      full_name:     t.full_name,
+      date_of_birth: t.date_of_birth,
+      age:           t.age,
+      label:         t.label,
+      id_passport:   t.id_passport || null,
+      relation:      t.relation || null,
+      sort_order:    i,
+    }));
+    await supabaseInsert('travel_quote_travellers', travRows);
+  }
+
+  return quote.id;
+}
+
+// ── Flying Doctor ref generator ──────────────────────────────────────────────
+function generateFdRef() {
+  const ts   = Date.now().toString(36).toUpperCase();
+  const rand = crypto.randomBytes(3).toString('hex').toUpperCase();
+  return `FD-${ts}-${rand}`;
+}
+
+// ── Flying Doctor field validation ──────────────────────────────────────────
+function validateFdPayload(body) {
+  const errors = [];
+  const VALID_PLANS = ['scholar', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
+
+  if (!VALID_PLANS.includes(body.plan)) errors.push('plan must be one of: ' + VALID_PLANS.join(', '));
+
+  // Members
+  if (!Array.isArray(body.members) || body.members.length < 1)
+    errors.push('At least 1 member is required');
+  else if (body.members.length > 15)
+    errors.push('Maximum 15 members');
+  else {
+    body.members.forEach((m, i) => {
+      const p = `Member ${i + 1}`;
+      if (!m.full_name || String(m.full_name).trim().length < 2) errors.push(`${p}: full_name is required`);
+      if (!m.date_of_birth || !/^\d{4}-\d{2}-\d{2}$/.test(m.date_of_birth)) errors.push(`${p}: date_of_birth is required (YYYY-MM-DD)`);
+      else {
+        const age = ageYears(m.date_of_birth);
+        if (age < 0 || age > 99) errors.push(`${p}: invalid age`);
+      }
+      if (!m.id_passport || String(m.id_passport).trim().length < 1) errors.push(`${p}: ID/passport/birth cert number is required`);
+    });
+  }
+
+  // Contact
+  if (!body.full_name || String(body.full_name).trim().length < 2) errors.push('full_name is required');
+  if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(body.email).trim().toLowerCase()))
+    errors.push('A valid email address is required');
+  if (!body.phone || !/^\+\d{9,15}$/.test(String(body.phone).trim()))
+    errors.push('A valid phone number is required (e.g. +254712345678)');
+
+  return errors;
+}
+
+// ── Save Flying Doctor quote to Supabase ────────────────────────────────────
+async function saveFdToSupabase(record) {
+  const [quote] = await supabaseInsert('flying_doctor_quotes', {
+    ref:         record.ref,
+    plan:        record.plan,
+    full_name:   record.full_name,
+    phone:       record.phone,
+    email:       record.email,
+    payment_ref: record.payment_ref || null,
+    status:      'pending',
+  });
+
+  if (record.members && record.members.length > 0) {
+    const rows = record.members.map((m, i) => ({
+      quote_id:      quote.id,
+      full_name:     m.full_name,
+      date_of_birth: m.date_of_birth,
+      age:           m.age,
+      id_passport:   m.id_passport,
+      relation:      m.relation || null,
+      sort_order:    i,
+    }));
+    await supabaseInsert('flying_doctor_members', rows);
+  }
+
+  return quote.id;
+}
+
 // ── Large body reader (for last expense with base64 docs) ─────────────────────
 function readLargeJsonBody(req, maxBytes = 25 * 1024 * 1024) {
   return new Promise((resolve, reject) => {
@@ -856,6 +1049,163 @@ http.createServer(async (req, res) => {
     saveLeToSupabase(record)
       .then(id => console.log(`[supabase] Last expense saved: ${ref} → ${id}`))
       .catch(e  => console.error(`[supabase] Last expense save failed: ${e.message}`));
+
+    sendJson(res, 200, { success: true, ref });
+    return;
+  }
+
+  // ── API: submit travel quote ──────────────────────────────
+  // ── API: submit flying doctor quote ─────────────────────
+  if (method === 'POST' && urlPath === '/api/flying-doctor-quote') {
+    let body;
+    try { body = await readJsonBody(req); }
+    catch (err) { sendJson(res, 400, { error: err.message || 'Invalid request body' }); return; }
+
+    // 1. Honeypot
+    if (body.website && String(body.website).trim().length > 0) {
+      console.log('[flying-doctor] Honeypot triggered — bot submission silently dropped');
+      sendJson(res, 200, { success: true, ref: generateFdRef() });
+      return;
+    }
+
+    // 2. Rate limit
+    const clientIp = req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(clientIp)) {
+      sendJson(res, 429, { error: 'Too many requests. Please try again later.' });
+      return;
+    }
+
+    // 3. CSRF
+    if (!validateCsrfToken(body.csrf_token)) {
+      sendJson(res, 403, { error: 'Invalid or expired session. Please refresh the page and try again.' });
+      return;
+    }
+
+    // 4. Field validation
+    const fdErrors = validateFdPayload(body);
+    if (fdErrors.length > 0) {
+      sendJson(res, 400, { error: fdErrors[0], errors: fdErrors });
+      return;
+    }
+
+    // 5. Save
+    const ref = generateFdRef();
+    const record = {
+      ref,
+      submitted_at: new Date().toISOString(),
+      status:       'pending',
+      plan:         body.plan,
+      full_name:    body.full_name.trim(),
+      phone:        body.phone.trim(),
+      email:        body.email.trim().toLowerCase(),
+      payment_ref:  (body.payment_ref || '').trim().toUpperCase(),
+      members:      (body.members || []).map((m, i) => ({
+        full_name:     String(m.full_name || '').trim(),
+        date_of_birth: m.date_of_birth,
+        age:           Number(m.age) || 0,
+        id_passport:   String(m.id_passport || '').trim(),
+        relation:      String(m.relation || '').trim(),
+        sort_order:    i
+      }))
+    };
+
+    // Save locally
+    const fdFile = path.join(__dirname, 'data', 'flying-doctor-quotes.json');
+    const fdQuotes = loadJson(fdFile);
+    fdQuotes.push(record);
+    saveJson(fdFile, fdQuotes);
+    console.log(`[flying-doctor] Saved: ${ref} — ${record.full_name} (${record.plan})`);
+
+    // Save to Supabase (fire-and-forget)
+    saveFdToSupabase(record)
+      .then(() => console.log(`[supabase] Flying doctor quote saved: ${ref}`))
+      .catch(e => console.error(`[supabase] Flying doctor save failed: ${e.message}`));
+
+    sendJson(res, 200, { success: true, ref });
+    return;
+  }
+
+  if (method === 'POST' && urlPath === '/api/travel-quote') {
+    let body;
+    try { body = await readJsonBody(req); }
+    catch (err) { sendJson(res, 400, { error: err.message || 'Invalid request body' }); return; }
+
+    // 1. Honeypot
+    if (body.website && String(body.website).trim().length > 0) {
+      console.log('[travel-quote] Honeypot triggered — bot submission silently dropped');
+      sendJson(res, 200, { success: true, ref: generateTqRef() });
+      return;
+    }
+
+    // 2. Rate limit
+    const clientIp = req.socket.remoteAddress || 'unknown';
+    if (!checkRateLimit(clientIp)) {
+      sendJson(res, 429, { error: 'Too many requests. Please try again later.' });
+      return;
+    }
+
+    // 3. CSRF
+    if (!validateCsrfToken(body.csrf_token)) {
+      sendJson(res, 403, { error: 'Invalid or expired session. Please refresh the page and try again.' });
+      return;
+    }
+
+    // 4. Field validation
+    const tqErrors = validateTravelQuotePayload(body);
+    if (tqErrors.length > 0) {
+      sendJson(res, 400, { error: tqErrors[0], errors: tqErrors });
+      return;
+    }
+
+    // 5. Save
+    const ref = generateTqRef();
+    const record = {
+      ref,
+      submitted_at:         new Date().toISOString(),
+      status:               'pending',
+      destination:          body.destination.trim(),
+      departure_date:       body.departure_date,
+      return_date:          body.return_date,
+      purpose:              body.purpose,
+      cover_type:           body.cover_type,
+      medical_evac:         body.medical_evac === true,
+      covid_extension:      body.covid_extension === true,
+      full_name:            body.full_name.trim(),
+      date_of_birth:        body.date_of_birth,
+      national_id:          (body.national_id || '').trim(),
+      passport_no:          (body.passport_no || '').trim(),
+      kra_pin:              (body.kra_pin || '').trim().toUpperCase(),
+      occupation:           body.occupation.trim(),
+      town:                 body.town.trim(),
+      phone:                body.phone.trim(),
+      email:                body.email.trim().toLowerCase(),
+      payment_method:       body.payment_method,
+      beneficiary_name:     body.beneficiary_name.trim(),
+      beneficiary_id:       (body.beneficiary_id || '').trim(),
+      beneficiary_relation: body.beneficiary_relation,
+      beneficiary_phone:    (body.beneficiary_phone || '').trim(),
+      travellers:           (body.travellers || []).map((t, i) => ({
+        full_name:     String(t.full_name || '').trim(),
+        date_of_birth: t.date_of_birth,
+        age:           Number(t.age) || 0,
+        label:         (Number(t.age) >= 18 ? 'Adult' : 'Child') + ' ' + (i + 1),
+        id_passport:   String(t.id_passport || '').trim(),
+        relation:      String(t.relation || '').trim(),
+        sort_order:    i
+      }))
+    };
+
+    // Save locally
+    const tqFile = path.join(__dirname, 'data', 'travel-quotes.json');
+    const quotes = loadJson(tqFile);
+    quotes.push(record);
+    saveJson(tqFile, quotes);
+    console.log(`[travel-quote] Saved: ${ref} — ${record.full_name} → ${record.destination}`);
+
+    // Save to Supabase (fire-and-forget)
+    saveTqToSupabase(record)
+      .then(() => console.log(`[supabase] Travel quote saved: ${ref}`))
+      .catch(e => console.error(`[supabase] Travel quote save failed: ${e.message}`));
 
     sendJson(res, 200, { success: true, ref });
     return;

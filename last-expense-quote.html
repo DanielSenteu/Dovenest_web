@@ -29,7 +29,7 @@
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
     }
     .qf-eyebrow {
-      display: block; color: #E8A020; font-size: 0.58rem; font-weight: 800;
+      display: block; color: #52B44B; font-size: 0.58rem; font-weight: 800;
       letter-spacing: 0.36em; text-transform: uppercase; line-height: 1; margin-bottom: 3px;
       font-family: 'Poppins', sans-serif;
     }
@@ -51,12 +51,12 @@
       margin-bottom: 8px;
     }
     .progress-label-text { color: rgba(255,255,255,0.7); font-size: 0.72rem; }
-    .progress-step-text { color: #E8A020; font-size: 0.72rem; font-weight: 600; }
+    .progress-step-text { color: #52B44B; font-size: 0.72rem; font-weight: 600; }
     .progress-track {
       height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden;
     }
     .progress-fill {
-      height: 100%; background: #E8A020; border-radius: 2px;
+      height: 100%; background: #52B44B; border-radius: 2px;
       transition: width 0.4s ease; width: 0%;
     }
 
@@ -104,7 +104,7 @@
     .uw-feature .tick { color: #16a34a; font-weight: 700; }
     .uw-feature .cross { color: #9ca3af; }
     .uw-badge {
-      position: absolute; top: -1px; right: -1px; background: #E8A020;
+      position: absolute; top: -1px; right: -1px; background: #52B44B;
       color: #fff; font-size: 0.62rem; font-weight: 700; padding: 3px 8px;
       border-radius: 0 10px 0 8px; letter-spacing: 0.05em; text-transform: uppercase;
     }
@@ -264,7 +264,7 @@
     .absa-only-note.visible { display: block; }
 
     /* Premium per dependent */
-    .dep-premium-note { font-size: 0.75rem; color: #E8A020; font-weight: 600; margin-top: 0.5rem; }
+    .dep-premium-note { font-size: 0.75rem; color: #52B44B; font-weight: 600; margin-top: 0.5rem; }
 
     /* Biological checkbox */
     .checkbox-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
@@ -1877,6 +1877,12 @@ async function init() {
 }
 
 init();
+
+// Auto-select type from URL param (e.g. ?type=individual or ?type=group)
+const urlType = new URLSearchParams(window.location.search).get('type');
+if (urlType === 'individual' || urlType === 'group') {
+  selectType(urlType);
+}
 </script>
 </body>
 </html>

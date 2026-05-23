@@ -16,18 +16,18 @@
 
     #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
     #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
-    .nav-inner { max-width: 1320px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
     .nav-logo img { height: 42px; width: auto; display: block; object-fit: contain; }
     .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
     .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
     .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
     .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
-    .nav-links a.active, .nav-menu-btn.active { color: #E8A020; }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
     .nav-group { position: relative; }
     .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
     .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 190px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
     .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
-    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(232,160,32,0.14); }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
     .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
     #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
     #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
@@ -40,18 +40,18 @@
     .hero-content { position: relative; z-index: 2; max-width: 1320px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; }
     .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
     .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
-    .breadcrumb a:hover { color: #E8A020; }
-    .hero-eyebrow { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .breadcrumb a:hover { color: #52B44B; }
+    .hero-eyebrow { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
     .hero-title { color: #fff; font-size: clamp(3.1rem, 7vw, 6.8rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; max-width: 900px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
-    .hero-title span { color: #E8A020; }
+    .hero-title span { color: #52B44B; }
     .hero-sub { max-width: 680px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.18rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ── SHARED UTILITIES ── */
-    .section-label { display: inline-block; color: #E8A020; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .section-label { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
     .section-title { margin-top: 0.8rem; font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; color: #0A2A4A; }
-    .section-title span { color: #E8A020; }
-    .gold-rule { width: 64px; height: 3px; margin-top: 1.1rem; border-radius: 999px; background: linear-gradient(90deg, #E8A020, #f7c66c); }
+    .section-title span { color: #52B44B; }
+    .gold-rule { width: 64px; height: 3px; margin-top: 1.1rem; border-radius: 999px; background: linear-gradient(90deg, #52B44B, #7fd478); }
 
     /* ── IN THE MEDIA SECTION ── */
     #in-the-media {
@@ -65,7 +65,7 @@
         position: absolute;
         inset: 0;
         background:
-            radial-gradient(ellipse 70% 45% at 50% -5%, rgba(232,160,32,0.08) 0%, transparent 62%),
+            radial-gradient(ellipse 70% 45% at 50% -5%, rgba(82,180,75,0.08) 0%, transparent 62%),
             radial-gradient(ellipse 50% 60% at 8% 110%, rgba(8,55,95,0.6) 0%, transparent 55%),
             radial-gradient(ellipse 50% 60% at 92% 110%, rgba(8,55,95,0.6) 0%, transparent 55%);
         pointer-events: none;
@@ -79,7 +79,7 @@
     .media-header {
         margin-bottom: 3rem;
     }
-    .media-header .section-label { color: #E8A020; }
+    .media-header .section-label { color: #52B44B; }
     .media-header .section-title { color: #fff; }
     .media-header p {
         margin-top: 0.9rem;
@@ -104,7 +104,7 @@
         transition: border-color 0.3s, transform 0.3s;
     }
     .video-card:hover {
-        border-color: rgba(232,160,32,0.35);
+        border-color: rgba(82,180,75,0.35);
         transform: translateY(-4px);
     }
     .video-embed {
@@ -131,12 +131,12 @@
         font-weight: 800;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: #E8A020;
+        color: #52B44B;
         margin-bottom: 0.45rem;
     }
     .video-channel svg {
         width: 13px; height: 13px;
-        fill: #E8A020;
+        fill: #52B44B;
     }
     .video-title {
         font-size: 0.92rem;
@@ -159,21 +159,21 @@
     }
     .press-card:hover {
         background: rgba(255,255,255,0.07);
-        border-color: rgba(232,160,32,0.35);
+        border-color: rgba(82,180,75,0.35);
     }
     .press-icon {
         flex-shrink: 0;
         width: 56px; height: 56px;
         border-radius: 12px;
-        background: rgba(232,160,32,0.12);
-        border: 1px solid rgba(232,160,32,0.22);
+        background: rgba(82,180,75,0.12);
+        border: 1px solid rgba(82,180,75,0.22);
         display: flex; align-items: center; justify-content: center;
     }
-    .press-icon svg { width: 26px; height: 26px; stroke: #E8A020; fill: none; }
+    .press-icon svg { width: 26px; height: 26px; stroke: #52B44B; fill: none; }
     .press-text { flex: 1; min-width: 0; }
     .press-pub {
         font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em;
-        text-transform: uppercase; color: #E8A020; margin-bottom: 0.35rem;
+        text-transform: uppercase; color: #52B44B; margin-bottom: 0.35rem;
     }
     .press-headline {
         font-size: 1rem; font-weight: 700;
@@ -187,12 +187,12 @@
         flex-shrink: 0;
         width: 40px; height: 40px;
         border-radius: 50%;
-        background: rgba(232,160,32,0.12);
+        background: rgba(82,180,75,0.12);
         display: flex; align-items: center; justify-content: center;
         transition: background 0.25s;
     }
-    .press-card:hover .press-arrow { background: #E8A020; }
-    .press-arrow svg { width: 18px; height: 18px; stroke: #E8A020; fill: none; transition: stroke 0.25s; }
+    .press-card:hover .press-arrow { background: #52B44B; }
+    .press-arrow svg { width: 18px; height: 18px; stroke: #52B44B; fill: none; transition: stroke 0.25s; }
     .press-card:hover .press-arrow svg { stroke: #07172a; }
 
     /* ── STORIES & INITIATIVES SECTION ── */
@@ -209,8 +209,8 @@
 
     .archive-filters { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 2rem; }
     .archive-filter { min-height: 42px; border: 1px solid rgba(8,55,95,0.12); border-radius: 999px; padding: 0 1rem; background: #fff; color: #52677c; font: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s; }
-    .archive-filter:hover { transform: translateY(-2px); border-color: rgba(232,160,32,0.55); }
-    .archive-filter.active { color: #07172a; background: #E8A020; border-color: #E8A020; }
+    .archive-filter:hover { transform: translateY(-2px); border-color: rgba(82,180,75,0.55); }
+    .archive-filter.active { color: #07172a; background: #52B44B; border-color: #52B44B; }
 
     .archive-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.25rem; }
     .archive-card { display: flex; flex-direction: column; min-height: 100%; overflow: hidden; border: 1px solid rgba(8,55,95,0.08); border-radius: 8px; background: #fff; box-shadow: 0 22px 55px rgba(8,55,95,0.1); transition: transform 0.25s, box-shadow 0.25s; }
@@ -219,15 +219,15 @@
     .archive-img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #0A2A4A; }
     .archive-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
     .archive-card:hover .archive-img img { transform: scale(1.06); }
-    .archive-date { position: absolute; left: 1rem; bottom: 1rem; width: 66px; height: 72px; border-radius: 8px; background: #E8A020; color: #07172a; display: grid; place-items: center; box-shadow: 0 16px 30px rgba(0,0,0,0.18); }
+    .archive-date { position: absolute; left: 1rem; bottom: 1rem; width: 66px; height: 72px; border-radius: 8px; background: #52B44B; color: #07172a; display: grid; place-items: center; box-shadow: 0 16px 30px rgba(0,0,0,0.18); }
     .archive-date span { display: block; text-align: center; line-height: 1; }
     .date-day { font-size: 1.65rem; font-weight: 800; }
     .date-mon { margin-top: -0.3rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
     .archive-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; flex: 1; }
-    .archive-cat { align-self: flex-start; padding: 0.34rem 0.65rem; border-radius: 999px; background: rgba(232,160,32,0.13); color: #986411; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+    .archive-cat { align-self: flex-start; padding: 0.34rem 0.65rem; border-radius: 999px; background: rgba(82,180,75,0.13); color: #986411; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
     .archive-title { color: #08375f; font-size: 1.1rem; line-height: 1.32; }
     .archive-text { color: #52677c; line-height: 1.7; font-size: 0.92rem; }
-    .archive-btn { margin-top: auto; align-self: flex-start; border: 0; background: transparent; color: #E8A020; font: inherit; font-size: 0.88rem; font-weight: 800; cursor: pointer; padding: 0.25rem 0; }
+    .archive-btn { margin-top: auto; align-self: flex-start; border: 0; background: transparent; color: #52B44B; font: inherit; font-size: 0.88rem; font-weight: 800; cursor: pointer; padding: 0.25rem 0; }
     .archive-btn:hover { color: #08375f; }
 
     /* ── MODAL ── */
@@ -250,7 +250,7 @@
     .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
     .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
     .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
-    .footer-col a:hover { color: #E8A020; }
+    .footer-col a:hover { color: #52B44B; }
     .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
     .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
 
@@ -271,7 +271,7 @@
         .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
         .nav-group.open .nav-dropdown { display: grid; }
         .nav-dropdown a { color: rgba(255,255,255,0.8); }
-        .nav-dropdown a.active { color: #E8A020; background: rgba(255,255,255,0.08); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
         .footer-inner { grid-template-columns: 1fr; }
         .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
@@ -321,29 +321,26 @@
             <li class="nav-group">
                 <button class="nav-menu-btn" type="button" aria-expanded="false">Insurance</button>
                 <ul class="nav-dropdown">
-                    <li><a href="life-insurance.html">Life Insurance</a></li>
-                    <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                    <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                     <li><a href="health-insurance.html">Health Insurance</a></li>
                     <li><a href="education-insurance.html">Education Insurance</a></li>
                     <li><a href="motor-insurance.html">Motor Insurance</a></li>
                     <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
                     <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
                 </ul>
             </li>
             <li><a href="contact.html">Contact</a></li>
             <li class="nav-group">
-                <button class="nav-menu-btn" type="button" aria-expanded="false">Office</button>
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
                 <ul class="nav-dropdown">
-                    <li><a href="team.html">Our Team</a></li>
-                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
                 </ul>
             </li>
-            <li class="nav-group">
-                <button class="nav-menu-btn" type="button" aria-expanded="false">Tools &amp; Resources</button>
-                <ul class="nav-dropdown">
-                    <li><a href="faq.html">FAQ</a></li>
-                </ul>
-            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
             <li><a class="active" href="blogs.html">Blogs</a></li>
         </ul>
     </div>
@@ -371,14 +368,14 @@
 <section id="in-the-media">
     <div class="media-inner">
 
-        <div class="media-header">
+        <div class="media-header" data-reveal>
             <span class="section-label">Media Appearances</span>
             <h2 class="section-title">In the <span>Media</span></h2>
             <div class="gold-rule"></div>
             <p>CEO Kennedy Mongare has been featured on national and regional television, speaking on insurance advisory, diaspora coverage, and risk structuring for the Kenyan market.</p>
         </div>
 
-        <div class="video-grid">
+        <div class="video-grid" data-reveal>
 
             <div class="video-card">
                 <div class="video-embed">
@@ -468,7 +465,7 @@
 <section id="stories-initiatives">
     <div class="stories-inner">
 
-        <div class="stories-head">
+        <div class="stories-head" data-reveal>
             <div>
                 <span class="section-label">DoveNest Insurance Brokers</span>
                 <h2 class="section-title">Stories &amp; <span>Initiatives</span></h2>
@@ -572,19 +569,8 @@
 </div>
 
 
-<section class="general-cta" aria-label="General insurance call to action">
-    <div class="general-cta-inner">
-        <div>
-            <span class="general-cta-eyebrow">General Insurance</span>
-            <h2>Structured cover for operational, financial, and personal risk exposures.</h2>
-            <p>We design protection across property, liability, mobility, and financial risk, ensuring alignment between what is covered and what is at stake.</p>
-        </div>
-        <a class="general-cta-link" href="general-insurance.html">Explore General Insurance</a>
-    </div>
-</section>
-
 <footer id="site-footer">
-    <div class="footer-inner site-footer-grid">
+    <div class="footer-inner site-footer-grid" data-reveal>
         <div class="footer-brand">
             <img src="images/dovenest-logo-2.jpeg" alt="DoveNest Insurance Brokers">
             <p>DoveNest Insurance Brokers is an independent risk advisory firm structuring cover, negotiating terms, and supporting claims outcomes for individuals, institutions, and diaspora clients across Kenya.</p>
@@ -601,9 +587,10 @@
         <div class="footer-col">
             <h4>Insurance</h4>
             <ul>
-                <li><a href="life-insurance.html">Life Insurance</a></li>
-                <li><a href="life-pension-products.html">Life &amp; Pension Products</a></li>
+                <li><a href="life-insurance.html">Group Life &amp; Expense Insurance</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
                 <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -616,10 +603,17 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Office &amp; Resources</h4>
+            <h4>Careers &amp; Contact</h4>
             <ul>
-                <li><a href="team.html">Our Team</a></li>
-                <li><a href="careers.html">Careers</a></li>
+                <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
                 <li><a href="faq.html">FAQ</a></li>
                 <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
                 <li><a href="tel:+254726001122">+254 726 001 122</a></li>
@@ -700,6 +694,18 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
 }());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
 </script>
 
 </body>

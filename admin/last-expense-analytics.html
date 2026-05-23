@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="../images/dove_logo.png">
+  <link rel="apple-touch-icon" href="../images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LE Analytics — DoveNest Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #04111f; --surface: #0d2137;
+      --border: rgba(255,255,255,0.07);
+      --gold: #52B44B; --gold-dim: rgba(82,180,75,0.12);
+      --text: #e8f0f8; --muted: rgba(255,255,255,0.45);
+    }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: auto; }
+    .topbar-logo img { height: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
+    .admin-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); background: var(--gold-dim); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(82,180,75,0.25); }
+    .topbar-email { font-size: 0.78rem; color: var(--muted); }
+    .signout-btn { font-size: 0.78rem; font-weight: 600; color: var(--muted); background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; padding: 5px 12px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: color 0.2s, border-color 0.2s; }
+    .signout-btn:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+    .layout { display: flex; flex: 1; }
+    .sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 0; flex-shrink: 0; }
+    .nav-section { padding: 0 12px; margin-bottom: 24px; }
+    .nav-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0 8px; margin-bottom: 8px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: background 0.15s, color 0.15s; text-decoration: none; border: none; background: none; width: 100%; font-family: 'Poppins', sans-serif; text-align: left; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: var(--gold-dim); color: var(--gold); }
+    .nav-item svg { flex-shrink: 0; }
+    .main { flex: 1; padding: 32px 36px; overflow-x: hidden; }
+    .breadcrumb { font-size: 0.78rem; color: var(--muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+    .page-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .page-header h1 { font-size: 1.2rem; font-weight: 700; color: #fff; }
+
+    /* Filter bar */
+    .filter-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; }
+    .filter-bar label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .filter-bar input[type="date"],
+    .filter-bar select { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px; padding: 6px 10px; font-size: 0.78rem; color: var(--text); font-family: 'Poppins', sans-serif; outline: none; }
+    .filter-bar input[type="date"]:focus,
+    .filter-bar select:focus { border-color: var(--gold); }
+    .filter-group { display: flex; align-items: center; gap: 6px; }
+    .filter-bar select option { background: var(--surface); color: var(--text); }
+
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .stat-label { font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+    .stat-value { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1; }
+    .stat-card.gold .stat-value { color: var(--gold); }
+
+    /* Chart grid */
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-card h3 { font-size: 0.78rem; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .chart-card canvas { width: 100% !important; max-height: 320px; }
+    .chart-card.full canvas { max-height: 360px; }
+
+    /* Spinner / guard */
+    .spinner { width: 26px; height: 26px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #guard { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    #app   { display: none; flex-direction: column; min-height: 100vh; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { padding: 20px 16px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .charts-grid { grid-template-columns: 1fr; }
+      .filter-bar { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="guard">
+  <div style="text-align:center;">
+    <div class="spinner" style="margin:0 auto 14px;"></div>
+    <p style="font-size:0.8rem;color:rgba(255,255,255,0.4);">Verifying session…</p>
+  </div>
+</div>
+
+<div id="app">
+  <header class="topbar">
+    <a class="topbar-logo" href="dashboard.html">
+      <img src="../images/dovenest-logo-2.jpeg" alt="DoveNest">
+      <span class="admin-badge">Admin</span>
+    </a>
+    <span class="topbar-email" id="userEmail"></span>
+    <button class="signout-btn" onclick="handleSignout()">Sign out</button>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <p class="nav-label">Main</p>
+        <a class="nav-item" href="dashboard.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Overview
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Submissions</p>
+        <a class="nav-item" href="quotes.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Motor Quotes
+        </a>
+        <a class="nav-item" href="reviews.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Client Reviews
+        </a>
+        <a class="nav-item" href="last-expense.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          Last Expense
+        </a>
+        <a class="nav-item active" href="last-expense-analytics.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13h2v8H3zM9 9h2v12H9zM15 5h2v16h-2zM21 1h2v20h-2z"/></svg>
+          LE Analytics
+        </a>
+      </div>
+      <div class="nav-section">
+        <p class="nav-label">Settings</p>
+        <a class="nav-item" href="invites.html">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3M13 7a4 4 0 11-8 0 4 4 0 018 0zM6 21v-2a4 4 0 014-4h2"/></svg>
+          Admin Invites
+        </a>
+      </div>
+    </nav>
+
+    <main class="main">
+      <p class="breadcrumb"><a href="dashboard.html">Overview</a> / <a href="last-expense.html">Last Expense</a> / Analytics</p>
+      <div class="page-header">
+        <h1>Last Expense Analytics</h1>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <label>From</label>
+          <input type="date" id="filterFrom">
+        </div>
+        <div class="filter-group">
+          <label>To</label>
+          <input type="date" id="filterTo">
+        </div>
+        <div class="filter-group">
+          <label>Underwriter</label>
+          <select id="filterUnderwriter">
+            <option value="all">All</option>
+            <option value="absa">Absa</option>
+            <option value="capex">Capex</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Status</label>
+          <select id="filterStatus">
+            <option value="all">All</option>
+            <option value="approved">Approved</option>
+            <option value="pending">Pending</option>
+            <option value="rejected">Rejected</option>
+            <option value="under_review">Under Review</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row">
+        <div class="stat-card"><p class="stat-label">Total Applications</p><p class="stat-value" id="sTotalApps">—</p></div>
+        <div class="stat-card gold"><p class="stat-label">Total Premium</p><p class="stat-value" id="sTotalPremium">—</p></div>
+        <div class="stat-card"><p class="stat-label">Avg Premium</p><p class="stat-value" id="sAvgPremium">—</p></div>
+        <div class="stat-card"><p class="stat-label">Total Dependents</p><p class="stat-value" id="sTotalDeps">—</p></div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <div class="chart-card full">
+          <h3>Monthly Premium Trend</h3>
+          <canvas id="chartMonthlyTrend"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Premiums Per Group</h3>
+          <canvas id="chartPremiumsPerGroup"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Average Ages by Relationship</h3>
+          <canvas id="chartAvgAges"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Principals' Gender Ratio</h3>
+          <canvas id="chartGenderRatio"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Premiums Per Cover Option</h3>
+          <canvas id="chartPremiumsPerOption"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>Totals Per Relationship</h3>
+          <canvas id="chartTotalsPerRelationship"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>% Membership Per Option</h3>
+          <canvas id="chartMembershipPerOption"></canvas>
+        </div>
+        <div class="chart-card full">
+          <h3>Groups' Parents Distribution (%)</h3>
+          <canvas id="chartGroupsParents"></canvas>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+const sb = window.supabase.createClient(
+  'https://tbokejycxpaefpccynbh.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+);
+
+let rawApps = [], rawDeps = [], rawGroups = [];
+let charts = {};
+
+// Chart.js dark theme defaults
+Chart.defaults.color = 'rgba(255,255,255,0.6)';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.07)';
+Chart.defaults.plugins.legend.labels.boxWidth = 12;
+Chart.defaults.plugins.legend.labels.padding = 14;
+
+const GOLD = '#52B44B';
+const COLORS = ['#52B44B','#60a5fa','#34d399','#f472b6','#a78bfa','#fb923c','#22d3ee','#e879f9'];
+
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { window.location.replace('login.html'); return; }
+  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+  document.getElementById('userEmail').textContent = session.user.email;
+  document.getElementById('guard').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  await loadData();
+})();
+
+async function handleSignout() {
+  await sb.auth.signOut();
+  window.location.replace('login.html');
+}
+
+async function loadData() {
+  const [appsRes, depsRes, groupsRes] = await Promise.all([
+    sb.from('last_expense_applications').select('id,ref,submitted_at,status,application_type,group_id,underwriter,cover_option,cover_amount,total_premium,full_name,date_of_birth,gender'),
+    sb.from('last_expense_dependents').select('id,application_id,relationship,full_name,date_of_birth'),
+    sb.from('groups').select('id,group_name')
+  ]);
+
+  rawApps = appsRes.data || [];
+  rawDeps = depsRes.data || [];
+  rawGroups = groupsRes.data || [];
+
+  // Attach filter listeners
+  document.getElementById('filterFrom').addEventListener('change', renderAll);
+  document.getElementById('filterTo').addEventListener('change', renderAll);
+  document.getElementById('filterUnderwriter').addEventListener('change', renderAll);
+  document.getElementById('filterStatus').addEventListener('change', renderAll);
+
+  renderAll();
+}
+
+function getFiltered() {
+  const from = document.getElementById('filterFrom').value;
+  const to = document.getElementById('filterTo').value;
+  const uw = document.getElementById('filterUnderwriter').value;
+  const status = document.getElementById('filterStatus').value;
+
+  let apps = rawApps;
+  if (from) apps = apps.filter(a => a.submitted_at >= from);
+  if (to) apps = apps.filter(a => a.submitted_at <= to + 'T23:59:59');
+  if (uw !== 'all') apps = apps.filter(a => a.underwriter === uw);
+  if (status !== 'all') apps = apps.filter(a => a.status === status);
+
+  const appIds = new Set(apps.map(a => a.id));
+  const deps = rawDeps.filter(d => appIds.has(d.application_id));
+
+  return { apps, deps };
+}
+
+function renderAll() {
+  const { apps, deps } = getFiltered();
+  updateStats(apps, deps);
+  renderMonthlyTrend(apps);
+  renderPremiumsPerGroup(apps);
+  renderAvgAges(apps, deps);
+  renderGenderRatio(apps);
+  renderPremiumsPerOption(apps);
+  renderTotalsPerRelationship(deps);
+  renderGroupsParents(deps);
+  renderMembershipPerOption(apps);
+}
+
+function updateStats(apps, deps) {
+  const totalPremium = apps.reduce((s, a) => s + (Number(a.total_premium) || 0), 0);
+  document.getElementById('sTotalApps').textContent = apps.length.toLocaleString();
+  document.getElementById('sTotalPremium').textContent = 'Ksh ' + totalPremium.toLocaleString();
+  document.getElementById('sAvgPremium').textContent = apps.length ? 'Ksh ' + Math.round(totalPremium / apps.length).toLocaleString() : '—';
+  document.getElementById('sTotalDeps').textContent = deps.length.toLocaleString();
+}
+
+// 1. Monthly Premium Trend (bar + line combo)
+function renderMonthlyTrend(apps) {
+  const map = {};
+  apps.forEach(a => {
+    const m = (a.submitted_at || '').slice(0, 7);
+    if (!m) return;
+    map[m] = (map[m] || 0) + (Number(a.total_premium) || 0);
+  });
+  const labels = Object.keys(map).sort();
+  const values = labels.map(l => map[l]);
+
+  if (charts.monthlyTrend) charts.monthlyTrend.destroy();
+  charts.monthlyTrend = new Chart(document.getElementById('chartMonthlyTrend'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { type: 'bar', label: 'Premium (Ksh)', data: values, backgroundColor: 'rgba(82,180,75,0.35)', borderColor: GOLD, borderWidth: 1, borderRadius: 4, order: 2 },
+        { type: 'line', label: 'Trend', data: values, borderColor: '#60a5fa', borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#60a5fa', tension: 0.3, fill: false, order: 1 }
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { display: true } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'Ksh ' + v.toLocaleString() } } } }
+  });
+}
+
+// 2. Premiums Per Group
+function renderPremiumsPerGroup(apps) {
+  const groupMap = {};
+  rawGroups.forEach(g => { groupMap[g.id] = g.group_name; });
+  const map = {};
+  apps.filter(a => a.application_type === 'group' && a.group_id).forEach(a => {
+    const name = groupMap[a.group_id] || 'Unknown';
+    map[name] = (map[name] || 0) + (Number(a.total_premium) || 0);
+  });
+  const labels = Object.keys(map);
+  const values = labels.map(l => map[l]);
+
+  if (charts.premiumsPerGroup) charts.premiumsPerGroup.destroy();
+  charts.premiumsPerGroup = new Chart(document.getElementById('chartPremiumsPerGroup'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Premium (Ksh)', data: values, backgroundColor: COLORS.slice(0, labels.length), borderRadius: 4 }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'Ksh ' + v.toLocaleString() } } } }
+  });
+}
+
+// 3. Average Ages by Relationship
+function renderAvgAges(apps, deps) {
+  const now = new Date();
+  function calcAge(dob) {
+    if (!dob) return null;
+    const d = new Date(dob);
+    let age = now.getFullYear() - d.getFullYear();
+    if (now < new Date(now.getFullYear(), d.getMonth(), d.getDate())) age--;
+    return age;
+  }
+
+  const ageMap = {};
+  // Principals
+  apps.forEach(a => {
+    const age = calcAge(a.date_of_birth);
+    if (age === null) return;
+    if (!ageMap['Principal']) ageMap['Principal'] = [];
+    ageMap['Principal'].push(age);
+  });
+  // Dependents
+  deps.forEach(d => {
+    const age = calcAge(d.date_of_birth);
+    if (age === null) return;
+    const rel = d.relationship || 'Other';
+    if (!ageMap[rel]) ageMap[rel] = [];
+    ageMap[rel].push(age);
+  });
+
+  const labels = Object.keys(ageMap);
+  const values = labels.map(l => Math.round(ageMap[l].reduce((s, v) => s + v, 0) / ageMap[l].length));
+
+  if (charts.avgAges) charts.avgAges.destroy();
+  charts.avgAges = new Chart(document.getElementById('chartAvgAges'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Avg Age', data: values, backgroundColor: COLORS.slice(0, labels.length), borderRadius: 4 }] },
+    options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true } } }
+  });
+}
+
+// 4. Principals' Gender Ratio (Donut)
+function renderGenderRatio(apps) {
+  let male = 0, female = 0;
+  apps.forEach(a => {
+    if (a.gender === 'M') male++;
+    else if (a.gender === 'F') female++;
+  });
+
+  if (charts.genderRatio) charts.genderRatio.destroy();
+  charts.genderRatio = new Chart(document.getElementById('chartGenderRatio'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Male', 'Female'],
+      datasets: [{ data: [male, female], backgroundColor: ['#60a5fa', '#f472b6'], borderWidth: 0 }]
+    },
+    options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+  });
+}
+
+// 5. Premiums Per Cover Option
+function renderPremiumsPerOption(apps) {
+  const map = {};
+  apps.forEach(a => {
+    const opt = 'Option ' + (a.cover_option || '?');
+    map[opt] = (map[opt] || 0) + (Number(a.total_premium) || 0);
+  });
+  const labels = Object.keys(map).sort();
+  const values = labels.map(l => map[l]);
+
+  if (charts.premiumsPerOption) charts.premiumsPerOption.destroy();
+  charts.premiumsPerOption = new Chart(document.getElementById('chartPremiumsPerOption'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Premium (Ksh)', data: values, backgroundColor: COLORS.slice(0, labels.length), borderRadius: 4 }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'Ksh ' + v.toLocaleString() } } } }
+  });
+}
+
+// 6. Totals Per Relationship
+function renderTotalsPerRelationship(deps) {
+  const map = {};
+  deps.forEach(d => {
+    const rel = d.relationship || 'Other';
+    map[rel] = (map[rel] || 0) + 1;
+  });
+  const labels = Object.keys(map);
+  const values = labels.map(l => map[l]);
+
+  if (charts.totalsPerRelationship) charts.totalsPerRelationship.destroy();
+  charts.totalsPerRelationship = new Chart(document.getElementById('chartTotalsPerRelationship'), {
+    type: 'bar',
+    data: { labels, datasets: [{ label: 'Count', data: values, backgroundColor: COLORS.slice(0, labels.length), borderRadius: 4 }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+}
+
+// 7. Groups' Parents Distribution (100% stacked bar)
+function renderGroupsParents(deps) {
+  const groupMap = {};
+  rawGroups.forEach(g => { groupMap[g.id] = g.group_name; });
+
+  // Map app_id -> group
+  const appGroupMap = {};
+  rawApps.filter(a => a.application_type === 'group' && a.group_id).forEach(a => {
+    appGroupMap[a.id] = groupMap[a.group_id] || 'Unknown';
+  });
+
+  // Count per group per relationship
+  const data = {};
+  const relSet = new Set();
+  deps.forEach(d => {
+    const grp = appGroupMap[d.application_id];
+    if (!grp) return;
+    const rel = d.relationship || 'Other';
+    relSet.add(rel);
+    if (!data[grp]) data[grp] = {};
+    data[grp][rel] = (data[grp][rel] || 0) + 1;
+  });
+
+  const groups = Object.keys(data);
+  const relationships = Array.from(relSet);
+
+  // Normalize to %
+  const datasets = relationships.map((rel, i) => ({
+    label: rel,
+    data: groups.map(g => {
+      const total = Object.values(data[g]).reduce((s, v) => s + v, 0);
+      return total ? Math.round((data[g][rel] || 0) / total * 100) : 0;
+    }),
+    backgroundColor: COLORS[i % COLORS.length]
+  }));
+
+  if (charts.groupsParents) charts.groupsParents.destroy();
+  charts.groupsParents = new Chart(document.getElementById('chartGroupsParents'), {
+    type: 'bar',
+    data: { labels: groups, datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '%' } } },
+      scales: { x: { stacked: true }, y: { stacked: true, max: 100, ticks: { callback: v => v + '%' } } }
+    }
+  });
+}
+
+// 8. % Membership Per Option (Donut)
+function renderMembershipPerOption(apps) {
+  const map = {};
+  apps.forEach(a => {
+    const opt = 'Option ' + (a.cover_option || '?');
+    map[opt] = (map[opt] || 0) + 1;
+  });
+  const labels = Object.keys(map).sort();
+  const values = labels.map(l => map[l]);
+
+  if (charts.membershipPerOption) charts.membershipPerOption.destroy();
+  charts.membershipPerOption = new Chart(document.getElementById('chartMembershipPerOption'), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: values, backgroundColor: COLORS.slice(0, labels.length), borderWidth: 0 }] },
+    options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => { const total = ctx.dataset.data.reduce((s,v)=>s+v,0); return ctx.label + ': ' + Math.round(ctx.raw/total*100) + '%'; } } } } }
+  });
+}
+</script>
+</body>
+</html>
