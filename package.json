@@ -9,6 +9,9 @@
     "build": "node scripts/build.js"
   },
   "main": "server/server.js",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "pdfkit": "^0.18.0"
   }

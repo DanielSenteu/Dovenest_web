@@ -1,0 +1,26 @@
+# Render blueprint — deploys the DoveNest Node app (server + static site).
+# In Render: New → Blueprint → connect this repo → it reads this file.
+# You'll be prompted to fill the secret env vars (marked sync:false) in the dashboard.
+services:
+  - type: web
+    name: dovenest-web
+    runtime: node
+    plan: free
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: CSRF_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+      - key: DOVENEST_INBOX
+        sync: false

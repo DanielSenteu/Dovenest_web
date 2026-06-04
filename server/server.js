@@ -22,11 +22,13 @@ const guard = createRequestGuard({ checkRateLimit, validateCsrfToken });
 
 const projectRoot = path.join(__dirname, '..');          // repo root: .env, data/, uploads/
 const webRoot     = path.join(__dirname, '..', 'public'); // everything served to browsers
-const port = 4173;
+const port = process.env.PORT || 4173; // cloud hosts (Render, etc.) inject PORT
 
-// Windows schannel certificate-revocation workaround for local dev
-// Remove this when deploying to production
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// Windows schannel certificate-revocation workaround — DEV ONLY.
+// Never disable TLS verification in production (it weakens HTTPS to Supabase/Resend).
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 // ── Load .env (never committed to git) ──────────────────────────────────────
 const envFile = path.join(projectRoot, '.env');
