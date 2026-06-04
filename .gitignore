@@ -1,8 +1,14 @@
-animation/node_modules/
-server.out.log
-server.err.log
+# secrets & runtime state
 .env
 data/
-videos/vecteezy_african-american-family-spending-time-together-in-the-garden_2018031.mp4
-videos/vecteezy_a-joyful-family-poses-for-a-picture-during-a-holiday_50348103.mp4
-videos/vecteezy_father-and-son-are-playing-happily_2018670.mp4
+uploads/
+
+# logs
+*.log
+
+# large stock videos (kept out of git)
+public/videos/vecteezy_*.mp4
+
+# dependencies
+/node_modules/
+animation/node_modules/

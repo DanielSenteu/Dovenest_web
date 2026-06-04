@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoveNest Insurance Brokers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+    /* ═══════════════════════════════════════════════════
+       BASE RESET
+    ═══════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #000;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+
+    /* (intro overlay removed) */
+
+    /* Gold brand reveal */
+    .t-label {
+        font-size: clamp(1rem, 2.2vw, 1.6rem);
+        font-weight: 700;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #52B44B;
+        margin-top: 1.1rem;
+    }
+
+    /* Big hero headline */
+    .t-head {
+        font-size: clamp(2.6rem, 6.5vw, 6rem);
+        font-weight: 800;
+        line-height: 1.08;
+        color: #fff;
+        text-shadow: 0 4px 28px rgba(0,0,0,0.38);
+        letter-spacing: -0.025em;
+    }
+
+    /* Lighter italic sub-line */
+    .t-sub {
+        font-size: clamp(1rem, 2.4vw, 1.75rem);
+        font-weight: 300;
+        font-style: italic;
+        color: rgba(255,255,255,0.86);
+        text-shadow: 0 2px 14px rgba(0,0,0,0.32);
+        margin-top: 0.5rem;
+        max-width: 640px;
+    }
+
+    /* Smaller brand line at the end */
+    .t-brand {
+        font-size: clamp(0.9rem, 1.8vw, 1.4rem);
+        font-weight: 400;
+        color: rgba(255,255,255,0.68);
+        letter-spacing: 0.06em;
+        margin-top: 1.4rem;
+    }
+
+    /* Animated gold divider */
+    .t-divider {
+        width: 0;
+        height: 2px;
+        background: #52B44B;
+        border-radius: 2px;
+        margin: 1.1rem auto;
+        opacity: 0;
+        /* override base .t transforms, divider only animates width */
+        transform: none !important;
+        transition: width 1s ease, opacity 0.7s ease;
+    }
+    .t-divider.show { width: 80px; opacity: 1; }
+    .t-divider.out  { width: 0;    opacity: 0; transition: width 0.45s ease, opacity 0.4s ease; }
+
+
+    /* ═══════════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════════ */
+    #navbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 1000;
+        transform: translateY(0);
+        opacity: 1;
+        background: rgba(8, 55, 95, 0.94);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    #navbar.visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    #navbar.scrolled {
+        background: #08375f;
+        box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+    }
+
+    .nav-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .nav-logo { display: flex; align-items: center; margin-left: -0.5rem; }
+    .nav-logo img {
+        height: 60px;
+        width: auto;
+        display: block;
+        object-fit: contain;
+        image-rendering: -webkit-optimize-contrast;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 0.15rem;
+    }
+
+    .nav-links a,
+    .nav-menu-btn {
+        display: block;
+        color: rgba(255,255,255,0.78);
+        text-decoration: none;
+        font: inherit;
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        padding: 0.48rem 0.85rem;
+        border-radius: 6px;
+        white-space: nowrap;
+        transition: color 0.2s, background 0.2s;
+    }
+    .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
+    .nav-links a:hover,
+    .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
+    .nav-links a.active,
+    .nav-menu-btn.active { color: #52B44B; }
+    .nav-group { position: relative; }
+    .nav-menu-btn::after {
+        content: "";
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        margin-left: 0.45rem;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: translateY(-2px) rotate(45deg);
+    }
+    .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 0.6rem);
+        left: 0;
+        min-width: 190px;
+        padding: 0.45rem;
+        list-style: none;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 22px 45px rgba(0,0,0,0.18);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    }
+    .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
+    .nav-dropdown a:hover,
+    .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
+    .nav-group:hover .nav-dropdown,
+    .nav-group.open .nav-dropdown,
+    .nav-group:focus-within .nav-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* Hamburger, mobile */
+    #nav-toggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        width: 44px;
+        height: 44px;
+        background: rgba(255,255,255,0.1);
+        border: 1.5px solid rgba(255,255,255,0.25);
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+        transition: background 0.25s, border-color 0.25s;
+    }
+    #nav-toggle:hover,
+    #nav-toggle:focus-visible {
+        background: rgba(255,255,255,0.18);
+        border-color: rgba(255,255,255,0.4);
+    }
+    #nav-toggle span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: #fff;
+        border-radius: 2px;
+        transition: transform 0.3s, opacity 0.3s;
+    }
+
+    @media (max-width: 820px) {
+        .nav-links { display: none; }
+        #nav-toggle { display: flex; }
+
+        .nav-links.open {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: absolute;
+            top: 68px; left: 0; right: 0;
+            background: #08375f;
+            padding: 0.75rem 1.5rem 1.25rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            gap: 0.1rem;
+        }
+
+        .nav-links.open a { font-size: 0.95rem; padding: 0.6rem 0.5rem; }
+        .nav-group { width: 100%; }
+        .nav-menu-btn { width: 100%; text-align: left; }
+        .nav-dropdown {
+            position: static;
+            display: none;
+            min-width: 100%;
+            margin: 0.2rem 0 0.5rem;
+            background: rgba(255,255,255,0.08);
+            box-shadow: none;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+        }
+        .nav-group.open .nav-dropdown { display: grid; }
+        .nav-dropdown a { color: rgba(255,255,255,0.8); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
+    }
+
+
+    /* ═══════════════════════════════════════════════════
+       HERO CAROUSEL
+    ═══════════════════════════════════════════════════ */
+    #hero {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        min-height: 620px;
+        overflow: hidden;
+    }
+
+    /* Each slide stacked, fades in/out */
+    .hero-slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .hero-slide.active {
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 1;
+    }
+
+    /* Background image, Ken Burns fires via animation each time .active added */
+    .hs-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transform: scale(1.06);
+    }
+    @keyframes kenBurns {
+        from { transform: scale(1.06); }
+        to   { transform: scale(1);    }
+    }
+    .hero-slide.active .hs-bg {
+        animation: kenBurns 7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    /* Dark overlay */
+    .hs-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            100deg,
+            rgba(5, 30, 55, 0.88) 0%,
+            rgba(5, 30, 55, 0.60) 52%,
+            rgba(5, 30, 55, 0.18) 100%
+        );
+    }
+
+    /* Text content, fades up when slide is active */
+    .hs-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 0 2.5rem;
+        padding-top: 68px;
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 1s ease 0.35s, transform 1s ease 0.35s;
+    }
+    .hero-slide.active .hs-content {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hero-eyebrow {
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.38em;
+        text-transform: uppercase;
+        color: #52B44B;
+        margin-bottom: 1.1rem;
+    }
+
+    .hero-title {
+        font-size: clamp(1.75rem, 3.8vw, 3.2rem);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.06;
+        letter-spacing: -0.025em;
+        margin-bottom: 1.4rem;
+        max-width: 780px;
+    }
+    .hero-title span { color: #52B44B; }
+
+    .hero-sub {
+        font-size: clamp(1rem, 1.8vw, 1.18rem);
+        font-weight: 400;
+        color: rgba(255,255,255,0.8);
+        line-height: 1.75;
+        max-width: 500px;
+        margin-bottom: 0.7rem;
+    }
+
+    .hero-nudge {
+        font-size: clamp(0.88rem, 1.5vw, 1rem);
+        font-weight: 600;
+        font-style: italic;
+        color: rgba(255,255,255,0.58);
+        margin-bottom: 2.2rem;
+    }
+
+    .hero-btn {
+        display: inline-block;
+        background: #52B44B;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        padding: 0.92rem 2.4rem;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background 0.25s, transform 0.22s, box-shadow 0.25s;
+        box-shadow: 0 5px 26px rgba(82,180,75,0.38);
+    }
+    .hero-btn:hover {
+        background: #d4921c;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 34px rgba(82,180,75,0.48);
+    }
+    .hero-btn:active { transform: translateY(0); }
+
+    /* Slide indicator dots */
+    #hero-dots {
+        position: absolute;
+        bottom: 5.6rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.9s ease;
+    }
+    #hero-dots.visible { opacity: 1; }
+
+    .hero-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: background 0.35s, transform 0.35s;
+    }
+    .hero-dot.active {
+        background: #52B44B;
+        transform: scale(1.45);
+    }
+
+
+    /* ═══════════════════════════════════════════════════
+       SCROLL-DOWN ARROW
+    ═══════════════════════════════════════════════════ */
+    #scroll-arrow {
+        position: absolute;
+        bottom: 2.4rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        background: none;
+        border: 2px solid rgba(255,255,255,0.35);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: rgba(255,255,255,0.75);
+        opacity: 0;
+        transition: opacity 0.9s ease, border-color 0.3s, color 0.3s;
+        animation: arrowPulse 2.4s ease-in-out infinite;
+        animation-play-state: paused;
+    }
+    #scroll-arrow.visible {
+        opacity: 1;
+        animation-play-state: running;
+    }
+    #scroll-arrow:hover { border-color: #52B44B; color: #52B44B; }
+
+    @keyframes arrowPulse {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50%       { transform: translateX(-50%) translateY(9px); }
+    }
+
+
+    /* ═══════════════════════════════════════════════════
+       WHY DOVENEST SECTION (header + feature cards)
+    ═══════════════════════════════════════════════════ */
+    /* (see #why-dovenest below, cards live inside it) */
+
+    .features-grid {
+        max-width: 1240px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .feature-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 4px 28px rgba(10,50,90,0.08);
+        opacity: 0;
+        transform: translateY(48px);
+    }
+    .feature-card.in-view {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.85s ease var(--delay, 0ms),
+                    transform 0.85s cubic-bezier(0.22,1,0.36,1) var(--delay, 0ms);
+    }
+    .feature-card.in-view:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 52px rgba(10,50,90,0.13);
+        transition: transform 0.32s ease, box-shadow 0.32s ease;
+    }
+
+    .feature-img {
+        width: 100%;
+        height: 210px;
+        overflow: hidden;
+        position: relative;
+    }
+    .feature-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.55s ease;
+    }
+    .feature-card.in-view:hover .feature-img img { transform: scale(1.06); }
+
+    /* gold accent bar on image */
+    .feature-img::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 4px;
+        background: #52B44B;
+    }
+
+    .feature-body { padding: 1.8rem 1.8rem 1.6rem; }
+
+    .feature-tag {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #52B44B;
+        margin-bottom: 0.6rem;
+    }
+
+    .feature-title {
+        font-size: 1.22rem;
+        font-weight: 700;
+        color: #0A4C7C;
+        line-height: 1.3;
+        margin-bottom: 0.85rem;
+    }
+
+    .feature-text {
+        font-size: 0.9rem;
+        color: #64748b;
+        line-height: 1.78;
+        margin-bottom: 1.4rem;
+    }
+
+    .feature-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #0A4C7C;
+        text-decoration: none;
+        letter-spacing: 0.03em;
+        transition: color 0.2s, gap 0.2s;
+    }
+    .feature-link:hover { color: #52B44B; gap: 0.65rem; }
+    .feature-link svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    @media (max-width: 940px) {
+        .features-grid {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+
+    /* ═══════════════════════════════════════════════════
+       ARCHIVES / ACCOMPLISHMENTS SECTION
+    ═══════════════════════════════════════════════════ */
+    #archives {
+        background: #fff;
+        padding: 5.5rem 2rem 5rem;
+    }
+
+    .archives-header {
+        max-width: 700px;
+        margin: 0 auto 3.5rem;
+        text-align: center;
+    }
+
+    .section-label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.38em;
+        text-transform: uppercase;
+        color: #52B44B;
+        margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+        font-size: clamp(1.85rem, 3.8vw, 3rem);
+        font-weight: 800;
+        color: #0A2A4A;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+    }
+    .section-title span { color: #52B44B; }
+
+    .section-sub {
+        font-size: 1rem;
+        color: #64748b;
+        line-height: 1.75;
+    }
+
+    .archives-grid {
+        max-width: 1240px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .archive-card {
+        background: #fff;
+        border-radius: 18px;
+        overflow: visible;
+        box-shadow: 0 4px 28px rgba(10,50,90,0.10);
+        position: relative;
+        opacity: 0;
+        transform: translateY(48px);
+    }
+    .archive-card.in-view {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.85s ease var(--delay, 0ms),
+                    transform 0.85s cubic-bezier(0.22,1,0.36,1) var(--delay, 0ms);
+    }
+    .archive-card.in-view:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 52px rgba(10,50,90,0.15);
+        transition: transform 0.32s ease, box-shadow 0.32s ease;
+    }
+
+    .archive-img {
+        width: 100%;
+        height: 220px;
+        overflow: hidden;
+        border-radius: 18px 18px 0 0;
+        position: relative;
+    }
+    .archive-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.55s ease;
+    }
+    .archive-card.in-view:hover .archive-img img { transform: scale(1.06); }
+
+    /* Gold date badge, sits on bottom-left of image */
+    .archive-date {
+        position: absolute;
+        bottom: -20px;
+        left: 1.5rem;
+        background: #52B44B;
+        border-radius: 10px;
+        padding: 0.5rem 0.85rem;
+        text-align: center;
+        line-height: 1;
+        box-shadow: 0 4px 18px rgba(82,180,75,0.42);
+        z-index: 2;
+    }
+    .date-day {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.03em;
+    }
+    .date-mon {
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.88);
+        margin-top: 0.18rem;
+    }
+
+    .archive-body {
+        padding: 2.6rem 1.8rem 1.8rem;
+    }
+
+    .archive-cat {
+        display: block;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: #0A4C7C;
+        opacity: 0.65;
+        margin-bottom: 0.5rem;
+    }
+
+    .archive-title {
+        font-size: 1.12rem;
+        font-weight: 700;
+        color: #0A2A4A;
+        line-height: 1.35;
+        margin-bottom: 0.8rem;
+    }
+
+    .archive-text {
+        font-size: 0.88rem;
+        color: #64748b;
+        line-height: 1.78;
+        margin-bottom: 1.4rem;
+    }
+
+    .archive-btn {
+        display: inline-block;
+        background: #08375f;
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0.62rem 1.4rem;
+        border-radius: 7px;
+        text-decoration: none;
+        transition: background 0.25s, transform 0.22s, box-shadow 0.25s;
+    }
+    .archive-btn:hover {
+        background: #52B44B;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(82,180,75,0.35);
+    }
+
+    @media (max-width: 940px) {
+        .archives-grid {
+            grid-template-columns: 1fr;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+
+    /* ═══════════════════════════════════════════════════
+       WHY DOVENEST, light section (header + cards)
+    ═══════════════════════════════════════════════════ */
+    #why-dovenest {
+        background: #EEF3F9;
+        padding: 5.5rem 2rem 5.5rem;
+    }
+
+    .why-header {
+        max-width: 640px;
+        margin: 0 auto 3.5rem;
+        text-align: center;
+    }
+
+    .why-label {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: #52B44B;
+        margin-bottom: 0.8rem;
+    }
+
+    .why-title {
+        font-size: clamp(2rem, 4.2vw, 3.2rem);
+        font-weight: 800;
+        color: #0A2A4A;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        margin-bottom: 1rem;
+    }
+    .why-title span { color: #52B44B; }
+
+    .why-divider {
+        width: 56px;
+        height: 3px;
+        background: #52B44B;
+        border-radius: 3px;
+        margin: 0 auto 1.1rem;
+    }
+
+    .why-sub {
+        font-size: 0.98rem;
+        color: #64748b;
+        line-height: 1.8;
+    }
+
+
+    /* ═══════════════════════════════════════════════════
+       STATS BANNER, dark full-width strip below cards
+    ═══════════════════════════════════════════════════ */
+    #stats-banner {
+        background: #020c1a;
+        border-top: 2px solid #52B44B;
+        padding: 4.8rem 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Subtle side-glow sheen */
+    #stats-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 55% 90% at -5% 50%, rgba(8,55,95,0.55) 0%, transparent 65%),
+            radial-gradient(ellipse 55% 90% at 105% 50%, rgba(8,55,95,0.55) 0%, transparent 65%);
+        pointer-events: none;
+    }
+
+    .stats-strip {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        position: relative;
+        z-index: 1;
+    }
+
+    .stat-item {
+        padding: 0 2rem;
+        text-align: center;
+        position: relative;
+        opacity: 0;
+        transform: scale(0.86);
+    }
+    .stat-item.in-view {
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity 0.6s ease var(--sd, 0ms),
+                    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--sd, 0ms);
+    }
+
+    /* Gold separator lines between stats */
+    .stat-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0; top: 8%; height: 84%;
+        width: 1px;
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(82,180,75,0.22) 20%,
+            rgba(82,180,75,0.22) 80%,
+            transparent 100%);
+    }
+
+    /* SVG icon, top of each stat */
+    .stat-icon {
+        display: block;
+        width: 32px;
+        height: 32px;
+        margin: 0 auto 1.1rem;
+        color: #52B44B;
+        stroke: #52B44B;
+        fill: none;
+        opacity: 0.85;
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    .stat-item.in-view:hover .stat-icon {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+
+    /* The big number */
+    .stat-number {
+        display: block;
+        font-size: clamp(3rem, 5vw, 4.8rem);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin-bottom: 0.65rem;
+    }
+
+    /* Thin gold accent rule under number */
+    .stat-rule {
+        display: block;
+        width: 30px;
+        height: 2px;
+        background: #52B44B;
+        border-radius: 2px;
+        margin: 0 auto 0.75rem;
+    }
+
+    /* Label */
+    .stat-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+    }
+
+    @media (max-width: 860px) {
+        .stats-strip { grid-template-columns: repeat(2, 1fr); }
+        .stat-item { padding: 2.2rem 1.5rem; }
+        .stat-item:nth-child(2)::after { display: none; }
+        .stat-item:nth-child(1),
+        .stat-item:nth-child(2) {
+            border-bottom: 1px solid rgba(82,180,75,0.14);
+        }
+    }
+    @media (max-width: 480px) {
+        .stats-strip { grid-template-columns: 1fr; }
+        .stat-item::after { display: none; }
+        .stat-item { padding: 1.8rem 1rem; border-bottom: 1px solid rgba(82,180,75,0.1); }
+        .stat-item:last-child { border-bottom: none; }
+    }
+
+
+
+
+    /* ═══════════════════════════════════════════════════
+       PARTNERS SECTION
+    ═══════════════════════════════════════════════════ */
+    #partners {
+        background: #040e1e;
+        padding: 6rem 0 5.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Ambient radial glows */
+    #partners::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 70% 45% at 50% -5%,  rgba(82,180,75,0.09) 0%, transparent 62%),
+            radial-gradient(ellipse 50% 60% at  8% 110%, rgba(8,55,95,0.65)    0%, transparent 55%),
+            radial-gradient(ellipse 50% 60% at 92% 110%, rgba(8,55,95,0.65)    0%, transparent 55%);
+        pointer-events: none;
+    }
+
+    .partners-header {
+        max-width: 700px;
+        margin: 0 auto 4.5rem;
+        text-align: center;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    #partners .section-label { color: #52B44B; }
+    #partners .section-title { color: #fff; }
+    #partners .section-sub   { color: rgba(255,255,255,0.42); }
+
+    .partners-divider {
+        width: 52px;
+        height: 3px;
+        background: linear-gradient(90deg, #52B44B, #6ec966);
+        border-radius: 3px;
+        margin: 1.2rem auto 0;
+    }
+
+    /* ── Scrolling rows ── */
+    .partners-row {
+        position: relative;
+        overflow: hidden;
+        padding: 0.6rem 0;
+        margin-bottom: 1.5rem;
+        /* Soft fade on left & right edges */
+        mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,1) 9%,
+            rgba(0,0,0,1) 91%,
+            transparent 100%
+        );
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(0,0,0,1) 9%,
+            rgba(0,0,0,1) 91%,
+            transparent 100%
+        );
+    }
+
+    .partners-track {
+        display: flex;
+        gap: 1.6rem;
+        width: max-content;
+        will-change: transform;
+    }
+
+    .track-fwd { animation: marqueeLeft  38s linear infinite; }
+    .track-rev { animation: marqueeRight 44s linear infinite; }
+
+    /* Pause whole row on hover */
+    .partners-row:hover .partners-track { animation-play-state: paused; }
+
+    @keyframes marqueeLeft {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+    }
+    @keyframes marqueeRight {
+        from { transform: translateX(-50%); }
+        to   { transform: translateX(0); }
+    }
+
+    /* ── Individual logo cards ── */
+    .p-card {
+        flex-shrink: 0;
+        width: 210px;
+        height: 116px;
+        background: #fff;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.2rem 1.8rem;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid transparent;
+        box-shadow: 0 4px 22px rgba(0,0,0,0.28);
+        transition:
+            transform    0.42s cubic-bezier(0.22,1,0.36,1),
+            box-shadow   0.42s ease,
+            border-color 0.42s ease;
+    }
+
+    /* Gold shimmer overlay, hidden by default */
+    .p-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(82,180,75,0.10) 0%, transparent 65%);
+        opacity: 0;
+        transition: opacity 0.42s ease;
+        border-radius: 14px;
+        pointer-events: none;
+    }
+
+    .p-card:hover {
+        transform: translateY(-9px) scale(1.06);
+        border-color: rgba(82,180,75,0.6);
+        box-shadow:
+            0 22px 52px rgba(0,0,0,0.42),
+            0 0 0 2px rgba(82,180,75,0.5),
+            0 0 32px rgba(82,180,75,0.18);
+    }
+    .p-card:hover::after { opacity: 1; }
+
+    .p-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        user-select: none;
+        pointer-events: none;
+        position: relative;
+        z-index: 1;
+        filter: grayscale(100%);
+        opacity: 0.78;
+        transition: filter 0.42s ease, opacity 0.42s ease;
+    }
+
+    /* Full colour on hover */
+    .p-card:hover img {
+        filter: grayscale(0%);
+        opacity: 1;
+    }
+
+    /* Modifier for transparent-PNG logos that need a dark backdrop */
+    .p-card.is-dark { background: #08375f; padding: 0.9rem 1.3rem; }
+
+    /* ── Footer note ── */
+    .partners-footer {
+        text-align: center;
+        padding: 2rem 2rem 0;
+        position: relative;
+        z-index: 1;
+    }
+    .partners-footer p {
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.18);
+    }
+    .partners-footer strong {
+        color: rgba(82,180,75,0.55);
+        font-weight: 700;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HOW WE WORK
+    ═══════════════════════════════════════════════════════════ */
+    #how-we-work {
+        position: relative;
+        overflow: hidden;
+        padding: 5.5rem 2rem;
+    }
+    /* Video background */
+    .how-video-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+    .how-video-bg video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .how-video-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(3, 13, 26, 0.72);
+        z-index: 1;
+    }
+    .how-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 1220px;
+        margin: 0 auto;
+    }
+    .how-header {
+        text-align: center;
+        max-width: 680px;
+        margin: 0 auto 3.5rem;
+        color: #fff;
+    }
+    #how-we-work .section-label { color: #52B44B; }
+    #how-we-work .section-title { color: #fff; }
+    #how-we-work .section-sub { color: rgba(255,255,255,0.65); }
+    .how-rule {
+        width: 48px;
+        height: 3px;
+        background: #52B44B;
+        margin: 1rem auto 1.25rem;
+        border-radius: 2px;
+    }
+    .how-steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+    .how-step {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 10px;
+        padding: 2rem 1.5rem;
+        border-top: 3px solid #52B44B;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+    .how-num {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: rgba(82,180,75,0.35);
+        line-height: 1;
+        margin-bottom: 1rem;
+    }
+    .how-content h3 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.6rem;
+    }
+    .how-content p {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.75);
+        line-height: 1.7;
+    }
+    @media (max-width: 980px) { .how-steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .how-steps { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════════════════════════ */
+    #testimonials {
+        background: #08375f;
+        padding: 5.5rem 2rem;
+    }
+    .testimonials-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+    }
+    .testimonials-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    .testimonials-header .section-label { color: rgba(82,180,75,0.8); }
+    .testimonials-header .section-title { color: #fff; }
+    .testi-disclaimer {
+        color: rgba(255,255,255,0.5);
+        font-size: 0.82rem;
+        line-height: 1.7;
+        max-width: 640px;
+        margin: 0.8rem auto 0;
+    }
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    .testi-card {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+    .testi-quote-icon { color: #52B44B; width: 28px; height: 28px; flex-shrink: 0; }
+    .testi-quote-icon svg { width: 28px; height: 28px; }
+    .testi-card p {
+        color: rgba(255,255,255,0.82);
+        font-size: 0.95rem;
+        line-height: 1.8;
+        font-style: italic;
+        flex: 1;
+    }
+    .testi-card footer {
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 1rem;
+    }
+    .testi-card footer strong { display: block; color: #fff; font-size: 0.88rem; font-weight: 700; }
+    .testi-card footer span { display: block; color: rgba(82,180,75,0.75); font-size: 0.82rem; margin-top: 0.2rem; }
+    @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════════
+       RISK SIGNAL, before footer
+    ═══════════════════════════════════════════════════════════ */
+    #risk-signal {
+        background: #04111f;
+        padding: 4rem 2rem;
+        border-top: 1px solid rgba(82,180,75,0.25);
+    }
+    .risk-signal-inner {
+        max-width: 1220px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .risk-signal-header { margin-bottom: 2.5rem; }
+    .risk-signal-header .section-label { color: rgba(82,180,75,0.7); }
+    .risk-signal-header h2 {
+        color: #fff;
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        font-weight: 700;
+        margin-top: 0.5rem;
+    }
+    .risk-signal-grid {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+    }
+    .risk-signal-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        max-width: 280px;
+        text-align: left;
+    }
+    .risk-signal-item svg { width: 22px; height: 22px; color: #52B44B; flex-shrink: 0; margin-top: 0.1rem; }
+    .risk-signal-item p { color: rgba(255,255,255,0.72); font-size: 0.95rem; line-height: 1.6; }
+    .risk-signal-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 1.75rem;
+        background: #52B44B;
+        color: #07172a;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+        transition: background 0.2s;
+    }
+    .risk-signal-btn:hover { background: #6ec966; }
+    @media (max-width: 720px) {
+        .risk-signal-grid { flex-direction: column; align-items: center; }
+        .risk-signal-item { max-width: 100%; }
+    }
+
+
+    </style>
+    <link rel="stylesheet" href="shared-site.css">
+</head>
+<body>
+<div class="scroll-progress"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════════════ -->
+<!-- nav:start (generated by build.js — edit partials/nav.html) -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="site-contact-strip" aria-label="DoveNest contact shortcuts">
+        <div class="site-contact-inner">
+            <div class="site-contact-list">
+                <a class="site-contact-chip" href="mailto:info@dovenestinsurance.com" aria-label="Email DoveNest Insurance">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4v-11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m5 7.5 7 5.2 7-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>info@dovenestinsurance.com</span>
+                </a>
+                <span class="site-contact-chip" aria-label="DoveNest office location">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                    <span>Nairobi, Kenya</span>
+                </span>
+                <a class="site-contact-chip" href="tel:+254726001122" aria-label="Call DoveNest Insurance">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 4.8 9.4 7c.5.5.6 1.2.2 1.8l-1 1.6a12.1 12.1 0 0 0 5 5l1.6-1c.6-.4 1.3-.3 1.8.2l2.2 2.2c.5.5.5 1.4-.1 1.9-1 .9-2.3 1.3-3.6.9C10.1 18 6 13.9 4.4 8.5c-.4-1.3 0-2.6.9-3.6.5-.6 1.4-.6 1.9-.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>+254 726 001 122</span>
+                </a>
+            </div>
+            <a class="site-quote-link" href="contact.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m13 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Get A Quote</span>
+            </a>
+        </div>
+    </div>
+    <div class="nav-inner">
+
+        <a href="home.html" class="nav-logo" aria-label="DoveNest Insurance, Home">
+            <img src="images/dovenest-logo.png" alt="DoveNest Insurance Brokers logo">
+        </a>
+
+        <button id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a class="active" href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Insurance</button>
+                <ul class="nav-dropdown">
+                    <li><a href="life-insurance.html">Group Last Expense</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
+                    <li><a href="health-insurance.html">Health Insurance</a></li>
+                    <li><a href="education-insurance.html">Education Insurance</a></li>
+                    <li><a href="motor-insurance.html">Motor Insurance</a></li>
+                    <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
+                    <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Amref Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+        </ul>
+
+    </div>
+</nav>
+<!-- nav:end -->
+
+
+<!-- ════════════════════════════════════════════════════════
+     HERO, revealed as intro fades out
+════════════════════════════════════════════════════════════ -->
+<section id="hero">
+
+    <!-- Slide 1, Structured Protection -->
+    <div class="hero-slide" id="hs-0">
+        <div class="hs-bg" style="background-image:url('images/dove_image1.png'); background-position:center top;"></div>
+        <div class="hs-overlay"></div>
+        <div class="hs-content hero-stagger">
+            <p class="hero-eyebrow">DoveNest Insurance Brokers, Nairobi, Kenya</p>
+            <h1 class="hero-title">Structured Protection.<br><span>When Risk Tests You,<br>It Should Hold.</span></h1>
+            <p class="hero-sub">Two decades of insurance advisory, structuring protection for individuals, institutions, and diaspora clients with a focus on clarity, performance, and claims certainty.</p>
+            <a href="contact.html" class="hero-btn hero-actions magnetic-btn">Speak to an Advisor</a>
+        </div>
+    </div>
+
+    <!-- Slide 2, Your Broker -->
+    <div class="hero-slide" id="hs-1">
+        <div class="hs-bg" style="background-image:url('images/home_image2.jpg'); background-position:center right;"></div>
+        <div class="hs-overlay"></div>
+        <div class="hs-content hero-stagger">
+            <p class="hero-eyebrow">Independent Risk Advisory</p>
+            <h2 class="hero-title">Your Broker Is Only<br>as Good as Your<br><span>Last Claim.</span></h2>
+            <p class="hero-sub">We do not simply arrange policies. We diagnose risk, structure cover, negotiate terms, and actively support claims outcomes from placement to resolution.</p>
+            <a href="contact.html" class="hero-btn hero-actions magnetic-btn">Request a Risk Review</a>
+        </div>
+    </div>
+
+    <!-- Slide 3, Two Decades -->
+    <div class="hero-slide" id="hs-2">
+        <div class="hs-bg" style="background-image:url('images/home_image3.jpg'); background-position:center; filter:brightness(0.9);"></div>
+        <div class="hs-overlay" style="background:linear-gradient(100deg,rgba(3,18,38,0.92) 0%,rgba(3,18,38,0.70) 52%,rgba(3,18,38,0.32) 100%);"></div>
+        <div class="hs-content hero-stagger">
+            <p class="hero-eyebrow">Kenya &amp; Diaspora Coverage</p>
+            <h2 class="hero-title">Two Decades.<br><span>One Standard:</span><br>Cover That Performs.</h2>
+            <p class="hero-sub">Serving individuals, businesses, and institutions across Kenya and the diaspora with structured insurance solutions built for clarity, performance, and dependable claims outcomes.</p>
+            <a href="general-insurance.html" class="hero-btn hero-actions magnetic-btn">Explore Our Solutions</a>
+        </div>
+    </div>
+
+    <!-- Dot indicators -->
+    <div id="hero-dots">
+        <button class="hero-dot" data-index="0" aria-label="Slide 1"></button>
+        <button class="hero-dot" data-index="1" aria-label="Slide 2"></button>
+        <button class="hero-dot" data-index="2" aria-label="Slide 3"></button>
+    </div>
+
+    <!-- Scroll-down arrow -->
+    <button id="scroll-arrow" aria-label="Scroll down to discover more">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </button>
+
+</section>
+
+
+<!-- Archives / Accomplishments section moved to blogs.html -->
+
+<!-- Wave divider: hero → why-dovenest -->
+<div class="section-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 56" preserveAspectRatio="none" fill="#EEF3F9">
+        <path d="M0,56 L0,28 Q360,0 720,28 T1440,28 L1440,56 Z"/>
+    </svg>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     WHY DOVENEST, heading + 3 feature cards
+════════════════════════════════════════════════════════ -->
+<section id="why-dovenest" class="dot-bg grain-overlay">
+
+    <div class="why-header" data-reveal>
+        <span class="why-label">Our Approach</span>
+        <h2 class="why-title">Advisory-Led. <span>Performance-Focused.</span></h2>
+        <div class="why-divider"></div>
+        <p class="why-sub">Effective insurance is not about having a policy. It is about how that policy responds under pressure.</p>
+    </div>
+
+    <div class="features-grid" data-reveal-stagger>
+
+        <!-- Card 1, Independent Advisory -->
+        <div class="feature-card" style="--delay: 0ms">
+            <div class="feature-img">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=700&q=80" alt="Independent insurance advisory">
+            </div>
+            <div class="feature-body">
+                <span class="feature-tag">Independent Advisory</span>
+                <h3 class="feature-title">We Work For You, Not the Insurer</h3>
+                <p class="feature-text">As an independent broker, our loyalty is to your risk profile, not to any single underwriter. We select coverage and insurers based on what your exposure demands, not what earns the highest commission.</p>
+                <a href="about.html" class="feature-link">
+                    Our Story
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Card 2, Structured Cover -->
+        <div class="feature-card" style="--delay: 150ms">
+            <div class="feature-img">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=700&q=80" alt="Structured insurance cover">
+            </div>
+            <div class="feature-body">
+                <span class="feature-tag">Structured Cover</span>
+                <h3 class="feature-title">Cover Designed for Your Risk Reality</h3>
+                <p class="feature-text">We map actual exposures across your operations, assets, and liabilities, then align insurance design to those realities. Cover is built around your actual risk profile, not off-the-shelf assumptions.</p>
+                <a href="general-insurance.html" class="feature-link">
+                    Our Solutions
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Card 3, Claims Partnership -->
+        <div class="feature-card" style="--delay: 300ms">
+            <div class="feature-img">
+                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=80" alt="Active claims partnership">
+            </div>
+            <div class="feature-body">
+                <span class="feature-tag">Claims Partnership</span>
+                <h3 class="feature-title">Present When It Matters Most</h3>
+                <p class="feature-text">Most brokers disappear after placement. We remain actively involved through the claims process, ensuring outcomes are handled promptly, fairly, and in line with agreed policy expectations.</p>
+                <a href="contact.html" class="feature-link">
+                    Speak to Us
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- Wave divider: why-dovenest → how-we-work -->
+<div class="section-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 48" preserveAspectRatio="none" fill="#04111f">
+        <path d="M0,0 L0,24 Q360,48 720,24 T1440,24 L1440,0 Z"/>
+    </svg>
+</div>
+
+
+
+<!-- ════════════════════════════════════════════════════════
+     HOW WE WORK, 4-step advisory framework
+════════════════════════════════════════════════════════ -->
+<section id="how-we-work">
+    <div class="how-video-bg">
+        <video autoplay loop muted playsinline src="videos/new_dove_vid.mp4"></video>
+    </div>
+    <div class="how-inner">
+        <div class="how-header" data-reveal>
+            <span class="section-label">Our Process</span>
+            <h2 class="section-title">How We <span>Work</span></h2>
+            <div class="how-rule"></div>
+            <p class="section-sub">Every solution we structure follows a disciplined advisory framework, from initial risk diagnosis to active claims stewardship.</p>
+        </div>
+        <div class="how-steps" data-reveal-stagger>
+            <div class="how-step card-tilt">
+                <div class="how-num">01</div>
+                <div class="how-content">
+                    <h3>Risk Mapping</h3>
+                    <p>We identify actual exposures across operations, assets, people and third-party interactions, not assumed ones.</p>
+                </div>
+            </div>
+            <div class="how-step card-tilt">
+                <div class="how-num">02</div>
+                <div class="how-content">
+                    <h3>Cover Structuring</h3>
+                    <p>We align insurance design to operational realities. Cover is built around your actual risk profile, not off-the-shelf assumptions.</p>
+                </div>
+            </div>
+            <div class="how-step card-tilt">
+                <div class="how-num">03</div>
+                <div class="how-content">
+                    <h3>Underwriter Negotiation</h3>
+                    <p>We negotiate terms, extensions and service-level commitments upfront, ensuring your cover performs before you need it.</p>
+                </div>
+            </div>
+            <div class="how-step card-tilt">
+                <div class="how-num">04</div>
+                <div class="how-content">
+                    <h3>Claims Stewardship</h3>
+                    <p>We remain actively involved to ensure claims are handled promptly, fairly and in line with agreed expectations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Testimonials moved to about.html -->
+
+
+<!-- ════════════════════════════════════════════════════════
+     PARTNERS, infinite dual-row marquee with hover reveal
+════════════════════════════════════════════════════════ -->
+<section id="partners">
+
+    <div class="partners-header" data-reveal>
+        <span class="section-label">Underwriting Partners</span>
+        <h2 class="section-title">Underwriters &amp; <span>Risk Partners</span></h2>
+        <p class="section-sub">We work with licensed and reputable insurers, selecting partners based on financial strength, responsiveness, and claims reliability, not just price.</p>
+        <div class="partners-divider"></div>
+    </div>
+
+    <!-- Row 1, scrolls left -->
+    <div class="partners-row">
+        <div class="partners-track track-fwd">
+            <div class="p-card"><img src="images/partners/Absa%20life.webp"       alt="Absa Life"></div>
+            <div class="p-card"><img src="images/partners/apa-insurance.jpeg"       alt="APA Insurance"></div>
+            <div class="p-card"><img src="images/partners/britam.png"              alt="Britam"></div>
+            <div class="p-card"><img src="images/partners/cic-insurance.png"       alt="CIC Insurance Group"></div>
+            <div class="p-card"><img src="images/partners/icea-lion.png"           alt="ICEA Lion Group"></div>
+            <div class="p-card"><img src="images/partners/jubilee-insurance.png"     alt="Jubilee Insurance"></div>
+            <div class="p-card"><img src="images/partners/old-mutual.png"          alt="Old Mutual"></div>
+            <div class="p-card"><img src="images/partners/sanlam.png"              alt="Sanlam"></div>
+            <div class="p-card"><img src="images/partners/liberty-kenya.png"       alt="Liberty Kenya"></div>
+            <div class="p-card"><img src="images/partners/ncba-insurance.png"      alt="NCBA Insurance"></div>
+            <div class="p-card"><img src="images/partners/GA%20Insurance.png"      alt="GA Insurance"></div>
+            <div class="p-card is-dark"><img src="images/partners/heritage-main.webp" alt="Heritage Insurance"></div>
+            <!-- duplicate set for seamless loop -->
+            <div class="p-card"><img src="images/partners/Absa%20life.webp"       alt="Absa Life"></div>
+            <div class="p-card"><img src="images/partners/apa-insurance.jpeg"       alt="APA Insurance"></div>
+            <div class="p-card"><img src="images/partners/britam.png"              alt="Britam"></div>
+            <div class="p-card"><img src="images/partners/cic-insurance.png"       alt="CIC Insurance Group"></div>
+            <div class="p-card"><img src="images/partners/icea-lion.png"           alt="ICEA Lion Group"></div>
+            <div class="p-card"><img src="images/partners/jubilee-insurance.png"     alt="Jubilee Insurance"></div>
+            <div class="p-card"><img src="images/partners/old-mutual.png"          alt="Old Mutual"></div>
+            <div class="p-card"><img src="images/partners/sanlam.png"              alt="Sanlam"></div>
+            <div class="p-card"><img src="images/partners/liberty-kenya.png"       alt="Liberty Kenya"></div>
+            <div class="p-card"><img src="images/partners/ncba-insurance.png"      alt="NCBA Insurance"></div>
+            <div class="p-card"><img src="images/partners/GA%20Insurance.png"      alt="GA Insurance"></div>
+            <div class="p-card is-dark"><img src="images/partners/heritage-main.webp" alt="Heritage Insurance"></div>
+        </div>
+    </div>
+
+    <!-- Row 2, scrolls right -->
+    <div class="partners-row">
+        <div class="partners-track track-rev">
+            <div class="p-card"><img src="images/partners/Amaco.png"               alt="AMACO"></div>
+            <div class="p-card"><img src="images/partners/Cannon.jpg"              alt="Cannon Insurance"></div>
+            <div class="p-card"><img src="images/partners/Capex.png"               alt="Capex Life Assurance"></div>
+            <div class="p-card"><img src="images/partners/first-assurance.png"     alt="First Assurance"></div>
+            <div class="p-card"><img src="images/partners/geminia.ico"             alt="Geminia Insurance"></div>
+            <div class="p-card"><img src="images/partners/mua-insurance.png"       alt="MUA Insurance"></div>
+            <div class="p-card"><img src="images/partners/Pacis%20insurance.png"   alt="PACIS Insurance"></div>
+            <div class="p-card"><img src="images/partners/Monarch.png"             alt="Monarch Insurance"></div>
+            <!-- duplicate set for seamless loop -->
+            <div class="p-card"><img src="images/partners/Amaco.png"               alt="AMACO"></div>
+            <div class="p-card"><img src="images/partners/Cannon.jpg"              alt="Cannon Insurance"></div>
+            <div class="p-card"><img src="images/partners/Capex.png"               alt="Capex Life Assurance"></div>
+            <div class="p-card"><img src="images/partners/first-assurance.png"     alt="First Assurance"></div>
+            <div class="p-card"><img src="images/partners/geminia.ico"             alt="Geminia Insurance"></div>
+            <div class="p-card"><img src="images/partners/mua-insurance.png"       alt="MUA Insurance"></div>
+            <div class="p-card"><img src="images/partners/Pacis%20insurance.png"   alt="PACIS Insurance"></div>
+            <div class="p-card"><img src="images/partners/Monarch.png"             alt="Monarch Insurance"></div>
+        </div>
+    </div>
+
+    <div class="partners-footer">
+        <p>Selecting underwriters based on <strong>financial strength, responsiveness, and claims reliability</strong></p>
+    </div>
+
+</section>
+
+
+<!-- General Insurance CTA — commented out, may be repositioned later
+<section class="general-cta" aria-label="General insurance call to action">
+    <div class="general-cta-inner" data-reveal="scale">
+        <div>
+            <span class="general-cta-eyebrow">General Insurance</span>
+            <h2>Structured cover for operational, financial, and personal risk exposures.</h2>
+            <p>We design protection across property, liability, mobility and financial risk, ensuring alignment between what is covered and what is at stake.</p>
+        </div>
+        <a class="general-cta-link" href="general-insurance.html">Explore General Insurance</a>
+    </div>
+</section>
+-->
+
+<!-- ════════════════════════════════════════════════════════
+     RISK SIGNAL, before footer
+════════════════════════════════════════════════════════ -->
+<section id="risk-signal">
+    <div class="risk-signal-inner" data-reveal="scale">
+        <div class="risk-signal-header">
+            <span class="section-label">A Note Before You Renew</span>
+            <h2>Before You Rely on Your Insurance</h2>
+        </div>
+        <div class="risk-signal-grid">
+            <div class="risk-signal-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p>Renewal does not equal risk review</p>
+            </div>
+            <div class="risk-signal-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <p>Unchanged cover can hide new exposures</p>
+            </div>
+            <div class="risk-signal-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <p>Claims outcomes depend on structure, not just price</p>
+            </div>
+        </div>
+        <div class="risk-signal-cta">
+            <a href="contact.html" class="risk-signal-btn magnetic-btn">Speak to an Advisor</a>
+        </div>
+    </div>
+</section>
+
+
+<footer id="site-footer">
+    <div class="footer-inner site-footer-grid">
+        <div class="footer-brand">
+            <img src="images/dovenest-logo-light.png" alt="DoveNest Insurance Brokers">
+            <p>DoveNest Insurance Brokers is an independent advisory firm providing structured insurance solutions to individuals, businesses, and institutions across Kenya and the diaspora.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Insurance</h4>
+            <ul>
+                <li><a href="life-insurance.html">Group Last Expense</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
+                <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Products</h4>
+            <ul>
+                <li><a href="health-insurance.html">Health Insurance</a></li>
+                <li><a href="education-insurance.html">Education Insurance</a></li>
+                <li><a href="motor-insurance.html">Motor Insurance</a></li>
+                <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Careers &amp; Contact</h4>
+            <ul>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
+                <li><a href="tel:+254726001122">+254 726 001 122</a></li>
+                <li><a href="tel:+254207602122">+254 20 760 2122</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="flying-doctors.html">Amref Flying Doctors</a></li>
+                <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 DoveNest Insurance Brokers Limited. All rights reserved.</p>
+        <p><a href="faq.html">Terms &amp; Conditions Apply</a></p>
+    </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════════════════════
+     SCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+    'use strict';
+
+    /* ── Elements ────────────────────────────────── */
+    const navbar     = document.getElementById('navbar');
+    const navToggle  = document.getElementById('nav-toggle');
+    const navLinks   = document.getElementById('nav-links');
+    const heroDots   = document.getElementById('hero-dots');
+    const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+    const dotBtns    = Array.from(document.querySelectorAll('.hero-dot'));
+
+    /* ── Hero carousel ───────────────────────────── */
+    let heroIndex = 0;
+    let carouselTimer = null;
+
+    function activateSlide(index) {
+        heroSlides.forEach(s => s.classList.remove('active'));
+        dotBtns.forEach(d => d.classList.remove('active'));
+        heroSlides[index].classList.add('active');
+        dotBtns[index].classList.add('active');
+        heroIndex = index;
+    }
+
+    function startCarousel() {
+        carouselTimer = setInterval(() => {
+            activateSlide((heroIndex + 1) % heroSlides.length);
+        }, 5000);
+    }
+
+    /* Dot click, jump to that slide and reset timer */
+    dotBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            clearInterval(carouselTimer);
+            activateSlide(parseInt(btn.dataset.index, 10));
+            startCarousel();
+        });
+    });
+
+    /* ── Navbar scroll effect ────────────────────── */
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+
+    /* ── Mobile menu toggle ──────────────────────── */
+    navToggle.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open);
+    });
+
+    document.querySelectorAll('.nav-menu-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            const group = button.closest('.nav-group');
+            const isOpen = group.classList.toggle('open');
+            button.setAttribute('aria-expanded', isOpen);
+        });
+    });
+
+    /* ── Scroll arrow ────────────────────────────── */
+    const scrollArrow = document.getElementById('scroll-arrow');
+    scrollArrow.addEventListener('click', () => {
+        document.getElementById('why-dovenest').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    /* ── Stats counter + scroll reveal ──────────────── */
+    function animateCounter(el) {
+        const target = parseInt(el.dataset.target, 10);
+        const suffix = el.dataset.suffix || '';
+        const duration = 1800;
+        const start = performance.now();
+        function tick(now) {
+            const p = Math.min((now - start) / duration, 1);
+            const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p); // easeOutExpo
+            el.textContent = Math.round(eased * target).toLocaleString() + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+    }
+
+    const statItems = document.querySelectorAll('.stat-item');
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                const num = entry.target.querySelector('.stat-number');
+                if (num && !num.dataset.animated) {
+                    num.dataset.animated = 'true';
+                    const delay = parseInt(entry.target.style.getPropertyValue('--sd')) || 0;
+                    setTimeout(() => animateCounter(num), delay + 350);
+                }
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.25 });
+    statItems.forEach(item => statsObserver.observe(item));
+
+    /* ── Scroll-triggered: archive cards ─────────────── */
+    const archiveCards = document.querySelectorAll('.archive-card');
+    const archiveObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                archiveObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    archiveCards.forEach(card => archiveObserver.observe(card));
+
+    /* ── Scroll-triggered: feature cards (staggered) ─ */
+    const featureCards = document.querySelectorAll('.feature-card');
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    featureCards.forEach(card => cardObserver.observe(card));
+
+    /* ── Begin ───────────────────────────────────── */
+    document.body.classList.add('site-ready');
+    navbar.classList.add('visible');
+    activateSlide(0);
+    startCarousel();
+    scrollArrow.classList.add('visible');
+    heroDots.classList.add('visible');
+
+}());
+</script>
+
+<script>
+/* Scroll reveal observer — reveals on scroll down, resets on scroll up */
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
+</script>
+<script src="shared-enhancements.js"></script>
+</body>
+</html>

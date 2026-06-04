@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Assurance - DoveNest Insurance Brokers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: #f6f8fb; color: #0A2A4A; overflow-x: hidden; }
+
+    #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
+    #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-logo { display: flex; align-items: center; margin-left: -0.5rem; }
+    .nav-logo img { height: 60px; width: auto; display: block; object-fit: contain; image-rendering: -webkit-optimize-contrast; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
+    .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+    .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
+    .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
+    .nav-group { position: relative; }
+    .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+    .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 210px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
+    .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
+    .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+    #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
+
+    /* ── Hero ── */
+    #life-hero { min-height: 86vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
+    .hero-bg { position: absolute; inset: 0; background: url('images/grouplife1.jpg') center 20% / cover; transform: scale(1.08); animation: heroDrift 11s ease forwards; }
+    @keyframes heroDrift { to { transform: scale(1); } }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.96), rgba(4,20,44,0.78) 50%, rgba(4,20,44,0.26)), linear-gradient(to top, rgba(2,10,24,0.62), transparent 56%); }
+    .hero-content { position: relative; z-index: 2; max-width: 1320px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; }
+    .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
+    .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
+    .breadcrumb a:hover { color: #52B44B; }
+    .hero-eyebrow, .section-label { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .hero-title { color: #fff; font-size: clamp(2.8rem, 6vw, 5.6rem); font-weight: 800; line-height: 1.06; letter-spacing: -0.035em; max-width: 900px; margin-top: 1.1rem; animation: fadeUp 0.8s ease forwards; }
+    .hero-title span { color: #52B44B; }
+    .hero-sub { max-width: 740px; margin-top: 1.5rem; color: rgba(255,255,255,0.78); font-size: clamp(1rem,1.7vw,1.22rem); font-weight: 300; line-height: 1.8; animation: fadeUp 0.8s ease 0.15s both; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2rem; animation: fadeUp 0.8s ease 0.25s both; }
+    .hero-cta { min-height: 56px; padding: 0 2rem; font-size: 1.05rem; border-radius: 8px; }
+    .hero-cta:hover { transform: translateY(-2px); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; font-weight: 800; text-decoration: none; transition: transform 0.2s, background 0.2s, color 0.2s; }
+    .btn-primary { color: #07172a; background: #52B44B; box-shadow: 0 18px 34px rgba(82,180,75,0.24); }
+    .btn-secondary { color: #fff; border: 1px solid rgba(255,255,255,0.24); background: rgba(255,255,255,0.08); }
+    .btn:hover { transform: translateY(-2px); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Hero slider text ── */
+    .hero-slider { position: relative; min-height: 3.6em; margin-top: 1.1rem; }
+    .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; color: rgba(255,255,255,0.58); font-size: clamp(0.95rem,1.5vw,1.12rem); font-weight: 400; font-style: italic; line-height: 1.7; }
+    .hero-slide.active { opacity: 1; }
+    .hero-dots { display: flex; gap: 0.5rem; margin-top: 3.8rem; }
+    .hero-dot { width: 8px; height: 8px; border-radius: 999px; border: none; background: rgba(255,255,255,0.25); cursor: pointer; transition: background 0.3s, width 0.3s; padding: 0; }
+    .hero-dot.active { width: 28px; background: #52B44B; }
+
+    /* ── Shared section styles ── */
+    .section-title { margin-top: 0.8rem; font-size: clamp(2rem, 4.5vw, 4.3rem); line-height: 1.06; letter-spacing: -0.03em; color: #0A2A4A; }
+    .section-title span { color: #52B44B; }
+    .gold-rule { width: 76px; height: 3px; margin-top: 1.25rem; border-radius: 999px; background: linear-gradient(90deg, #52B44B, #7fd478); }
+
+    /* ── Advisory Intro ── */
+    #la-intro { padding: 5.5rem 2rem; background: #fff; }
+    .la-intro-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.55fr); gap: 3rem; align-items: start; }
+    .la-intro-copy p { color: #52677c; line-height: 1.85; margin-top: 1.15rem; font-size: 1.02rem; }
+    .la-intro-copy .la-cta-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+    .la-sidebar { padding: 2rem; border-radius: 8px; background: linear-gradient(135deg, #08375f, #061b31); color: #fff; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
+    .la-sidebar h3 { font-size: 1.3rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    .la-sidebar p { color: rgba(255,255,255,0.72); font-size: 0.95rem; line-height: 1.75; margin-bottom: 1.2rem; }
+    .la-sidebar-link { display: inline-flex; align-items: center; gap: 0.5rem; color: #52B44B; font-weight: 700; font-size: 0.92rem; text-decoration: none; transition: gap 0.2s; }
+    .la-sidebar-link:hover { gap: 0.8rem; }
+    .la-sidebar-link svg { width: 16px; height: 16px; }
+
+    /* ── Advisory Subsections Grid ── */
+    #la-sections { padding: 5.5rem 2rem; background: linear-gradient(180deg, #f6f8fb, #fff 62%); }
+    .la-sections-inner { max-width: 1220px; margin: 0 auto; }
+    .la-sections-head { max-width: 780px; margin-bottom: 2.5rem; }
+    .la-sections-head p { color: #52677c; line-height: 1.85; margin-top: 1.15rem; }
+    .la-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+    .la-card { padding: 1.8rem; border: 1px solid rgba(8,55,95,0.08); border-radius: 8px; background: #fff; box-shadow: 0 20px 50px rgba(8,55,95,0.09); transition: transform 0.25s, box-shadow 0.25s; }
+    .la-card:hover { transform: translateY(-5px); box-shadow: 0 28px 70px rgba(8,55,95,0.15); }
+    .la-card-icon { width: 48px; height: 48px; border-radius: 999px; display: grid; place-items: center; background: rgba(82,180,75,0.12); color: #08375f; margin-bottom: 1rem; }
+    .la-card-icon svg { width: 22px; height: 22px; }
+    .la-card h3 { color: #08375f; font-size: 1.12rem; line-height: 1.3; margin-bottom: 0.6rem; }
+    .la-card p { color: #52677c; font-size: 0.94rem; line-height: 1.75; }
+
+    /* ── Tagline Strip ── */
+    .la-tagline-strip { padding: 3.5rem 2rem; background: linear-gradient(135deg, #08375f, #061b31); text-align: center; }
+    .la-tagline { max-width: 800px; margin: 0 auto; color: #fff; font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 600; line-height: 1.4; letter-spacing: -0.02em; font-style: italic; }
+    .la-tagline span { color: #52B44B; }
+
+    /* ── Last Expense Offering ── */
+    #la-last-expense { padding: 5.5rem 2rem; background: #fff; }
+    .la-le-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.48fr); gap: 2.5rem; align-items: center; }
+    .la-le-copy p { color: #52677c; line-height: 1.85; margin-top: 1.15rem; font-size: 1.02rem; }
+    .la-le-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
+    .la-le-panel { padding: 2rem; border-radius: 8px; border: 2px solid rgba(82,180,75,0.2); background: rgba(82,180,75,0.04); }
+    .la-le-panel h4 { color: #08375f; font-size: 1.1rem; margin-bottom: 0.8rem; }
+    .la-le-panel ul { list-style: none; display: grid; gap: 0.55rem; }
+    .la-le-panel li { display: flex; align-items: flex-start; gap: 0.6rem; color: #52677c; font-size: 0.92rem; line-height: 1.65; }
+    .la-le-panel li::before { content: ""; flex-shrink: 0; width: 6px; height: 6px; border-radius: 999px; background: #52B44B; margin-top: 0.55rem; }
+
+    /* ── Executive Insights ── */
+    #la-insights { padding: 5.5rem 2rem; background: linear-gradient(180deg, #f6f8fb, #fff 62%); }
+    .la-insights-inner { max-width: 1220px; margin: 0 auto; }
+    .la-insights-head { max-width: 680px; margin-bottom: 2.5rem; }
+    .la-insights-head p { color: #52677c; line-height: 1.85; margin-top: 1.15rem; }
+    .la-insights-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+    .la-insight { padding: 1.5rem; border: 1px solid rgba(8,55,95,0.08); border-radius: 8px; background: #fff; box-shadow: 0 12px 35px rgba(8,55,95,0.06); transition: transform 0.25s, box-shadow 0.25s; }
+    .la-insight:hover { transform: translateY(-3px); box-shadow: 0 22px 55px rgba(8,55,95,0.12); }
+    .la-insight-cat { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 999px; background: rgba(82,180,75,0.1); color: #52B44B; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .la-insight h3 { color: #08375f; font-size: 1.05rem; font-weight: 700; line-height: 1.45; }
+
+    /* ── CTA ── */
+    #life-cta { padding: 0 2rem 6rem; background: #fff; }
+    .cta-inner { max-width: 1220px; margin: 0 auto; padding: 2rem; border-radius: 8px; background: linear-gradient(135deg, #08375f, #061b31); color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; box-shadow: 0 24px 70px rgba(8,55,95,0.18); }
+    .cta-inner h2 { font-size: clamp(1.7rem,3vw,2.6rem); line-height: 1.15; letter-spacing: -0.025em; }
+    .cta-inner p { max-width: 620px; margin-top: 0.65rem; color: rgba(255,255,255,0.72); line-height: 1.7; }
+    .cta-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 1.25rem; border-radius: 6px; color: #07172a; background: #52B44B; text-decoration: none; font-weight: 800; white-space: nowrap; }
+
+    /* ── Footer ── */
+    #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 3.5rem 2rem 0; }
+    .footer-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(260px,1.2fr) repeat(2,minmax(180px,0.5fr)); gap: 2.5rem; padding-bottom: 2.5rem; }
+    .footer-brand img { height: 48px; width: auto; display: block; margin-bottom: 1rem; }
+    .footer-brand p { max-width: 420px; font-size: 0.94rem; line-height: 1.8; }
+    .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
+    .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
+    .footer-col a:hover { color: #52B44B; }
+    .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1040px) {
+        .la-intro-inner, .la-le-inner { grid-template-columns: 1fr; }
+        .la-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 820px) {
+        .nav-links { display: none; }
+        #nav-toggle { display: flex; }
+        .nav-links.open { display: flex; flex-direction: column; align-items: flex-start; position: absolute; top: 68px; left: 0; right: 0; background: #08375f; padding: 0.75rem 1.5rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); gap: 0.1rem; }
+        .nav-group { width: 100%; }
+        .nav-menu-btn { width: 100%; text-align: left; }
+        .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
+        .nav-group.open .nav-dropdown { display: grid; }
+        .nav-dropdown a { color: rgba(255,255,255,0.8); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
+        .cta-inner { flex-direction: column; align-items: flex-start; }
+        .la-insights-grid { grid-template-columns: 1fr; }
+        .footer-inner { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 620px) {
+        .nav-inner { padding: 0 1.2rem; }
+        .hero-content { padding: 7.5rem 1.2rem 3.5rem; }
+        #la-intro, #la-sections, #la-last-expense, #la-insights, #life-cta { padding-left: 1rem; padding-right: 1rem; }
+        .la-grid { grid-template-columns: 1fr; }
+        .cta-inner { padding: 1.35rem; }
+    }
+    </style>
+    <link rel="stylesheet" href="shared-site.css">
+</head>
+<body>
+<div class="scroll-progress"></div>
+
+<!-- nav:start (generated by build.js — edit partials/nav.html) -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="site-contact-strip" aria-label="DoveNest contact shortcuts">
+        <div class="site-contact-inner">
+            <div class="site-contact-list">
+                <a class="site-contact-chip" href="mailto:info@dovenestinsurance.com" aria-label="Email DoveNest Insurance">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4v-11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m5 7.5 7 5.2 7-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>info@dovenestinsurance.com</span>
+                </a>
+                <span class="site-contact-chip" aria-label="DoveNest office location">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                    <span>Nairobi, Kenya</span>
+                </span>
+                <a class="site-contact-chip" href="tel:+254726001122" aria-label="Call DoveNest Insurance">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 4.8 9.4 7c.5.5.6 1.2.2 1.8l-1 1.6a12.1 12.1 0 0 0 5 5l1.6-1c.6-.4 1.3-.3 1.8.2l2.2 2.2c.5.5.5 1.4-.1 1.9-1 .9-2.3 1.3-3.6.9C10.1 18 6 13.9 4.4 8.5c-.4-1.3 0-2.6.9-3.6.5-.6 1.4-.6 1.9-.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>+254 726 001 122</span>
+                </a>
+            </div>
+            <a class="site-quote-link" href="contact.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m13 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Get A Quote</span>
+            </a>
+        </div>
+    </div>
+    <div class="nav-inner">
+
+        <a href="home.html" class="nav-logo" aria-label="DoveNest Insurance, Home">
+            <img src="images/dovenest-logo.png" alt="DoveNest Insurance Brokers logo">
+        </a>
+
+        <button id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn active" type="button" aria-expanded="false">Insurance</button>
+                <ul class="nav-dropdown">
+                    <li><a class="active" href="life-insurance.html">Group Last Expense</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
+                    <li><a href="health-insurance.html">Health Insurance</a></li>
+                    <li><a href="education-insurance.html">Education Insurance</a></li>
+                    <li><a href="motor-insurance.html">Motor Insurance</a></li>
+                    <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
+                    <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Amref Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+        </ul>
+
+    </div>
+</nav>
+<!-- nav:end -->
+
+<!-- ════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<section id="life-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="breadcrumb"><a href="home.html">Home</a><span>/</span><span>Life Assurance</span></div>
+        <span class="hero-eyebrow">Life Assurance</span>
+        <h1 class="hero-title">Protection for Income, Legacy and <span>Long-Term Continuity.</span></h1>
+        <p class="hero-sub">Life assurance is not merely about death benefits. It is about preserving stability when income stops, obligations remain and families or institutions must continue forward despite disruption.</p>
+
+        <div class="hero-slider" aria-live="polite">
+            <p class="hero-slide active">"Life Assurance Designed Around Continuity."</p>
+            <p class="hero-slide">"When Life Changes Unexpectedly, Stability Should Remain."</p>
+            <p class="hero-slide">"Protecting Families Beyond the Present."</p>
+            <p class="hero-slide">"Because Financial Responsibilities Do Not End With Loss."</p>
+            <p class="hero-slide">"Structured Life Protection for Families, Institutions and Futures."</p>
+            <div class="hero-dots">
+                <button class="hero-dot active" type="button" aria-label="Slide 1"></button>
+                <button class="hero-dot" type="button" aria-label="Slide 2"></button>
+                <button class="hero-dot" type="button" aria-label="Slide 3"></button>
+                <button class="hero-dot" type="button" aria-label="Slide 4"></button>
+                <button class="hero-dot" type="button" aria-label="Slide 5"></button>
+            </div>
+        </div>
+
+        <div class="hero-actions">
+            <a class="btn btn-primary magnetic-btn hero-cta" href="last-expense-quote.html?type=individual">Individual / Family Cover</a>
+            <a class="btn btn-secondary magnetic-btn hero-cta" href="last-expense-quote.html?type=group">Group Cover</a>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 56" preserveAspectRatio="none" fill="#fff">
+        <path d="M0,56 L0,28 Q360,0 720,28 T1440,28 L1440,56 Z"/>
+    </svg>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     ADVISORY INTRO
+════════════════════════════════════════════════════ -->
+<section id="la-intro" class="dot-bg grain-overlay">
+    <div class="la-intro-inner">
+        <div class="la-intro-copy" data-reveal>
+            <span class="section-label">Continuity Architecture</span>
+            <h2 class="section-title">Structured protection for <span>real obligations.</span></h2>
+            <div class="gold-rule"></div>
+            <p>We structure life assurance solutions around continuity, dependency realities, debt obligations, education goals and long-term financial resilience.</p>
+            <p>This positioning elevates family protection, succession planning, employee continuity, keyman cover, education continuity, debt protection, estate liquidity, diaspora obligations, and long-term financial resilience.</p>
+        </div>
+        <aside class="la-sidebar" data-reveal>
+            <h3>Why Continuity Matters</h3>
+            <p>Most families underestimate income dependency risk. The financial impact of loss is often immediate, yet protection is rarely structured around real obligations.</p>
+            <p>At Dovenest, we help you anticipate disruption before it arrives, not merely respond after it occurs.</p>
+            <a class="la-sidebar-link" href="contact.html">
+                Request an Advisory Session
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+        </aside>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     ADVISORY SUBSECTIONS
+════════════════════════════════════════════════════ -->
+<section id="la-sections" class="dot-bg grain-overlay">
+    <div class="la-sections-inner">
+        <div class="la-sections-head" data-reveal>
+            <span class="section-label">Protection Architecture</span>
+            <h2 class="section-title">Advisory-led solutions across <span>every dimension of life.</span></h2>
+            <div class="gold-rule"></div>
+            <p>Each area of life assurance carries distinct obligations. We structure protection around the realities that matter most to you, your family, or your institution.</p>
+        </div>
+
+        <div class="la-grid" data-reveal>
+            <article class="la-card">
+                <div class="la-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Family Life Protection</h3>
+                <p>Structured protection ensuring dependants retain financial stability if a breadwinner is lost unexpectedly.</p>
+            </article>
+
+            <article class="la-card">
+                <div class="la-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <h3>Income Continuity Planning</h3>
+                <p>Protection designed to reduce financial disruption arising from death, disability or critical life interruption.</p>
+            </article>
+
+            <article class="la-card">
+                <div class="la-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <h3>Education Continuity Protection</h3>
+                <p>Long-term education-focused solutions helping preserve children's academic continuity even after major family disruption.</p>
+            </article>
+
+            <article class="la-card">
+                <div class="la-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M3 9h18M9 21V9"/></svg>
+                </div>
+                <h3>Legacy &amp; Estate-Oriented Planning</h3>
+                <p>Life assurance structured to support intergenerational continuity, succession considerations and long-term family protection goals.</p>
+            </article>
+
+            <article class="la-card">
+                <div class="la-card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9h1"/><path d="M9 13h1"/><path d="M9 17h1"/></svg>
+                </div>
+                <h3>Corporate &amp; Group Life Solutions</h3>
+                <p>Employee life assurance and workforce continuity structures aligned with organizational obligations and staff welfare objectives.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     TAGLINE STRIP
+════════════════════════════════════════════════════ -->
+<div class="la-tagline-strip" data-reveal>
+    <p class="la-tagline">When Income Stops, <span>Continuity Should Not.</span></p>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     LAST EXPENSE — SPECIFIC OFFERING
+════════════════════════════════════════════════════ -->
+<section id="la-last-expense" class="dot-bg grain-overlay">
+    <div class="la-le-inner">
+        <div class="la-le-copy" data-reveal>
+            <span class="section-label">Specific Offering</span>
+            <h2 class="section-title">Last Expense <span>Arrangements.</span></h2>
+            <div class="gold-rule"></div>
+            <p>Among our structured life assurance offerings, we coordinate Last Expense arrangements designed to ensure families are supported practically and financially during their most difficult moments.</p>
+            <p>This specific programme provides structured funeral and final expense cover for individuals, families and groups, with claims processed within 48 working hours of complete documentation.</p>
+            <div class="la-le-actions">
+                <a class="btn btn-primary magnetic-btn" href="last-expense-quote.html?type=individual">Individual / Family Cover</a>
+                <a class="btn btn-secondary magnetic-btn" href="last-expense-quote.html?type=group" style="color: #08375f; border-color: rgba(8,55,95,0.2);">Group Cover</a>
+            </div>
+        </div>
+        <div class="la-le-panel" data-reveal>
+            <h4>Programme Highlights</h4>
+            <ul>
+                <li>Cover for main member, spouse, up to 4 children, 2 parents and 2 parents-in-law</li>
+                <li>Up to 5 claims per family per year without reinstatement</li>
+                <li>Claims paid within 48 working hours</li>
+                <li>Grief and counselling support included</li>
+                <li>No maximum or exit age on continuous renewal</li>
+                <li>Cover continues with next eligible family member</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     EXECUTIVE INSIGHTS
+════════════════════════════════════════════════════ -->
+<section id="la-insights" class="dot-bg grain-overlay">
+    <div class="la-insights-inner">
+        <div class="la-insights-head" data-reveal>
+            <span class="section-label">Continuity &amp; Protection</span>
+            <h2 class="section-title">Long-Term Protection <span>Perspectives.</span></h2>
+            <div class="gold-rule"></div>
+            <p>Advisory insights on structured protection, financial continuity and the realities of life assurance planning.</p>
+        </div>
+
+        <div class="la-insights-grid" data-reveal>
+            <article class="la-insight">
+                <span class="la-insight-cat">Continuity</span>
+                <h3>Life Assurance Is About Continuity, Not Mortality</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Risk</span>
+                <h3>Most Families Underestimate Income Dependency Risk</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Impact</span>
+                <h3>The Financial Impact of Death Is Often Immediate</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Education</span>
+                <h3>Education Plans Should Survive Family Disruption</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Obligation</span>
+                <h3>Life Assurance Should Match Real Obligations, Not Generic Multiples</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Debt</span>
+                <h3>Debt Does Not Pause for Bereavement</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Corporate</span>
+                <h3>Group Life Protection Is Also an Employer Stability Tool</h3>
+            </article>
+            <article class="la-insight">
+                <span class="la-insight-cat">Planning</span>
+                <h3>Financial Recovery After Loss Requires Preparation Before Loss</h3>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════════ -->
+<section id="life-cta">
+    <div class="cta-inner" data-reveal>
+        <div>
+            <h2>Protection is also an expression of responsibility.</h2>
+            <p>Speak with a Dovenest advisor about structuring life assurance around your real obligations, continuity needs and long-term stability goals.</p>
+        </div>
+        <a class="cta-btn magnetic-btn" href="contact.html">Speak With An Advisor</a>
+    </div>
+</section>
+
+<section class="general-cta" aria-label="General insurance call to action">
+    <div class="general-cta-inner" data-reveal>
+        <div>
+            <span class="general-cta-eyebrow">General Insurance</span>
+            <h2>Protect the everyday risks that can slow life and business down.</h2>
+            <p>Explore practical cover for homes, property, liability, money movement, accidents, and domestic packages with guidance from DoveNest.</p>
+        </div>
+        <a class="general-cta-link magnetic-btn" href="general-insurance.html">Explore General Insurance</a>
+    </div>
+</section>
+
+<footer id="site-footer">
+    <div class="footer-inner site-footer-grid" data-reveal>
+        <div class="footer-brand">
+            <img src="images/dovenest-logo-light.png" alt="DoveNest Insurance Brokers">
+            <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Insurance</h4>
+            <ul>
+                <li><a href="life-insurance.html">Group Last Expense</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
+                <li><a href="general-insurance.html">General Insurance</a></li>
+                <li><a href="travel-insurance.html">Travel Insurance</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Protection</h4>
+            <ul>
+                <li><a href="health-insurance.html">Health Insurance</a></li>
+                <li><a href="education-insurance.html">Education Insurance</a></li>
+                <li><a href="motor-insurance.html">Motor Insurance</a></li>
+                <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Careers &amp; Contact</h4>
+            <ul>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
+                <li><a href="tel:+254726001122">+254 726 001 122</a></li>
+                <li><a href="tel:+254207602122">+254 20 760 2122</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="flying-doctors.html">Amref Flying Doctors</a></li>
+                <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 DoveNest Insurance Brokers Limited. All rights reserved.</p>
+        <p><a href="faq.html">Terms &amp; Conditions Apply</a></p>
+    </div>
+</footer>
+
+<script>
+(function () {
+    'use strict';
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', open);
+    });
+
+    document.querySelectorAll('.nav-menu-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+            const group = button.closest('.nav-group');
+            const isOpen = group.classList.toggle('open');
+            button.setAttribute('aria-expanded', isOpen);
+        });
+    });
+
+    /* ── Hero slider ── */
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    let current = 0;
+    function goTo(i) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = i;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+    setInterval(() => goTo((current + 1) % slides.length), 5000);
+}());
+</script>
+
+<script>
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('revealed');
+      else e.target.classList.remove('revealed');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach(el => io.observe(el));
+})();
+</script>
+
+<script src="shared-enhancements.js"></script>
+</body>
+</html>

@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Insurance Quote — DoveNest Insurance Brokers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <link rel="stylesheet" href="shared-form-helpers.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef2f7;
+      color: #0A2A4A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .qf-header { background: #08375f; padding: 0 1.5rem; }
+    .qf-header-inner {
+      max-width: 860px; margin: 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .qf-eyebrow {
+      display: block; color: #52B44B; font-size: 0.58rem; font-weight: 800;
+      letter-spacing: 0.36em; text-transform: uppercase; line-height: 1; margin-bottom: 3px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .qf-header h1 {
+      color: #fff; font-size: clamp(0.82rem, 2.2vw, 1rem);
+      font-weight: 700; font-family: 'Poppins', sans-serif;
+    }
+    .qf-header-back {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: rgba(255,255,255,0.72); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500; transition: color 0.2s;
+    }
+    .qf-header-back:hover { color: #52B44B; }
+    .qf-header-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .qf-header-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+    .qf-back {
+      display: inline-flex; align-items: center; gap: 0.35rem; flex-shrink: 0;
+      color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      padding: 0.42rem 0.7rem; border: 1px solid rgba(255,255,255,0.32);
+      border-radius: 8px; background: rgba(255,255,255,0.08); transition: background 0.2s;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+    }
+    .qf-back:hover { background: rgba(255,255,255,0.2); }
+    .qf-back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Main layout ── */
+    .qf-main { flex: 1; padding: 2rem 1rem 4rem; }
+    .qf-card {
+      max-width: 860px; margin: 0 auto; background: #fff;
+      border-radius: 16px; box-shadow: 0 4px 24px rgba(8,55,95,0.10);
+      overflow: hidden;
+    }
+
+    /* ── Progress bar ── */
+    .tq-progress { background: #f8fafc; padding: 1.25rem 2rem; border-bottom: 1px solid #e8edf2; }
+    .tq-progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .tq-progress-step { font-family: 'Poppins', sans-serif; font-size: 0.78rem; font-weight: 700; color: #08375f; }
+    .tq-progress-label { font-size: 0.75rem; color: #7a90a0; font-weight: 500; }
+    .tq-progress-track { height: 6px; border-radius: 999px; background: #e2e8f0; overflow: hidden; }
+    .tq-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #52B44B, #3d9e38); transition: width 0.4s ease; }
+
+    /* ── Form header ── */
+    .tq-header {
+      background: linear-gradient(135deg, #08375f, #0a4a7a);
+      padding: 1.75rem 2rem; color: #fff;
+    }
+    .tq-header h3 { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; }
+    .tq-header p { color: rgba(255,255,255,0.72); font-size: 0.88rem; margin-top: 0.35rem; }
+
+    /* ── Form body ── */
+    .tq-body { padding: 2rem; }
+
+    /* ── Steps ── */
+    .tq-step { display: none; }
+    .tq-step.active { display: block; }
+
+    /* ── Step dividers ── */
+    .tq-divider { margin-bottom: 1rem; }
+    .tq-divider-label {
+      display: inline-block; background: #52B44B; color: #07172a;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+    .tq-divider h4 {
+      font-family: 'Poppins', sans-serif; font-size: 1.05rem;
+      font-weight: 700; color: #08375f;
+    }
+    .tq-divider p { font-size: 0.85rem; color: #7a90a0; margin-top: 0.25rem; }
+    .tq-doc-rules { font-size: 0.78rem; color: #5a7080 !important; margin-top: 0.6rem !important; background: #f0f7ff; border: 1px solid #d6e6f5; border-radius: 8px; padding: 0.55rem 0.8rem; line-height: 1.45; }
+
+    /* ── Fields ── */
+    .tq-field { margin-top: 1rem; }
+    .tq-field label {
+      display: block; font-size: 0.78rem; font-weight: 600; color: #2d4a5e;
+      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.35rem;
+    }
+    .tq-field label .req { color: #e53e3e; margin-left: 2px; }
+    .tq-input, .tq-select {
+      width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #d0dce8;
+      border-radius: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      color: #0A2A4A; background: #fff; transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .tq-input:focus, .tq-select:focus {
+      outline: none; border-color: #08375f; box-shadow: 0 0 0 3px rgba(8,55,95,0.08);
+    }
+    .tq-err {
+      font-size: 0.75rem; color: #e53e3e; margin-top: 3px; display: none;
+    }
+    .has-error .tq-input, .has-error .tq-select { border-color: #e53e3e !important; }
+    .has-error .tq-err { display: block; }
+    .tq-bio-row { margin-top: 0.65rem; padding: 0.65rem 0.85rem; background: #f0f7ff; border: 1px solid #d6e6f5; border-radius: 8px; }
+    .tq-bio-label { display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; font-size: 0.85rem; color: #2d4a5e; line-height: 1.4; }
+    .tq-bio-label input { margin-top: 0.15rem; }
+    .tq-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 600px) { .tq-row { grid-template-columns: 1fr; } }
+
+    /* ── Searchable combobox (country / city pickers) ── */
+    .tq-combo { position: relative; }
+    .tq-combo-input {
+      width: 100%; padding: 0.65rem 2.4rem 0.65rem 0.85rem;
+      border: 1.5px solid #d0dce8; border-radius: 8px;
+      font-size: 0.9rem; font-family: 'Inter', sans-serif; color: #0A2A4A;
+      background: #fff; transition: border-color 0.2s; appearance: none; -webkit-appearance: none;
+    }
+    .tq-combo-input:focus {
+      outline: none; border-color: #08375f; box-shadow: 0 0 0 3px rgba(8,55,95,0.08);
+    }
+    .tq-combo-input:disabled { background: #f5f7fa; color: #97a8b8; cursor: not-allowed; }
+    .tq-combo-arrow {
+      position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; pointer-events: none; color: #7a90a0;
+      transition: transform 0.2s;
+    }
+    .tq-combo.open .tq-combo-arrow { transform: translateY(-50%) rotate(180deg); }
+    .tq-combo-spinner {
+      position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
+      width: 14px; height: 14px; border: 2px solid #d0dce8; border-top-color: #08375f;
+      border-radius: 50%; animation: tq-spin 0.7s linear infinite; display: none;
+    }
+    .tq-combo.loading .tq-combo-spinner { display: block; }
+    .tq-combo.loading .tq-combo-arrow { display: none; }
+    @keyframes tq-spin { to { transform: translateY(-50%) rotate(360deg); } }
+    .tq-combo-dropdown {
+      position: absolute; left: 0; right: 0; top: calc(100% + 4px);
+      max-height: 260px; overflow-y: auto;
+      background: #fff; border: 1.5px solid #d0dce8; border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(8,55,95,0.12);
+      z-index: 50; display: none;
+    }
+    .tq-combo.open .tq-combo-dropdown { display: block; }
+    .tq-combo-option {
+      padding: 0.55rem 0.85rem; font-size: 0.88rem; color: #0A2A4A;
+      cursor: pointer; display: flex; align-items: center; gap: 0.55rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .tq-combo-option:last-child { border-bottom: none; }
+    .tq-combo-option:hover, .tq-combo-option.highlighted {
+      background: #f0f7ff; color: #08375f;
+    }
+    .tq-combo-flag { font-size: 1.05rem; line-height: 1; }
+    .tq-combo-empty {
+      padding: 0.7rem 0.85rem; font-size: 0.82rem; color: #7a90a0; text-align: center;
+    }
+    .has-error .tq-combo-input { border-color: #e53e3e !important; }
+
+    /* ── Radio options ── */
+    .tq-option-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+    .tq-option {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1rem; border: 1.5px solid #d0dce8; border-radius: 8px;
+      cursor: pointer; font-size: 0.85rem; color: #3a5568; transition: all 0.2s;
+      user-select: none;
+    }
+    .tq-option:hover { border-color: #08375f; }
+    .tq-option.selected { border-color: #08375f; background: #08375f; color: #fff; }
+    .tq-option input[type="radio"] { display: none; }
+    .radio-dot {
+      width: 14px; height: 14px; border: 2px solid #b0bec5; border-radius: 50%;
+      position: relative; transition: all 0.2s; flex-shrink: 0;
+    }
+    .tq-option.selected .radio-dot { border-color: rgba(255,255,255,0.6); }
+    .tq-option.selected .radio-dot::after {
+      content: ''; position: absolute; inset: 2px;
+      border-radius: 50%; background: #fff;
+    }
+
+    /* ── Checkbox toggles ── */
+    .tq-check-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+    .tq-check {
+      display: flex; align-items: center; gap: 0.5rem; cursor: pointer;
+      padding: 0.5rem 0.85rem; border: 1.5px solid #d0dce8; border-radius: 8px;
+      transition: all 0.2s; user-select: none; font-size: 0.85rem; color: #3a5568;
+    }
+    .tq-check:hover { border-color: #08375f; }
+    .tq-check.checked { border-color: #08375f; background: #f0f7ff; }
+    .tq-check input[type="checkbox"] { display: none; }
+    .check-box {
+      width: 18px; height: 18px; border: 2px solid #b0bec5; border-radius: 4px;
+      position: relative; flex-shrink: 0; transition: all 0.2s;
+    }
+    .tq-check.checked .check-box { background: #08375f; border-color: #08375f; }
+    .tq-check.checked .check-box::after {
+      content: ''; position: absolute; top: 2px; left: 5px;
+      width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* ── Traveller cards ── */
+    .tq-travellers { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+    .tq-traveller {
+      border: 1.5px solid #d0dce8; border-radius: 10px; padding: 1rem 1.1rem;
+      background: #fafbfc;
+    }
+    .tq-traveller-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .tq-traveller-head strong { font-size: 0.9rem; color: #08375f; font-family: 'Poppins', sans-serif; }
+    .tq-age-badge {
+      font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;
+    }
+    .tq-age-badge.adult { background: #dcfce7; color: #15803d; }
+    .tq-age-badge.child { background: #fef3c7; color: #b45309; }
+    .tq-remove-btn {
+      border: none; background: none; color: #9ca3af; font-size: 0.8rem;
+      cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 4px;
+      transition: color 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .tq-remove-btn:hover { color: #e53e3e; }
+    .tq-add-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 0.75rem; padding: 0.55rem 1rem;
+      border: 1.5px dashed #b0bec5; border-radius: 8px;
+      background: #fff; color: #08375f; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .tq-add-btn:hover { border-color: #08375f; background: #f0f7ff; }
+    .tq-add-btn svg {
+      width: 16px; height: 16px; stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round;
+    }
+
+    /* ── Step navigation buttons ── */
+    .tq-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 2rem; gap: 1rem;
+    }
+    .tq-nav-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.6rem 1.2rem; border-radius: 8px; font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer; border: 1.5px solid #d0dce8;
+      background: #fff; color: #08375f; transition: all 0.2s;
+    }
+    .tq-nav-btn:hover { border-color: #08375f; background: #f0f7ff; }
+    .tq-nav-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .tq-nav-next { background: #08375f; color: #fff; border-color: #08375f; }
+    .tq-nav-next:hover { background: #0a4a7a; }
+
+    /* ── Document upload ── */
+    .doc-slot {
+      border: 1.5px dashed #d0dce8; border-radius: 10px; padding: 1rem 1.1rem;
+      margin-top: 0.75rem; background: #fafbfc; transition: border-color 0.2s;
+    }
+    .doc-slot.uploaded { border-color: #52B44B; border-style: solid; background: #f0fdf4; }
+    .doc-slot.has-error { border-color: #e53e3e; background: #fef2f2; }
+    .doc-slot-label { font-family: 'Poppins', sans-serif; font-size: 0.88rem; font-weight: 600; color: #08375f; }
+    .doc-slot-sub { font-size: 0.78rem; color: #7a90a0; margin-top: 0.15rem; }
+    .doc-actions { display: flex; gap: 0.5rem; margin-top: 0.6rem; }
+    .doc-btn {
+      display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.85rem;
+      border: 1.5px solid #d0dce8; border-radius: 6px; background: #fff;
+      color: #08375f; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .doc-btn:hover { border-color: #08375f; background: #f0f7ff; }
+    .doc-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .cam-input { display: none; }
+    .doc-preview { margin-top: 0.5rem; position: relative; }
+    .doc-preview img { max-width: 120px; max-height: 90px; border-radius: 6px; border: 1px solid #d0dce8; }
+    .doc-remove {
+      position: absolute; top: -6px; right: -6px; width: 22px; height: 22px;
+      border-radius: 50%; border: none; background: #e53e3e; color: #fff;
+      font-size: 14px; cursor: pointer; display: grid; place-items: center; line-height: 1;
+    }
+
+    /* ── Review section ── */
+    .rv-section { margin-top: 1.25rem; border: 1px solid #e8edf2; border-radius: 8px; overflow: hidden; }
+    .rv-section-title {
+      background: #f1f5f9; padding: 0.55rem 1rem; font-family: 'Poppins', sans-serif;
+      font-size: 0.78rem; font-weight: 700; color: #08375f; text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .rv-row { display: flex; justify-content: space-between; padding: 0.5rem 1rem; border-top: 1px solid #f1f5f9; font-size: 0.85rem; }
+    .rv-label { color: #7a90a0; }
+    .rv-value { font-weight: 600; color: #08375f; text-align: right; max-width: 60%; }
+    .rv-member-card { padding: 0.6rem 1rem; border-top: 1px solid #f1f5f9; }
+    .rv-member-card strong { font-size: 0.85rem; color: #08375f; }
+    .rv-member-card p { font-size: 0.78rem; color: #7a90a0; margin-top: 0.15rem; }
+
+    /* ── Declaration & T&C ── */
+    .declaration-box {
+      margin-top: 1.5rem; padding: 1.25rem; border: 1.5px solid #e8edf2;
+      border-radius: 10px; background: #fafbfc;
+    }
+    .declaration-box h4 { font-family: 'Poppins', sans-serif; font-size: 0.95rem; color: #08375f; margin-bottom: 0.5rem; }
+    .declaration-box p { font-size: 0.82rem; color: #52677c; line-height: 1.7; }
+    .tc-check { display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 1rem; }
+    .tc-check input[type="checkbox"] { margin-top: 3px; width: 16px; height: 16px; accent-color: #08375f; cursor: pointer; flex-shrink: 0; }
+    .tc-check label { font-size: 0.82rem; color: #3a5568; line-height: 1.5; cursor: pointer; }
+    .tc-check label a { color: #08375f; font-weight: 600; }
+
+    /* ── Signature pad ── */
+    .sig-wrap { margin-top: 1.5rem; }
+    .sig-label { font-size: 0.78rem; font-weight: 600; color: #2d4a5e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.35rem; }
+    .sig-pad-box { position: relative; border: 1.5px solid #d0dce8; border-radius: 10px; overflow: hidden; background: #fff; }
+    .sig-pad-box canvas { display: block; width: 100%; height: 160px; cursor: crosshair; touch-action: none; }
+    .sig-clear {
+      position: absolute; top: 8px; right: 8px; padding: 0.25rem 0.6rem;
+      border: 1px solid #d0dce8; border-radius: 4px; background: #fff;
+      font-size: 0.72rem; font-weight: 600; color: #7a90a0; cursor: pointer;
+      font-family: 'Inter', sans-serif;
+    }
+    .sig-clear:hover { color: #e53e3e; border-color: #e53e3e; }
+
+    /* ── Submit ── */
+    .tq-submit {
+      display: block; width: 100%; margin-top: 1.5rem; padding: 0.9rem;
+      background: #16a34a; color: #fff; border: none; border-radius: 10px;
+      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 800;
+      letter-spacing: 0.04em; cursor: pointer; transition: background 0.2s;
+    }
+    .tq-submit:hover { background: #15803d; }
+    .tq-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+    .spin {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+      vertical-align: middle; margin-right: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Global error ── */
+    .tq-global-err {
+      display: none; background: #fee2e2; border: 1px solid #fca5a5;
+      border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem;
+      color: #dc2626; margin-bottom: 1rem;
+    }
+    .tq-global-err.visible { display: block; }
+
+    /* ── Success state ── */
+    .tq-success { display: none; text-align: center; padding: 3rem 2rem; }
+    .tq-success.visible { display: block; }
+    .tq-success-icon svg {
+      width: 56px; height: 56px; stroke: #16a34a; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .tq-success h3 {
+      font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 800;
+      color: #08375f; margin-top: 1rem;
+    }
+    .tq-success p { color: #52677c; font-size: 0.92rem; margin-top: 0.5rem; line-height: 1.6; }
+    .tq-ref {
+      display: inline-block; margin-top: 1rem; padding: 0.6rem 1.5rem;
+      background: #f0f7ff; border: 2px solid #08375f; border-radius: 10px;
+      font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 800;
+      color: #08375f; letter-spacing: 0.06em;
+    }
+
+    /* ── WhatsApp strip ── */
+    .tq-wa-strip {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1rem 2rem; background: #f0fdf4; border-top: 1px solid #bbf7d0;
+    }
+    .tq-wa-strip p { font-size: 0.88rem; font-weight: 600; color: #15803d; }
+    .tq-wa-strip small { font-size: 0.75rem; color: #5a7080; }
+    .tq-wa-btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.55rem 1.15rem; background: #25D366; color: #fff;
+      border-radius: 8px; font-size: 0.85rem; font-weight: 700;
+      text-decoration: none; white-space: nowrap; transition: background 0.2s;
+    }
+    .tq-wa-btn:hover { background: #1fb855; }
+    .tq-wa-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* Honeypot */
+    .hp-trap { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+
+    @media (max-width: 600px) {
+      .qf-header-inner { padding: 0 1rem; }
+      .tq-header, .tq-progress { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .tq-body { padding: 1.25rem; }
+      .tq-wa-strip { flex-direction: column; text-align: center; padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="qf-header">
+  <div class="qf-header-inner">
+    <div class="qf-header-left">
+      <a class="qf-back" href="travel-insurance.html" aria-label="Go back to the previous page" onclick="event.preventDefault();var r=document.referrer;try{if(r&&new URL(r).origin===location.origin){location.href=r;return false}}catch(e){}if(history.length>1){history.back()}else{location.href='travel-insurance.html'}return false;"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back</a>
+      <div>
+        <span class="qf-eyebrow">DoveNest Insurance Brokers</span>
+        <h1>Travel Insurance Proposal</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── Main form card ── -->
+<main class="qf-main">
+<div class="qf-card">
+
+  <!-- Progress bar -->
+  <div class="tq-progress">
+    <div class="tq-progress-info">
+      <span class="tq-progress-step" id="tq-prog-step">Step 1 of 6</span>
+      <span class="tq-progress-label" id="tq-prog-label">Trip Details</span>
+    </div>
+    <div class="tq-progress-track"><div class="tq-progress-fill" id="tq-prog-fill" style="width:16.67%"></div></div>
+  </div>
+
+  <div class="tq-header">
+    <h3>Get Your Travel Insurance Quote</h3>
+    <p>Fill in your trip details and we will match you with the right plan.</p>
+  </div>
+
+  <!-- Success state -->
+  <div class="tq-success" id="tq-success">
+    <div class="tq-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3>Quote request received!</h3>
+    <p>A DoveNest travel advisor will review your details and reach out within 2 business hours with a personalised quote.</p>
+    <div class="tq-ref" id="tq-ref-display"></div>
+    <p style="margin-top:1.25rem;">Save your reference number for follow-up.</p>
+  </div>
+
+  <!-- Form body -->
+  <form class="tq-body" id="tq-form" novalidate>
+    <div class="tq-global-err" id="tq-global-err"></div>
+
+    <!-- Honeypot -->
+    <div class="hp-trap" aria-hidden="true">
+      <label for="tq-website">Website</label>
+      <input type="text" id="tq-website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <!-- ═══ STEP 1: Trip Details ═══ -->
+    <div class="tq-step active" id="step-trip">
+      <div class="tq-divider">
+        <span class="tq-divider-label">Step 1</span>
+        <h4>Trip Details</h4>
+        <p>Where and when are you travelling?</p>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label>Travelling From <span class="req">*</span></label>
+          <div class="tq-combo" id="combo-from-country">
+            <input class="tq-combo-input" type="text" id="tq-from-country" placeholder="Search country…" autocomplete="off" required>
+            <svg class="tq-combo-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="tq-combo-spinner"></div>
+            <div class="tq-combo-dropdown"></div>
+          </div>
+          <p class="tq-err">Please select your origin country</p>
+        </div>
+        <div class="tq-field">
+          <label>From City</label>
+          <div class="tq-combo" id="combo-from-city">
+            <input class="tq-combo-input" type="text" id="tq-from-city" placeholder="Select country first" autocomplete="off" disabled>
+            <svg class="tq-combo-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="tq-combo-spinner"></div>
+            <div class="tq-combo-dropdown"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label>Travelling To <span class="req">*</span></label>
+          <div class="tq-combo" id="combo-to-country">
+            <input class="tq-combo-input" type="text" id="tq-to-country" placeholder="Search country…" autocomplete="off" required>
+            <svg class="tq-combo-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="tq-combo-spinner"></div>
+            <div class="tq-combo-dropdown"></div>
+          </div>
+          <p class="tq-err">Please select your destination country</p>
+        </div>
+        <div class="tq-field">
+          <label>To City</label>
+          <div class="tq-combo" id="combo-to-city">
+            <input class="tq-combo-input" type="text" id="tq-to-city" placeholder="Select country first" autocomplete="off" disabled>
+            <svg class="tq-combo-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="tq-combo-spinner"></div>
+            <div class="tq-combo-dropdown"></div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="tq-destination">
+      <input type="hidden" id="tq-origin">
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-departure">Departure Date <span class="req">*</span></label>
+          <input class="tq-input" type="date" id="tq-departure" required>
+          <p class="tq-err">Select a departure date</p>
+        </div>
+        <div class="tq-field">
+          <label for="tq-return">Return Date <span class="req">*</span></label>
+          <input class="tq-input" type="date" id="tq-return" required>
+          <p class="tq-err">Return date must be after departure</p>
+        </div>
+      </div>
+
+      <div class="tq-nav">
+        <div></div>
+        <button type="button" class="tq-nav-btn tq-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 2: Travellers ═══ -->
+    <div class="tq-step" id="step-travellers">
+      <div class="tq-divider">
+        <span class="tq-divider-label">Step 2</span>
+        <h4>Traveller Details</h4>
+        <p>Add everyone who will be covered on this trip.</p>
+      </div>
+      <div class="tq-travellers" id="tq-travellers"></div>
+      <button class="tq-add-btn" type="button" id="tq-add-traveller">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Traveller
+      </button>
+      <div class="tq-nav">
+        <button type="button" class="tq-nav-btn tq-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="tq-nav-btn tq-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 3: Cover & Proposer ═══ -->
+    <div class="tq-step" id="step-proposer">
+      <div class="tq-divider">
+        <span class="tq-divider-label">Step 3</span>
+        <h4>Cover &amp; Proposer Details</h4>
+        <p>Select your cover preferences and provide the policyholder's information.</p>
+      </div>
+
+      <div class="tq-field">
+        <label>Purpose of Travel <span class="req">*</span></label>
+        <div class="tq-option-grid" id="tq-purpose">
+          <label class="tq-option"><input type="radio" name="purpose" value="leisure"><span class="radio-dot"></span> Leisure</label>
+          <label class="tq-option"><input type="radio" name="purpose" value="business"><span class="radio-dot"></span> Business</label>
+          <label class="tq-option"><input type="radio" name="purpose" value="study"><span class="radio-dot"></span> Study</label>
+          <label class="tq-option"><input type="radio" name="purpose" value="pilgrimage"><span class="radio-dot"></span> Pilgrimage</label>
+          <label class="tq-option"><input type="radio" name="purpose" value="employment"><span class="radio-dot"></span> Employment</label>
+        </div>
+        <p class="tq-err">Select a travel purpose</p>
+      </div>
+
+      <div class="tq-field">
+        <label>Type of Cover <span class="req">*</span></label>
+        <div class="tq-option-grid" id="tq-cover">
+          <label class="tq-option"><input type="radio" name="cover_type" value="premier_worldwide"><span class="radio-dot"></span> Premier Worldwide</label>
+          <label class="tq-option"><input type="radio" name="cover_type" value="europe_schengen"><span class="radio-dot"></span> Europe / Schengen</label>
+          <label class="tq-option"><input type="radio" name="cover_type" value="inbound"><span class="radio-dot"></span> Inbound Travel</label>
+          <label class="tq-option"><input type="radio" name="cover_type" value="incountry"><span class="radio-dot"></span> In-country Travel</label>
+        </div>
+        <p class="tq-err">Select a cover type</p>
+      </div>
+
+      <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid #e8edf2;">
+        <p style="font-size:0.82rem; font-weight:700; color:#08375f; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.25rem;">Proposer / Policyholder</p>
+      </div>
+
+      <div class="tq-field">
+        <label for="tq-fullname">Full Name <span class="req">*</span></label>
+        <input class="tq-input" type="text" id="tq-fullname" placeholder="e.g. Jane Wanjiku Muthoni" required>
+        <p class="tq-err">Enter your full name</p>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-dob">Date of Birth <span class="req">*</span></label>
+          <input class="tq-input" type="date" id="tq-dob" required>
+          <p class="tq-err">Enter your date of birth</p>
+        </div>
+        <div class="tq-field">
+          <label for="tq-occupation">Occupation <span class="req">*</span></label>
+          <input class="tq-input" type="text" id="tq-occupation" placeholder="e.g. Software Engineer" required>
+          <p class="tq-err">Enter your occupation</p>
+        </div>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-national-id">National ID Number</label>
+          <input class="tq-input" type="text" id="tq-national-id" placeholder="e.g. 12345678" minlength="5">
+          <p class="tq-err">National ID must be at least 5 characters</p>
+        </div>
+        <div class="tq-field">
+          <label for="tq-passport">Passport Number</label>
+          <input class="tq-input" type="text" id="tq-passport" placeholder="e.g. AB1234567" minlength="5">
+          <p class="tq-err">Passport number must be at least 5 characters</p>
+        </div>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-kra">KRA PIN</label>
+          <input class="tq-input" type="text" id="tq-kra" placeholder="e.g. A123456789Z" style="text-transform:uppercase;">
+        </div>
+        <div class="tq-field">
+          <label for="tq-town">Town / City <span class="req">*</span></label>
+          <input class="tq-input" type="text" id="tq-town" placeholder="e.g. Nairobi" required>
+          <p class="tq-err">Enter your town or city</p>
+        </div>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-phone">Phone Number <span class="req">*</span></label>
+          <input class="tq-input" type="tel" id="tq-phone" required>
+          <p class="tq-err">Enter a valid phone number</p>
+        </div>
+        <div class="tq-field">
+          <label for="tq-email">Email Address <span class="req">*</span></label>
+          <input class="tq-input" type="email" id="tq-email" placeholder="you@example.com" required>
+          <p class="tq-err">Enter a valid email address</p>
+        </div>
+      </div>
+
+      <div class="tq-nav">
+        <button type="button" class="tq-nav-btn tq-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="tq-nav-btn tq-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 4: Beneficiary & Payment ═══ -->
+    <div class="tq-step" id="step-beneficiary">
+      <div class="tq-divider">
+        <span class="tq-divider-label">Step 4</span>
+        <h4>Beneficiary &amp; Payment</h4>
+        <p>Provide your next-of-kin details and preferred payment method.</p>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-ben-name">Beneficiary Full Name <span class="req">*</span></label>
+          <input class="tq-input" type="text" id="tq-ben-name" placeholder="e.g. John Kamau" required>
+          <p class="tq-err">Enter beneficiary name</p>
+        </div>
+        <div class="tq-field">
+          <label for="tq-ben-id">ID / Passport Number</label>
+          <input class="tq-input" type="text" id="tq-ben-id" placeholder="e.g. 12345678" minlength="5">
+          <p class="tq-err">ID/Passport must be at least 5 characters</p>
+        </div>
+      </div>
+
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="tq-ben-relation">Relationship <span class="req">*</span></label>
+          <select class="tq-select" id="tq-ben-relation" required>
+            <option value="" disabled selected>Select relationship</option>
+            <option value="spouse">Spouse</option>
+            <option value="parent">Parent</option>
+            <option value="child">Child</option>
+            <option value="sibling">Sibling</option>
+            <option value="guardian">Guardian</option>
+            <option value="other">Other</option>
+          </select>
+          <p class="tq-err">Select a relationship</p>
+        </div>
+        <div class="tq-field">
+          <label for="tq-ben-phone">Beneficiary Phone</label>
+          <input class="tq-input" type="tel" id="tq-ben-phone">
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid #e8edf2;">
+        <p style="font-size:0.82rem; font-weight:700; color:#08375f; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.25rem;">Payment &amp; Add-ons</p>
+      </div>
+
+      <div class="tq-field">
+        <label>Preferred Payment Method <span class="req">*</span></label>
+        <div class="tq-option-grid" id="tq-payment">
+          <label class="tq-option"><input type="radio" name="payment_method" value="mpesa"><span class="radio-dot"></span> M-Pesa</label>
+          <label class="tq-option"><input type="radio" name="payment_method" value="bank_transfer"><span class="radio-dot"></span> Bank Transfer</label>
+          <label class="tq-option"><input type="radio" name="payment_method" value="cheque"><span class="radio-dot"></span> Cheque</label>
+        </div>
+        <p class="tq-err">Select a payment method</p>
+      </div>
+
+      <div class="tq-field" style="margin-top:1rem;">
+        <label>Optional Add-ons</label>
+        <div class="tq-check-group">
+          <label class="tq-check">
+            <input type="checkbox" name="medical_evac">
+            <span class="check-box"></span>
+            <span>I would like emergency medical &amp; evacuation cover</span>
+          </label>
+          <label class="tq-check">
+            <input type="checkbox" name="covid_extension">
+            <span class="check-box"></span>
+            <span>I would like COVID-19 extension</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="tq-nav">
+        <button type="button" class="tq-nav-btn tq-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="tq-nav-btn tq-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 5: Documents ═══ -->
+    <div class="tq-step" id="step-documents">
+      <div class="tq-divider">
+        <span class="tq-divider-label">Step 5</span>
+        <h4>Document Uploads</h4>
+        <p>Upload ID, passport, or birth certificate for each traveller. You can take a photo or choose a file.</p>
+        <p class="tq-doc-rules">Accepted: <strong>JPG, PNG or PDF</strong> &middot; Maximum <strong>10&nbsp;MB per file</strong>. Photos are compressed automatically; large PDF scans may need compressing first.</p>
+      </div>
+      <div id="doc-slots"></div>
+      <div class="tq-nav">
+        <button type="button" class="tq-nav-btn tq-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="tq-nav-btn tq-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 6: Review & Sign ═══ -->
+    <div class="tq-step" id="step-review">
+      <div class="tq-divider">
+        <span class="tq-divider-label">Step 6</span>
+        <h4>Review &amp; Declaration</h4>
+        <p>Please review all details below before signing and submitting your application.</p>
+      </div>
+
+      <div id="rv-content"></div>
+
+      <div class="declaration-box">
+        <h4>Declaration</h4>
+        <p>I declare that the information provided in this application is true and complete to the best of my knowledge. I understand that any misrepresentation may invalidate my cover. I authorise DoveNest Insurance Brokers Ltd to process this application and share relevant information with the underwriter for the purpose of arranging travel insurance cover.</p>
+        <div class="tc-check">
+          <input type="checkbox" id="tq-tc-check">
+          <label for="tq-tc-check">I agree to the <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and consent to the processing of my personal data as per the <a href="privacy.html" target="_blank">Privacy Policy</a>.</label>
+        </div>
+      </div>
+
+      <div class="sig-wrap">
+        <p class="sig-label">Signature <span style="color:#e53e3e;">*</span></p>
+        <div class="sig-pad-box">
+          <canvas id="sig-canvas"></canvas>
+          <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+        </div>
+        <p style="font-size:0.72rem; color:#7a90a0; margin-top:4px;">Draw your signature above using your mouse or finger.</p>
+      </div>
+
+      <button class="tq-submit" type="submit" id="tq-submit-btn" disabled>Submit Application</button>
+      <div class="tq-nav" style="margin-top:0.75rem;">
+        <button type="button" class="tq-nav-btn tq-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <div></div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- WhatsApp strip -->
+  <div class="tq-wa-strip">
+    <div>
+      <p>Need urgent assistance?</p>
+      <small>Fast travel cover for visa, business, leisure and global travel.</small>
+    </div>
+    <a class="tq-wa-btn" href="https://wa.me/254726001122?text=Hi%20DoveNest%2C%20I%20need%20travel%20insurance." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+      WhatsApp Advisor
+    </a>
+  </div>
+
+</div>
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   TRAVEL QUOTE FORM — multi-step wizard
+═══════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+
+  /* ── State ── */
+  const STEPS = ['trip','travellers','proposer','beneficiary','documents','review'];
+  const STEP_LABELS = ['Trip Details','Travellers','Cover & Proposer','Beneficiary & Payment','Documents','Review & Sign'];
+  let currentStep = 0;
+  let csrfToken = '';
+  let travellerId = 0;
+  const travellers = [];
+  const tqDocuments = {};
+  const MAX_TRAVELLERS = 15;
+  let signaturePad = null;
+
+  const form       = document.getElementById('tq-form');
+  const submitBtn  = document.getElementById('tq-submit-btn');
+  const globalErr  = document.getElementById('tq-global-err');
+  const successDiv = document.getElementById('tq-success');
+  const refDisplay = document.getElementById('tq-ref-display');
+
+  function addPdfDownload(container, data) {
+    if (!container || !data || !data.pdf || container.querySelector('.dn-pdf-btn')) return;
+    const a = document.createElement('a');
+    a.className = 'dn-pdf-btn';
+    a.href = 'data:application/pdf;base64,' + data.pdf;
+    a.download = data.pdf_name || 'DoveNest-copy.pdf';
+    a.textContent = '⬇  Download your copy (PDF)';
+    a.style.cssText = 'display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 24px;background:#08375f;color:#fff;text-decoration:none;border-radius:10px;font-weight:700;font-size:0.92rem;';
+    container.appendChild(a);
+  }
+  const travellerContainer = document.getElementById('tq-travellers');
+  const addBtn     = document.getElementById('tq-add-traveller');
+  const today      = new Date().toISOString().split('T')[0];
+
+  fetch('/api/csrf-token').then(r => r.json()).then(d => { csrfToken = d.token; }).catch(() => {});
+
+  /* ── Country / City pickers (CountriesNow API) ── */
+  const COUNTRIES_API = 'https://countriesnow.space/api/v0.1/countries/iso';
+  const CITIES_API    = 'https://countriesnow.space/api/v0.1/countries/cities';
+  let countryList = []; // [{ name, iso2, flag }]
+  const cityCache = {};
+  const selection = { fromCountry: '', fromCity: '', toCountry: '', toCity: '' };
+
+  function isoToFlag(iso) {
+    if (!iso || iso.length !== 2) return '';
+    return iso.toUpperCase().split('').map(c => String.fromCodePoint(127397 + c.charCodeAt(0))).join('');
+  }
+
+  function setupCombo(wrapperId, getOptions, onSelect, opts) {
+    opts = opts || {};
+    const wrap = document.getElementById(wrapperId);
+    const input = wrap.querySelector('.tq-combo-input');
+    const dropdown = wrap.querySelector('.tq-combo-dropdown');
+    let highlighted = -1;
+    let filtered = [];
+
+    function render(query) {
+      const all = getOptions();
+      const q = (query || '').trim().toLowerCase();
+      filtered = q ? all.filter(o => o.name.toLowerCase().includes(q)) : all.slice(0, 250);
+      highlighted = -1;
+      if (!all.length) {
+        dropdown.innerHTML = '<div class="tq-combo-empty">' + (opts.emptyText || 'No options available') + '</div>';
+        return;
+      }
+      if (!filtered.length) {
+        dropdown.innerHTML = '<div class="tq-combo-empty">No matches — you can also type freely</div>';
+        return;
+      }
+      dropdown.innerHTML = filtered.map((o, i) =>
+        '<div class="tq-combo-option" data-idx="' + i + '">' +
+        (o.flag ? '<span class="tq-combo-flag">' + o.flag + '</span>' : '') +
+        '<span>' + o.name + '</span>' +
+        '</div>'
+      ).join('');
+    }
+
+    function highlight(i) {
+      const items = dropdown.querySelectorAll('.tq-combo-option');
+      items.forEach(el => el.classList.remove('highlighted'));
+      if (i >= 0 && items[i]) {
+        items[i].classList.add('highlighted');
+        items[i].scrollIntoView({ block: 'nearest' });
+      }
+      highlighted = i;
+    }
+
+    function select(option) {
+      input.value = option.name;
+      wrap.classList.remove('open');
+      onSelect(option);
+    }
+
+    input.addEventListener('focus', () => { render(input.value); wrap.classList.add('open'); });
+    input.addEventListener('input', () => { render(input.value); wrap.classList.add('open'); onSelect({ name: input.value, freeText: true }); });
+    input.addEventListener('blur', () => { setTimeout(() => wrap.classList.remove('open'), 150); });
+    input.addEventListener('keydown', e => {
+      const items = dropdown.querySelectorAll('.tq-combo-option');
+      if (e.key === 'ArrowDown') { e.preventDefault(); if (items.length) highlight(Math.min(highlighted + 1, items.length - 1)); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (items.length) highlight(Math.max(highlighted - 1, 0)); }
+      else if (e.key === 'Enter') {
+        if (highlighted >= 0 && filtered[highlighted]) { e.preventDefault(); select(filtered[highlighted]); }
+      } else if (e.key === 'Escape') { wrap.classList.remove('open'); }
+    });
+    dropdown.addEventListener('mousedown', e => {
+      const opt = e.target.closest('.tq-combo-option');
+      if (!opt) return;
+      e.preventDefault();
+      const idx = parseInt(opt.dataset.idx, 10);
+      if (filtered[idx]) select(filtered[idx]);
+    });
+
+    return {
+      setLoading(on) { wrap.classList.toggle('loading', !!on); },
+      setDisabled(on, placeholder) {
+        input.disabled = !!on;
+        if (placeholder) input.placeholder = placeholder;
+      },
+      clear() { input.value = ''; },
+      refresh() { render(input.value); },
+    };
+  }
+
+  // Load countries on page load
+  fetch(COUNTRIES_API).then(r => r.json()).then(data => {
+    if (data && Array.isArray(data.data)) {
+      countryList = data.data
+        .map(c => ({ name: c.name, iso2: c.Iso2, flag: isoToFlag(c.Iso2) }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      fromCountryCombo.refresh();
+      toCountryCombo.refresh();
+    }
+  }).catch(() => { /* API down — inputs fall back to free text */ });
+
+  async function loadCities(countryName) {
+    if (cityCache[countryName]) return cityCache[countryName];
+    try {
+      const resp = await fetch(CITIES_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ country: countryName }),
+      });
+      const data = await resp.json();
+      const cities = (data && Array.isArray(data.data))
+        ? data.data.map(name => ({ name })).sort((a, b) => a.name.localeCompare(b.name))
+        : [];
+      cityCache[countryName] = cities;
+      return cities;
+    } catch { cityCache[countryName] = []; return []; }
+  }
+
+  function rebuildLocation(prefix) {
+    // prefix = 'from' or 'to'
+    const country = selection[prefix + 'Country'];
+    const city = selection[prefix + 'City'];
+    const combined = (city && country) ? city + ', ' + country : (country || city || '');
+    const hiddenId = prefix === 'to' ? 'tq-destination' : 'tq-origin';
+    document.getElementById(hiddenId).value = combined;
+  }
+
+  const fromCountryCombo = setupCombo('combo-from-country', () => countryList, opt => {
+    selection.fromCountry = opt.name;
+    selection.fromCity = '';
+    fromCityCombo.clear();
+    rebuildLocation('from');
+    if (opt.freeText) return;
+    fromCityCombo.setDisabled(false, 'Search city (optional)…');
+    fromCityCombo.setLoading(true);
+    loadCities(opt.name).then(() => fromCityCombo.setLoading(false));
+    clearFieldError(document.getElementById('tq-from-country').closest('.tq-field'));
+  });
+  const fromCityCombo = setupCombo('combo-from-city',
+    () => cityCache[selection.fromCountry] || [],
+    opt => { selection.fromCity = opt.name; rebuildLocation('from'); },
+    { emptyText: 'No cities found — type freely' });
+
+  const toCountryCombo = setupCombo('combo-to-country', () => countryList, opt => {
+    selection.toCountry = opt.name;
+    selection.toCity = '';
+    toCityCombo.clear();
+    rebuildLocation('to');
+    if (opt.freeText) return;
+    toCityCombo.setDisabled(false, 'Search city (optional)…');
+    toCityCombo.setLoading(true);
+    loadCities(opt.name).then(() => toCityCombo.setLoading(false));
+    clearFieldError(document.getElementById('tq-to-country').closest('.tq-field'));
+  });
+  const toCityCombo = setupCombo('combo-to-city',
+    () => cityCache[selection.toCountry] || [],
+    opt => { selection.toCity = opt.name; rebuildLocation('to'); },
+    { emptyText: 'No cities found — type freely' });
+
+  // Set min dates
+  document.getElementById('tq-departure').setAttribute('min', today);
+  document.getElementById('tq-dob').setAttribute('max', today);
+  document.getElementById('tq-departure').addEventListener('change', function() {
+    document.getElementById('tq-return').setAttribute('min', this.value);
+    clearFieldError(this.closest('.tq-field'));
+  });
+
+  /* ── Progress bar ── */
+  function updateProgress() {
+    document.getElementById('tq-prog-step').textContent = 'Step ' + (currentStep + 1) + ' of ' + STEPS.length;
+    document.getElementById('tq-prog-label').textContent = STEP_LABELS[currentStep];
+    document.getElementById('tq-prog-fill').style.width = ((currentStep + 1) / STEPS.length * 100) + '%';
+  }
+
+  /* ── Step navigation ── */
+  window.goStep = function(dir) {
+    const nextIdx = currentStep + dir;
+    if (nextIdx < 0 || nextIdx >= STEPS.length) return;
+    if (dir > 0 && !validateStep(currentStep)) return;
+
+    if (STEPS[nextIdx] === 'documents') generateDocSlots();
+    if (STEPS[nextIdx] === 'review') renderReview();
+
+    document.getElementById('step-' + STEPS[currentStep]).classList.remove('active');
+    currentStep = nextIdx;
+    document.getElementById('step-' + STEPS[currentStep]).classList.add('active');
+    updateProgress();
+    globalErr.classList.remove('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Signature pad must initialise AFTER the step becomes visible
+    // (it reads canvas.offsetWidth, which is 0 while display:none)
+    if (STEPS[nextIdx] === 'review') {
+      requestAnimationFrame(() => initSignaturePad());
+    }
+  };
+
+  /* ── Radio / checkbox toggles ── */
+  document.querySelectorAll('.tq-option input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const group = radio.closest('.tq-option-grid');
+      group.querySelectorAll('.tq-option').forEach(o => o.classList.remove('selected'));
+      radio.closest('.tq-option').classList.add('selected');
+      clearFieldError(group.closest('.tq-field'));
+    });
+  });
+
+  document.querySelectorAll('.tq-check input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      cb.closest('.tq-check').classList.toggle('checked', cb.checked);
+    });
+  });
+
+  /* ── Traveller management ── */
+  function calcAge(dob) {
+    const d = new Date(dob), now = new Date();
+    let age = now.getFullYear() - d.getFullYear();
+    const m = now.getMonth() - d.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+    return age;
+  }
+
+  function addTraveller() {
+    if (travellers.length >= MAX_TRAVELLERS) return;
+    travellerId++;
+    const id = travellerId;
+    travellers.push({ id, full_name: '', date_of_birth: '', age: null, id_passport: '', relation: '', is_biological: null });
+    renderTraveller(id);
+    updateAddBtn();
+  }
+
+  function removeTraveller(id) {
+    const idx = travellers.findIndex(t => t.id === id);
+    if (idx !== -1) travellers.splice(idx, 1);
+    const el = document.getElementById('trav-' + id);
+    if (el) el.remove();
+    reNumberTravellers();
+    updateAddBtn();
+  }
+
+  function reNumberTravellers() {
+    travellerContainer.querySelectorAll('.tq-traveller').forEach((card, i) => {
+      card.querySelector('.trav-num').textContent = 'Traveller ' + (i + 1);
+    });
+  }
+
+  function updateAddBtn() {
+    addBtn.style.display = travellers.length >= MAX_TRAVELLERS ? 'none' : '';
+  }
+
+  function renderTraveller(id) {
+    const isFirst = travellers.length === 1;
+    const div = document.createElement('div');
+    div.className = 'tq-traveller';
+    div.id = 'trav-' + id;
+    div.innerHTML = `
+      <div class="tq-traveller-head">
+        <strong class="trav-num">Traveller ${travellers.length}</strong>
+        <div>
+          <span class="tq-age-badge" id="trav-age-${id}"></span>
+          ${isFirst ? '' : `<button type="button" class="tq-remove-btn" data-id="${id}">Remove</button>`}
+        </div>
+      </div>
+      <div class="tq-row">
+        <div class="tq-field">
+          <label for="trav-name-${id}">Full Name <span class="req">*</span></label>
+          <input class="tq-input" type="text" id="trav-name-${id}" placeholder="Traveller's full name">
+          <p class="tq-err">Enter traveller's name</p>
+        </div>
+        <div class="tq-field">
+          <label for="trav-dob-${id}">Date of Birth <span class="req">*</span></label>
+          <input class="tq-input" type="date" id="trav-dob-${id}" max="${today}">
+          <p class="tq-err">Enter date of birth</p>
+        </div>
+      </div>
+      <div class="tq-row" style="margin-top:0.5rem;">
+        <div class="tq-field" style="margin-top:0;">
+          <label for="trav-idp-${id}">ID / Passport Number</label>
+          <input class="tq-input" type="text" id="trav-idp-${id}" placeholder="e.g. AB1234567" minlength="5">
+          <p class="tq-err">Must be at least 5 characters</p>
+        </div>
+        <div class="tq-field" style="margin-top:0;">
+          <label for="trav-rel-${id}">Relation to Proposer</label>
+          <select class="tq-select" id="trav-rel-${id}">
+            <option value="" selected>${isFirst ? 'Self (proposer)' : 'Select relation'}</option>
+            <option value="self">Self</option>
+            <option value="spouse">Spouse</option>
+            <option value="child">Child</option>
+            <option value="parent">Parent</option>
+            <option value="sibling">Sibling</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="tq-bio-row" id="trav-bio-row-${id}" style="display:none;">
+        <label class="tq-bio-label"><input type="checkbox" id="trav-bio-${id}"><span>I confirm this is my biological parent <span class="req">*</span></span></label>
+        <p class="tq-err" id="trav-bio-err-${id}" style="display:none;">Only biological parents can be covered. Please confirm to continue.</p>
+      </div>`;
+    travellerContainer.appendChild(div);
+
+    const bind = (sel, key, evt) => {
+      div.querySelector(sel).addEventListener(evt || 'input', function() {
+        const t = travellers.find(t => t.id === id);
+        if (t) t[key] = this.value;
+        clearFieldError(this.closest('.tq-field'));
+      });
+    };
+    bind('#trav-name-'+id, 'full_name');
+    bind('#trav-idp-'+id, 'id_passport');
+    bind('#trav-rel-'+id, 'relation', 'change');
+
+    // Parents must attest a biological relationship — only biological parents are eligible
+    div.querySelector('#trav-rel-'+id).addEventListener('change', function() {
+      const row = document.getElementById('trav-bio-row-'+id);
+      const isParent = this.value === 'parent';
+      row.style.display = isParent ? 'block' : 'none';
+      if (!isParent) {
+        const cb = document.getElementById('trav-bio-'+id); if (cb) cb.checked = false;
+        const t = travellers.find(t => t.id === id); if (t) t.is_biological = null;
+        document.getElementById('trav-bio-err-'+id).style.display = 'none';
+      }
+    });
+    div.querySelector('#trav-bio-'+id).addEventListener('change', function() {
+      const t = travellers.find(t => t.id === id);
+      if (t) t.is_biological = this.checked;
+      if (this.checked) document.getElementById('trav-bio-err-'+id).style.display = 'none';
+    });
+
+    div.querySelector('#trav-dob-'+id).addEventListener('change', function() {
+      const t = travellers.find(t => t.id === id);
+      if (!t) return;
+      t.date_of_birth = this.value;
+      const badge = document.getElementById('trav-age-'+id);
+      if (this.value) {
+        const age = calcAge(this.value);
+        t.age = age;
+        badge.textContent = age >= 18 ? 'Adult \u2014 '+age+'y' : 'Child \u2014 '+age+'y';
+        badge.className = 'tq-age-badge ' + (age >= 18 ? 'adult' : 'child');
+      } else { badge.textContent = ''; badge.className = 'tq-age-badge'; }
+      clearFieldError(this.closest('.tq-field'));
+    });
+
+    const removeBtn = div.querySelector('.tq-remove-btn');
+    if (removeBtn) removeBtn.addEventListener('click', () => removeTraveller(id));
+  }
+
+  addBtn.addEventListener('click', addTraveller);
+  addTraveller(); // start with 1 traveller
+
+  /* ── Document slots ── */
+  function generateDocSlots() {
+    const container = document.getElementById('doc-slots');
+    container.innerHTML = '';
+    travellers.forEach((t, i) => {
+      const isChild = t.age !== null && t.age < 18;
+      const name = t.full_name.trim() || 'Traveller ' + (i + 1);
+
+      const idKey = 'trav_' + t.id + '_id';
+      createDocSlot(container, idKey, name + ' \u2014 ' + (isChild ? 'Birth Certificate' : 'National ID / Passport'),
+        isChild ? 'Upload birth certificate or notification' : 'Upload front side of National ID or passport bio page');
+
+      if (!isChild) {
+        const kraKey = 'trav_' + t.id + '_kra';
+        createDocSlot(container, kraKey, name + ' \u2014 KRA PIN Certificate', 'Upload KRA PIN certificate');
+      }
+    });
+  }
+
+  function createDocSlot(container, key, label, sub) {
+    const slot = document.createElement('div');
+    slot.className = 'doc-slot';
+    slot.id = 'doc-' + key;
+    slot.innerHTML = `
+      <div class="doc-slot-label">${label}</div>
+      <div class="doc-slot-sub">${sub}</div>
+      <div class="doc-actions">
+        <button type="button" class="doc-btn" onclick="triggerCamera('${key}')">
+          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          Take Photo
+        </button>
+        <button type="button" class="doc-btn" onclick="triggerFile('${key}')">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload File
+        </button>
+      </div>
+      <input type="file" class="cam-input" id="cam-${key}" accept="image/*" capture="environment">
+      <input type="file" class="cam-input" id="file-${key}" accept="image/*,.pdf">
+      <div class="doc-preview" id="preview-${key}"></div>`;
+    container.appendChild(slot);
+
+    document.getElementById('cam-'+key).addEventListener('change', e => handleFile(key, e.target.files[0]));
+    document.getElementById('file-'+key).addEventListener('change', e => handleFile(key, e.target.files[0]));
+  }
+
+  window.triggerCamera = function(key) { document.getElementById('cam-'+key).click(); };
+  window.triggerFile = function(key) { document.getElementById('file-'+key).click(); };
+
+  function handleFile(key, file) {
+    if (!file) return;
+    const slot = document.getElementById('doc-'+key);
+    const preview = document.getElementById('preview-'+key);
+
+    if (file.type === 'application/pdf') {
+      if (file.size > 10 * 1024 * 1024) {
+        showGlobalErr('That PDF is ' + (file.size / 1024 / 1024).toFixed(1) + ' MB — too large. Please compress it (under 10 MB) or take a clear photo instead.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function() {
+        tqDocuments[key] = reader.result;
+        preview.innerHTML = '<span style="font-size:0.82rem;color:#08375f;font-weight:600;">PDF: ' + file.name + '</span><button type="button" class="doc-remove" onclick="removeDoc(\'' + key + '\')">&times;</button>';
+        slot.classList.add('uploaded');
+        slot.classList.remove('has-error');
+      };
+      reader.onerror = function() { showGlobalErr('Could not read "' + file.name + '". Please try a different file.'); };
+      reader.readAsDataURL(file);
+    } else if (file.type.indexOf('image/') === 0) {
+      compressImage(file, function(dataUrl) {
+        tqDocuments[key] = dataUrl;
+        preview.innerHTML = '<img src="' + dataUrl + '" alt="Preview"><button type="button" class="doc-remove" onclick="removeDoc(\'' + key + '\')">&times;</button>';
+        slot.classList.add('uploaded');
+        slot.classList.remove('has-error');
+      }, function() { showGlobalErr('Could not process that image. Please try a clear JPG or PNG photo.'); });
+    } else {
+      showGlobalErr('Unsupported file type. Please upload a JPG, PNG or PDF.');
+    }
+  }
+
+  window.removeDoc = function(key) {
+    delete tqDocuments[key];
+    const slot = document.getElementById('doc-'+key);
+    var preview = document.getElementById('preview-'+key);
+    preview.innerHTML = '';
+    slot.classList.remove('uploaded');
+    document.getElementById('cam-'+key).value = '';
+    document.getElementById('file-'+key).value = '';
+  };
+
+  function compressImage(file, cb, onErr) {
+    var img = new Image();
+    img.onload = function() {
+      var MAX = 1400;
+      var w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        var ratio = Math.min(MAX / w, MAX / h);
+        w = Math.round(w * ratio);
+        h = Math.round(h * ratio);
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = function() { if (onErr) onErr(); };
+    img.src = URL.createObjectURL(file);
+  }
+
+  /* ── Review rendering ── */
+  function renderReview() {
+    var html = '<div class="rv-section"><div class="rv-section-title">Trip Details</div>';
+    html += rvRow('From', document.getElementById('tq-origin').value || '\u2014');
+    html += rvRow('To', document.getElementById('tq-destination').value || '\u2014');
+    html += rvRow('Departure', document.getElementById('tq-departure').value || '\u2014');
+    html += rvRow('Return', document.getElementById('tq-return').value || '\u2014');
+    html += '</div>';
+
+    html += '<div class="rv-section"><div class="rv-section-title">Travellers (' + travellers.length + ')</div>';
+    travellers.forEach(function(t, i) {
+      html += '<div class="rv-member-card"><strong>' + (t.full_name || 'Traveller ' + (i+1)) + '</strong>';
+      html += '<p>DOB: ' + (t.date_of_birth || '\u2014') + ' | Age: ' + (t.age !== null ? t.age + 'y' : '\u2014') + ' | ID: ' + (t.id_passport || '\u2014') + ' | Relation: ' + (t.relation || '\u2014') + '</p></div>';
+    });
+    html += '</div>';
+
+    var purposeEl = form.querySelector('input[name="purpose"]:checked');
+    var coverEl = form.querySelector('input[name="cover_type"]:checked');
+    var paymentEl = form.querySelector('input[name="payment_method"]:checked');
+    html += '<div class="rv-section"><div class="rv-section-title">Cover &amp; Proposer</div>';
+    html += rvRow('Purpose', purposeEl ? purposeEl.value.replace(/_/g, ' ') : '\u2014');
+    html += rvRow('Cover Type', coverEl ? coverEl.value.replace(/_/g, ' ') : '\u2014');
+    html += rvRow('Proposer', document.getElementById('tq-fullname').value || '\u2014');
+    html += rvRow('DOB', document.getElementById('tq-dob').value || '\u2014');
+    html += rvRow('Phone', document.getElementById('tq-phone').value || '\u2014');
+    html += rvRow('Email', document.getElementById('tq-email').value || '\u2014');
+    html += rvRow('Town', document.getElementById('tq-town').value || '\u2014');
+    html += '</div>';
+
+    html += '<div class="rv-section"><div class="rv-section-title">Beneficiary &amp; Payment</div>';
+    html += rvRow('Beneficiary', document.getElementById('tq-ben-name').value || '\u2014');
+    html += rvRow('Relationship', document.getElementById('tq-ben-relation').value || '\u2014');
+    html += rvRow('Payment', paymentEl ? paymentEl.value.replace(/_/g, ' ') : '\u2014');
+    var medEvac = form.querySelector('input[name="medical_evac"]').checked;
+    var covidExt = form.querySelector('input[name="covid_extension"]').checked;
+    var addons = [];
+    if (medEvac) addons.push('Medical Evacuation');
+    if (covidExt) addons.push('COVID-19 Extension');
+    html += rvRow('Add-ons', addons.length > 0 ? addons.join(', ') : 'None');
+    html += '</div>';
+
+    var docsUploaded = Object.keys(tqDocuments).length;
+    html += '<div class="rv-section"><div class="rv-section-title">Documents</div>';
+    html += rvRow('Files Uploaded', docsUploaded);
+    html += '</div>';
+
+    document.getElementById('rv-content').innerHTML = html;
+  }
+
+  function rvRow(label, value) {
+    return '<div class="rv-row"><span class="rv-label">' + label + '</span><span class="rv-value">' + value + '</span></div>';
+  }
+
+  /* ── Signature pad ── */
+  function initSignaturePad() {
+    var canvas = document.getElementById('sig-canvas');
+    var ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = 160 * ratio;
+    canvas.getContext('2d').scale(ratio, ratio);
+
+    if (signaturePad) signaturePad.off();
+    signaturePad = new SignaturePad(canvas, { penColor: '#08375f' });
+    signaturePad.addEventListener('endStroke', checkSubmitReady);
+
+    document.getElementById('sig-clear').addEventListener('click', function() {
+      signaturePad.clear();
+      checkSubmitReady();
+    });
+  }
+
+  function checkSubmitReady() {
+    var tcChecked = document.getElementById('tq-tc-check').checked;
+    var hasSig = signaturePad && !signaturePad.isEmpty();
+    submitBtn.disabled = !(tcChecked && hasSig);
+  }
+
+  document.getElementById('tq-tc-check').addEventListener('change', checkSubmitReady);
+
+  /* ── Validation ── */
+  function setFieldError(field) { field.classList.add('has-error'); }
+  function clearFieldError(field) { if (field) field.classList.remove('has-error'); }
+
+  function normalizePhone(raw, inputEl) {
+    if (window.dnPhone && inputEl) {
+      var n = dnPhone.getNumber(inputEl);
+      if (n) return n;
+    }
+    var p = String(raw || '').replace(/[\s\-()]/g, '');
+    if (p.startsWith('0')) p = '+254' + p.slice(1);
+    else if (p.startsWith('254') && !p.startsWith('+')) p = '+' + p;
+    else if (p && !p.startsWith('+')) p = '+' + p;
+    return p;
+  }
+
+  function validateStep(stepIdx) {
+    var stepName = STEPS[stepIdx];
+    var ok = true;
+    form.querySelectorAll('.tq-step.active .has-error').forEach(function(f) { f.classList.remove('has-error'); });
+    globalErr.classList.remove('visible');
+
+    if (stepName === 'trip') {
+      var fromCountry = document.getElementById('tq-from-country');
+      var toCountry = document.getElementById('tq-to-country');
+      if (!fromCountry.value.trim()) { setFieldError(fromCountry.closest('.tq-field')); ok = false; }
+      if (!toCountry.value.trim()) { setFieldError(toCountry.closest('.tq-field')); ok = false; }
+      // Ensure hidden fields are in sync even if user only typed (free-text mode)
+      if (!document.getElementById('tq-origin').value.trim() && fromCountry.value.trim()) {
+        document.getElementById('tq-origin').value = fromCountry.value.trim();
+      }
+      if (!document.getElementById('tq-destination').value.trim() && toCountry.value.trim()) {
+        document.getElementById('tq-destination').value = toCountry.value.trim();
+      }
+      var dep = document.getElementById('tq-departure');
+      var ret = document.getElementById('tq-return');
+      if (!dep.value) { setFieldError(dep.closest('.tq-field')); ok = false; }
+      if (!ret.value || (dep.value && ret.value <= dep.value)) { setFieldError(ret.closest('.tq-field')); ok = false; }
+    }
+
+    if (stepName === 'travellers') {
+      if (travellers.length === 0) { showGlobalErr('Add at least one traveller.'); return false; }
+      travellers.forEach(function(t) {
+        if (!t.full_name.trim()) { setFieldError(document.getElementById('trav-name-'+t.id).closest('.tq-field')); ok = false; }
+        if (!t.date_of_birth) { setFieldError(document.getElementById('trav-dob-'+t.id).closest('.tq-field')); ok = false; }
+        if (t.id_passport && t.id_passport.trim().length > 0 && t.id_passport.trim().length < 5) {
+          setFieldError(document.getElementById('trav-idp-'+t.id).closest('.tq-field')); ok = false;
+        }
+        if (t.relation === 'parent' && t.is_biological !== true) {
+          const errEl = document.getElementById('trav-bio-err-'+t.id);
+          if (errEl) errEl.style.display = 'block';
+          ok = false;
+        }
+      });
+    }
+
+    if (stepName === 'proposer') {
+      if (!form.querySelector('input[name="purpose"]:checked')) { setFieldError(document.getElementById('tq-purpose').closest('.tq-field')); ok = false; }
+      if (!form.querySelector('input[name="cover_type"]:checked')) { setFieldError(document.getElementById('tq-cover').closest('.tq-field')); ok = false; }
+
+      var name = document.getElementById('tq-fullname');
+      if (!name.value.trim() || name.value.trim().length < 2) { setFieldError(name.closest('.tq-field')); ok = false; }
+      var dob = document.getElementById('tq-dob');
+      if (!dob.value) { setFieldError(dob.closest('.tq-field')); ok = false; }
+      var occ = document.getElementById('tq-occupation');
+      if (!occ.value.trim()) { setFieldError(occ.closest('.tq-field')); ok = false; }
+      var town = document.getElementById('tq-town');
+      if (!town.value.trim()) { setFieldError(town.closest('.tq-field')); ok = false; }
+      var phone = document.getElementById('tq-phone');
+      if (!/^\+\d{9,15}$/.test(normalizePhone(phone.value, phone))) { setFieldError(phone.closest('.tq-field')); ok = false; }
+      var email = document.getElementById('tq-email');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) { setFieldError(email.closest('.tq-field')); ok = false; }
+      var natId = document.getElementById('tq-national-id');
+      if (natId.value.trim().length > 0 && natId.value.trim().length < 5) { setFieldError(natId.closest('.tq-field')); ok = false; }
+      var pass = document.getElementById('tq-passport');
+      if (pass.value.trim().length > 0 && pass.value.trim().length < 5) { setFieldError(pass.closest('.tq-field')); ok = false; }
+    }
+
+    if (stepName === 'beneficiary') {
+      var benName = document.getElementById('tq-ben-name');
+      if (!benName.value.trim()) { setFieldError(benName.closest('.tq-field')); ok = false; }
+      var benRel = document.getElementById('tq-ben-relation');
+      if (!benRel.value) { setFieldError(benRel.closest('.tq-field')); ok = false; }
+      var benId = document.getElementById('tq-ben-id');
+      if (benId.value.trim().length > 0 && benId.value.trim().length < 5) { setFieldError(benId.closest('.tq-field')); ok = false; }
+      if (!form.querySelector('input[name="payment_method"]:checked')) { setFieldError(document.getElementById('tq-payment').closest('.tq-field')); ok = false; }
+    }
+
+    if (stepName === 'documents') {
+      var missing = 0;
+      travellers.forEach(function(t) {
+        var idKey = 'trav_'+t.id+'_id';
+        if (!tqDocuments[idKey]) {
+          var slot = document.getElementById('doc-'+idKey);
+          if (slot) slot.classList.add('has-error');
+          missing++;
+        }
+        if (t.age !== null && t.age >= 18) {
+          var kraKey = 'trav_'+t.id+'_kra';
+          if (!tqDocuments[kraKey]) {
+            var kSlot = document.getElementById('doc-'+kraKey);
+            if (kSlot) kSlot.classList.add('has-error');
+            missing++;
+          }
+        }
+      });
+      if (missing) { showGlobalErr('Please upload all required documents (' + missing + ' missing).'); ok = false; }
+    }
+
+    if (!ok) {
+      var firstErr = form.querySelector('.tq-step.active .has-error');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return ok;
+  }
+
+  function showGlobalErr(msg) {
+    globalErr.textContent = msg;
+    globalErr.classList.add('visible');
+    globalErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ── Clear errors on input ── */
+  form.querySelectorAll('.tq-input, .tq-select').forEach(function(el) {
+    el.addEventListener('input', function() { clearFieldError(this.closest('.tq-field')); });
+    el.addEventListener('change', function() { clearFieldError(this.closest('.tq-field')); });
+  });
+
+  /* ── Submit ── */
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!document.getElementById('tq-tc-check').checked) { showGlobalErr('Please agree to the Terms & Conditions.'); return; }
+    if (!signaturePad || signaturePad.isEmpty()) { showGlobalErr('Please provide your signature.'); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spin"></span> Submitting\u2026';
+    globalErr.classList.remove('visible');
+
+    // Attach signature to documents
+    tqDocuments['signature'] = signaturePad.toDataURL('image/png');
+
+    var benPhoneEl = document.getElementById('tq-ben-phone');
+    var benPhone = benPhoneEl.value.trim();
+    var payload = {
+      csrf_token:      csrfToken,
+      website:         document.getElementById('tq-website').value,
+      origin:          document.getElementById('tq-origin').value.trim(),
+      destination:     document.getElementById('tq-destination').value.trim(),
+      departure_date:  document.getElementById('tq-departure').value,
+      return_date:     document.getElementById('tq-return').value,
+      travellers:      travellers.map(function(t) { return {
+        full_name:     t.full_name.trim(),
+        date_of_birth: t.date_of_birth,
+        age:           t.age,
+        id_passport:   t.id_passport.trim(),
+        relation:      t.relation,
+        is_biological: t.is_biological
+      }; }),
+      purpose:         form.querySelector('input[name="purpose"]:checked').value,
+      cover_type:      form.querySelector('input[name="cover_type"]:checked').value,
+      full_name:       document.getElementById('tq-fullname').value.trim(),
+      date_of_birth:   document.getElementById('tq-dob').value,
+      national_id:     document.getElementById('tq-national-id').value.trim(),
+      passport_no:     document.getElementById('tq-passport').value.trim(),
+      kra_pin:         document.getElementById('tq-kra').value.trim().toUpperCase(),
+      occupation:      document.getElementById('tq-occupation').value.trim(),
+      town:            document.getElementById('tq-town').value.trim(),
+      phone:           normalizePhone(document.getElementById('tq-phone').value, document.getElementById('tq-phone')),
+      email:           document.getElementById('tq-email').value.trim().toLowerCase(),
+      beneficiary_name:     document.getElementById('tq-ben-name').value.trim(),
+      beneficiary_id:       document.getElementById('tq-ben-id').value.trim(),
+      beneficiary_relation: document.getElementById('tq-ben-relation').value,
+      beneficiary_phone:    benPhone ? normalizePhone(benPhone, benPhoneEl) : '',
+      payment_method:  form.querySelector('input[name="payment_method"]:checked').value,
+      medical_evac:    !!form.querySelector('input[name="medical_evac"]').checked,
+      covid_extension: !!form.querySelector('input[name="covid_extension"]').checked,
+      documents:       tqDocuments
+    };
+
+    var serialized = JSON.stringify(payload);
+    if (serialized.length > 55 * 1024 * 1024) {
+      globalErr.textContent = 'Your documents add up to more than 55 MB. Please remove or compress the largest files (PDF scans are the usual cause) and try again.';
+      globalErr.classList.add('visible');
+      globalErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Submit Application';
+      return;
+    }
+
+    try {
+      var resp = await fetch('/api/travel-quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: serialized
+      });
+      var data = await resp.json().catch(function() { return {}; });
+
+      if (resp.ok && data.success) {
+        form.style.display = 'none';
+        document.querySelector('.tq-progress').style.display = 'none';
+        refDisplay.textContent = data.ref;
+        addPdfDownload(successDiv, data);
+        successDiv.classList.add('visible');
+        successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        globalErr.textContent = data.error || ('Submission failed (server said ' + resp.status + '). Please try again.');
+        globalErr.classList.add('visible');
+        globalErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } catch(err) {
+      globalErr.textContent = 'Could not reach the server. Check that your connection is active (and that the documents are not too large), then try again.';
+      globalErr.classList.add('visible');
+      globalErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Submit Application';
+  });
+})();
+</script>
+
+<script src="shared-form-helpers.js"></script>
+<script>
+  (function () {
+    function ready(fn) { if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+    ready(function () {
+      ['tq-phone', 'tq-ben-phone'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el && window.dnPhone) dnPhone.init(el);
+      });
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "dovenest-insurance",
+  "version": "1.0.0",
+  "description": "DoveNest Insurance Brokers website + quote server",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node --test",
+    "build": "node scripts/build.js"
+  },
+  "main": "server/server.js",
+  "dependencies": {
+    "pdfkit": "^0.18.0"
+  }
+}

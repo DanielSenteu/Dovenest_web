@@ -1,0 +1,78 @@
+/* ═════════════════════════════════════════════════════════
+   DoveNest shared form helpers — styling
+   - .dn-combo (country/city autocomplete)
+   - intl-tel-input overrides to blend with site inputs
+   ═════════════════════════════════════════════════════════ */
+
+.dn-combo { position: relative; }
+.dn-combo-input {
+  width: 100%;
+  padding: 0.65rem 2.4rem 0.65rem 0.85rem;
+  border: 1.5px solid #d0dce8;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-family: 'Inter', sans-serif;
+  color: #0A2A4A;
+  background: #fff;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.dn-combo-input:focus {
+  outline: none;
+  border-color: #08375f;
+  box-shadow: 0 0 0 3px rgba(8,55,95,0.08);
+}
+.dn-combo-input:disabled { background: #f5f7fa; color: #97a8b8; cursor: not-allowed; }
+.dn-combo-arrow {
+  position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; pointer-events: none; color: #7a90a0;
+  transition: transform 0.2s;
+}
+.dn-combo.open .dn-combo-arrow { transform: translateY(-50%) rotate(180deg); }
+.dn-combo-spinner {
+  position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; border: 2px solid #d0dce8; border-top-color: #08375f;
+  border-radius: 50%; animation: dn-combo-spin 0.7s linear infinite; display: none;
+}
+.dn-combo.loading .dn-combo-spinner { display: block; }
+.dn-combo.loading .dn-combo-arrow   { display: none; }
+@keyframes dn-combo-spin { to { transform: translateY(-50%) rotate(360deg); } }
+.dn-combo-dropdown {
+  position: absolute; left: 0; right: 0; top: calc(100% + 4px);
+  max-height: 260px; overflow-y: auto;
+  background: #fff; border: 1.5px solid #d0dce8; border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(8,55,95,0.12);
+  z-index: 9999; display: none;
+}
+.dn-combo.open .dn-combo-dropdown { display: block; }
+.dn-combo-option {
+  padding: 0.55rem 0.85rem; font-size: 0.88rem; color: #0A2A4A;
+  cursor: pointer; display: flex; align-items: center; gap: 0.55rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.dn-combo-option:last-child { border-bottom: none; }
+.dn-combo-option:hover, .dn-combo-option.highlighted { background: #f0f7ff; color: #08375f; }
+.dn-combo-flag { font-size: 1.05rem; line-height: 1; }
+.dn-combo-empty {
+  padding: 0.7rem 0.85rem; font-size: 0.82rem; color: #7a90a0; text-align: center;
+}
+
+/* ── intl-tel-input overrides ───────────────────────────── */
+.iti { width: 100%; display: block; }
+.iti__country-list { z-index: 9999; max-height: 260px; }
+.iti input.iti__tel-input,
+.iti input[type="tel"] {
+  border: 1.5px solid #d0dce8;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  color: #0A2A4A;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.iti input.iti__tel-input:focus,
+.iti input[type="tel"]:focus {
+  outline: none;
+  border-color: #08375f;
+  box-shadow: 0 0 0 3px rgba(8,55,95,0.08);
+}

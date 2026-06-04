@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amref Flying Doctors Application — DoveNest Insurance Brokers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="shared-form-helpers.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #eef2f7;
+      color: #0A2A4A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .qf-header { background: #08375f; padding: 0 1.5rem; }
+    .qf-header-inner {
+      max-width: 860px; margin: 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .qf-eyebrow {
+      display: block; color: #52B44B; font-size: 0.58rem; font-weight: 800;
+      letter-spacing: 0.36em; text-transform: uppercase; line-height: 1; margin-bottom: 3px;
+      font-family: 'Poppins', sans-serif;
+    }
+    .qf-header h1 {
+      color: #fff; font-size: clamp(0.82rem, 2.2vw, 1rem);
+      font-weight: 700; font-family: 'Poppins', sans-serif;
+    }
+    .qf-header-back {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: rgba(255,255,255,0.72); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500; transition: color 0.2s;
+    }
+    .qf-header-back:hover { color: #52B44B; }
+    .qf-header-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .qf-header-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+    .qf-back {
+      display: inline-flex; align-items: center; gap: 0.35rem; flex-shrink: 0;
+      color: #fff; text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      padding: 0.42rem 0.7rem; border: 1px solid rgba(255,255,255,0.32);
+      border-radius: 8px; background: rgba(255,255,255,0.08); transition: background 0.2s;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+    }
+    .qf-back:hover { background: rgba(255,255,255,0.2); }
+    .qf-back svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Main layout ── */
+    .qf-main { flex: 1; padding: 2rem 1rem 4rem; }
+    .qf-card {
+      max-width: 860px; margin: 0 auto; background: #fff;
+      border-radius: 16px; box-shadow: 0 4px 24px rgba(8,55,95,0.10);
+      overflow: hidden;
+    }
+
+    /* ── Progress bar ── */
+    .fd-progress { background: #f8fafc; padding: 1.25rem 2rem; border-bottom: 1px solid #e8edf2; }
+    .fd-progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .fd-progress-step { font-family: 'Poppins', sans-serif; font-size: 0.78rem; font-weight: 700; color: #08375f; }
+    .fd-progress-label { font-size: 0.75rem; color: #7a90a0; font-weight: 500; }
+    .fd-progress-track { height: 6px; border-radius: 999px; background: #e2e8f0; overflow: hidden; }
+    .fd-progress-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #52B44B, #3d9e38); transition: width 0.4s ease; }
+
+    /* ── Form header inside card ── */
+    .fd-header {
+      background: linear-gradient(135deg, #08375f, #0a4a7a);
+      padding: 1.75rem 2rem; color: #fff;
+    }
+    .fd-header h3 { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; }
+    .fd-header p { color: rgba(255,255,255,0.72); font-size: 0.88rem; margin-top: 0.35rem; }
+
+    /* ── Form body ── */
+    .fd-body { padding: 2rem; }
+
+    /* ── Steps ── */
+    .fd-step { display: none; }
+    .fd-step.active { display: block; }
+
+    /* ── Step dividers ── */
+    .fd-divider { margin-bottom: 1rem; }
+    .fd-divider-label {
+      display: inline-block; background: #52B44B; color: #07172a;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+    .fd-divider h4 {
+      font-family: 'Poppins', sans-serif; font-size: 1.05rem;
+      font-weight: 700; color: #08375f;
+    }
+    .fd-divider p { font-size: 0.85rem; color: #7a90a0; margin-top: 0.25rem; }
+    .fd-doc-rules { font-size: 0.78rem; color: #5a7080 !important; margin-top: 0.6rem !important; background: #f0f7ff; border: 1px solid #d6e6f5; border-radius: 8px; padding: 0.55rem 0.8rem; line-height: 1.45; }
+
+    /* ── Fields ── */
+    .fd-field { margin-top: 1rem; }
+    .fd-field label {
+      display: block; font-size: 0.78rem; font-weight: 600; color: #2d4a5e;
+      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.35rem;
+    }
+    .fd-field label .req { color: #e53e3e; margin-left: 2px; }
+    .fd-input, .fd-select {
+      width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #d0dce8;
+      border-radius: 8px; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      color: #0A2A4A; background: #fff; transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .fd-input:focus, .fd-select:focus {
+      outline: none; border-color: #08375f; box-shadow: 0 0 0 3px rgba(8,55,95,0.08);
+    }
+    .fd-err { font-size: 0.75rem; color: #e53e3e; margin-top: 3px; display: none; }
+    .fd-bio-row { margin-top: 0.6rem; padding: 0.65rem 0.85rem; background: #f0f7ff; border: 1px solid #d6e6f5; border-radius: 8px; }
+    .fd-bio-label { display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; font-size: 0.85rem; color: #2d4a5e; line-height: 1.4; }
+    .fd-bio-label input { margin-top: 0.15rem; }
+    .fd-bio-row .fd-err { margin-top: 0.4rem; }
+    .has-error .fd-input, .has-error .fd-select { border-color: #e53e3e !important; }
+    .has-error .fd-err { display: block; }
+    .fd-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* ── Plan cards ── */
+    .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 0.75rem; }
+    .plan-opt {
+      border: 2px solid #d0dce8; border-radius: 10px; padding: 1rem;
+      cursor: pointer; background: #fff; transition: all 0.2s; text-align: center;
+    }
+    .plan-opt:hover { border-color: #08375f; background: #f0f7ff; }
+    .plan-opt.selected { border-color: #08375f; background: #08375f; color: #fff; box-shadow: 0 0 0 3px rgba(8,55,95,0.12); }
+    .plan-opt input[type="radio"] { display: none; }
+    .plan-opt-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 0.2rem; }
+    .plan-opt-region { font-size: 0.72rem; opacity: 0.7; line-height: 1.35; }
+    .plan-opt-price { display: inline-block; margin-top: 0.5rem; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 0.95rem; }
+    .plan-opt.selected .plan-opt-name, .plan-opt.selected .plan-opt-region, .plan-opt.selected .plan-opt-price { color: #fff; }
+
+    /* ── Member cards ── */
+    .fd-members { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+    .fd-member { border: 1.5px solid #d0dce8; border-radius: 10px; padding: 1rem 1.1rem; background: #fafbfc; }
+    .fd-member-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+    .fd-member-head strong { font-size: 0.9rem; color: #08375f; font-family: 'Poppins', sans-serif; }
+    .fd-age-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; }
+    .fd-age-badge.adult { background: #dcfce7; color: #15803d; }
+    .fd-age-badge.child { background: #fef3c7; color: #b45309; }
+    .fd-remove-btn {
+      border: none; background: none; color: #9ca3af; font-size: 0.8rem;
+      cursor: pointer; padding: 0.25rem 0.5rem; border-radius: 4px;
+      transition: color 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .fd-remove-btn:hover { color: #e53e3e; }
+    .fd-add-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 0.75rem; padding: 0.55rem 1rem;
+      border: 1.5px dashed #b0bec5; border-radius: 8px;
+      background: #fff; color: #08375f; font-size: 0.85rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .fd-add-btn:hover { border-color: #08375f; background: #f0f7ff; }
+    .fd-add-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* ── Document upload slots ── */
+    .doc-slot { border: 1.5px solid #d0dce8; border-radius: 10px; padding: 1rem; margin-top: 0.75rem; background: #fafbfc; }
+    .doc-slot-label { font-size: 0.82rem; font-weight: 700; color: #08375f; margin-bottom: 0.5rem; }
+    .doc-slot-sub { font-size: 0.72rem; color: #7a90a0; margin-bottom: 0.65rem; }
+    .doc-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .doc-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 0.85rem; border: 1.5px solid #d0dce8; border-radius: 8px;
+      background: #fff; color: #08375f; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .doc-btn:hover { border-color: #08375f; background: #f0f7ff; }
+    .doc-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .doc-preview { margin-top: 0.65rem; position: relative; display: inline-block; }
+    .doc-preview img { max-width: 120px; max-height: 90px; border-radius: 6px; border: 1px solid #e2e8f0; }
+    .doc-preview .doc-name { font-size: 0.72rem; color: #52677c; margin-top: 0.2rem; }
+    .doc-remove {
+      position: absolute; top: -6px; right: -6px; width: 20px; height: 20px;
+      border-radius: 999px; background: #e53e3e; color: #fff; border: none;
+      font-size: 0.7rem; cursor: pointer; display: grid; place-items: center;
+    }
+    .doc-slot.uploaded { border-color: #52B44B; background: #f0fdf4; }
+    .doc-slot.has-error { border-color: #e53e3e; }
+
+    /* ── M-Pesa info box ── */
+    .mpesa-box {
+      background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
+      padding: 1rem 1.25rem; margin-top: 1rem;
+    }
+    .mpesa-box h5 { font-family: 'Poppins', sans-serif; font-size: 0.9rem; font-weight: 700; color: #15803d; margin-bottom: 0.5rem; }
+    .mpesa-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 0.3rem 0; }
+    .mpesa-row .lbl { color: #5a7080; }
+    .mpesa-row .val { font-weight: 600; color: #0A2A4A; }
+    .mpesa-note { font-size: 0.75rem; color: #5a7080; margin-top: 0.5rem; line-height: 1.5; }
+
+    /* ── Review table ── */
+    .rv-section { margin-top: 1.5rem; }
+    .rv-section:first-child { margin-top: 0; }
+    .rv-section-title {
+      font-family: 'Poppins', sans-serif; font-size: 0.82rem; font-weight: 700;
+      color: #08375f; text-transform: uppercase; letter-spacing: 0.06em;
+      padding-bottom: 0.5rem; border-bottom: 1px solid #e8edf2; margin-bottom: 0.5rem;
+    }
+    .rv-row { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.85rem; }
+    .rv-row .rv-label { color: #7a90a0; }
+    .rv-row .rv-value { color: #0A2A4A; font-weight: 600; text-align: right; max-width: 60%; }
+    .rv-member-card {
+      border: 1px solid #e8edf2; border-radius: 8px; padding: 0.75rem; margin-top: 0.5rem; background: #fafbfc;
+    }
+    .rv-member-card strong { font-size: 0.85rem; color: #08375f; }
+    .rv-member-card p { font-size: 0.78rem; color: #7a90a0; margin-top: 0.15rem; }
+
+    /* ── Declaration & Signature ── */
+    .declaration-box {
+      margin-top: 1.5rem; padding: 1.25rem; border: 1px solid #e8edf2;
+      border-radius: 10px; background: #f8fafc;
+    }
+    .declaration-box h4 { font-family: 'Poppins', sans-serif; font-size: 0.92rem; font-weight: 700; color: #08375f; margin-bottom: 0.6rem; }
+    .declaration-box p { font-size: 0.82rem; color: #52677c; line-height: 1.7; }
+    .tc-check { display: flex; align-items: flex-start; gap: 0.6rem; margin-top: 1rem; }
+    .tc-check input[type="checkbox"] { margin-top: 3px; accent-color: #08375f; width: 16px; height: 16px; flex-shrink: 0; }
+    .tc-check label { font-size: 0.82rem; color: #2d4a5e; line-height: 1.5; cursor: pointer; }
+    .tc-check label a { color: #08375f; font-weight: 600; }
+
+    .sig-wrap { margin-top: 1.25rem; }
+    .sig-label { font-size: 0.78rem; font-weight: 600; color: #2d4a5e; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+    .sig-pad-box {
+      border: 2px solid #d0dce8; border-radius: 10px; overflow: hidden; background: #fff;
+      position: relative;
+    }
+    .sig-pad-box canvas { display: block; width: 100%; height: 160px; cursor: crosshair; touch-action: none; }
+    .sig-clear {
+      position: absolute; top: 8px; right: 8px; padding: 4px 10px;
+      background: rgba(255,255,255,0.9); border: 1px solid #d0dce8; border-radius: 6px;
+      font-size: 0.72rem; font-weight: 600; color: #7a90a0; cursor: pointer;
+    }
+    .sig-clear:hover { color: #e53e3e; border-color: #e53e3e; }
+
+    /* ── Navigation buttons ── */
+    .fd-nav { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem; }
+    .fd-nav-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.7rem 1.5rem; border-radius: 10px; font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; border: none;
+    }
+    .fd-nav-back { background: #f1f5f9; color: #08375f; }
+    .fd-nav-back:hover { background: #e2e8f0; }
+    .fd-nav-next { background: #08375f; color: #fff; margin-left: auto; }
+    .fd-nav-next:hover { background: #0a4a7a; }
+    .fd-nav-next svg, .fd-nav-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ── Submit button ── */
+    .fd-submit {
+      display: block; width: 100%; margin-top: 1.5rem; padding: 0.9rem;
+      background: #16a34a; color: #fff; border: none; border-radius: 10px;
+      font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 800;
+      letter-spacing: 0.04em; cursor: pointer; transition: background 0.2s;
+    }
+    .fd-submit:hover { background: #15803d; }
+    .fd-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+    .spin {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+      vertical-align: middle; margin-right: 0.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Global error ── */
+    .fd-global-err {
+      display: none; background: #fee2e2; border: 1px solid #fca5a5;
+      border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem;
+      color: #dc2626; margin-bottom: 1rem;
+    }
+    .fd-global-err.visible { display: block; }
+
+    /* ── Success state ── */
+    .fd-success { display: none; text-align: center; padding: 3rem 2rem; }
+    .fd-success.visible { display: block; }
+    .fd-success-icon svg {
+      width: 56px; height: 56px; stroke: #16a34a; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .fd-success h3 { font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 800; color: #08375f; margin-top: 1rem; }
+    .fd-success p { color: #52677c; font-size: 0.92rem; margin-top: 0.5rem; line-height: 1.6; }
+    .fd-ref {
+      display: inline-block; margin-top: 1rem; padding: 0.6rem 1.5rem;
+      background: #f0f7ff; border: 2px solid #08375f; border-radius: 10px;
+      font-family: 'Poppins', sans-serif; font-size: 1.1rem; font-weight: 800;
+      color: #08375f; letter-spacing: 0.06em;
+    }
+
+    /* ── WhatsApp strip ── */
+    .fd-wa-strip {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1rem 2rem; background: #f0fdf4; border-top: 1px solid #bbf7d0;
+    }
+    .fd-wa-strip p { font-size: 0.88rem; font-weight: 600; color: #15803d; }
+    .fd-wa-strip small { font-size: 0.75rem; color: #5a7080; }
+    .fd-wa-btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.55rem 1.15rem; background: #25D366; color: #fff;
+      border-radius: 8px; font-size: 0.85rem; font-weight: 700;
+      text-decoration: none; white-space: nowrap; transition: background 0.2s;
+    }
+    .fd-wa-btn:hover { background: #1fb855; }
+    .fd-wa-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* Honeypot */
+    .hp-trap { position: absolute; left: -9999px; height: 0; overflow: hidden; }
+
+    /* Camera hidden input */
+    .cam-input { display: none; }
+
+    @media (max-width: 700px) { .plan-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) {
+      .fd-row { grid-template-columns: 1fr; }
+      .qf-header-inner { padding: 0 1rem; }
+      .fd-header, .fd-body { padding: 1.25rem; }
+      .fd-progress { padding: 1rem 1.25rem; }
+      .fd-wa-strip { flex-direction: column; text-align: center; padding: 1rem; }
+    }
+    @media (max-width: 460px) { .plan-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header class="qf-header">
+  <div class="qf-header-inner">
+    <div class="qf-header-left">
+      <a class="qf-back" href="flying-doctors.html" aria-label="Go back to the previous page" onclick="event.preventDefault();var r=document.referrer;try{if(r&&new URL(r).origin===location.origin){location.href=r;return false}}catch(e){}if(history.length>1){history.back()}else{location.href='flying-doctors.html'}return false;"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Back</a>
+      <div>
+        <span class="qf-eyebrow">DoveNest Insurance Brokers</span>
+        <h1>Amref Flying Doctors — Maisha Plan</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="qf-main">
+<div class="qf-card">
+
+  <div class="fd-header">
+    <h3>Amref Flying Doctors Application</h3>
+    <p>Select your Maisha Plan and tell us who you would like covered.</p>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="fd-progress">
+    <div class="fd-progress-info">
+      <span class="fd-progress-step" id="fd-prog-step">Step 1 of 5</span>
+      <span class="fd-progress-label" id="fd-prog-label">Plan Selection</span>
+    </div>
+    <div class="fd-progress-track">
+      <div class="fd-progress-fill" id="fd-prog-fill" style="width:20%"></div>
+    </div>
+  </div>
+
+  <!-- Success state -->
+  <div class="fd-success" id="fd-success">
+    <div class="fd-success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3>Application Submitted!</h3>
+    <p>A DoveNest advisor will review your details and reach out within 2 business hours to confirm your Maisha Plan cover.</p>
+    <div class="fd-ref" id="fd-ref-display"></div>
+    <p style="margin-top:1.25rem;">Save your reference number for follow-up.</p>
+    <a class="fd-wa-btn" style="margin-top:1rem; display:inline-flex;" href="https://wa.me/254726001122?text=Hi%20DoveNest%2C%20I%20just%20submitted%20a%20Flying%20Doctors%20application." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+      WhatsApp Follow-up
+    </a>
+  </div>
+
+  <!-- Form -->
+  <form class="fd-body" id="fd-form" novalidate>
+    <div class="fd-global-err" id="fd-global-err"></div>
+    <div class="hp-trap" aria-hidden="true">
+      <label for="fd-website">Website</label>
+      <input type="text" id="fd-website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <!-- ═══ STEP 1: Plan Selection ═══ -->
+    <div class="fd-step active" id="step-plan">
+      <div class="fd-divider">
+        <span class="fd-divider-label">Step 1</span>
+        <h4>Choose Your Maisha Plan</h4>
+      </div>
+      <div class="fd-field">
+        <label>Select a plan <span class="req">*</span></label>
+        <div class="plan-grid" id="fd-plan-grid">
+          <label class="plan-opt"><input type="radio" name="plan" value="scholar"><span class="plan-opt-name">Scholar</span><span class="plan-opt-region">Kenya — Students</span><span class="plan-opt-price">KSH 1,500</span></label>
+          <label class="plan-opt"><input type="radio" name="plan" value="bronze"><span class="plan-opt-name">Bronze</span><span class="plan-opt-region">Kenya</span><span class="plan-opt-price">KSH 3,100</span></label>
+          <label class="plan-opt"><input type="radio" name="plan" value="silver"><span class="plan-opt-name">Silver</span><span class="plan-opt-region">Kenya, Tanzania, Zanzibar</span><span class="plan-opt-price">$56</span></label>
+          <label class="plan-opt"><input type="radio" name="plan" value="gold"><span class="plan-opt-name">Gold</span><span class="plan-opt-region">+ Uganda, Rwanda, Burundi</span><span class="plan-opt-price">$66</span></label>
+          <label class="plan-opt"><input type="radio" name="plan" value="platinum"><span class="plan-opt-name">Platinum</span><span class="plan-opt-region">+ South Sudan, Ethiopia</span><span class="plan-opt-price">$120</span></label>
+          <label class="plan-opt"><input type="radio" name="plan" value="diamond"><span class="plan-opt-name">Diamond</span><span class="plan-opt-region">Full Africa</span><span class="plan-opt-price">$280</span></label>
+        </div>
+        <p class="fd-err">Please select a plan</p>
+      </div>
+      <div class="fd-nav"><div></div><button type="button" class="fd-nav-btn fd-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button></div>
+    </div>
+
+    <!-- ═══ STEP 2: Members ═══ -->
+    <div class="fd-step" id="step-members">
+      <div class="fd-divider">
+        <span class="fd-divider-label">Step 2</span>
+        <h4>Members to be Covered</h4>
+        <p>Add each person who will be on this plan. ID or passport number is required for each member.</p>
+      </div>
+      <div class="fd-members" id="fd-members"></div>
+      <button class="fd-add-btn" type="button" id="fd-add-member">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Member
+      </button>
+      <div class="fd-nav">
+        <button type="button" class="fd-nav-btn fd-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="fd-nav-btn fd-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 3: Documents ═══ -->
+    <div class="fd-step" id="step-documents">
+      <div class="fd-divider">
+        <span class="fd-divider-label">Step 3</span>
+        <h4>Document Uploads</h4>
+        <p>Upload ID, passport, or birth certificate for each member. You can take a photo or choose a file.</p>
+        <p class="fd-doc-rules">Accepted: <strong>JPG, PNG or PDF</strong> &middot; Maximum <strong>10&nbsp;MB per file</strong>. Photos are compressed automatically; large PDF scans may need compressing first.</p>
+      </div>
+      <div id="doc-slots"></div>
+      <div class="fd-nav">
+        <button type="button" class="fd-nav-btn fd-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="fd-nav-btn fd-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 4: Contact & Payment ═══ -->
+    <div class="fd-step" id="step-contact">
+      <div class="fd-divider">
+        <span class="fd-divider-label">Step 4</span>
+        <h4>Contact Details &amp; Payment</h4>
+      </div>
+      <div class="fd-field">
+        <label for="fd-fullname">Full Name (Applicant) <span class="req">*</span></label>
+        <input class="fd-input" type="text" id="fd-fullname" placeholder="e.g. Jane Wanjiku Muthoni" required>
+        <p class="fd-err">Enter your full name</p>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field">
+          <label for="fd-phone">Phone Number <span class="req">*</span></label>
+          <input class="fd-input" type="tel" id="fd-phone" required>
+          <p class="fd-err">Enter a valid phone number</p>
+        </div>
+        <div class="fd-field">
+          <label for="fd-email">Email Address <span class="req">*</span></label>
+          <input class="fd-input" type="email" id="fd-email" placeholder="you@example.com" required>
+          <p class="fd-err">Enter a valid email address</p>
+        </div>
+      </div>
+
+      <div class="mpesa-box">
+        <h5>M-Pesa Payment Details</h5>
+        <div class="mpesa-row"><span class="lbl">Paybill Number</span><span class="val">4083249</span></div>
+        <div class="mpesa-row"><span class="lbl">Reference Format</span><span class="val">DOVE/FLYING DOCTOR/ID NO</span></div>
+        <div class="mpesa-row"><span class="lbl">Processing Fee</span><span class="val">KES 200</span></div>
+        <p class="mpesa-note">Example: DOVE/RESCUE/23679845 — Use the ID number of the primary member.</p>
+      </div>
+      <div class="fd-field" style="margin-top:1.25rem;">
+        <label for="fd-payment-ref">M-Pesa Transaction Code / Payment Reference</label>
+        <input class="fd-input" type="text" id="fd-payment-ref" placeholder="e.g. SHK3X7Y9ZR" style="text-transform:uppercase;">
+        <p style="font-size:0.72rem; color:#7a90a0; margin-top:3px;">You can provide this later if you haven't paid yet.</p>
+      </div>
+      <div class="fd-nav">
+        <button type="button" class="fd-nav-btn fd-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <button type="button" class="fd-nav-btn fd-nav-next" onclick="goStep(1)">Next <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+      </div>
+    </div>
+
+    <!-- ═══ STEP 5: Review & Sign ═══ -->
+    <div class="fd-step" id="step-review">
+      <div class="fd-divider">
+        <span class="fd-divider-label">Step 5</span>
+        <h4>Review &amp; Declaration</h4>
+        <p>Please review all details below before signing and submitting your application.</p>
+      </div>
+
+      <div id="rv-content"></div>
+
+      <div class="declaration-box">
+        <h4>Declaration</h4>
+        <p>I declare that the information provided in this application is true and complete to the best of my knowledge. I understand that any misrepresentation may invalidate my cover. I authorise DoveNest Insurance Brokers Ltd to process this application and share relevant information with the underwriter for the purpose of arranging cover.</p>
+        <div class="tc-check">
+          <input type="checkbox" id="fd-tc-check">
+          <label for="fd-tc-check">I agree to the <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and consent to the processing of my personal data as per the <a href="privacy.html" target="_blank">Privacy Policy</a>.</label>
+        </div>
+      </div>
+
+      <div class="sig-wrap">
+        <p class="sig-label">Signature <span style="color:#e53e3e;">*</span></p>
+        <div class="sig-pad-box">
+          <canvas id="sig-canvas"></canvas>
+          <button type="button" class="sig-clear" id="sig-clear">Clear</button>
+        </div>
+        <p style="font-size:0.72rem; color:#7a90a0; margin-top:4px;">Draw your signature above using your mouse or finger.</p>
+      </div>
+
+      <button class="fd-submit" type="submit" id="fd-submit-btn" disabled>Submit Application</button>
+      <div class="fd-nav" style="margin-top:0.75rem;">
+        <button type="button" class="fd-nav-btn fd-nav-back" onclick="goStep(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Back</button>
+        <div></div>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="fd-wa-strip">
+    <div>
+      <p>Need help choosing a plan?</p>
+      <small>Our team can walk you through the Maisha Plan tiers.</small>
+    </div>
+    <a class="fd-wa-btn" href="https://wa.me/254726001122?text=Hi%20DoveNest%2C%20I%20am%20interested%20in%20Flying%20Doctors%20cover." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+      WhatsApp Advisor
+    </a>
+  </div>
+
+</div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ── State ── */
+  const STEPS = ['plan','members','documents','contact','review'];
+  const STEP_LABELS = ['Plan Selection','Members','Documents','Contact & Payment','Review & Sign'];
+  let currentStep = 0;
+  let csrfToken = '';
+  let memberId = 0;
+  const members = [];
+  const documents = {};
+  const MAX_MEMBERS = 15;
+  let signaturePad = null;
+
+  const form       = document.getElementById('fd-form');
+  const submitBtn  = document.getElementById('fd-submit-btn');
+  const globalErr  = document.getElementById('fd-global-err');
+  const successDiv = document.getElementById('fd-success');
+  const refDisplay = document.getElementById('fd-ref-display');
+
+  function addPdfDownload(container, data) {
+    if (!container || !data || !data.pdf || container.querySelector('.dn-pdf-btn')) return;
+    const a = document.createElement('a');
+    a.className = 'dn-pdf-btn';
+    a.href = 'data:application/pdf;base64,' + data.pdf;
+    a.download = data.pdf_name || 'DoveNest-copy.pdf';
+    a.textContent = '⬇  Download your copy (PDF)';
+    a.style.cssText = 'display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:12px 24px;background:#08375f;color:#fff;text-decoration:none;border-radius:10px;font-weight:700;font-size:0.92rem;';
+    container.appendChild(a);
+  }
+  const memberContainer = document.getElementById('fd-members');
+  const addBtn     = document.getElementById('fd-add-member');
+  const today      = new Date().toISOString().split('T')[0];
+
+  fetch('/api/csrf-token').then(r => r.json()).then(d => { csrfToken = d.token; }).catch(() => {});
+
+  /* ── Progress bar ── */
+  function updateProgress() {
+    document.getElementById('fd-prog-step').textContent = 'Step ' + (currentStep + 1) + ' of ' + STEPS.length;
+    document.getElementById('fd-prog-label').textContent = STEP_LABELS[currentStep];
+    document.getElementById('fd-prog-fill').style.width = ((currentStep + 1) / STEPS.length * 100) + '%';
+  }
+
+  /* ── Step navigation ── */
+  window.goStep = function(dir) {
+    const nextIdx = currentStep + dir;
+    if (nextIdx < 0 || nextIdx >= STEPS.length) return;
+
+    // Validate current step before advancing
+    if (dir > 0 && !validateStep(currentStep)) return;
+
+    // Generate dynamic content on step entry
+    if (STEPS[nextIdx] === 'documents') generateDocSlots();
+    if (STEPS[nextIdx] === 'review') renderReview();
+
+    document.getElementById('step-' + STEPS[currentStep]).classList.remove('active');
+    currentStep = nextIdx;
+    document.getElementById('step-' + STEPS[currentStep]).classList.add('active');
+    updateProgress();
+    globalErr.classList.remove('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Signature pad must initialise AFTER the step becomes visible
+    // (it reads canvas.offsetWidth, which is 0 while display:none)
+    if (STEPS[nextIdx] === 'review') {
+      requestAnimationFrame(() => initSignaturePad());
+    }
+  };
+
+  /* ── Plan selection ── */
+  document.querySelectorAll('.plan-opt input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.plan-opt').forEach(o => o.classList.remove('selected'));
+      radio.closest('.plan-opt').classList.add('selected');
+      clearFieldError(document.getElementById('fd-plan-grid').closest('.fd-field'));
+    });
+  });
+
+  /* ── Member management ── */
+  function calcAge(dob) {
+    const d = new Date(dob), now = new Date();
+    let age = now.getFullYear() - d.getFullYear();
+    const m = now.getMonth() - d.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+    return age;
+  }
+
+  function addMember() {
+    if (members.length >= MAX_MEMBERS) return;
+    memberId++;
+    const id = memberId;
+    members.push({ id, full_name: '', date_of_birth: '', age: null, id_passport: '', relation: '', is_biological: null });
+    renderMember(id);
+    updateAddBtn();
+  }
+
+  function removeMember(id) {
+    const idx = members.findIndex(m => m.id === id);
+    if (idx !== -1) members.splice(idx, 1);
+    const el = document.getElementById('mem-' + id);
+    if (el) el.remove();
+    reNumberMembers();
+    updateAddBtn();
+  }
+
+  function reNumberMembers() {
+    memberContainer.querySelectorAll('.fd-member').forEach((card, i) => {
+      card.querySelector('.mem-num').textContent = 'Member ' + (i + 1);
+    });
+  }
+
+  function updateAddBtn() { addBtn.style.display = members.length >= MAX_MEMBERS ? 'none' : ''; }
+
+  function renderMember(id) {
+    const isFirst = members.length === 1;
+    const div = document.createElement('div');
+    div.className = 'fd-member';
+    div.id = 'mem-' + id;
+    div.innerHTML = `
+      <div class="fd-member-head">
+        <strong class="mem-num">Member ${members.length}</strong>
+        <div>
+          <span class="fd-age-badge" id="mem-age-${id}"></span>
+          ${isFirst ? '' : `<button type="button" class="fd-remove-btn" data-id="${id}">Remove</button>`}
+        </div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><label for="mem-name-${id}">Full Name <span class="req">*</span></label><input class="fd-input" type="text" id="mem-name-${id}" placeholder="Full name"><p class="fd-err">Enter member's name</p></div>
+        <div class="fd-field"><label for="mem-dob-${id}">Date of Birth <span class="req">*</span></label><input class="fd-input" type="date" id="mem-dob-${id}" max="${today}"><p class="fd-err">Enter date of birth</p></div>
+      </div>
+      <div class="fd-row" style="margin-top:0.5rem;">
+        <div class="fd-field" style="margin-top:0;"><label for="mem-idp-${id}">ID / Passport / Birth Cert No. <span class="req">*</span></label><input class="fd-input" type="text" id="mem-idp-${id}" placeholder="e.g. 12345678" minlength="5"><p class="fd-err">Must be at least 5 characters</p></div>
+        <div class="fd-field" style="margin-top:0;"><label for="mem-rel-${id}">Relation</label><select class="fd-select" id="mem-rel-${id}"><option value="" selected>${isFirst ? 'Self (applicant)' : 'Select relation'}</option><option value="self">Self</option><option value="spouse">Spouse</option><option value="child">Child</option><option value="parent">Parent</option><option value="sibling">Sibling</option><option value="other">Other</option></select></div>
+      </div>
+      <div class="fd-bio-row" id="mem-bio-row-${id}" style="display:none;">
+        <label class="fd-bio-label"><input type="checkbox" id="mem-bio-${id}"><span>I confirm this is my biological parent <span class="req">*</span></span></label>
+        <p class="fd-err" id="mem-bio-err-${id}">Only biological parents can be covered. Please confirm to continue.</p>
+      </div>`;
+    memberContainer.appendChild(div);
+
+    const bind = (sel, key, evt) => {
+      div.querySelector(sel).addEventListener(evt || 'input', function() {
+        const m = members.find(m => m.id === id);
+        if (m) m[key] = this.value;
+        clearFieldError(this.closest('.fd-field'));
+      });
+    };
+    bind('#mem-name-'+id, 'full_name');
+    bind('#mem-idp-'+id, 'id_passport');
+    bind('#mem-rel-'+id, 'relation', 'change');
+
+    // Parents must attest a biological relationship — only biological parents are eligible
+    div.querySelector('#mem-rel-'+id).addEventListener('change', function() {
+      const row = document.getElementById('mem-bio-row-'+id);
+      const isParent = this.value === 'parent';
+      row.style.display = isParent ? 'block' : 'none';
+      if (!isParent) {
+        const cb = document.getElementById('mem-bio-'+id); if (cb) cb.checked = false;
+        const m = members.find(m => m.id === id); if (m) m.is_biological = null;
+        document.getElementById('mem-bio-err-'+id).style.display = 'none';
+      }
+    });
+    div.querySelector('#mem-bio-'+id).addEventListener('change', function() {
+      const m = members.find(m => m.id === id);
+      if (m) m.is_biological = this.checked;
+      if (this.checked) document.getElementById('mem-bio-err-'+id).style.display = 'none';
+    });
+
+    div.querySelector('#mem-dob-'+id).addEventListener('change', function() {
+      const m = members.find(m => m.id === id);
+      if (!m) return;
+      m.date_of_birth = this.value;
+      const badge = document.getElementById('mem-age-'+id);
+      if (this.value) {
+        const age = calcAge(this.value);
+        m.age = age;
+        badge.textContent = age >= 18 ? 'Adult — '+age+'y' : 'Child — '+age+'y';
+        badge.className = 'fd-age-badge ' + (age >= 18 ? 'adult' : 'child');
+      } else { badge.textContent = ''; badge.className = 'fd-age-badge'; }
+      clearFieldError(this.closest('.fd-field'));
+    });
+
+    const removeBtn = div.querySelector('.fd-remove-btn');
+    if (removeBtn) removeBtn.addEventListener('click', () => removeMember(id));
+  }
+
+  addBtn.addEventListener('click', addMember);
+  addMember();
+
+  /* ── Document slots ── */
+  function generateDocSlots() {
+    const container = document.getElementById('doc-slots');
+    container.innerHTML = '';
+    members.forEach((m, i) => {
+      const isChild = m.age !== null && m.age < 18;
+      const name = m.full_name.trim() || 'Member ' + (i + 1);
+
+      // ID/Passport slot
+      const idKey = 'member_' + m.id + '_id';
+      createDocSlot(container, idKey, name + ' — ' + (isChild ? 'Birth Certificate' : 'National ID / Passport'),
+        isChild ? 'Upload birth certificate or notification' : 'Upload front side of National ID or passport bio page');
+
+      // KRA PIN for adults
+      if (!isChild) {
+        const kraKey = 'member_' + m.id + '_kra';
+        createDocSlot(container, kraKey, name + ' — KRA PIN Certificate', 'Upload KRA PIN certificate');
+      }
+    });
+  }
+
+  function createDocSlot(container, key, label, sub) {
+    const slot = document.createElement('div');
+    slot.className = 'doc-slot';
+    slot.id = 'doc-' + key;
+    slot.innerHTML = `
+      <div class="doc-slot-label">${label}</div>
+      <div class="doc-slot-sub">${sub}</div>
+      <div class="doc-actions">
+        <button type="button" class="doc-btn" onclick="triggerCamera('${key}')">
+          <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          Take Photo
+        </button>
+        <button type="button" class="doc-btn" onclick="triggerFile('${key}')">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload File
+        </button>
+      </div>
+      <input type="file" class="cam-input" id="cam-${key}" accept="image/*" capture="environment">
+      <input type="file" class="cam-input" id="file-${key}" accept="image/*,.pdf">
+      <div class="doc-preview" id="preview-${key}"></div>`;
+    container.appendChild(slot);
+
+    document.getElementById('cam-'+key).addEventListener('change', e => handleFile(key, e.target.files[0]));
+    document.getElementById('file-'+key).addEventListener('change', e => handleFile(key, e.target.files[0]));
+  }
+
+  window.triggerCamera = function(key) { document.getElementById('cam-'+key).click(); };
+  window.triggerFile = function(key) { document.getElementById('file-'+key).click(); };
+
+  function handleFile(key, file) {
+    if (!file) return;
+    const slot = document.getElementById('doc-'+key);
+    const preview = document.getElementById('preview-'+key);
+
+    if (file.type === 'application/pdf') {
+      if (file.size > 10 * 1024 * 1024) {
+        showGlobalErr('That PDF is ' + (file.size / 1024 / 1024).toFixed(1) + ' MB — too large. Please compress it (under 10 MB) or take a clear photo instead.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function() {
+        documents[key] = reader.result;
+        preview.innerHTML = `<span style="font-size:0.82rem;color:#08375f;font-weight:600;">PDF: ${file.name}</span><button type="button" class="doc-remove" onclick="removeDoc('${key}')">&times;</button>`;
+        slot.classList.add('uploaded');
+        slot.classList.remove('has-error');
+      };
+      reader.onerror = function() { showGlobalErr('Could not read "' + file.name + '". Please try a different file.'); };
+      reader.readAsDataURL(file);
+    } else if (file.type.indexOf('image/') === 0) {
+      compressImage(file, function(dataUrl) {
+        documents[key] = dataUrl;
+        preview.innerHTML = `<img src="${dataUrl}" alt="Preview"><button type="button" class="doc-remove" onclick="removeDoc('${key}')">&times;</button>`;
+        slot.classList.add('uploaded');
+        slot.classList.remove('has-error');
+      }, function() { showGlobalErr('Could not process that image. Please try a clear JPG or PNG photo.'); });
+    } else {
+      showGlobalErr('Unsupported file type. Please upload a JPG, PNG or PDF.');
+    }
+  }
+
+  window.removeDoc = function(key) {
+    delete documents[key];
+    const slot = document.getElementById('doc-'+key);
+    const preview = document.getElementById('preview-'+key);
+    preview.innerHTML = '';
+    slot.classList.remove('uploaded');
+    document.getElementById('cam-'+key).value = '';
+    document.getElementById('file-'+key).value = '';
+  };
+
+  function compressImage(file, cb, onErr) {
+    const img = new Image();
+    img.onload = function() {
+      const MAX = 1400;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        const ratio = Math.min(MAX / w, MAX / h);
+        w = Math.round(w * ratio);
+        h = Math.round(h * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.onerror = function() { if (onErr) onErr(); };
+    img.src = URL.createObjectURL(file);
+  }
+
+  /* ── Review rendering ── */
+  function renderReview() {
+    const plan = form.querySelector('input[name="plan"]:checked');
+    const planName = plan ? plan.closest('.plan-opt').querySelector('.plan-opt-name').textContent : '—';
+    const planPrice = plan ? plan.closest('.plan-opt').querySelector('.plan-opt-price').textContent : '—';
+
+    let html = '<div class="rv-section"><div class="rv-section-title">Plan Details</div>';
+    html += rvRow('Plan', planName);
+    html += rvRow('Price (per person)', planPrice);
+    html += rvRow('Total Members', members.length);
+    html += '</div>';
+
+    html += '<div class="rv-section"><div class="rv-section-title">Members (' + members.length + ')</div>';
+    members.forEach((m, i) => {
+      html += '<div class="rv-member-card"><strong>' + (m.full_name || 'Member ' + (i+1)) + '</strong>';
+      html += '<p>DOB: ' + (m.date_of_birth || '—') + ' | Age: ' + (m.age !== null ? m.age + 'y' : '—') + ' | ID: ' + (m.id_passport || '—') + ' | Relation: ' + (m.relation || '—') + '</p></div>';
+    });
+    html += '</div>';
+
+    const docsUploaded = Object.keys(documents).length;
+    html += '<div class="rv-section"><div class="rv-section-title">Documents</div>';
+    html += rvRow('Files Uploaded', docsUploaded);
+    html += '</div>';
+
+    html += '<div class="rv-section"><div class="rv-section-title">Contact &amp; Payment</div>';
+    html += rvRow('Applicant', document.getElementById('fd-fullname').value || '—');
+    html += rvRow('Phone', document.getElementById('fd-phone').value || '—');
+    html += rvRow('Email', document.getElementById('fd-email').value || '—');
+    html += rvRow('Payment Ref', document.getElementById('fd-payment-ref').value || 'Not yet provided');
+    html += '</div>';
+
+    document.getElementById('rv-content').innerHTML = html;
+  }
+
+  function rvRow(label, value) {
+    return '<div class="rv-row"><span class="rv-label">' + label + '</span><span class="rv-value">' + value + '</span></div>';
+  }
+
+  /* ── Signature pad ── */
+  function initSignaturePad() {
+    const canvas = document.getElementById('sig-canvas');
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = 160 * ratio;
+    canvas.getContext('2d').scale(ratio, ratio);
+
+    if (signaturePad) signaturePad.off();
+    signaturePad = new SignaturePad(canvas, { penColor: '#08375f' });
+    signaturePad.addEventListener('endStroke', checkSubmitReady);
+
+    document.getElementById('sig-clear').addEventListener('click', () => {
+      signaturePad.clear();
+      checkSubmitReady();
+    });
+  }
+
+  function checkSubmitReady() {
+    const tcChecked = document.getElementById('fd-tc-check').checked;
+    const hasSig = signaturePad && !signaturePad.isEmpty();
+    submitBtn.disabled = !(tcChecked && hasSig);
+  }
+
+  document.getElementById('fd-tc-check').addEventListener('change', checkSubmitReady);
+
+  /* ── Validation ── */
+  function setFieldError(field) { field.classList.add('has-error'); }
+  function clearFieldError(field) { if (field) field.classList.remove('has-error'); }
+
+  function normalizePhone(raw, inputEl) {
+    if (window.dnPhone && inputEl) {
+      const n = dnPhone.getNumber(inputEl);
+      if (n) return n;
+    }
+    let p = String(raw || '').replace(/[\s\-()]/g, '');
+    if (p.startsWith('0')) p = '+254' + p.slice(1);
+    else if (p.startsWith('254') && !p.startsWith('+')) p = '+' + p;
+    else if (p && !p.startsWith('+')) p = '+' + p;
+    return p;
+  }
+
+  function validateStep(stepIdx) {
+    const stepName = STEPS[stepIdx];
+    let ok = true;
+    form.querySelectorAll('.fd-step.active .has-error').forEach(f => f.classList.remove('has-error'));
+    globalErr.classList.remove('visible');
+
+    if (stepName === 'plan') {
+      if (!form.querySelector('input[name="plan"]:checked')) {
+        setFieldError(document.getElementById('fd-plan-grid').closest('.fd-field'));
+        ok = false;
+      }
+    }
+
+    if (stepName === 'members') {
+      if (members.length === 0) { showGlobalErr('Add at least one member.'); return false; }
+      members.forEach(m => {
+        if (!m.full_name.trim()) { setFieldError(document.getElementById('mem-name-'+m.id).closest('.fd-field')); ok = false; }
+        if (!m.date_of_birth) { setFieldError(document.getElementById('mem-dob-'+m.id).closest('.fd-field')); ok = false; }
+        if (!m.id_passport.trim() || m.id_passport.trim().length < 5) { setFieldError(document.getElementById('mem-idp-'+m.id).closest('.fd-field')); ok = false; }
+        if (m.relation === 'parent' && m.is_biological !== true) {
+          const errEl = document.getElementById('mem-bio-err-'+m.id);
+          if (errEl) errEl.style.display = 'block';
+          ok = false;
+        }
+      });
+    }
+
+    if (stepName === 'documents') {
+      let missing = 0;
+      members.forEach(m => {
+        const idKey = 'member_'+m.id+'_id';
+        if (!documents[idKey]) {
+          const slot = document.getElementById('doc-'+idKey);
+          if (slot) slot.classList.add('has-error');
+          missing++;
+        }
+        if (m.age !== null && m.age >= 18) {
+          const kraKey = 'member_'+m.id+'_kra';
+          if (!documents[kraKey]) {
+            const slot = document.getElementById('doc-'+kraKey);
+            if (slot) slot.classList.add('has-error');
+            missing++;
+          }
+        }
+      });
+      if (missing) { showGlobalErr('Please upload all required documents (' + missing + ' missing).'); ok = false; }
+    }
+
+    if (stepName === 'contact') {
+      const name = document.getElementById('fd-fullname');
+      if (!name.value.trim() || name.value.trim().length < 2) { setFieldError(name.closest('.fd-field')); ok = false; }
+      const phone = document.getElementById('fd-phone');
+      if (!/^\+\d{9,15}$/.test(normalizePhone(phone.value, phone))) { setFieldError(phone.closest('.fd-field')); ok = false; }
+      const email = document.getElementById('fd-email');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) { setFieldError(email.closest('.fd-field')); ok = false; }
+    }
+
+    if (!ok) {
+      const firstErr = form.querySelector('.fd-step.active .has-error');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return ok;
+  }
+
+  function showGlobalErr(msg) {
+    globalErr.textContent = msg;
+    globalErr.classList.add('visible');
+    globalErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ── Submit ── */
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!document.getElementById('fd-tc-check').checked) { showGlobalErr('Please agree to the Terms & Conditions.'); return; }
+    if (!signaturePad || signaturePad.isEmpty()) { showGlobalErr('Please provide your signature.'); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spin"></span> Submitting…';
+    globalErr.classList.remove('visible');
+
+    // Attach signature
+    documents['signature'] = signaturePad.toDataURL('image/png');
+
+    const payload = {
+      csrf_token:   csrfToken,
+      website:      document.getElementById('fd-website').value,
+      plan:         form.querySelector('input[name="plan"]:checked').value,
+      members:      members.map(m => ({
+        full_name:     m.full_name.trim(),
+        date_of_birth: m.date_of_birth,
+        age:           m.age,
+        id_passport:   m.id_passport.trim(),
+        relation:      m.relation,
+        is_biological: m.is_biological
+      })),
+      full_name:    document.getElementById('fd-fullname').value.trim(),
+      phone:        normalizePhone(document.getElementById('fd-phone').value, document.getElementById('fd-phone')),
+      email:        document.getElementById('fd-email').value.trim().toLowerCase(),
+      payment_ref:  document.getElementById('fd-payment-ref').value.trim().toUpperCase(),
+      documents:    documents
+    };
+
+    const serialized = JSON.stringify(payload);
+    if (serialized.length > 55 * 1024 * 1024) {
+      showGlobalErr('Your documents add up to more than 55 MB. Please remove or compress the largest files (PDF scans are the usual cause) and try again.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Submit Application';
+      return;
+    }
+
+    try {
+      const resp = await fetch('/api/flying-doctor-quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: serialized
+      });
+      const data = await resp.json().catch(() => ({}));
+
+      if (resp.ok && data.success) {
+        form.style.display = 'none';
+        document.querySelector('.fd-progress').style.display = 'none';
+        refDisplay.textContent = data.ref;
+        addPdfDownload(successDiv, data);
+        successDiv.classList.add('visible');
+        successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        showGlobalErr(data.error || ('Submission failed (server said ' + resp.status + '). Please try again.'));
+      }
+    } catch {
+      showGlobalErr('Could not reach the server. Check that your connection is active (and that the documents are not too large), then try again.');
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = 'Submit Application';
+  });
+
+  /* ── Clear errors on input ── */
+  form.addEventListener('input', function(e) {
+    if (e.target.closest('.fd-field')) clearFieldError(e.target.closest('.fd-field'));
+  });
+  form.addEventListener('change', function(e) {
+    if (e.target.closest('.fd-field')) clearFieldError(e.target.closest('.fd-field'));
+  });
+})();
+</script>
+
+<script src="shared-form-helpers.js"></script>
+<script>
+  (function () {
+    function ready(fn) { if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+    ready(function () {
+      var el = document.getElementById('fd-phone');
+      if (el && window.dnPhone) dnPhone.init(el);
+    });
+  })();
+</script>
+</body>
+</html>
