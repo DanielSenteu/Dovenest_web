@@ -135,6 +135,7 @@ function validateMotorQuotePayload(body, now = new Date()) {
 // ── Contact / product inquiry ────────────────────────────────────────────────
 function validateContactPayload(body) {
   const errors = [];
+  pushTermsError(body, errors);
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   if (!['general', 'product_inquiry'].includes(body.kind))

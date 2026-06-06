@@ -462,6 +462,7 @@
 
         var payload = {
           csrf_token:  csrfToken,
+          terms_accepted: true,
           website:     (document.getElementById('inq-hp') || {}).value || '',
           kind:        'product_inquiry',
           source_page: form.dataset.sourcePage,

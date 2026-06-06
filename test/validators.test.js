@@ -127,6 +127,8 @@ test('every quote form rejects a submission that did not accept the Terms & Cond
   assert.ok(hasErr(V.validateFdPayload(drop(validFd()), NOW), 'Terms & Conditions'));
   assert.ok(hasErr(V.validateTravelQuotePayload(drop(validTravel()), NOW), 'Terms & Conditions'));
   assert.ok(hasErr(V.validateMotorQuotePayload(drop(validMotor()), NOW), 'Terms & Conditions'));
+  // Contact + product-inquiry forms enforce it too.
+  assert.ok(hasErr(V.validateContactPayload({ kind: 'general', source_page: 'contact.html', full_name: 'A B', email: 'a@b.com', message: 'Hello there' }), 'Terms & Conditions'));
   // A literal `false` (unticked box forwarded by a tampering client) is also rejected.
   assert.ok(hasErr(V.validateMotorQuotePayload({ ...validMotor(), terms_accepted: false }, NOW), 'Terms & Conditions'));
 });
