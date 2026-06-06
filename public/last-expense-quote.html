@@ -2044,6 +2044,14 @@ async function submitApplication() {
   btn.disabled = true; btn.classList.add('loading'); spinner.classList.add('visible');
   hide('err-review');
 
+  // This multi-step form can take a while; the CSRF token fetched on page load may
+  // have expired (30-min limit). Refresh it right before submitting so a valid
+  // application is never rejected as an "expired session".
+  try {
+    const cr = await fetch('/api/csrf-token');
+    if (cr.ok) { const cd = await cr.json(); if (cd && cd.token) csrfToken = cd.token; }
+  } catch (_) { /* keep existing token; a real failure will now surface clearly */ }
+
   // Build payload (strip base64 data from documents for size estimate, then include)
   const payload = {
     website: document.getElementById('hp-website').value,
@@ -2125,7 +2133,6 @@ async function submitApplication() {
     } else {
       showGlobalError('err-review', data.error || 'Submission failed. Please try again.');
       btn.disabled = false; btn.classList.remove('loading'); spinner.classList.remove('visible');
-      document.getElementById('declarationCheck').checked = false;
     }
   } catch {
     showGlobalError('err-review', 'Network error. Please check your connection and try again.');
