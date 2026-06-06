@@ -994,3 +994,40 @@
         backdrop-filter: none !important;
     }
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   MOBILE NAVIGATION FIX  (≤ 820px)
+   The stacked contact strip ballooned the fixed header to ~176px tall, so
+   page content was hidden beneath it. On mobile we collapse the header to a
+   single compact bar (logo + hamburger) and pin the hamburger to the right.
+   Phone/email remain in the menu + footer.
+════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 820px) {
+    /* Hide the top contact strip on phones — it was the source of the overlap */
+    .site-contact-strip { display: none !important; }
+
+    /* A short, predictable header so nothing hides underneath it */
+    #navbar { min-height: 0 !important; }
+    #navbar .nav-inner {
+        height: 60px !important;
+        padding: 0 1.1rem !important;
+        gap: 0.6rem !important;
+        justify-content: space-between !important;
+    }
+    .nav-logo img { height: 44px !important; }
+
+    /* Pin the hamburger hard-right, vertically centred */
+    #nav-toggle {
+        display: flex !important;
+        margin-left: auto !important;
+        align-self: center !important;
+    }
+    .nav-links { margin-left: 0 !important; }
+
+    /* The dropdown sheet opens directly under the compact header */
+    #navbar .nav-links.open { top: 60px !important; }
+}
+
+/* Anchor links / in-page jumps shouldn't land under the fixed header */
+html { scroll-padding-top: 116px; }
+@media (max-width: 820px) { html { scroll-padding-top: 70px; } }
