@@ -964,7 +964,7 @@
                 <div class="field" style="margin-top:0.25rem;">
                     <label style="display:flex; align-items:flex-start; gap:0.5rem; text-transform:none; letter-spacing:normal; font-weight:500; font-size:0.85rem; cursor:pointer;">
                         <input type="checkbox" id="contact-tc" style="margin-top:3px; width:16px; height:16px; accent-color:#08375f; cursor:pointer; flex-shrink:0;" required>
-                        <span style="color:#3a5568; line-height:1.5;">I agree to the <a href="terms.html" target="_blank" style="color:#08375f; font-weight:600;">Terms &amp; Conditions</a> and consent to the processing of my personal data as per the <a href="privacy.html" target="_blank" style="color:#08375f; font-weight:600;">Privacy Policy</a>.</span>
+                        <span style="color:#3a5568; line-height:1.5;">I have read and agree to the <a href="terms-and-conditions.html" target="_blank" style="color:#08375f; font-weight:600;">Terms &amp; Conditions</a> and consent to the processing of my personal data in accordance with the Privacy Policy.</span>
                     </label>
                 </div>
                 <div class="form-actions">
@@ -1142,6 +1142,7 @@
 
         const payload = {
             csrf_token:  csrfToken,
+            terms_accepted: true,
             website:     document.getElementById('contact-hp').value,
             kind:        'general',
             source_page: 'contact.html',

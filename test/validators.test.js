@@ -18,7 +18,7 @@ function validLe(extra = {}) {
     application_type: 'individual', underwriter: 'heritage', cover_scope: 'extended',
     cover_option: 1, full_name: 'Test User', date_of_birth: '1990-01-01', gender: 'M',
     national_id: '12345678', kra_pin: 'A123456789Z', email: 'a@b.com', mobile: '+254712345678',
-    town: 'Nairobi', occupation: 'Engineer',
+    town: 'Nairobi', occupation: 'Engineer', terms_accepted: true,
     documents: { principal_national_id: png, principal_kra_pin: png, signature: png },
     ...extra,
   };
@@ -51,7 +51,7 @@ function validFd(extra = {}) {
   return {
     plan: 'silver', full_name: 'Prop', phone: '+254712345678', email: 'a@b.com',
     members: [{ full_name: 'Self', date_of_birth: '1985-01-01', id_passport: '12345678', relation: 'self' }],
-    documents: { signature: png }, ...extra,
+    documents: { signature: png }, terms_accepted: true, ...extra,
   };
 }
 
@@ -73,7 +73,7 @@ function validTravel(extra = {}) {
     full_name: 'Prop', date_of_birth: '1985-01-01', occupation: 'Eng', town: 'Nairobi',
     email: 'a@b.com', phone: '+254712345678', beneficiary_name: 'Ben', beneficiary_relation: 'spouse',
     travellers: [{ full_name: 'Self', date_of_birth: '1985-01-01', id_passport: '12345678', relation: 'self' }],
-    documents: { signature: png }, ...extra,
+    documents: { signature: png }, terms_accepted: true, ...extra,
   };
 }
 
@@ -93,7 +93,7 @@ function validMotor(extra = {}) {
   return {
     policy_type: 'personal', first_name: 'A', last_name: 'B', experience_years: 5,
     date_of_birth: '1990-01-01', email: 'a@b.com', phone: '+254712345678',
-    vehicle_category: 'PRIVATE CAR', ...extra,
+    vehicle_category: 'PRIVATE CAR', terms_accepted: true, ...extra,
   };
 }
 
@@ -118,4 +118,15 @@ test('age math is driven by the injected clock, not the wall clock', () => {
   const le = validLe({ date_of_birth: '1990-01-01' });
   assert.deepEqual(V.validateLePayload(le, new Date('2026-06-03')), []);          // age 36 → ok
   assert.ok(hasErr(V.validateLePayload(le, new Date('2070-01-01')), 'aged 18–65')); // age 80 → rejected
+});
+
+// ── Terms & Conditions ───────────────────────────────────────────────────────
+test('every quote form rejects a submission that did not accept the Terms & Conditions', () => {
+  const drop = (obj) => { const c = { ...obj }; delete c.terms_accepted; return c; };
+  assert.ok(hasErr(V.validateLePayload(drop(validLe()), NOW), 'Terms & Conditions'));
+  assert.ok(hasErr(V.validateFdPayload(drop(validFd()), NOW), 'Terms & Conditions'));
+  assert.ok(hasErr(V.validateTravelQuotePayload(drop(validTravel()), NOW), 'Terms & Conditions'));
+  assert.ok(hasErr(V.validateMotorQuotePayload(drop(validMotor()), NOW), 'Terms & Conditions'));
+  // A literal `false` (unticked box forwarded by a tampering client) is also rejected.
+  assert.ok(hasErr(V.validateMotorQuotePayload({ ...validMotor(), terms_accepted: false }, NOW), 'Terms & Conditions'));
 });

@@ -757,7 +757,7 @@
         <p>I declare that the information provided in this application is true and complete to the best of my knowledge. I understand that any misrepresentation may invalidate my cover. I authorise DoveNest Insurance Brokers Ltd to process this application and share relevant information with the underwriter for the purpose of arranging travel insurance cover.</p>
         <div class="tc-check">
           <input type="checkbox" id="tq-tc-check">
-          <label for="tq-tc-check">I agree to the <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and consent to the processing of my personal data as per the <a href="privacy.html" target="_blank">Privacy Policy</a>.</label>
+          <label for="tq-tc-check">I have read and agree to the <a href="terms-and-conditions.html" target="_blank">Terms &amp; Conditions</a> and consent to the processing of my personal data in accordance with the Privacy Policy.</label>
         </div>
       </div>
 
@@ -1513,6 +1513,7 @@
     var benPhone = benPhoneEl.value.trim();
     var payload = {
       csrf_token:      csrfToken,
+      terms_accepted:  true,
       website:         document.getElementById('tq-website').value,
       origin:          document.getElementById('tq-origin').value.trim(),
       destination:     document.getElementById('tq-destination').value.trim(),

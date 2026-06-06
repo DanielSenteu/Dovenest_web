@@ -24,6 +24,14 @@ function ageYears(dob, now = new Date()) {
   return age;
 }
 
+// Every public quote form requires explicit agreement to the Terms & Conditions.
+// The client gates submission on a checkbox; the server enforces it as the final
+// authority (never trust the client alone).
+function pushTermsError(body, errors) {
+  if (body.terms_accepted !== true)
+    errors.push('You must accept the Terms & Conditions to continue.');
+}
+
 // ── Shared constants ─────────────────────────────────────────────────────────
 const VALID_POLICY_TYPES = ['personal', 'business'];
 const VALID_VEHICLE_CATEGORIES = [
@@ -53,6 +61,7 @@ const VALID_PRODUCTS = new Set([
 // ── Motor quote ──────────────────────────────────────────────────────────────
 function validateMotorQuotePayload(body, now = new Date()) {
   const errors = [];
+  pushTermsError(body, errors);
 
   // 1. Policy type
   if (!body.policy_type || !VALID_POLICY_TYPES.includes(body.policy_type)) {
@@ -164,6 +173,7 @@ function validateContactPayload(body) {
 // ── Travel quote ─────────────────────────────────────────────────────────────
 function validateTravelQuotePayload(body, now = new Date()) {
   const errors = [];
+  pushTermsError(body, errors);
   const VALID_PURPOSES = ['leisure', 'business', 'study', 'pilgrimage', 'employment'];
   const VALID_COVERS   = ['premier_worldwide', 'europe_schengen', 'inbound', 'incountry'];
   const VALID_PAYMENTS = ['mpesa', 'bank_transfer', 'cheque'];
@@ -255,6 +265,7 @@ function validateTravelQuotePayload(body, now = new Date()) {
 // ── Flying Doctor ────────────────────────────────────────────────────────────
 function validateFdPayload(body, now = new Date()) {
   const errors = [];
+  pushTermsError(body, errors);
   const VALID_PLANS = ['scholar', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
 
   if (!VALID_PLANS.includes(body.plan)) errors.push('plan must be one of: ' + VALID_PLANS.join(', '));
@@ -308,6 +319,7 @@ function serverDepBand(uw, rel) {
 
 function validateLePayload(body, now = new Date()) {
   const errors = [];
+  pushTermsError(body, errors);
 
   if (!['individual', 'group'].includes(body.application_type))
     errors.push('application_type must be "individual" or "group"');

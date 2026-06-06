@@ -806,6 +806,11 @@
             </span>
           </div>
 
+          <label style="display:flex; align-items:flex-start; gap:0.55rem; font-size:0.82rem; color:#3a5568; line-height:1.5; margin-bottom:0.9rem; cursor:pointer;">
+            <input type="checkbox" id="tcCheck" style="margin-top:3px; width:16px; height:16px; accent-color:#08375f; flex-shrink:0; cursor:pointer;">
+            <span>I have read and agree to the <a href="terms-and-conditions.html" target="_blank" style="color:#08375f; font-weight:600;">Terms &amp; Conditions</a> and consent to the processing of my personal data in accordance with the Privacy Policy.</span>
+          </label>
+
           <button type="submit" class="qf-submit-btn" id="submitBtn" disabled>
             <span class="btn-spinner"></span>
             <span class="btn-text">Request My Quote</span>
@@ -881,6 +886,8 @@
     const chkEmail   = document.getElementById('chk-email');
     const chkPhone   = document.getElementById('chk-phone');
     const chkVehicle = document.getElementById('chk-vehicle');
+    const tcCheck    = document.getElementById('tcCheck');
+    tcCheck.addEventListener('change', validateAll);
 
     // ─── Flatpickr DOB ────────────────────────────────────────
     const maxDob = new Date();
@@ -1038,7 +1045,7 @@
       }
 
       // Enable submit only when ALL fields valid
-      const allValid = p && fn && ln && dob && exp && em && ph && vc;
+      const allValid = p && fn && ln && dob && exp && em && ph && vc && tcCheck.checked;
       submitBtn.disabled = !allValid;
     }
 
@@ -1185,6 +1192,7 @@
         email:            normalizeEmail(state.email),
         phone:            state.phone, // already normalised on blur via dnPhone
         vehicle_category: state.vehicle_category,
+        terms_accepted:   true,
       };
 
       // No server available — do not leak any endpoints, direct to contact

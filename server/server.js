@@ -1049,8 +1049,19 @@ http.createServer(async (req, res) => {
     res.writeHead(404); res.end('Not found'); return;
   }
 
+  // Cache policy: long-lived for static assets (instant repeat visits), but keep
+  // HTML fresh so content/deploys show immediately. CSS/JS get a short cache so a
+  // deploy is picked up within the hour without a hard refresh.
+  const ext = path.extname(filePath).toLowerCase();
+  const LONG = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg', '.ico', '.mp4', '.webm', '.woff', '.woff2', '.ttf', '.otf']);
+  let cacheControl;
+  if (ext === '.html')      cacheControl = 'no-cache';
+  else if (LONG.has(ext))   cacheControl = 'public, max-age=2592000';      // 30 days
+  else                      cacheControl = 'public, max-age=3600';         // 1 hour (css/js)
+
   res.writeHead(200, {
-    'Content-Type': mime[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
+    'Content-Type': mime[ext] || 'application/octet-stream',
+    'Cache-Control': cacheControl,
   });
   fs.createReadStream(filePath).pipe(res);
 

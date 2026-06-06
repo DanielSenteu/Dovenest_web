@@ -997,6 +997,11 @@
       <div class="field-error" id="err-signature" style="margin-top:0.4rem">Please sign the declaration before submitting</div>
     </div>
 
+    <label style="display:flex; align-items:flex-start; gap:0.55rem; font-size:0.85rem; color:#2d4a5e; line-height:1.55; margin:1rem 0 0.4rem; cursor:pointer;">
+      <input type="checkbox" id="le-tc-check" style="margin-top:3px; width:17px; height:17px; accent-color:#16a34a; flex-shrink:0; cursor:pointer;">
+      <span>I have read and agree to the <a href="terms-and-conditions.html" target="_blank" style="color:#08375f; font-weight:700;">Terms &amp; Conditions</a> and consent to the processing of my personal data in accordance with the Privacy Policy.</span>
+    </label>
+
     <div class="global-error" id="err-review"></div>
 
     <div class="step-nav">
@@ -2028,6 +2033,14 @@ function clearSignature() {
 async function submitApplication() {
   const btn = document.getElementById('btnSubmit');
   const spinner = document.getElementById('submitSpinner');
+
+  // Terms & Conditions must be accepted before anything else
+  const leTc = document.getElementById('le-tc-check');
+  if (!leTc || !leTc.checked) {
+    showGlobalError('err-review', 'Please agree to the Terms & Conditions before submitting.');
+    return;
+  }
+
   btn.disabled = true; btn.classList.add('loading'); spinner.classList.add('visible');
   hide('err-review');
 
@@ -2035,6 +2048,7 @@ async function submitApplication() {
   const payload = {
     website: document.getElementById('hp-website').value,
     csrf_token: csrfToken,
+    terms_accepted: true,
     application_type: fd.application_type,
     group_code: fd.group_code,
     group_name: fd.group_name,
