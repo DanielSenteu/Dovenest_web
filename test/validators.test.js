@@ -88,6 +88,59 @@ test('Travel: a parent traveller needs biological attestation', () => {
   assert.ok(hasErr(V.validateTravelQuotePayload(parent, NOW), 'only biological parents'));
 });
 
+// ── Client review ────────────────────────────────────────────────────────────
+function validReview(extra = {}) {
+  return {
+    type: 'individual', first_name: 'Jane', last_name: 'Doe',
+    email: 'jane@example.com', phone: '+254712345678',
+    rating: 5, headline: 'Fast, reliable support',
+    consent_to_publish: true, ...extra, // review_text intentionally omitted — it's optional
+  };
+}
+
+test('Review: a complete review with a preset headline and no written text passes', () => {
+  assert.deepEqual(V.validateReviewPayload(validReview()), []);
+});
+
+test('Review: consent is the publish gate — missing consent is rejected', () => {
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ consent_to_publish: false })), 'consent'));
+});
+
+test('Review: a headline must be chosen from the controlled list (or "other")', () => {
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ headline: '' })), 'choose a headline'));
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ headline: 'made-up' })), 'choose a headline'));
+  assert.deepEqual(V.validateReviewPayload(validReview({ headline: 'Issue not fully resolved' })), []);
+});
+
+test('Review: written text is optional for presets but required for "Other"', () => {
+  // preset + no text → fine
+  assert.deepEqual(V.validateReviewPayload(validReview()), []);
+  // "other" + no text → must write your own
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ headline: 'other' })), 'write your review'));
+  // "other" + real text → fine
+  assert.deepEqual(V.validateReviewPayload(validReview({ headline: 'other', review_text: 'They guided me through every step clearly.' })), []);
+  // present-but-too-short → nudged
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ review_text: 'ok' })), 'a little short'));
+});
+
+test('Review: rating must be a whole number 1–5', () => {
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ rating: 0 })), 'rating'));
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ rating: 6 })), 'rating'));
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ rating: 3.5 })), 'rating'));
+});
+
+test('Review: email and phone are required', () => {
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ email: undefined })), 'valid email'));
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ email: 'not-an-email' })), 'valid email'));
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ phone: undefined })), 'valid phone'));
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ phone: '0712' })), 'valid phone'));
+});
+
+test('Review: business reviews require an organisation name', () => {
+  assert.ok(hasErr(V.validateReviewPayload(validReview({ type: 'business' })), 'Organisation name is required'));
+  assert.deepEqual(V.validateReviewPayload(validReview({ type: 'business', company_name: 'Acme Ltd' })), []);
+});
+
 // ── Motor ────────────────────────────────────────────────────────────────────
 function validMotor(extra = {}) {
   return {

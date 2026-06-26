@@ -167,8 +167,9 @@ let currentUserEmail = '';
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.replace('login.html'); return; }
-  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+  const __adminEmail = (session.user.email || '').toLowerCase();
+  const { data: __adminRow } = await sb.from('admin_invites').select('email').eq('email', __adminEmail).maybeSingle();
+  if (!__adminRow) { await sb.auth.signOut(); window.location.replace('login.html'); return; }
 
   currentUserEmail = session.user.email;
   document.getElementById('userEmail').textContent = currentUserEmail;

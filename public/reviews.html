@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base href="/">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Reviews — DoveNest Insurance Brokers</title>
+    <meta name="description" content="Read verified reviews and endorsements from DoveNest Insurance Brokers clients — families, businesses, SACCOs, churches and diaspora clients across Kenya.">
+    <meta property="og:title" content="Client Reviews — DoveNest Insurance Brokers">
+    <meta property="og:description" content="Verified endorsements from the people and organisations we protect.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: #f6f8fb; color: #0A2A4A; overflow-x: hidden; }
+    a { color: inherit; }
+
+    #navbar { position: fixed; inset: 0 0 auto; z-index: 1000; background: rgba(8,55,95,0.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.3s, box-shadow 0.3s; }
+    #navbar.scrolled { background: #08375f; box-shadow: 0 2px 20px rgba(0,0,0,0.28); }
+    .nav-inner { max-width: 1220px; height: 68px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .nav-logo { display: flex; align-items: center; margin-left: -0.5rem; }
+    .nav-logo img { height: 60px; width: auto; display: block; object-fit: contain; image-rendering: -webkit-optimize-contrast; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 0.15rem; }
+    .nav-links a, .nav-menu-btn { display: block; color: rgba(255,255,255,0.78); text-decoration: none; font: inherit; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.01em; padding: 0.48rem 0.85rem; border-radius: 6px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+    .nav-menu-btn { border: 0; background: transparent; cursor: pointer; }
+    .nav-links a:hover, .nav-menu-btn:hover { color: #fff; background: rgba(255,255,255,0.09); }
+    .nav-links a.active, .nav-menu-btn.active { color: #52B44B; }
+    .nav-group { position: relative; }
+    .nav-menu-btn::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 0.45rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+    .nav-dropdown { position: absolute; top: calc(100% + 0.6rem); left: 0; min-width: 190px; padding: 0.45rem; list-style: none; border-radius: 8px; background: #fff; box-shadow: 0 22px 45px rgba(0,0,0,0.18); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s; }
+    .nav-dropdown a { color: #0A2A4A; padding: 0.68rem 0.75rem; }
+    .nav-dropdown a:hover, .nav-dropdown a.active { color: #08375f; background: rgba(82,180,75,0.14); }
+    .nav-group:hover .nav-dropdown, .nav-group.open .nav-dropdown, .nav-group:focus-within .nav-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    #nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+    #nav-toggle span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; }
+
+    /* Hero */
+    #rev-hero { min-height: 58vh; position: relative; display: flex; align-items: center; overflow: hidden; background: #04111f; }
+    .hero-bg { position: absolute; inset: 0; background: url('images/home_image3.jpg') center / cover; transform: scale(1.07); animation: heroDrift 11s ease forwards; }
+    @keyframes heroDrift { to { transform: scale(1); } }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(105deg, rgba(2,10,24,0.94), rgba(4,20,44,0.78) 52%, rgba(4,20,44,0.28)), linear-gradient(to top, rgba(2,10,24,0.58), transparent 56%); }
+    .hero-content { position: relative; z-index: 2; max-width: 1220px; width: 100%; margin: 0 auto; padding: 8.5rem 2.5rem 4rem; }
+    .breadcrumb { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; color: rgba(255,255,255,0.68); font-size: 0.9rem; font-weight: 500; }
+    .breadcrumb a { color: rgba(255,255,255,0.84); text-decoration: none; }
+    .breadcrumb a:hover { color: #52B44B; }
+    .hero-eyebrow { display: inline-block; color: #52B44B; font-size: 0.76rem; font-weight: 800; letter-spacing: 0.34em; text-transform: uppercase; }
+    .hero-title { color: #fff; font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.035em; max-width: 940px; margin-top: 1.1rem; }
+    .hero-title span { color: #52B44B; }
+    .hero-sub { max-width: 680px; margin-top: 1.4rem; color: rgba(255,255,255,0.8); font-size: clamp(1rem,1.6vw,1.18rem); font-weight: 300; line-height: 1.8; }
+
+    /* Summary bar */
+    #rev-main { padding: 4rem 2rem 6rem; background: linear-gradient(180deg, #f6f8fb, #fff 62%); }
+    .rev-inner { max-width: 1220px; margin: 0 auto; }
+    .summary-bar { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; background: #fff; border: 1px solid rgba(8,55,95,0.08); border-radius: 14px; box-shadow: 0 18px 48px rgba(8,55,95,0.09); padding: 1.6rem 2rem; margin-bottom: 2.2rem; }
+    .summary-score { text-align: center; padding-right: 2rem; border-right: 1px solid rgba(8,55,95,0.1); }
+    .summary-score .big { font-size: 3rem; font-weight: 800; color: #08375f; line-height: 1; }
+    .summary-stars { color: #f6b81c; font-size: 1.1rem; letter-spacing: 2px; margin-top: 0.4rem; }
+    .summary-score .sub { font-size: 0.78rem; color: #7a8a99; margin-top: 0.35rem; }
+    .summary-copy { flex: 1; min-width: 240px; }
+    .summary-copy h2 { font-size: 1.35rem; color: #08375f; font-weight: 700; letter-spacing: -0.01em; }
+    .summary-copy p { color: #52677c; font-size: 0.95rem; line-height: 1.7; margin-top: 0.4rem; }
+    .write-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #52B44B; color: #07172a; font-weight: 800; font-size: 0.92rem; text-decoration: none; border-radius: 9px; padding: 0.85rem 1.5rem; white-space: nowrap; transition: transform 0.15s, box-shadow 0.15s; }
+    .write-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(82,180,75,0.35); }
+
+    /* Toolbar */
+    .rev-toolbar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+    .rev-search { position: relative; flex: 1; min-width: 220px; max-width: 360px; }
+    .rev-search input { width: 100%; min-height: 46px; border: 1px solid rgba(8,55,95,0.13); border-radius: 9px; background: #fff; color: #0A2A4A; font: inherit; padding: 0 1rem; outline: none; }
+    .rev-search input:focus { border-color: #52B44B; box-shadow: 0 0 0 4px rgba(82,180,75,0.14); }
+    .rev-filter { min-height: 46px; border: 1px solid rgba(8,55,95,0.13); border-radius: 9px; background: #fff; color: #0A2A4A; font: inherit; padding: 0 0.9rem; cursor: pointer; }
+
+    /* Grid */
+    .rev-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.4rem; }
+    .rev-card { position: relative; background: #fff; border: 1px solid rgba(8,55,95,0.08); border-radius: 14px; box-shadow: 0 14px 40px rgba(8,55,95,0.08); padding: 1.6rem 1.6rem 1.4rem; display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: transform 0.18s, box-shadow 0.18s; }
+    .rev-card:hover { transform: translateY(-4px); box-shadow: 0 22px 54px rgba(8,55,95,0.14); }
+    .rev-card.featured { border-color: rgba(82,180,75,0.4); }
+    .featured-tag { position: absolute; top: 1.1rem; right: 1.1rem; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #2f7a2a; background: rgba(82,180,75,0.14); border-radius: 999px; padding: 3px 9px; }
+    .card-stars { color: #f6b81c; font-size: 1rem; letter-spacing: 2px; margin-bottom: 0.7rem; }
+    .card-headline { font-size: 1.05rem; font-weight: 700; color: #08375f; line-height: 1.4; margin-bottom: 0.5rem; }
+    .card-text { color: #52677c; font-size: 0.92rem; line-height: 1.7; flex: 1; }
+    .card-text .more { color: #2f7a2a; font-weight: 600; }
+    .card-product { display: inline-block; margin-top: 0.9rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5a7185; background: #eef3f8; border-radius: 6px; padding: 3px 9px; align-self: flex-start; }
+    .card-author { display: flex; align-items: center; gap: 0.7rem; margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid rgba(8,55,95,0.07); }
+    .author-avatar { width: 42px; height: 42px; border-radius: 50%; background: rgba(8,55,95,0.1); color: #08375f; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; flex-shrink: 0; overflow: hidden; }
+    .author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .author-name { font-size: 0.88rem; font-weight: 700; color: #0A2A4A; display: flex; align-items: center; gap: 5px; }
+    .verified-dot { color: #2dd4bf; font-size: 0.7rem; }
+    .author-org { font-size: 0.76rem; color: #7a8a99; }
+
+    .rev-loading { display: flex; justify-content: center; padding: 60px; }
+    .spinner { width: 30px; height: 30px; border: 3px solid rgba(8,55,95,0.12); border-top-color: #52B44B; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .rev-empty { text-align: center; padding: 60px 20px; color: #52677c; }
+    .rev-empty h3 { color: #08375f; font-size: 1.3rem; margin-bottom: 0.5rem; }
+
+    #site-footer { background: #061b31; color: rgba(255,255,255,0.72); padding: 3.5rem 2rem 0; }
+    .footer-inner { max-width: 1220px; margin: 0 auto; display: grid; grid-template-columns: minmax(260px,1.2fr) repeat(2,minmax(180px,0.5fr)); gap: 2.5rem; padding-bottom: 2.5rem; }
+    .footer-brand img { height: 48px; width: auto; display: block; margin-bottom: 1rem; }
+    .footer-brand p { max-width: 420px; font-size: 0.94rem; line-height: 1.8; }
+    .footer-col h4 { color: #fff; font-size: 1rem; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: grid; gap: 0.62rem; }
+    .footer-col a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.92rem; }
+    .footer-col a:hover { color: #52B44B; }
+    .footer-bottom { max-width: 1220px; margin: 0 auto; padding: 1.15rem 0; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; gap: 1rem; font-size: 0.84rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.72); text-decoration: none; }
+
+    @media (max-width: 820px) {
+        .nav-links { display: none; }
+        #nav-toggle { display: flex; }
+        .nav-links.open { display: flex; flex-direction: column; align-items: flex-start; position: absolute; top: 68px; left: 0; right: 0; background: #08375f; padding: 0.75rem 1.5rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); gap: 0.1rem; }
+        .nav-group { width: 100%; }
+        .nav-menu-btn { width: 100%; text-align: left; }
+        .nav-dropdown { position: static; display: none; min-width: 100%; margin: 0.2rem 0 0.5rem; background: rgba(255,255,255,0.08); box-shadow: none; opacity: 1; visibility: visible; transform: none; }
+        .nav-group.open .nav-dropdown { display: grid; }
+        .nav-dropdown a { color: rgba(255,255,255,0.8); }
+        .nav-dropdown a.active { color: #52B44B; background: rgba(255,255,255,0.08); }
+        .summary-score { border-right: none; border-bottom: 1px solid rgba(8,55,95,0.1); padding-right: 0; padding-bottom: 1.2rem; width: 100%; }
+        .footer-inner { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 620px) {
+        .nav-inner { padding: 0 1.2rem; }
+        .hero-content { padding: 7.5rem 1.2rem 3.5rem; }
+        #rev-main { padding: 3rem 1rem 4rem; }
+        .rev-grid { grid-template-columns: 1fr; }
+    }
+    </style>
+    <link rel="stylesheet" href="shared-site.css">
+</head>
+<body>
+<div class="scroll-progress"></div>
+
+<!-- nav:start (generated by build.js — edit partials/nav.html) -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="site-contact-strip" aria-label="DoveNest contact shortcuts">
+        <div class="site-contact-inner">
+            <div class="site-contact-list">
+                <a class="site-contact-chip" href="mailto:info@dovenestinsurance.com" aria-label="Email DoveNest Insurance">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4v-11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m5 7.5 7 5.2 7-5.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>info@dovenestinsurance.com</span>
+                </a>
+                <span class="site-contact-chip" aria-label="DoveNest office location">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                    <span>Nairobi, Kenya</span>
+                </span>
+                <a class="site-contact-chip" href="tel:+254726001122" aria-label="Call DoveNest Insurance">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 4.8 9.4 7c.5.5.6 1.2.2 1.8l-1 1.6a12.1 12.1 0 0 0 5 5l1.6-1c.6-.4 1.3-.3 1.8.2l2.2 2.2c.5.5.5 1.4-.1 1.9-1 .9-2.3 1.3-3.6.9C10.1 18 6 13.9 4.4 8.5c-.4-1.3 0-2.6.9-3.6.5-.6 1.4-.6 1.9-.1Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>+254 726 001 122</span>
+                </a>
+            </div>
+            <a class="site-quote-link" href="contact.html">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m13 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Get A Quote</span>
+            </a>
+        </div>
+    </div>
+    <div class="nav-inner">
+
+        <a href="home.html" class="nav-logo" aria-label="DoveNest Insurance, Home">
+            <img src="images/dovenest-logo.png" alt="DoveNest Insurance Brokers logo">
+        </a>
+
+        <button id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links" id="nav-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Insurance</button>
+                <ul class="nav-dropdown">
+                    <li><a href="life-insurance.html">Group Last Expense</a></li>
+                    <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
+                    <li><a href="health-insurance.html">Health Insurance</a></li>
+                    <li><a href="education-insurance.html">Education Insurance</a></li>
+                    <li><a href="motor-insurance.html">Motor Insurance</a></li>
+                    <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
+                    <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
+                </ul>
+            </li>
+            <li><a href="contact.html">Contact</a></li>
+            <li class="nav-group">
+                <button class="nav-menu-btn" type="button" aria-expanded="false">Services</button>
+                <ul class="nav-dropdown">
+                    <li><a href="flying-doctors.html">Amref Flying Doctors</a></li>
+                    <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+                </ul>
+            </li>
+            <li><a class="active" href="reviews.html">Reviews</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+        </ul>
+
+    </div>
+</nav>
+<!-- nav:end -->
+
+<section id="rev-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="breadcrumb"><a href="home.html">Home</a><span>/</span><span>Client Reviews</span></div>
+        <span class="hero-eyebrow">Client Reviews &amp; Endorsements</span>
+        <h1 class="hero-title">Trusted by the people <span>we protect.</span></h1>
+        <p class="hero-sub">Real words from the families, businesses, SACCOs, churches and diaspora clients who rely on DoveNest to structure their cover and stand with them at claim time.</p>
+    </div>
+</section>
+
+<main id="rev-main">
+    <div class="rev-inner">
+
+        <div class="summary-bar" id="summaryBar" style="display:none;">
+            <div class="summary-score">
+                <div class="big" id="avgScore">—</div>
+                <div class="summary-stars" id="avgStars"></div>
+                <div class="sub" id="reviewCount">— reviews</div>
+            </div>
+            <div class="summary-copy">
+                <h2>Endorsed by those we serve</h2>
+                <p>Every review below is from a real DoveNest client and published with their consent. Share yours — it takes less than two minutes.</p>
+            </div>
+            <a class="write-btn" href="review.html">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+                Write a review
+            </a>
+        </div>
+
+        <div class="rev-toolbar" id="toolbar" style="display:none;">
+            <div class="rev-search">
+                <input id="searchInput" type="search" placeholder="Search reviews…" oninput="render()">
+            </div>
+            <select class="rev-filter" id="typeFilter" onchange="render()">
+                <option value="">Individuals &amp; businesses</option>
+                <option value="individual">Individuals</option>
+                <option value="business">Businesses</option>
+            </select>
+        </div>
+
+        <div class="rev-loading" id="loading"><div class="spinner"></div></div>
+        <div class="rev-grid" id="grid"></div>
+
+        <div class="rev-empty" id="emptyState" style="display:none;">
+            <h3>Be the first to share your experience</h3>
+            <p>We're gathering reviews from our clients. If DoveNest has served you, we'd love to hear about it.</p>
+            <p style="margin-top:1.2rem;"><a class="write-btn" href="review.html">Write a review</a></p>
+        </div>
+    </div>
+</main>
+
+<footer id="site-footer">
+    <div class="footer-inner site-footer-grid" data-reveal>
+        <div class="footer-brand">
+            <img src="images/dovenest-logo-light.png" alt="DoveNest Insurance Brokers">
+            <p>DoveNest Insurance Brokers helps families, businesses, groups, and diaspora clients find practical protection through trusted insurance partners in Kenya.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="reviews.html">Client Reviews</a></li>
+                <li><a href="blogs.html">Blogs</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Insurance</h4>
+            <ul>
+                <li><a href="life-insurance.html">Group Last Expense</a></li>
+                <li><a href="life-pension-products.html">Other Life &amp; Pension Products</a></li>
+                <li><a href="general-insurance.html">General Insurance</a></li>
+                    <li><a href="travel-insurance.html">Travel Insurance</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Products</h4>
+            <ul>
+                <li><a href="health-insurance.html">Health Insurance</a></li>
+                <li><a href="education-insurance.html">Education Insurance</a></li>
+                <li><a href="motor-insurance.html">Motor Insurance</a></li>
+                <li><a href="diaspora-insurance.html">Diaspora Insurance</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Careers &amp; Contact</h4>
+            <ul>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="downloads.html">Downloads</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a></li>
+                <li><a href="tel:+254726001122">+254 726 001 122</a></li>
+                <li><a href="tel:+254207602122">+254 20 760 2122</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="flying-doctors.html">Amref Flying Doctors</a></li>
+                <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 DoveNest Insurance Brokers Limited. All rights reserved.</p>
+        <p><a href="faq.html">Terms &amp; Conditions Apply</a></p>
+    </div>
+</footer>
+
+<!-- JSON-LD aggregate rating injected here once reviews load -->
+<script id="ld-aggregate" type="application/ld+json"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+    'use strict';
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 8), { passive: true });
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => { const open = navLinks.classList.toggle('open'); navToggle.setAttribute('aria-expanded', open); });
+    document.querySelectorAll('.nav-menu-btn').forEach((button) => {
+        button.addEventListener('click', () => { const g = button.closest('.nav-group'); const o = g.classList.toggle('open'); button.setAttribute('aria-expanded', o); });
+    });
+}());
+
+const PRODUCT_LABELS = {
+  motor: 'Motor', health: 'Health / Medical', life_assurance: 'Life Assurance',
+  domestic: 'Domestic / Home', business: 'Business / Commercial', pensions: 'Pensions & Retirement',
+  education: 'Education', diaspora: 'Diaspora', last_expense: 'Last Expense', general: 'Other / General',
+};
+
+const sb = window.supabase.createClient(
+  'https://tbokejycxpaefpccynbh.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
+);
+
+let reviews = [];
+
+(async () => {
+  const { data, error } = await sb
+    .from('reviews')
+    .select('*')
+    .in('status', ['approved', 'featured'])
+    .eq('consent_to_publish', true)
+    .order('published_at', { ascending: false });
+
+  document.getElementById('loading').style.display = 'none';
+
+  if (error || !data || data.length === 0) {
+    document.getElementById('emptyState').style.display = 'block';
+    return;
+  }
+
+  // Featured first, then most-recently published
+  reviews = data.sort((a, b) => {
+    if ((b.status === 'featured') - (a.status === 'featured') !== 0) return (b.status === 'featured') - (a.status === 'featured');
+    return new Date(b.published_at || 0) - new Date(a.published_at || 0);
+  });
+
+  const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+  document.getElementById('avgScore').textContent  = avg.toFixed(1);
+  document.getElementById('avgStars').textContent  = starStr(Math.round(avg));
+  document.getElementById('reviewCount').textContent = `${reviews.length} verified review${reviews.length !== 1 ? 's' : ''}`;
+  document.getElementById('summaryBar').style.display = 'flex';
+  document.getElementById('toolbar').style.display = 'flex';
+
+  injectAggregateLd(avg, reviews.length);
+  render();
+})();
+
+function starStr(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); }
+
+function render() {
+  const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+  const type = document.getElementById('typeFilter').value;
+
+  let rows = reviews.filter(r =>
+    (!type || r.type === type) &&
+    (!q || (`${r.first_name} ${r.last_name} ${r.headline || ''} ${r.review_text || ''} ${r.company_name || ''} ${r.organisation || ''}`).toLowerCase().includes(q))
+  );
+
+  const grid = document.getElementById('grid');
+  if (rows.length === 0) { grid.innerHTML = '<p style="color:#52677c;padding:30px 0;">No reviews match your filters.</p>'; return; }
+
+  grid.innerHTML = rows.map(r => {
+    const org = r.company_name || r.organisation || '';
+    const full = `${r.first_name} ${r.last_name}`;
+    const initials = ((r.first_name[0] || '') + (r.last_name[0] || '')).toUpperCase();
+    const text = r.review_text || '';
+    const truncated = text.length > 220 ? text.slice(0, 220) + '… ' : text;
+    const avatar = r.photo_url
+      ? `<div class="author-avatar"><img src="${esc(r.photo_url)}" alt=""></div>`
+      : `<div class="author-avatar">${esc(initials)}</div>`;
+    return `
+      <a class="rev-card ${r.status === 'featured' ? 'featured' : ''}" href="reviews/${esc(r.slug || '')}">
+        ${r.status === 'featured' ? '<span class="featured-tag">Featured</span>' : ''}
+        <div class="card-stars" aria-label="${r.rating} out of 5">${starStr(r.rating)}</div>
+        ${r.headline ? `<div class="card-headline">${esc(r.headline)}</div>` : ''}
+        ${text ? `<div class="card-text">${esc(truncated)}${text.length > 220 ? '<span class="more">Read more</span>' : ''}</div>` : '<div class="card-text" style="flex:1"></div>'}
+        ${r.product ? `<span class="card-product">${esc(PRODUCT_LABELS[r.product] || r.product)}</span>` : ''}
+        <div class="card-author">
+          ${avatar}
+          <div>
+            <div class="author-name">${esc(full)} ${r.verified ? '<span class="verified-dot" title="Verified client">✓</span>' : ''}</div>
+            <div class="author-org">${esc([org, r.county].filter(Boolean).join(' · '))}</div>
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+function injectAggregateLd(avg, count) {
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "DoveNest Insurance Brokers Ltd",
+    "url": "https://www.dovenestinsurance.com/",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": avg.toFixed(1),
+      "reviewCount": count,
+      "bestRating": "5",
+      "worstRating": "1"
+    }
+  };
+  document.getElementById('ld-aggregate').textContent = JSON.stringify(ld);
+}
+
+function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+<script src="shared-enhancements.js"></script>
+</body>
+</html>

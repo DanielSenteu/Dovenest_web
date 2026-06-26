@@ -243,20 +243,16 @@
           <div class="step-dot done" id="dot1"></div>
           <div class="step-dot" id="dot2"></div>
         </div>
-        <p class="step-title"><span>Step 1</span> — Credentials</p>
+        <p class="step-title"><span>Step 1</span> — Your Email</p>
 
         <div class="field">
           <label>Email Address</label>
           <input type="email" id="loginEmail" placeholder="you@dovenest.com" autocomplete="email">
         </div>
-        <div class="field">
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-        </div>
 
-        <button class="btn" id="btnPassword" onclick="handlePassword()">
+        <button class="btn" id="btnSend" onclick="handleSendCode()">
           <span class="spinner"></span>
-          <span class="btn-label">Continue →</span>
+          <span class="btn-label">Email me a code →</span>
         </button>
 
         <div class="link-row">
@@ -271,19 +267,23 @@
           <div class="step-dot done"></div>
         </div>
         <button class="back-btn" onclick="goBack()">← Back</button>
-        <p class="step-title"><span>Step 2</span> — Two-Factor Authentication</p>
+        <p class="step-title"><span>Step 2</span> — Enter Code</p>
 
         <div class="field">
-          <label>Authenticator Code</label>
-          <input type="text" id="mfaCode" class="mfa-input" placeholder="000000"
+          <label>Email Code</label>
+          <input type="text" id="otpCode" class="mfa-input" placeholder="000000"
                  maxlength="6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
-          <p class="mfa-hint">Open your authenticator app and enter the 6-digit code</p>
+          <p class="mfa-hint">We emailed a 6-digit code to <strong id="sentTo"></strong>. It expires in a few minutes.</p>
         </div>
 
-        <button class="btn" id="btnMfa" onclick="handleMfa()">
+        <button class="btn" id="btnVerify" onclick="handleVerify()">
           <span class="spinner"></span>
           <span class="btn-label">Verify & Sign In</span>
         </button>
+
+        <div class="link-row">
+          Didn't get it? <a href="#" onclick="resendCode(event)">Resend code</a>
+        </div>
       </div>
     </div>
   </div>
@@ -295,16 +295,16 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRib2tlanljeHBhZWZwY2N5bmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MTUzNzYsImV4cCI6MjA5MzE5MTM3Nn0.OlP4LaptamkDbQ9MgJGv1NIEO2KfobWW0k-X6ensYEw'
   );
 
-  let factorId     = null;
-  let challengeId  = null;
+  let pendingEmail = null;
+  let verifying    = false;  // re-entrancy guard: auto-submit + Enter/click can double-fire
 
-  // If already fully authenticated redirect straight to dashboard
+  // If already signed in as an allowlisted admin, skip straight to the dashboard.
   (async () => {
     const { data: { session } } = await sb.auth.getSession();
-    if (session) {
-      const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (aal.currentLevel === 'aal2') window.location.replace('dashboard.html');
-    }
+    if (!session) return;
+    const email = (session.user.email || '').toLowerCase();
+    const { data: adminRow } = await sb.from('admin_invites').select('email').eq('email', email).maybeSingle();
+    if (adminRow) window.location.replace('dashboard.html');
   })();
 
   function showError(msg) {
@@ -327,74 +327,76 @@
   }
 
   // Allow Enter key to submit
-  document.getElementById('loginPassword').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handlePassword();
+  document.getElementById('loginEmail').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSendCode();
   });
-  document.getElementById('mfaCode').addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleMfa();
+  document.getElementById('otpCode').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleVerify();
   });
   // Auto-submit when 6 digits entered
-  document.getElementById('mfaCode').addEventListener('input', e => {
+  document.getElementById('otpCode').addEventListener('input', e => {
     e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
-    if (e.target.value.length === 6) handleMfa();
+    if (e.target.value.length === 6) handleVerify();
   });
 
-  async function handlePassword() {
+  async function handleSendCode() {
     clearError();
-    const email    = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    if (!email || !password) { showError('Please enter your email and password.'); return; }
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    if (!email) { showError('Please enter your email address.'); return; }
 
-    setLoading('btnPassword', true);
-
-    try {
-      const { error: signInErr } = await sb.auth.signInWithPassword({ email, password });
-      if (signInErr) { showError(signInErr.message); setLoading('btnPassword', false); return; }
-
-      const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (aal.nextLevel === 'aal2') {
-        const { data: factors, error: fErr } = await sb.auth.mfa.listFactors();
-        if (fErr) { showError('Could not load MFA factors: ' + fErr.message); setLoading('btnPassword', false); return; }
-
-        const totp = factors?.totp?.[0];
-        if (!totp) { await sb.auth.signOut(); showError('No MFA factor found. Please sign up again.'); setLoading('btnPassword', false); return; }
-        factorId = totp.id;
-
-        const { data: challenge, error: cErr } = await sb.auth.mfa.challenge({ factorId });
-        if (cErr) { showError('MFA challenge failed: ' + cErr.message); setLoading('btnPassword', false); return; }
-        if (!challenge) { showError('MFA challenge returned no data.'); setLoading('btnPassword', false); return; }
-        challengeId = challenge.id;
-
-        setLoading('btnPassword', false);
-        document.getElementById('step1').classList.remove('active');
-        document.getElementById('step2').classList.add('active');
-        setTimeout(() => document.getElementById('mfaCode').focus(), 100);
-      } else {
-        await sb.auth.signOut();
-        showError('This account does not have MFA set up. Please sign up again.');
-        setLoading('btnPassword', false);
-      }
-    } catch (err) {
-      showError('Unexpected error: ' + (err.message || err));
-      setLoading('btnPassword', false);
-    }
-  }
-
-  async function handleMfa() {
-    clearError();
-    const code = document.getElementById('mfaCode').value.trim();
-    if (code.length !== 6) { showError('Please enter the 6-digit code from your authenticator app.'); return; }
-
-    setLoading('btnMfa', true);
-    const { error } = await sb.auth.mfa.verify({ factorId, challengeId, code });
-    setLoading('btnMfa', false);
+    setLoading('btnSend', true);
+    // shouldCreateUser:false → only existing admin accounts can request a code.
+    const { error } = await sb.auth.signInWithOtp({ email, shouldCreateUser: false });
+    setLoading('btnSend', false);
 
     if (error) {
-      showError('Invalid code. Please try again.');
-      document.getElementById('mfaCode').value = '';
-      document.getElementById('mfaCode').focus();
+      showError(error.message || 'Could not send a code. Please try again.');
       return;
     }
+
+    pendingEmail = email;
+    document.getElementById('sentTo').textContent = email;
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    setTimeout(() => document.getElementById('otpCode').focus(), 100);
+  }
+
+  async function resendCode(ev) {
+    if (ev) ev.preventDefault();
+    if (!pendingEmail) return;
+    clearError();
+    const { error } = await sb.auth.signInWithOtp({ email: pendingEmail, shouldCreateUser: false });
+    if (error) { showError(error.message || 'Could not resend the code.'); return; }
+    showError('A new code is on its way to your inbox.');
+  }
+
+  async function handleVerify() {
+    if (verifying) return;          // ignore the second of a double-fire
+    clearError();
+    const code = document.getElementById('otpCode').value.trim();
+    if (code.length !== 6) { showError('Please enter the 6-digit code from your email.'); return; }
+
+    verifying = true;
+    setLoading('btnVerify', true);
+    const { error } = await sb.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' });
+    if (error) {
+      verifying = false;
+      setLoading('btnVerify', false);
+      // Surface the real reason while we debug (e.g. otp_expired / invalid).
+      showError((error.message || 'Invalid or expired code.') + ' [' + (error.status || '?') + ']');
+      const el = document.getElementById('otpCode'); el.value = ''; el.focus();
+      return;
+    }
+
+    // Defense in depth: confirm this email is on the admin allowlist before entering.
+    const { data: adminRow } = await sb.from('admin_invites').select('email').eq('email', pendingEmail).maybeSingle();
+    if (!adminRow) {
+      await sb.auth.signOut();
+      setLoading('btnVerify', false);
+      showError('This account is not authorised for admin access.');
+      return;
+    }
+
     window.location.replace('dashboard.html');
   }
   </script>

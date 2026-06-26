@@ -24,6 +24,7 @@ const ACTIVE = {
   'careers.html':              { top: 'careers.html' },
   'downloads.html':            { top: 'downloads.html' },
   'blogs.html':                { top: 'blogs.html' },
+  'reviews.html':              { top: 'reviews.html' },
   'life-insurance.html':       { btn: 'Insurance', link: 'life-insurance.html' },
   'life-pension-products.html':{ btn: 'Insurance', link: 'life-pension-products.html' },
   'health-insurance.html':     { btn: 'Insurance', link: 'health-insurance.html' },

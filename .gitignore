@@ -12,3 +12,6 @@ public/videos/vecteezy_*.mp4
 # dependencies
 /node_modules/
 animation/node_modules/
+
+# packaged deps / archives (uploaded to cPanel manually, never tracked)
+*.tar.gz

@@ -81,8 +81,9 @@
     td.muted { color: var(--muted); font-size: 0.78rem; }
     td.mono { font-family: monospace; font-size: 0.76rem; color: var(--muted); }
     .badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
-    .badge-pending  { background: rgba(82,180,75,0.15); color: #52B44B; }
+    .badge-pending  { background: rgba(251,191,36,0.16); color: #fcd34d; }
     .badge-approved { background: rgba(34,197,94,0.15); color: #86efac; }
+    .badge-featured { background: rgba(96,165,250,0.18); color: #93c5fd; }
     .badge-rejected { background: rgba(239,68,68,0.15); color: #fca5a5; }
 
     /* spinner / guard */
@@ -189,7 +190,7 @@
             </tr>
             <tr>
               <td>Client Reviews</td>
-              <td style="color:var(--muted);font-size:0.78rem;">—</td>
+              <td><span class="pill pill-pending" id="reviewsPending">—</span></td>
               <td id="reviewsLabel" style="color:var(--muted);font-size:0.78rem;">—</td>
               <td style="text-align:right;"><a class="section-link" href="reviews.html">View →</a></td>
             </tr>
@@ -203,6 +204,18 @@
           <a href="quotes.html">View all →</a>
         </div>
         <div id="recentWrap">
+          <div style="display:flex;justify-content:center;padding:36px;">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card" style="margin-top:28px;">
+        <div class="table-card-header">
+          <span>Recent Reviews</span>
+          <a href="reviews.html">Moderate all →</a>
+        </div>
+        <div id="recentReviewsWrap">
           <div style="display:flex;justify-content:center;padding:36px;">
             <div class="spinner"></div>
           </div>
@@ -222,8 +235,9 @@ const sb = window.supabase.createClient(
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.replace('login.html'); return; }
-  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+  const __adminEmail = (session.user.email || '').toLowerCase();
+  const { data: __adminRow } = await sb.from('admin_invites').select('email').eq('email', __adminEmail).maybeSingle();
+  if (!__adminRow) { await sb.auth.signOut(); window.location.replace('login.html'); return; }
 
   const email = session.user.email;
   document.getElementById('userEmail').textContent = email;
@@ -245,7 +259,7 @@ async function handleSignout() {
 async function loadData() {
   const [quotesRes, reviewsRes, leRes, tqRes, fdRes, contactRes] = await Promise.all([
     sb.from('motor_quotes').select('id,ref,first_name,last_name,status,submitted_at').order('submitted_at', { ascending: false }),
-    sb.from('reviews').select('id,rating'),
+    sb.from('reviews').select('id,rating,status,first_name,last_name,headline,review_text,verified,submitted_at').order('submitted_at', { ascending: false }),
     sb.from('last_expense_applications').select('id,status'),
     sb.from('travel_quotes').select('id,status'),
     sb.from('flying_doctor_quotes').select('id,status'),
@@ -277,12 +291,15 @@ async function loadData() {
   document.getElementById('pendingLabel').textContent   = pending;
   document.getElementById('statTotalInline').textContent = data.length;
 
+  const reviewsPending = reviews.filter(r => (r.status || 'pending') === 'pending').length;
+  document.getElementById('reviewsPending').textContent = reviewsPending;
   if (reviews.length > 0) {
     const avg = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
     document.getElementById('reviewsLabel').textContent = `${reviews.length}  ·  avg ${avg} / 5`;
   } else {
     document.getElementById('reviewsLabel').textContent = '0';
   }
+  renderRecentReviews(reviews.slice(0, 5));
 
   const lePending = leData.filter(a => a.status === 'pending').length;
   document.getElementById('lePendingLabel').textContent  = lePending;
@@ -306,6 +323,33 @@ async function loadData() {
             <td class="muted">${fmtDate(q.submitted_at)}</td>
             <td style="text-align:right;"><span style="font-size:0.75rem;font-weight:600;color:var(--gold);">View →</span></td>
           </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+function renderRecentReviews(rows) {
+  const wrap = document.getElementById('recentReviewsWrap');
+  if (!rows || rows.length === 0) {
+    wrap.innerHTML = '<p style="padding:36px;text-align:center;font-size:0.82rem;color:rgba(255,255,255,0.35);">No reviews yet.</p>';
+    return;
+  }
+  wrap.innerHTML = `
+    <table>
+      <thead><tr><th>Name</th><th>Rating</th><th>Headline</th><th>Status</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+        ${rows.map(r => {
+          const summary = r.headline ? esc(r.headline) : (r.review_text ? esc(r.review_text.slice(0, 44)) + '…' : '—');
+          const status = r.status || 'pending';
+          return `
+          <tr onclick="window.location='review.html?id=${r.id}'">
+            <td>${esc(r.first_name)} ${esc(r.last_name)} ${r.verified ? '<span title="Verified" style="color:#5eead4;font-size:0.72rem;">✓</span>' : ''}</td>
+            <td style="color:#f6b81c;white-space:nowrap;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</td>
+            <td class="muted">${summary}</td>
+            <td><span class="badge badge-${status}">${status}</span></td>
+            <td class="muted">${fmtDate(r.submitted_at)}</td>
+            <td style="text-align:right;"><span style="font-size:0.75rem;font-weight:600;color:var(--gold);">View →</span></td>
+          </tr>`;
+        }).join('')}
       </tbody>
     </table>`;
 }

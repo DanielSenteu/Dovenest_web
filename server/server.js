@@ -450,6 +450,26 @@ async function saveFormDocuments(formType, ref, documents) {
   return saved;
 }
 
+// ── Reviews: optional profile photo → public Supabase Storage bucket ──────────
+const REVIEW_PHOTOS_BUCKET   = 'review-photos';
+const REVIEW_PHOTO_MAX_BYTES = 3 * 1024 * 1024; // 3 MB
+const REVIEW_PHOTO_EXT       = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
+const VALID_REVIEW_SOURCES   = new Set(['web', 'sms', 'whatsapp', 'email', 'qr']);
+
+// Validate + store a data-URL photo, returning its public URL (or null when none).
+// Throws a user-facing message on a bad/oversized image so the handler can 400.
+async function saveReviewPhoto(dataUrl) {
+  if (!dataUrl || typeof dataUrl !== 'string') return null;
+  const m = dataUrl.match(/^data:([A-Za-z-+/]+);base64,(.+)$/s);
+  const ext = m && REVIEW_PHOTO_EXT[m[1]];
+  if (!m || !ext) throw new Error('Your photo must be a JPEG, PNG or WebP image.');
+  const buffer = Buffer.from(m[2], 'base64');
+  if (buffer.length > REVIEW_PHOTO_MAX_BYTES) throw new Error('Your photo is too large. Please use an image under 3 MB.');
+  const storagePath = `submissions/${crypto.randomBytes(12).toString('hex')}.${ext}`;
+  await store.upload(REVIEW_PHOTOS_BUCKET, storagePath, buffer, m[1]);
+  return `${SUPABASE_URL}/storage/v1/object/public/${REVIEW_PHOTOS_BUCKET}/${storagePath}`;
+}
+
 // ── JSON body reader ─────────────────────────────────────────────────────────
 function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -1032,8 +1052,93 @@ http.createServer(async (req, res) => {
     return;
   }
 
-  // ── Static file serving ───────────────────────────────────
+  // ── API: submit client review ─────────────────────────────
+  if (method === 'POST' && urlPath === '/api/review') {
+    let body;
+    // Body can carry a base64 photo, so allow more than the 8 KB JSON cap.
+    try { body = await readLargeJsonBody(req, 8 * 1024 * 1024); }
+    catch (err) { sendJson(res, 400, { error: err.message || 'Invalid request body' }); return; }
+
+    // Honeypot → rate-limit → CSRF
+    const g = guard(req, body, {
+      honeypotBody: () => ({ success: true }),
+    });
+    if (!g.ok) {
+      if (g.honeypot) console.log('[review] Honeypot triggered — bot submission silently dropped');
+      sendJson(res, g.status, g.body); return;
+    }
+
+    // Field validation (server-side — the client gate is not trusted)
+    const errors = V.validateReviewPayload(body);
+    if (errors.length > 0) {
+      sendJson(res, 400, { error: errors[0], errors });
+      return;
+    }
+
+    // Optional profile photo → public storage bucket
+    let photoUrl = null;
+    try { photoUrl = await saveReviewPhoto(body.photo); }
+    catch (e) { sendJson(res, 400, { error: e.message }); return; }
+
+    const isBusiness = body.type === 'business';
+    const reviewText = body.review_text ? String(body.review_text).trim() : '';
+    // Build the row. status/verified/slug are server-owned — never read from the
+    // client — so a forged payload can't self-publish or self-verify.
+    // product / county / country / organisation / position are reserved for
+    // phase 2: the columns stay nullable but the live form no longer collects them.
+    const record = {
+      submitted_at:       new Date().toISOString(),
+      type:               isBusiness ? 'business' : 'individual',
+      first_name:         body.first_name.trim(),
+      last_name:          body.last_name.trim(),
+      email:              body.email.trim().toLowerCase(),
+      phone:              body.phone.trim(),
+      company_name:       isBusiness ? body.company_name.trim() : null,
+      position:           null,
+      organisation:       null,
+      county:             null,
+      country:            null,
+      product:            null,
+      rating:             Number(body.rating),
+      // 'other' means the reviewer wrote their own words → no preset headline.
+      headline:           body.headline === 'other' ? null : String(body.headline).trim(),
+      review_text:        reviewText || null,
+      photo_url:          photoUrl,
+      consent_to_publish: true,
+      status:             'pending',
+      verified:           false,
+      source:             VALID_REVIEW_SOURCES.has(body.source) ? body.source : 'web',
+    };
+
+    // Save to Supabase (service key bypasses RLS) — must succeed
+    try {
+      await supabaseInsert('reviews', record);
+      console.log(`[review] Saved (pending): ${record.first_name} ${record.last_name} — ${record.rating}★ — ${record.headline || 'custom review'}`);
+    } catch (e) {
+      console.error(`[review] Supabase save failed: ${e.message}`);
+      sendJson(res, 503, { error: 'Could not save your review. Please try again shortly.' });
+      return;
+    }
+
+    email.notifyReview(record);
+    sendJson(res, 200, { success: true });
+    return;
+  }
+
+  // ── Pretty routes for the public reviews platform ─────────
+  //   /reviews            → the public wall (reviews.html)
+  //   /reviews/<slug>     → a single-review permalink (slug read client-side)
+  // A real asset request like /reviews.html falls through untouched.
   let reqPath = urlPath;
+  if (method === 'GET' && (urlPath === '/review' || urlPath === '/review/')) {
+    reqPath = '/review.html';
+  } else if (method === 'GET' && (urlPath === '/reviews' || urlPath === '/reviews/')) {
+    reqPath = '/reviews.html';
+  } else if (method === 'GET' && urlPath.startsWith('/reviews/') && !urlPath.slice('/reviews/'.length).includes('.')) {
+    reqPath = '/review-single.html';
+  }
+
+  // ── Static file serving ───────────────────────────────────
   if (reqPath === '/') reqPath = '/home.html';
 
   let filePath = path.normalize(path.join(webRoot, reqPath));

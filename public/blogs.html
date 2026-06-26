@@ -349,6 +349,7 @@
                     <li><a href="grief-counselling.html">Grief &amp; Counselling</a></li>
                 </ul>
             </li>
+            <li><a href="reviews.html">Reviews</a></li>
             <li><a href="careers.html">Careers</a></li>
             <li><a href="downloads.html">Downloads</a></li>
             <li><a class="active" href="blogs.html">Blogs</a></li>
@@ -500,6 +501,36 @@
         </div>
 
         <div class="archive-grid">
+
+            <!-- Scrollable two-image gallery support (card + modal) -->
+            <style>
+                .ar-gallery { display:flex; width:100%; height:100%; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+                .ar-gallery::-webkit-scrollbar { display:none; }
+                .ar-gallery img { flex:0 0 100%; width:100%; height:100%; object-fit:cover; scroll-snap-align:center; transition:none; }
+                .archive-card:hover .ar-gallery img { transform:none; }
+                .ar-dots { position:absolute; right:1rem; bottom:1.1rem; display:flex; gap:6px; z-index:2; }
+                .ar-dots span { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.5); transition:background 0.2s; }
+                .ar-dots span.on { background:#52B44B; }
+                .modal-img.is-gallery { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+                .modal-img.is-gallery img { flex:0 0 100%; width:100%; height:100%; object-fit:cover; scroll-snap-align:center; }
+            </style>
+
+            <article class="archive-card" data-category="partnership" data-title="First Assurance Relationship Team Visit" data-date="25 Jun" data-img="images/first-assurance-visit-1.png" data-gallery="images/first-assurance-visit-1.png|images/first-assurance-visit-2.png" data-copy="We were delighted to host the First Assurance Relationship Team at our Nairobi offices. The meeting reaffirmed our shared commitment to delivering responsive underwriting support, stronger collaboration and exceptional insurance solutions for our clients.">
+                <div class="archive-img">
+                    <div class="ar-gallery">
+                        <img src="images/first-assurance-visit-1.png" alt="DoveNest hosts the First Assurance Relationship Team at its Nairobi offices">
+                        <img src="images/first-assurance-visit-2.png" alt="DoveNest team meeting with the First Assurance Relationship Team">
+                    </div>
+                    <div class="ar-dots" aria-hidden="true"><span class="on"></span><span></span></div>
+                    <div class="archive-date"><span class="date-day">25</span><span class="date-mon">Jun</span></div>
+                </div>
+                <div class="archive-body">
+                    <span class="archive-cat">Partnership</span>
+                    <h3 class="archive-title">First Assurance Relationship Team Visit</h3>
+                    <p class="archive-text">We were delighted to host the First Assurance Relationship Team at our Nairobi offices, reaffirming our shared commitment to responsive underwriting support and stronger collaboration.</p>
+                    <button class="archive-btn" type="button">Read More</button>
+                </div>
+            </article>
 
             <article class="archive-card" data-category="health partnership" data-title="Health Insurance Partnership" data-date="26 Mar" data-img="images/archive_1.jpg" data-copy="Natalie Mong'are, Head of Medical &amp; Care, leads DoveNest to sign a partnership agreement with Springboard MHC &amp; C Ltd. The collaboration strengthens access to health-focused support and care services for clients and partner communities.">
                 <div class="archive-img">
@@ -687,6 +718,7 @@
     /* Modal */
     const modal = document.getElementById('archiveModal');
     const modalImg = document.getElementById('modalImg');
+    const modalImgWrap = document.querySelector('.modal-img');
     const modalTitle = document.getElementById('modalTitle');
     const modalCopy = document.getElementById('modalCopy');
     const modalDate = document.getElementById('modalDate');
@@ -695,8 +727,10 @@
     document.querySelectorAll('.archive-btn').forEach((button) => {
         button.addEventListener('click', () => {
             const card = button.closest('.archive-card');
-            modalImg.src = card.dataset.img;
-            modalImg.alt = card.dataset.title;
+            const imgs = card.dataset.gallery ? card.dataset.gallery.split('|') : [card.dataset.img];
+            modalImgWrap.classList.toggle('is-gallery', imgs.length > 1);
+            modalImgWrap.scrollLeft = 0;
+            modalImgWrap.innerHTML = imgs.map((s) => '<img src="' + s + '" alt="' + card.dataset.title.replace(/"/g, '&quot;') + '">').join('');
             modalTitle.textContent = card.dataset.title;
             modalCopy.textContent = card.dataset.copy;
             modalDate.textContent = card.dataset.date;
@@ -709,6 +743,16 @@
     document.querySelector('.modal-close').addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    /* Scrollable card galleries — sync the dot indicator to the scroll position */
+    document.querySelectorAll('.ar-gallery').forEach((gallery) => {
+        const dots = gallery.parentElement.querySelectorAll('.ar-dots span');
+        if (!dots.length) return;
+        gallery.addEventListener('scroll', () => {
+            const i = Math.round(gallery.scrollLeft / gallery.clientWidth);
+            dots.forEach((dot, idx) => dot.classList.toggle('on', idx === i));
+        }, { passive: true });
+    });
 
 }());
 </script>

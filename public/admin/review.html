@@ -66,7 +66,36 @@
     .badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
     .badge-individual { background: rgba(167,139,250,0.12); color: #c4b5fd; }
     .badge-business   { background: rgba(251,191,36,0.12);  color: #fde68a; }
+    .badge-pending  { background: rgba(251,191,36,0.16);  color: #fcd34d; }
+    .badge-approved { background: rgba(82,180,75,0.16);   color: #86e78f; }
+    .badge-featured { background: rgba(96,165,250,0.18);  color: #93c5fd; }
+    .badge-rejected { background: rgba(248,113,113,0.14); color: #fca5a5; }
+    .badge-verified { background: rgba(45,212,191,0.16);  color: #5eead4; }
     .hero-date { font-size: 0.75rem; color: var(--muted); }
+    .hero-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+    /* moderation action bar */
+    .action-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; }
+    .action-bar .ab-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-right: 4px; }
+    .ab-btn { font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 9px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--text); cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.15s, opacity 0.15s; }
+    .ab-btn:hover { background: rgba(255,255,255,0.12); }
+    .ab-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ab-approve { color: #86e78f; border-color: rgba(82,180,75,0.35); }
+    .ab-feature { color: #93c5fd; border-color: rgba(96,165,250,0.35); }
+    .ab-reject  { color: #fca5a5; border-color: rgba(248,113,113,0.35); }
+    .ab-verify  { color: #5eead4; border-color: rgba(45,212,191,0.35); margin-left: auto; }
+    .ab-verify.on { background: rgba(45,212,191,0.16); }
+
+    /* review text card */
+    .review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 20px; }
+    .review-card h3 { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+    .review-headline { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .review-text { font-size: 0.96rem; line-height: 1.7; color: var(--text); white-space: pre-wrap; }
+    .review-text.empty { color: var(--muted); font-style: italic; }
+
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 0.82rem; font-weight: 500; padding: 11px 20px; border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 100; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.err { border-color: rgba(248,113,113,0.4); }
 
     /* large star display */
     .star-display { display: flex; align-items: center; gap: 6px; }
@@ -158,23 +187,41 @@
           Back to Reviews
         </a>
 
+        <!-- Moderation action bar -->
+        <div class="action-bar" id="actionBar">
+          <span class="ab-label">Moderate</span>
+          <button class="ab-btn ab-approve" id="btnApprove" onclick="act('approve')">Approve &amp; publish</button>
+          <button class="ab-btn ab-feature" id="btnFeature" onclick="act('feature')">Feature</button>
+          <button class="ab-btn ab-reject"  id="btnReject"  onclick="act('reject')">Reject</button>
+          <button class="ab-btn ab-verify"  id="btnVerify"  onclick="toggleVerify()">Mark verified</button>
+        </div>
+
         <!-- Hero card with name, type, date, star rating -->
         <div class="hero-card">
           <div class="hero-avatar" id="heroInitials">—</div>
           <div class="hero-body">
             <p class="hero-name" id="heroName">—</p>
             <div class="hero-meta">
+              <span class="badge" id="heroStatus">—</span>
               <span class="badge" id="heroBadge">—</span>
+              <span class="badge badge-verified" id="heroVerified" style="display:none;">✓ verified</span>
               <span class="hero-date" id="heroDate">—</span>
             </div>
             <div class="star-display" id="starDisplay"></div>
           </div>
         </div>
 
+        <!-- Written review -->
+        <div class="review-card">
+          <h3>The Review</h3>
+          <p class="review-headline" id="dHeadline" style="display:none;"></p>
+          <p class="review-text" id="dReviewText">—</p>
+        </div>
+
         <!-- Detail cards -->
         <div class="detail-grid">
           <div class="detail-card" id="contactCard">
-            <h3>Contact Information</h3>
+            <h3>Contact <span style="text-transform:none;font-weight:500;">(verification only — never published)</span></h3>
             <div class="detail-row">
               <span class="detail-key">Email</span>
               <span class="detail-val" id="dEmail">—</span>
@@ -183,17 +230,37 @@
               <span class="detail-key">Phone</span>
               <span class="detail-val" id="dPhone">—</span>
             </div>
+            <div class="detail-row">
+              <span class="detail-key">Organisation</span>
+              <span class="detail-val" id="dOrg">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Location</span>
+              <span class="detail-val" id="dLocation">—</span>
+            </div>
           </div>
 
           <div class="detail-card" id="reviewCard">
             <h3>Review Details</h3>
             <div class="detail-row">
+              <span class="detail-key">Product / Service</span>
+              <span class="detail-val" id="dProduct">—</span>
+            </div>
+            <div class="detail-row">
               <span class="detail-key">Reviewer Type</span>
               <span class="detail-val" id="dType">—</span>
             </div>
             <div class="detail-row">
+              <span class="detail-key">Source</span>
+              <span class="detail-val" id="dSource">—</span>
+            </div>
+            <div class="detail-row">
               <span class="detail-key">Submitted</span>
               <span class="detail-val" id="dDate">—</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-key">Public link</span>
+              <span class="detail-val" id="dSlug" style="font-size:0.78rem;">—</span>
             </div>
             <div class="detail-row">
               <span class="detail-key">Review ID</span>
@@ -229,24 +296,36 @@ const sb = window.supabase.createClient(
 );
 
 const RATING_LABELS = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+const PRODUCT_LABELS = {
+  motor: 'Motor', health: 'Health / Medical', life_assurance: 'Life Assurance',
+  domestic: 'Domestic / Home', business: 'Business / Commercial', pensions: 'Pensions & Retirement',
+  education: 'Education', diaspora: 'Diaspora', last_expense: 'Last Expense', general: 'Other / General',
+};
+const SOURCE_LABELS = { web: 'Website', sms: 'SMS campaign', whatsapp: 'WhatsApp campaign', email: 'Email campaign', qr: 'QR code' };
+
+let review = null;
+let currentEmail = '';
 
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.replace('login.html'); return; }
-  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+  const __adminEmail = (session.user.email || '').toLowerCase();
+  const { data: __adminRow } = await sb.from('admin_invites').select('email').eq('email', __adminEmail).maybeSingle();
+  if (!__adminRow) { await sb.auth.signOut(); window.location.replace('login.html'); return; }
 
-  document.getElementById('userEmail').textContent = session.user.email;
+  currentEmail = session.user.email;
+  document.getElementById('userEmail').textContent = currentEmail;
   document.getElementById('guard').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
 
   const id = new URLSearchParams(window.location.search).get('id');
   if (!id) { showError(); return; }
 
-  const { data: review, error } = await sb.from('reviews').select('*').eq('id', id).maybeSingle();
-  if (error || !review) { showError(); return; }
+  const { data, error } = await sb.from('reviews').select('*').eq('id', id).maybeSingle();
+  if (error || !data) { showError(); return; }
 
-  renderReview(review);
+  review = data;
+  renderReview();
 })();
 
 async function handleSignout() { await sb.auth.signOut(); window.location.replace('login.html'); }
@@ -256,37 +335,126 @@ function showError() {
   document.getElementById('error-state').style.display = 'block';
 }
 
-function renderReview(r) {
+function renderReview() {
+  const r = review;
   document.getElementById('loading').style.display = 'none';
   document.getElementById('content').style.display = 'block';
 
   const fullName = `${r.first_name} ${r.last_name}`;
-  const initials = (r.first_name[0] + r.last_name[0]).toUpperCase();
+  const initials = ((r.first_name[0] || '') + (r.last_name[0] || '')).toUpperCase();
 
-  document.getElementById('heroInitials').textContent   = initials;
+  const avatar = document.getElementById('heroInitials');
+  avatar.innerHTML = r.photo_url ? `<img src="${esc(r.photo_url)}" alt="">` : esc(initials);
+
   document.getElementById('heroName').textContent       = fullName;
   document.getElementById('breadcrumbName').textContent = fullName;
   document.getElementById('heroDate').textContent       = fmtDateLong(r.submitted_at);
 
-  const badge = document.getElementById('heroBadge');
-  badge.textContent  = r.type;
-  badge.className    = `badge badge-${r.type}`;
+  const status = r.status || 'pending';
+  const sBadge = document.getElementById('heroStatus');
+  sBadge.textContent = status;
+  sBadge.className = `badge badge-${status}`;
+
+  const tBadge = document.getElementById('heroBadge');
+  tBadge.textContent = r.type;
+  tBadge.className = `badge badge-${r.type}`;
+
+  document.getElementById('heroVerified').style.display = r.verified ? 'inline-block' : 'none';
 
   document.getElementById('starDisplay').innerHTML = renderStars(r.rating);
 
-  document.getElementById('dEmail').textContent = r.email || '—';
-  document.getElementById('dPhone').textContent = r.phone || '—';
-  document.getElementById('dType').textContent  = r.type.charAt(0).toUpperCase() + r.type.slice(1);
-  document.getElementById('dDate').textContent  = fmtDateLong(r.submitted_at);
-  document.getElementById('dId').textContent    = r.id;
+  // Written review
+  const hl = document.getElementById('dHeadline');
+  if (r.headline) { hl.textContent = r.headline; hl.style.display = 'block'; } else { hl.style.display = 'none'; }
+  const txt = document.getElementById('dReviewText');
+  if (r.review_text) { txt.textContent = r.review_text; txt.classList.remove('empty'); }
+  else { txt.textContent = 'No written review was submitted (legacy entry).'; txt.classList.add('empty'); }
+
+  // Contact + details
+  document.getElementById('dEmail').textContent   = r.email || '—';
+  document.getElementById('dPhone').textContent   = r.phone || '—';
+  document.getElementById('dOrg').textContent     = r.company_name || r.organisation || '—';
+  document.getElementById('dLocation').textContent = [r.county, r.country].filter(Boolean).join(', ') || '—';
+  document.getElementById('dProduct').textContent = PRODUCT_LABELS[r.product] || r.product || '—';
+  document.getElementById('dType').textContent    = r.type.charAt(0).toUpperCase() + r.type.slice(1);
+  document.getElementById('dSource').textContent  = SOURCE_LABELS[r.source] || r.source || '—';
+  document.getElementById('dDate').textContent    = fmtDateLong(r.submitted_at);
+  document.getElementById('dId').textContent      = r.id;
+
+  const slugEl = document.getElementById('dSlug');
+  if (r.slug && (status === 'approved' || status === 'featured')) {
+    slugEl.innerHTML = `<a href="../reviews/${esc(r.slug)}" target="_blank" style="color:var(--gold);text-decoration:none;">/reviews/${esc(r.slug)} ↗</a>`;
+  } else {
+    slugEl.textContent = '— (assigned on approval)';
+  }
 
   if (r.type === 'business') {
     document.getElementById('businessCard').style.display = 'block';
     document.getElementById('dCompany').textContent  = r.company_name || '—';
     document.getElementById('dPosition').textContent = r.position || '—';
+  } else {
+    document.getElementById('businessCard').style.display = 'none';
   }
 
+  // Action bar state — disable the button matching the current status
+  document.getElementById('btnApprove').disabled = (status === 'approved');
+  document.getElementById('btnFeature').disabled = (status === 'featured');
+  document.getElementById('btnReject').disabled  = (status === 'rejected');
+  const vb = document.getElementById('btnVerify');
+  vb.textContent = r.verified ? '✓ Verified' : 'Mark verified';
+  vb.classList.toggle('on', !!r.verified);
+
   document.title = `${fullName} — DoveNest Admin`;
+}
+
+// ── Moderation ──────────────────────────────────────────────────────────────
+function makeSlug(r) {
+  const base = `${r.first_name} ${r.last_name} ${PRODUCT_LABELS[r.product] || r.product || ''}`
+    .toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return base.slice(0, 60) + '-' + String(r.id).slice(0, 8);
+}
+function buildUpdate(row, action, email) {
+  const now = new Date().toISOString();
+  const base = { reviewed_by: email, reviewed_at: now };
+  if (action === 'approve' || action === 'feature')
+    return { ...base, status: action === 'feature' ? 'featured' : 'approved', published_at: row.published_at || now, slug: row.slug || makeSlug(row) };
+  if (action === 'reject') return { ...base, status: 'rejected' };
+  return base;
+}
+const ACTION_TOAST = { approve: 'Approved & published', feature: 'Featured', reject: 'Rejected' };
+
+async function act(action) {
+  setBarDisabled(true);
+  const updates = buildUpdate(review, action, currentEmail);
+  const { error } = await sb.from('reviews').update(updates).eq('id', review.id);
+  if (error) { toast('Failed: ' + error.message, true); setBarDisabled(false); return; }
+  Object.assign(review, updates);
+  toast(ACTION_TOAST[action] || 'Updated');
+  renderReview();
+}
+
+async function toggleVerify() {
+  setBarDisabled(true);
+  const updates = { verified: !review.verified, reviewed_by: currentEmail, reviewed_at: new Date().toISOString() };
+  const { error } = await sb.from('reviews').update(updates).eq('id', review.id);
+  if (error) { toast('Failed: ' + error.message, true); setBarDisabled(false); return; }
+  Object.assign(review, updates);
+  toast(review.verified ? 'Marked as verified' : 'Verification removed');
+  renderReview();
+}
+
+function setBarDisabled(d) {
+  ['btnApprove','btnFeature','btnReject','btnVerify'].forEach(id => { document.getElementById(id).disabled = d; });
+}
+
+let toastTimer;
+function toast(msg, isErr) {
+  let el = document.getElementById('toast');
+  if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
+  el.textContent = msg;
+  el.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, 2600);
 }
 
 function renderStars(rating) {
@@ -300,6 +468,8 @@ function renderStars(rating) {
   </div>`;
   return html;
 }
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function fmtDateLong(iso) {
   if (!iso) return '—';

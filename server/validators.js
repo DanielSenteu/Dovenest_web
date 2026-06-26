@@ -58,6 +58,95 @@ const VALID_PRODUCTS = new Set([
   'diaspora', 'general', 'travel', 'flying_doctors', 'other',
 ]);
 
+// Products a client could pick when leaving a review (kept for phase 2 — the
+// `product` column stays nullable; the live form no longer collects it).
+const VALID_REVIEW_PRODUCTS = new Set([
+  'motor', 'health', 'life_assurance', 'domestic', 'business',
+  'pensions', 'education', 'diaspora', 'last_expense', 'general',
+]);
+
+// Controlled headline options — the reviewer picks one from a dropdown.
+// 'other' is the escape hatch: it requires the reviewer to write their own
+// review text instead (enforced below). Edit the wording freely; keep this set
+// in sync with the <option> values in public/review.html.
+const REVIEW_HEADLINES = [
+  'Excellent, professional service',
+  'Clear guidance throughout',
+  'Fast, reliable support',
+  'Helpful claims guidance',
+  'Smooth renewals and documentation',
+  'Clear explanation of cover options',
+  'Responsive, friendly team',
+  'Trusted advisory partner',
+  'Good value and advice',
+  'Satisfied overall',
+  'Okay, but could improve',
+  'Issue not fully resolved',
+];
+const VALID_REVIEW_HEADLINES = new Set(REVIEW_HEADLINES);
+
+// ── Client review / endorsement ──────────────────────────────────────────────
+// Public, link-shareable form. No Terms gate (that's for quote forms); the
+// publish gate here is `consent_to_publish`. Name, email and phone are required
+// so staff can verify the reviewer is a genuine client. The written review is
+// optional UNLESS the reviewer chooses the "Other" headline, in which case they
+// must write their own words.
+function validateReviewPayload(body) {
+  const errors = [];
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  // Client type
+  if (!['individual', 'business'].includes(body.type))
+    errors.push('type must be "individual" or "business"');
+
+  // Names
+  if (!body.first_name || String(body.first_name).trim().length < 1)
+    errors.push('first_name is required');
+  else if (String(body.first_name).trim().length > 60)
+    errors.push('first_name is too long');
+  if (!body.last_name || String(body.last_name).trim().length < 1)
+    errors.push('last_name is required');
+  else if (String(body.last_name).trim().length > 60)
+    errors.push('last_name is too long');
+
+  // Email + phone — both required (verification channel)
+  if (!body.email || !EMAIL_RE.test(String(body.email).trim().toLowerCase()))
+    errors.push('A valid email address is required');
+  if (!body.phone || !/^\+\d{9,15}$/.test(String(body.phone).trim()))
+    errors.push('A valid phone number is required (e.g. +254712345678)');
+
+  // Star rating
+  const rating = Number(body.rating);
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5)
+    errors.push('Please select a star rating from 1 to 5');
+
+  // Headline — required, from the controlled list or the 'other' escape hatch
+  const isOther = body.headline === 'other';
+  if (!body.headline || !(isOther || VALID_REVIEW_HEADLINES.has(body.headline)))
+    errors.push('Please choose a headline');
+
+  // Written review — optional, BUT required when the reviewer picked "Other"
+  const textLen = body.review_text ? String(body.review_text).trim().length : 0;
+  if (isOther && textLen < 10)
+    errors.push('Please write your review (at least a sentence) when you choose "Other"');
+  else if (textLen > 0 && textLen < 10)
+    errors.push('Your review is a little short — add a bit more, or leave it blank');
+  if (textLen > 2000)
+    errors.push('Your review is too long (max 2000 characters)');
+
+  // Consent — nothing is published without it
+  if (body.consent_to_publish !== true)
+    errors.push('Please tick the box to consent to publishing your review');
+
+  // Business reviewers must name their organisation
+  if (body.type === 'business') {
+    if (!body.company_name || String(body.company_name).trim().length < 2)
+      errors.push('Organisation name is required for business reviews');
+  }
+
+  return errors;
+}
+
 // ── Motor quote ──────────────────────────────────────────────────────────────
 function validateMotorQuotePayload(body, now = new Date()) {
   const errors = [];
@@ -434,6 +523,7 @@ function validateLePayload(body, now = new Date()) {
 module.exports = {
   ageYears,
   serverDepBand,
+  validateReviewPayload,
   validateMotorQuotePayload,
   validateContactPayload,
   validateTravelQuotePayload,
@@ -443,5 +533,8 @@ module.exports = {
   VALID_POLICY_TYPES,
   VALID_VEHICLE_CATEGORIES,
   VALID_PRODUCTS,
+  VALID_REVIEW_PRODUCTS,
+  VALID_REVIEW_HEADLINES,
+  REVIEW_HEADLINES,
   PAGE_PRODUCT_MAP,
 };

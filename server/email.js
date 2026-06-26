@@ -297,7 +297,66 @@ function notifyContact(r) {
   }), `contact internal ${r.ref}`);
 }
 
+// A client left a review. Two emails fire: a warm thank-you to the reviewer,
+// and an internal moderation alert to the DoveNest inbox.
+const REVIEW_PRODUCT_LABELS = {
+  motor: 'Motor', health: 'Health / Medical', life_assurance: 'Life Assurance',
+  domestic: 'Domestic / Home', business: 'Business / Commercial', pensions: 'Pensions & Retirement',
+  education: 'Education', diaspora: 'Diaspora', last_expense: 'Last Expense', general: 'Other / General',
+};
+
+// A gold star strip + their headline, for the thank-you email.
+function reviewStarsBox(rating, headline) {
+  const gold = '★'.repeat(rating || 0);
+  const grey = '☆'.repeat(Math.max(0, 5 - (rating || 0)));
+  return `<div style="background:#f7fafd;border:1px solid #e3ecf4;border-radius:12px;padding:20px;text-align:center;margin:4px 0 20px;">
+    <div style="font-size:28px;letter-spacing:4px;color:#f6b81c;line-height:1;">${gold}<span style="color:#d7e0ea;">${grey}</span></div>
+    ${headline ? `<div style="color:#08375f;font-size:15px;font-weight:600;margin-top:10px;">&ldquo;${esc(headline)}&rdquo;</div>` : ''}
+  </div>`;
+}
+
+function notifyReview(r) {
+  const name = [r.first_name, r.last_name].filter(Boolean).join(' ').trim();
+  const firstName = (r.first_name || '').trim() || 'there';
+  const stars = '★'.repeat(r.rating || 0) + '☆'.repeat(Math.max(0, 5 - (r.rating || 0)));
+
+  // ── 1. Thank-you to the reviewer ──
+  if (r.email) {
+    fire(send({
+      to: r.email,
+      subject: `Thank you for your review, ${firstName}`,
+      html: shell(
+        h1('Thank you for sharing your experience') +
+        p(`Hi ${esc(firstName)}, thank you for taking a moment to review <strong>DoveNest Insurance Brokers</strong>. Feedback from the people and organisations we serve means a great deal to us — it helps other families, SACCOs, churches and businesses choose their protection with confidence.`) +
+        reviewStarsBox(r.rating, r.headline) +
+        p('Our team will verify your review, and once approved it will appear on our website as a published endorsement. We may reach out briefly to confirm your details — purely to keep every review genuine.') +
+        p('If there is ever anything we can help you with — a policy question, a claim, or reviewing your cover — simply reply to this email or call us on <strong>+254&nbsp;726&nbsp;001122</strong>. We are always glad to help.') +
+        signoff(),
+        'Thank you for reviewing DoveNest Insurance — your feedback means a lot.'),
+    }), `review thank-you ${r.email}`);
+  }
+
+  // ── 2. Internal moderation alert ──
+  fire(send({
+    to: inbox(),
+    subject: `New review (${r.rating}★) — ${name || 'Anonymous'} — awaiting moderation`,
+    html: shell(h1('New client review — needs moderation') + kv([
+      ['Rating', `${stars}  (${r.rating}/5)`],
+      ['Name', name],
+      ['Type', r.type === 'business' ? 'Business' : 'Individual'],
+      ['Organisation', r.company_name || r.organisation],
+      ['Product', REVIEW_PRODUCT_LABELS[r.product] || r.product],
+      ['Location', [r.county, r.country].filter(Boolean).join(', ')],
+      ['Email', r.email], ['Phone', r.phone],
+      ['Source', r.source],
+      ['Headline', r.headline],
+      ['Review', r.review_text],
+      ['Photo', r.photo_url ? 'attached (see admin)' : null],
+    ]) + p('Open the admin dashboard to verify the client and approve, feature or reject this review.')),
+  }), `review internal ${name || r.email || 'anon'}`);
+}
+
 module.exports = {
   send,
-  notifyMotor, notifyTravel, notifyFlyingDoctor, notifyLastExpense, notifyGroupRegistered, notifyContact,
+  notifyMotor, notifyTravel, notifyFlyingDoctor, notifyLastExpense, notifyGroupRegistered, notifyContact, notifyReview,
 };

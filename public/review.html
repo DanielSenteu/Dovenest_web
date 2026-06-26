@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <base href="/">
+  <link rel="icon" type="image/png" href="images/dove_logo.png">
+  <link rel="apple-touch-icon" href="images/dove_logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Your Experience — DoveNest Insurance Brokers</title>
+  <meta name="description" content="Tell us about your experience with DoveNest Insurance Brokers. It takes less than two minutes.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Share Your Experience — DoveNest Insurance">
+  <meta property="og:description" content="We'd love to hear how DoveNest has served you. It takes less than two minutes.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared-form-helpers.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #eef2f7;
+      color: #0A2A4A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    .rv-header { background: #08375f; padding: 0 1.5rem; }
+    .rv-header-inner {
+      max-width: 640px; margin: 0 auto; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .rv-eyebrow {
+      display: block; color: #52B44B; font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.32em; text-transform: uppercase; line-height: 1; margin-bottom: 3px;
+    }
+    .rv-header h1 { color: #fff; font-size: clamp(0.9rem, 2.4vw, 1.08rem); font-weight: 700; line-height: 1.2; }
+    .rv-logo img { height: 34px; width: auto; display: block; }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .rv-main { flex: 1; padding: 1.6rem 1rem 3rem; }
+    .rv-wrap { max-width: 640px; margin: 0 auto; }
+    .rv-intro { text-align: center; margin-bottom: 1.3rem; }
+    .rv-intro h2 { font-size: clamp(1.25rem, 4.5vw, 1.7rem); font-weight: 700; color: #08375f; letter-spacing: -0.02em; }
+    .rv-intro p { color: #5a7185; font-size: 0.95rem; margin-top: 0.45rem; line-height: 1.6; }
+    .rv-intro .rv-time { display:inline-block; margin-top:0.7rem; font-size:0.74rem; font-weight:600; color:#3d8c37; background:#e9f6e7; border:1px solid #cfe9cb; border-radius:999px; padding:0.28rem 0.8rem; }
+
+    .rv-card {
+      background: #fff; border-radius: 18px; box-shadow: 0 10px 36px rgba(8,55,95,0.10);
+      border: 1px solid #e6edf4; overflow: hidden;
+    }
+    .rv-card-body { padding: 1.5rem 1.4rem 1.7rem; }
+
+    /* ── Fields ─────────────────────────────────────────────── */
+    .rv-field { margin-bottom: 1.15rem; }
+    .rv-field:last-child { margin-bottom: 0; }
+    .rv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+    label.rv-label { display: block; font-size: 0.82rem; font-weight: 600; color: #2c4257; margin-bottom: 0.4rem; }
+    .rv-label .req { color: #52B44B; }
+    .rv-opt { color: #9aabbb; font-weight: 500; font-size: 0.74rem; }
+    .rv-input, .rv-select, .rv-textarea {
+      width: 100%; font-family: inherit; font-size: 0.95rem; color: #0A2A4A;
+      padding: 0.72rem 0.85rem; border: 1.5px solid #d6e0ea; border-radius: 10px;
+      background: #fbfdff; transition: border-color 0.15s, box-shadow 0.15s; outline: none;
+    }
+    .rv-input:focus, .rv-select:focus, .rv-textarea:focus { border-color: #08375f; box-shadow: 0 0 0 3px rgba(8,55,95,0.10); }
+    .rv-textarea { resize: vertical; min-height: 120px; line-height: 1.55; }
+    .rv-input.err, .rv-select.err, .rv-textarea.err { border-color: #e0564b; background: #fff7f6; }
+    .rv-charcount { text-align: right; font-size: 0.72rem; color: #9aabbb; margin-top: 0.3rem; }
+    .rv-err-msg { display: none; color: #d6453a; font-size: 0.76rem; margin-top: 0.34rem; }
+    .rv-err-msg.show { display: block; }
+    .rv-help { color: #8497a6; font-size: 0.76rem; margin-top: 0.34rem; line-height: 1.45; }
+
+    /* ── Type toggle ────────────────────────────────────────── */
+    .rv-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: #eef3f8; padding: 0.32rem; border-radius: 12px; margin-bottom: 1.2rem; }
+    .rv-toggle-btn { font-family: inherit; font-size: 0.86rem; font-weight: 600; color: #5a7185; padding: 0.6rem; border: none; border-radius: 9px; background: transparent; cursor: pointer; transition: all 0.15s; }
+    .rv-toggle-btn.active { background: #fff; color: #08375f; box-shadow: 0 2px 8px rgba(8,55,95,0.12); }
+
+    .rv-conditional { display: none; }
+    .rv-conditional.open { display: block; }
+
+    /* ── Star rating ────────────────────────────────────────── */
+    .rv-stars-wrap { text-align: center; background: #f7fafd; border: 1.5px solid #e3ecf4; border-radius: 12px; padding: 1.1rem; }
+    .rv-stars { display: inline-flex; gap: 0.35rem; }
+    .rv-star { background: none; border: none; cursor: pointer; padding: 0.15rem; line-height: 0; }
+    .rv-star svg { width: 38px; height: 38px; fill: #d7e0ea; transition: fill 0.12s, transform 0.12s; }
+    .rv-star:hover svg { transform: scale(1.12); }
+    .rv-star.lit svg { fill: #f6b81c; }
+    .rv-stars-hint { display: block; margin-top: 0.55rem; font-size: 0.82rem; font-weight: 600; color: #5a7185; min-height: 1.1em; }
+
+    /* ── Photo upload ───────────────────────────────────────── */
+    .rv-photo-top { text-align: center; margin-bottom: 1.5rem; }
+    .rv-photo-circle { width: 96px; height: 96px; border-radius: 50%; border: 2px dashed #c4d3e2; background: #f7fafd; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; padding: 0; position: relative; transition: border-color 0.15s, background 0.15s; }
+    .rv-photo-circle:hover { border-color: #52B44B; background: #eef6ec; }
+    .rv-photo-circle img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    .rv-photo-circle.has-photo { border-style: solid; border-color: #52B44B; }
+    .rv-photo-circle.has-photo img { display: block; }
+    .rv-photo-circle.has-photo .rv-photo-placeholder { display: none; }
+    .rv-photo-placeholder { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #7a93a8; font-size: 0.66rem; font-weight: 600; }
+    .rv-photo-placeholder svg { width: 24px; height: 24px; }
+    .rv-photo-caption { font-size: 0.78rem; color: #5a7185; margin-top: 0.55rem; }
+    .rv-photo-remove { display: none; font-family: inherit; font-size: 0.78rem; color: #d6453a; background: none; border: none; cursor: pointer; text-decoration: underline; margin-top: 0.15rem; }
+    .rv-photo-remove.show { display: inline-block; }
+
+    /* ── Consent ────────────────────────────────────────────── */
+    .rv-consent { display: flex; gap: 0.65rem; align-items: flex-start; background: #f7fafd; border: 1.5px solid #e3ecf4; border-radius: 12px; padding: 0.95rem 1rem; margin-top: 0.4rem; }
+    .rv-consent input { width: 19px; height: 19px; margin-top: 1px; flex-shrink: 0; accent-color: #08375f; cursor: pointer; }
+    .rv-consent label { font-size: 0.83rem; color: #3d5468; line-height: 1.5; cursor: pointer; }
+
+    /* ── Submit ─────────────────────────────────────────────── */
+    .rv-submit {
+      width: 100%; margin-top: 1.4rem; font-family: inherit; font-size: 1rem; font-weight: 700;
+      color: #fff; background: #08375f; border: none; border-radius: 12px; padding: 0.95rem;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem;
+      transition: background 0.18s; position: relative;
+    }
+    .rv-submit:hover { background: #0a4778; }
+    .rv-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+    .rv-spinner { width: 17px; height: 17px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; display: none; animation: rvspin 0.7s linear infinite; }
+    .rv-submit.loading .rv-spinner { display: inline-block; }
+    @keyframes rvspin { to { transform: rotate(360deg); } }
+
+    .rv-banner { display: none; background: #fff7f6; border: 1.5px solid #f3c9c4; color: #b53d33; font-size: 0.86rem; border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 1.1rem; }
+    .rv-banner.show { display: block; }
+
+    /* Honeypot — off-screen, real users never see it */
+    .hp-trap { position: absolute; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    /* ── Success ────────────────────────────────────────────── */
+    .rv-success { display: none; text-align: center; padding: 2.4rem 1.6rem 2.6rem; }
+    .rv-success.show { display: block; }
+    .rv-check { width: 66px; height: 66px; margin: 0 auto 1.1rem; border-radius: 50%; background: #e9f6e7; color: #3d8c37; display: flex; align-items: center; justify-content: center; }
+    .rv-success h2 { font-size: 1.4rem; color: #08375f; font-weight: 700; }
+    .rv-success p { color: #5a7185; font-size: 0.92rem; margin-top: 0.6rem; line-height: 1.6; }
+    .rv-success .rv-home { display: inline-block; margin-top: 1.4rem; font-size: 0.88rem; font-weight: 600; color: #08375f; text-decoration: none; border: 1.5px solid #d6e0ea; border-radius: 10px; padding: 0.6rem 1.2rem; }
+    .rv-success .rv-home:hover { background: #f3f7fb; }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    .rv-footer { text-align: center; padding: 1.4rem 1rem; font-size: 0.76rem; color: #7990a3; line-height: 1.6; }
+    .rv-footer a { color: #5a7185; text-decoration: none; }
+    .rv-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 480px) {
+      .rv-row { grid-template-columns: 1fr; gap: 0; }
+      .rv-row .rv-field { margin-bottom: 1.15rem; }
+      .rv-card-body { padding: 1.3rem 1.1rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <header class="rv-header">
+    <div class="rv-header-inner">
+      <div>
+        <span class="rv-eyebrow">Client Reviews</span>
+        <h1>Share Your Experience</h1>
+      </div>
+      <a href="home.html" class="rv-logo" aria-label="DoveNest Insurance home">
+        <img src="images/dovenest-logo.png" alt="DoveNest Insurance Brokers">
+      </a>
+    </div>
+  </header>
+
+  <!-- ── Main ───────────────────────────────────────────────── -->
+  <main class="rv-main">
+    <div class="rv-wrap">
+
+      <div class="rv-intro" id="introBlock">
+        <h2>We'd love to hear from you</h2>
+        <p>Your honest feedback helps families, businesses and partners across Kenya trust DoveNest with their protection.</p>
+        <span class="rv-time">⏱ Takes less than 2 minutes</span>
+      </div>
+
+      <div class="rv-card">
+
+        <!-- FORM -->
+        <div class="rv-card-body" id="formBody">
+          <div class="rv-banner" id="errorBanner"></div>
+
+          <form id="reviewForm" novalidate autocomplete="off">
+            <input type="hidden" name="csrf_token" id="csrfToken">
+            <input type="hidden" name="source" id="sourceField" value="web">
+
+            <!-- Honeypot -->
+            <div class="hp-trap" aria-hidden="true">
+              <label for="hp_website">Website</label>
+              <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off" value="">
+            </div>
+
+            <!-- Profile photo (optional, top) -->
+            <div class="rv-field rv-photo-top">
+              <button type="button" class="rv-photo-circle" id="rvPhotoBtn" aria-label="Add a profile photo">
+                <img id="rvPhotoPreview" alt="">
+                <span class="rv-photo-placeholder" id="rvPhotoPlaceholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Add photo</span>
+                </span>
+              </button>
+              <input type="file" id="rvPhotoInput" accept="image/jpeg,image/png,image/webp" style="display:none">
+              <p class="rv-photo-caption">Profile photo <span class="rv-opt">(optional)</span></p>
+              <button type="button" class="rv-photo-remove" id="rvPhotoRemove">Remove</button>
+              <p class="rv-err-msg" id="errPhoto" style="text-align:center;">That image couldn't be used. Please try another.</p>
+            </div>
+
+            <!-- Type toggle -->
+            <div class="rv-toggle" role="group" aria-label="Are you reviewing as an individual or a business?">
+              <button class="rv-toggle-btn active" id="btnInd" type="button" onclick="setType('individual')">Individual</button>
+              <button class="rv-toggle-btn"        id="btnBiz" type="button" onclick="setType('business')">Business / Organisation</button>
+            </div>
+
+            <!-- Name -->
+            <div class="rv-row">
+              <div class="rv-field">
+                <label class="rv-label" for="rvFirst">First name <span class="req">*</span></label>
+                <input class="rv-input" type="text" id="rvFirst" maxlength="60" autocomplete="given-name" placeholder="Jane">
+                <p class="rv-err-msg" id="errFirst">Please enter your first name</p>
+              </div>
+              <div class="rv-field">
+                <label class="rv-label" for="rvLast">Last name <span class="req">*</span></label>
+                <input class="rv-input" type="text" id="rvLast" maxlength="60" autocomplete="family-name" placeholder="Doe">
+                <p class="rv-err-msg" id="errLast">Please enter your last name</p>
+              </div>
+            </div>
+
+            <!-- Business-only: organisation (required) -->
+            <div class="rv-conditional" id="bizFields">
+              <div class="rv-field">
+                <label class="rv-label" for="rvCompany">Organisation <span class="req">*</span></label>
+                <input class="rv-input" type="text" id="rvCompany" maxlength="160" placeholder="e.g. Acme Ltd, your SACCO or church">
+                <p class="rv-err-msg" id="errCompany">Please enter your organisation name</p>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="rv-field">
+              <label class="rv-label" for="rvEmail">Email <span class="req">*</span></label>
+              <input class="rv-input" type="email" id="rvEmail" maxlength="100" autocomplete="email" placeholder="jane@example.com">
+              <p class="rv-err-msg" id="errEmail">Please enter a valid email address</p>
+            </div>
+
+            <!-- Phone -->
+            <div class="rv-field">
+              <label class="rv-label" for="rvPhone">Phone <span class="req">*</span></label>
+              <input class="rv-input" type="tel" id="rvPhone" inputmode="tel" autocomplete="tel">
+              <p class="rv-err-msg" id="errPhone">Please enter a valid phone number</p>
+            </div>
+            <p class="rv-help" style="margin-top:-0.5rem;margin-bottom:1.15rem;">We use your email and phone only to verify you're a genuine DoveNest client — they're never published.</p>
+
+            <!-- Rating -->
+            <div class="rv-field">
+              <label class="rv-label">Your rating <span class="req">*</span></label>
+              <div class="rv-stars-wrap">
+                <div class="rv-stars" id="rvStars" role="group" aria-label="Star rating">
+                  <button class="rv-star" data-val="1" type="button" aria-label="1 star"   onclick="selectStar(1)" onmouseover="hoverStar(1)" onmouseout="hoverStar(0)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                  <button class="rv-star" data-val="2" type="button" aria-label="2 stars"  onclick="selectStar(2)" onmouseover="hoverStar(2)" onmouseout="hoverStar(0)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                  <button class="rv-star" data-val="3" type="button" aria-label="3 stars"  onclick="selectStar(3)" onmouseover="hoverStar(3)" onmouseout="hoverStar(0)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                  <button class="rv-star" data-val="4" type="button" aria-label="4 stars"  onclick="selectStar(4)" onmouseover="hoverStar(4)" onmouseout="hoverStar(0)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                  <button class="rv-star" data-val="5" type="button" aria-label="5 stars"  onclick="selectStar(5)" onmouseover="hoverStar(5)" onmouseout="hoverStar(0)"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></button>
+                </div>
+                <span class="rv-stars-hint" id="rvStarsHint">Tap a star</span>
+              </div>
+              <p class="rv-err-msg" id="errStars">Please select a rating</p>
+            </div>
+
+            <!-- Headline (controlled dropdown) -->
+            <div class="rv-field">
+              <label class="rv-label" for="rvHeadline">Headline <span class="req">*</span></label>
+              <select class="rv-select" id="rvHeadline" onchange="onHeadlineChange()">
+                <option value="" selected disabled>Choose a headline…</option>
+                <option value="Excellent, professional service">Excellent, professional service</option>
+                <option value="Clear guidance throughout">Clear guidance throughout</option>
+                <option value="Fast, reliable support">Fast, reliable support</option>
+                <option value="Helpful claims guidance">Helpful claims guidance</option>
+                <option value="Smooth renewals and documentation">Smooth renewals and documentation</option>
+                <option value="Clear explanation of cover options">Clear explanation of cover options</option>
+                <option value="Responsive, friendly team">Responsive, friendly team</option>
+                <option value="Trusted advisory partner">Trusted advisory partner</option>
+                <option value="Good value and advice">Good value and advice</option>
+                <option value="Satisfied overall">Satisfied overall</option>
+                <option value="Okay, but could improve">Okay, but could improve</option>
+                <option value="Issue not fully resolved">Issue not fully resolved</option>
+                <option value="other">Other – I'll write my own</option>
+              </select>
+              <p class="rv-err-msg" id="errHeadline">Please choose a headline</p>
+            </div>
+
+            <!-- Review text — optional, becomes required when "Other" is chosen -->
+            <div class="rv-field">
+              <label class="rv-label" for="rvText">Your review <span class="rv-opt" id="rvTextMark">(optional)</span></label>
+              <textarea class="rv-textarea" id="rvText" maxlength="2000" placeholder="Optional — add any details you'd like (or leave blank)."></textarea>
+              <div class="rv-charcount"><span id="rvCharCount">0</span> / 2000</div>
+              <p class="rv-err-msg" id="errText">Please write at least a sentence about your experience</p>
+            </div>
+
+            <!-- Consent -->
+            <div class="rv-field">
+              <div class="rv-consent">
+                <input type="checkbox" id="rvConsent">
+                <label for="rvConsent">I confirm this review is genuine and I consent to DoveNest publishing my name, organisation, photo and review on its website and marketing materials.</label>
+              </div>
+              <p class="rv-err-msg" id="errConsent">Please tick the box to allow your review to be published</p>
+            </div>
+
+            <button class="rv-submit" id="submitBtn" type="submit">
+              <span class="rv-spinner"></span>
+              <span class="rv-submit-label">Submit my review</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="rv-success" id="successState">
+          <div class="rv-check">
+            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h2>Thank you!</h2>
+          <p>Your review has been received and will appear on our website once our team has verified it. We're grateful you took the time to share your experience.</p>
+          <a href="home.html" class="rv-home">Back to DoveNest</a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer class="rv-footer">
+    DoveNest Insurance Brokers Ltd &middot; Regulated by the Insurance Regulatory Authority of Kenya<br>
+    Need help? Call <a href="tel:+254726001122">+254&nbsp;726&nbsp;001122</a> or email <a href="mailto:info@dovenestinsurance.com">info@dovenestinsurance.com</a>
+  </footer>
+
+  <script src="shared-form-helpers.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    let reviewType   = 'individual';
+    let selectedStar = 0;
+    let photoDataUrl = null;
+    let serverAvailable = false;
+
+    const starLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const PHONE_RE = /^\+\d{9,15}$/;
+    const PHOTO_MAX = 3 * 1024 * 1024;
+
+    const $ = id => document.getElementById(id);
+    const form = $('reviewForm');
+    const csrfInput = $('csrfToken');
+    const submitBtn = $('submitBtn');
+    const errorBanner = $('errorBanner');
+
+    /* ── Campaign source attribution (?via=whatsapp etc.) ── */
+    try {
+      const via = new URLSearchParams(location.search).get('via');
+      if (via && ['sms','whatsapp','email','qr','web'].includes(via.toLowerCase())) {
+        $('sourceField').value = via.toLowerCase();
+      }
+    } catch (e) {}
+
+    /* ── CSRF / server availability ── */
+    async function fetchCsrf() {
+      try {
+        const r = await fetch('/api/csrf-token', { credentials: 'same-origin' });
+        if (!r.ok) throw new Error('unavailable');
+        const data = await r.json();
+        if (!data.token) throw new Error('no token');
+        csrfInput.value = data.token;
+        serverAvailable = true;
+      } catch {
+        csrfInput.value = '';
+        serverAvailable = false;
+      }
+    }
+    fetchCsrf();
+
+    /* ── Type toggle (business adds a required Organisation field) ── */
+    window.setType = function (type) {
+      reviewType = type;
+      $('btnInd').classList.toggle('active', type === 'individual');
+      $('btnBiz').classList.toggle('active', type === 'business');
+      $('bizFields').classList.toggle('open', type === 'business');
+    };
+
+    /* ── Headline → toggles whether the written review is required ── */
+    window.onHeadlineChange = function () {
+      clearErr('rvHeadline', 'errHeadline');
+      const isOther = $('rvHeadline').value === 'other';
+      const mark = $('rvTextMark');
+      mark.textContent = isOther ? '*' : '(optional)';
+      mark.className = isOther ? 'req' : 'rv-opt';
+      $('rvText').placeholder = isOther
+        ? 'Please share your experience in your own words…'
+        : "Optional — add any details you'd like (or leave blank).";
+    };
+
+    /* ── Stars ── */
+    window.hoverStar = function (n) {
+      const val = n === 0 ? selectedStar : n;
+      document.querySelectorAll('.rv-star').forEach((s, i) => s.classList.toggle('lit', i < val));
+      $('rvStarsHint').textContent = n > 0 ? starLabels[n] : (selectedStar > 0 ? starLabels[selectedStar] : 'Tap a star');
+    };
+    window.selectStar = function (n) {
+      selectedStar = n;
+      hoverStar(0);
+      $('errStars').classList.remove('show');
+    };
+
+    /* ── Char counter ── */
+    $('rvText').addEventListener('input', e => { $('rvCharCount').textContent = e.target.value.length; });
+
+    /* ── Photo upload (circular) ── */
+    $('rvPhotoBtn').addEventListener('click', () => $('rvPhotoInput').click());
+    $('rvPhotoInput').addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      $('errPhoto').classList.remove('show');
+      if (!file) return;
+      if (!['image/jpeg','image/png','image/webp'].includes(file.type) || file.size > PHOTO_MAX) {
+        $('errPhoto').textContent = file.size > PHOTO_MAX ? 'That image is over 3 MB. Please choose a smaller one.' : 'Please choose a JPEG, PNG or WebP image.';
+        $('errPhoto').classList.add('show');
+        e.target.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = ev => {
+        photoDataUrl = ev.target.result;
+        $('rvPhotoPreview').src = photoDataUrl;
+        $('rvPhotoBtn').classList.add('has-photo');
+        $('rvPhotoRemove').classList.add('show');
+      };
+      reader.readAsDataURL(file);
+    });
+    $('rvPhotoRemove').addEventListener('click', () => {
+      photoDataUrl = null;
+      $('rvPhotoInput').value = '';
+      $('rvPhotoPreview').removeAttribute('src');
+      $('rvPhotoBtn').classList.remove('has-photo');
+      $('rvPhotoRemove').classList.remove('show');
+    });
+
+    /* ── Error helpers ── */
+    function showErr(fieldId, msgId) { const f = $(fieldId); if (f) f.classList.add('err'); $(msgId).classList.add('show'); }
+    function clearErr(fieldId, msgId) { const f = $(fieldId); if (f) f.classList.remove('err'); const m = $(msgId); if (m) m.classList.remove('show'); }
+    [['rvFirst','errFirst'],['rvLast','errLast'],['rvCompany','errCompany'],['rvHeadline','errHeadline'],['rvText','errText'],['rvEmail','errEmail'],['rvPhone','errPhone']]
+      .forEach(([f, m]) => { const el = $(f); if (el) el.addEventListener('input', () => clearErr(f, m)); });
+    $('rvConsent').addEventListener('change', () => $('errConsent').classList.remove('show'));
+
+    /* ── Submit ── */
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      // Honeypot — silently "succeed" so bots can't tell
+      if ($('hp_website').value.trim().length > 0) { showSuccess(); return; }
+
+      errorBanner.classList.remove('show');
+
+      const firstName = $('rvFirst').value.trim();
+      const lastName  = $('rvLast').value.trim();
+      const company   = $('rvCompany').value.trim();
+      const headline  = $('rvHeadline').value;
+      const isOther   = headline === 'other';
+      const reviewText = $('rvText').value.trim();
+      const email     = $('rvEmail').value.trim().toLowerCase();
+      const phoneEl   = $('rvPhone');
+      const phone     = (window.dnPhone && phoneEl.value.trim() ? dnPhone.getNumber(phoneEl) : phoneEl.value.trim()) || '';
+      const consent   = $('rvConsent').checked;
+
+      let ok = true;
+      if (!firstName) { showErr('rvFirst', 'errFirst'); ok = false; }
+      if (!lastName)  { showErr('rvLast', 'errLast'); ok = false; }
+      if (reviewType === 'business' && !company) { showErr('rvCompany', 'errCompany'); ok = false; }
+      if (!email || !EMAIL_RE.test(email)) { showErr('rvEmail', 'errEmail'); ok = false; }
+      if (!phone || !PHONE_RE.test(phone)) { showErr('rvPhone', 'errPhone'); ok = false; }
+      if (selectedStar === 0) { $('errStars').classList.add('show'); ok = false; }
+      if (!headline) { showErr('rvHeadline', 'errHeadline'); ok = false; }
+      if (isOther && reviewText.length < 10) {
+        $('errText').textContent = 'Please write your review (at least a sentence).';
+        showErr('rvText', 'errText'); ok = false;
+      } else if (!isOther && reviewText.length > 0 && reviewText.length < 10) {
+        $('errText').textContent = 'A little short — add a bit more, or leave it blank.';
+        showErr('rvText', 'errText'); ok = false;
+      }
+      if (!consent) { $('errConsent').classList.add('show'); ok = false; }
+
+      if (!ok) {
+        const firstErr = document.querySelector('.rv-err-msg.show');
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      if (!serverAvailable) {
+        showError('Online submissions are temporarily unavailable. Please call us on +254 726 001122 or email info@dovenestinsurance.com.');
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      const payload = {
+        csrf_token:         csrfInput.value,
+        type:               reviewType,
+        first_name:         firstName,
+        last_name:          lastName,
+        company_name:       reviewType === 'business' ? company : null,
+        rating:             selectedStar,
+        headline:           headline,
+        review_text:        reviewText || null,
+        photo:              photoDataUrl,
+        email:              email,
+        phone:              phone,
+        consent_to_publish: consent,
+        source:             $('sourceField').value,
+      };
+
+      try {
+        const res = await fetch('/api/review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success) {
+          showSuccess();
+        } else {
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          showError(data.error || 'Something went wrong. Please try again.');
+        }
+      } catch {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+        showError('Network error — please check your connection and try again.');
+      }
+    });
+
+    function showError(msg) {
+      errorBanner.textContent = msg;
+      errorBanner.classList.add('show');
+      errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function showSuccess() {
+      $('formBody').style.display = 'none';
+      $('introBlock').style.display = 'none';
+      $('successState').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  })();
+  </script>
+
+  <script>
+    (function () {
+      function ready(fn) { if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+      ready(function () {
+        var el = document.getElementById('rvPhone');
+        if (el && window.dnPhone) dnPhone.init(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>

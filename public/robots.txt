@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /review.html
+
+Sitemap: https://www.dovenestinsurance.com/sitemap.xml

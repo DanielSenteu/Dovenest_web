@@ -75,8 +75,24 @@
     .badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
     .badge-individual { background: rgba(167,139,250,0.12); color: #c4b5fd; }
     .badge-business   { background: rgba(251,191,36,0.12);  color: #fde68a; }
+    .badge-pending  { background: rgba(251,191,36,0.16);  color: #fcd34d; }
+    .badge-approved { background: rgba(82,180,75,0.16);   color: #86e78f; }
+    .badge-featured { background: rgba(96,165,250,0.18);  color: #93c5fd; }
+    .badge-rejected { background: rgba(248,113,113,0.14); color: #fca5a5; }
+    .badge-verified { background: rgba(45,212,191,0.16);  color: #5eead4; margin-left: 5px; }
     .row-action { font-size: 0.75rem; font-weight: 600; color: var(--gold); white-space: nowrap; }
+    .row-actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+    .act { font-size: 0.7rem; font-weight: 600; padding: 4px 9px; border-radius: 6px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--text); cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap; transition: background 0.15s; }
+    .act:hover { background: rgba(255,255,255,0.12); }
+    .act-approve { color: #86e78f; border-color: rgba(82,180,75,0.3); }
+    .act-feature { color: #93c5fd; border-color: rgba(96,165,250,0.3); }
+    .act-reject  { color: #fca5a5; border-color: rgba(248,113,113,0.3); }
+    .act-view    { color: var(--gold); border-color: rgba(82,180,75,0.25); }
+    .td-review { font-size: 0.78rem; color: var(--muted); max-width: 260px; line-height: 1.5; }
     .table-empty { padding: 56px 18px; text-align: center; color: var(--muted); font-size: 0.85rem; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 0.82rem; font-weight: 500; padding: 11px 20px; border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,0.4); opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 100; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.err { border-color: rgba(248,113,113,0.4); }
 
     /* inline star display */
     .stars-inline { display: flex; gap: 2px; align-items: center; }
@@ -144,25 +160,23 @@
       </div>
 
       <div class="stats-row">
-        <div class="stat-card"><p class="stat-label">Total</p><p class="stat-value" id="statTotal">—</p></div>
-        <div class="stat-card gold">
-          <p class="stat-label">Avg Rating</p>
-          <p class="stat-value" id="statAvg">—</p>
-          <p class="stat-sub" id="statStars"></p>
-        </div>
-        <div class="stat-card"><p class="stat-label">Individual</p><p class="stat-value" id="statIndividual">—</p></div>
-        <div class="stat-card"><p class="stat-label">Business</p><p class="stat-value" id="statBusiness">—</p></div>
+        <div class="stat-card gold"><p class="stat-label">Pending</p><p class="stat-value" id="statPending">—</p><p class="stat-sub">awaiting review</p></div>
+        <div class="stat-card"><p class="stat-label">Published</p><p class="stat-value" id="statPublished">—</p><p class="stat-sub" id="statPublishedSub">approved + featured</p></div>
+        <div class="stat-card"><p class="stat-label">Avg Rating <span style="text-transform:none;">(published)</span></p><p class="stat-value" id="statAvg">—</p><p class="stat-sub" id="statStars"></p></div>
+        <div class="stat-card"><p class="stat-label">Goal — 100</p><p class="stat-value" id="statGoal">—</p><p class="stat-sub">verified endorsements</p></div>
       </div>
 
       <div class="toolbar">
         <div class="search-wrap">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input class="search-input" id="searchInput" type="text" placeholder="Search by name, email, or phone…" oninput="applyFilters()">
+          <input class="search-input" id="searchInput" type="text" placeholder="Search name, email, phone, organisation…" oninput="applyFilters()">
         </div>
         <div class="tab-row">
-          <button class="tab active" data-filter="all"        onclick="setTab('all',this)">All</button>
-          <button class="tab"        data-filter="individual" onclick="setTab('individual',this)">Individual</button>
-          <button class="tab"        data-filter="business"   onclick="setTab('business',this)">Business</button>
+          <button class="tab active" data-filter="pending"  onclick="setTab('pending',this)">Pending</button>
+          <button class="tab"        data-filter="approved" onclick="setTab('approved',this)">Approved</button>
+          <button class="tab"        data-filter="featured" onclick="setTab('featured',this)">Featured</button>
+          <button class="tab"        data-filter="rejected" onclick="setTab('rejected',this)">Rejected</button>
+          <button class="tab"        data-filter="all"      onclick="setTab('all',this)">All</button>
         </div>
       </div>
 
@@ -183,15 +197,24 @@ const sb = window.supabase.createClient(
 );
 
 let allReviews   = [];
-let activeFilter = 'all';
+let activeFilter = 'pending';
+let currentEmail = '';
+
+const PRODUCT_LABELS = {
+  motor: 'Motor', health: 'Health / Medical', life_assurance: 'Life Assurance',
+  domestic: 'Domestic / Home', business: 'Business / Commercial', pensions: 'Pensions & Retirement',
+  education: 'Education', diaspora: 'Diaspora', last_expense: 'Last Expense', general: 'Other / General',
+};
 
 (async () => {
   const { data: { session } } = await sb.auth.getSession();
   if (!session) { window.location.replace('login.html'); return; }
-  const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-  if (aal.currentLevel !== 'aal2') { window.location.replace('login.html'); return; }
+  const __adminEmail = (session.user.email || '').toLowerCase();
+  const { data: __adminRow } = await sb.from('admin_invites').select('email').eq('email', __adminEmail).maybeSingle();
+  if (!__adminRow) { await sb.auth.signOut(); window.location.replace('login.html'); return; }
 
-  document.getElementById('userEmail').textContent = session.user.email;
+  currentEmail = session.user.email;
+  document.getElementById('userEmail').textContent = currentEmail;
   document.getElementById('guard').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
 
@@ -207,22 +230,23 @@ async function loadReviews() {
     .order('submitted_at', { ascending: false });
 
   if (error) {
-    document.getElementById('tableWrap').innerHTML = `<p class="table-empty">Failed to load: ${error.message}</p>`;
+    document.getElementById('tableWrap').innerHTML = `<p class="table-empty">Failed to load: ${esc(error.message)}</p>`;
     return;
   }
 
   allReviews = data || [];
 
-  const total   = allReviews.length;
-  const avg     = total ? (allReviews.reduce((s,r) => s + r.rating, 0) / total) : 0;
-  const indiv   = allReviews.filter(r => r.type === 'individual').length;
-  const biz     = allReviews.filter(r => r.type === 'business').length;
+  const pending   = allReviews.filter(r => r.status === 'pending').length;
+  const published = allReviews.filter(r => r.status === 'approved' || r.status === 'featured');
+  const verified  = allReviews.filter(r => r.verified && (r.status === 'approved' || r.status === 'featured')).length;
+  const avg       = published.length ? (published.reduce((s,r) => s + r.rating, 0) / published.length) : 0;
 
-  document.getElementById('statTotal').textContent      = total;
-  document.getElementById('statAvg').textContent        = total ? avg.toFixed(1) : '—';
-  document.getElementById('statStars').textContent      = total ? renderStarsText(avg) : '';
-  document.getElementById('statIndividual').textContent = indiv;
-  document.getElementById('statBusiness').textContent   = biz;
+  document.getElementById('statPending').textContent       = pending;
+  document.getElementById('statPublished').textContent     = published.length;
+  document.getElementById('statPublishedSub').textContent  = `${allReviews.filter(r=>r.status==='featured').length} featured`;
+  document.getElementById('statAvg').textContent           = published.length ? avg.toFixed(1) : '—';
+  document.getElementById('statStars').textContent         = published.length ? renderStarsText(avg) : '';
+  document.getElementById('statGoal').textContent          = `${verified} / 100`;
 
   applyFilters();
 }
@@ -241,14 +265,15 @@ function setTab(filter, btn) {
 
 function applyFilters() {
   const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-  let rows = activeFilter === 'all' ? allReviews : allReviews.filter(r => r.type === activeFilter);
+  let rows = activeFilter === 'all' ? allReviews : allReviews.filter(r => (r.status || 'pending') === activeFilter);
 
   if (query) {
     rows = rows.filter(r =>
       (r.first_name + ' ' + r.last_name).toLowerCase().includes(query) ||
       (r.email || '').toLowerCase().includes(query) ||
       (r.phone || '').includes(query) ||
-      (r.company_name || '').toLowerCase().includes(query)
+      (r.company_name || '').toLowerCase().includes(query) ||
+      (r.organisation || '').toLowerCase().includes(query)
     );
   }
 
@@ -265,10 +290,20 @@ function renderStars(rating) {
   return html;
 }
 
+// Quick-action buttons per status — keeps moderation a single click from the list.
+function actionsFor(r) {
+  const view = `<button class="act act-view" onclick="go(event,'${r.id}')">View →</button>`;
+  const s = r.status || 'pending';
+  if (s === 'pending')  return `<button class="act act-approve" onclick="quick(event,'${r.id}','approve')">Approve</button><button class="act act-feature" onclick="quick(event,'${r.id}','feature')">Feature</button><button class="act act-reject" onclick="quick(event,'${r.id}','reject')">Reject</button>${view}`;
+  if (s === 'approved') return `<button class="act act-feature" onclick="quick(event,'${r.id}','feature')">Feature</button><button class="act act-reject" onclick="quick(event,'${r.id}','reject')">Reject</button>${view}`;
+  if (s === 'featured') return `<button class="act" onclick="quick(event,'${r.id}','unfeature')">Unfeature</button><button class="act act-reject" onclick="quick(event,'${r.id}','reject')">Reject</button>${view}`;
+  return `<button class="act act-approve" onclick="quick(event,'${r.id}','restore')">Restore</button>${view}`; // rejected
+}
+
 function renderTable(rows) {
   if (rows.length === 0) {
     document.getElementById('tableWrap').innerHTML =
-      `<p class="table-empty">No reviews match your filters.</p>`;
+      `<p class="table-empty">No ${activeFilter === 'all' ? '' : activeFilter} reviews ${activeFilter === 'pending' ? 'right now — all caught up. 🎉' : 'match your filters.'}</p>`;
     return;
   }
 
@@ -277,10 +312,10 @@ function renderTable(rows) {
       <thead>
         <tr>
           <th>Name</th>
-          <th>Contact</th>
-          <th>Type</th>
           <th>Rating</th>
-          <th>Company</th>
+          <th>Product</th>
+          <th>Review</th>
+          <th>Status</th>
           <th>Submitted</th>
           <th></th>
         </tr>
@@ -288,16 +323,64 @@ function renderTable(rows) {
       <tbody>
         ${rows.map(r => `
           <tr onclick="window.location='review.html?id=${r.id}'">
-            <td>${esc(r.first_name)} ${esc(r.last_name)}</td>
-            <td class="td-contact">${esc(r.email)}<br>${esc(r.phone)}</td>
-            <td><span class="badge badge-${r.type}">${r.type}</span></td>
+            <td>${esc(r.first_name)} ${esc(r.last_name)}
+              <span class="badge badge-${r.type}">${esc(r.type)}</span>
+              ${r.verified ? '<span class="badge badge-verified">✓ verified</span>' : ''}
+              ${(r.company_name || r.organisation) ? `<br><span class="muted" style="font-size:0.72rem;">${esc(r.company_name || r.organisation)}</span>` : ''}
+            </td>
             <td>${renderStars(r.rating)}</td>
-            <td class="muted">${r.company_name ? esc(r.company_name) : '—'}</td>
+            <td class="muted">${PRODUCT_LABELS[r.product] || (r.product ? esc(r.product) : '—')}</td>
+            <td class="td-review">${r.review_text ? esc(r.review_text).slice(0,90) + (r.review_text.length > 90 ? '…' : '') : '<span class="muted">— no text —</span>'}</td>
+            <td><span class="badge badge-${r.status || 'pending'}">${esc(r.status || 'pending')}</span></td>
             <td class="muted">${fmtDate(r.submitted_at)}</td>
-            <td class="row-action">View →</td>
+            <td><div class="row-actions">${actionsFor(r)}</div></td>
           </tr>`).join('')}
       </tbody>
     </table>`;
+}
+
+function go(e, id) { e.stopPropagation(); window.location = 'review.html?id=' + id; }
+
+async function quick(e, id, action) {
+  e.stopPropagation();
+  const row = allReviews.find(r => r.id === id);
+  if (!row) return;
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  const updates = buildUpdate(row, action, currentEmail);
+  const { error } = await sb.from('reviews').update(updates).eq('id', id);
+  if (error) { toast('Failed: ' + error.message, true); btn.disabled = false; return; }
+  Object.assign(row, updates);
+  toast(ACTION_TOAST[action] || 'Updated');
+  loadReviews();
+}
+
+// Shared moderation update builder (also used by review.html).
+const ACTION_TOAST = { approve: 'Review approved & published', feature: 'Review featured', unfeature: 'Moved to approved', reject: 'Review rejected', restore: 'Restored to pending' };
+function makeSlug(r) {
+  const base = `${r.first_name} ${r.last_name} ${PRODUCT_LABELS[r.product] || r.product || ''}`
+    .toLowerCase().normalize('NFKD').replace(/[^\w\s-]/g, '').trim().replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return base.slice(0, 60) + '-' + String(r.id).slice(0, 8);
+}
+function buildUpdate(row, action, email) {
+  const now = new Date().toISOString();
+  const base = { reviewed_by: email, reviewed_at: now };
+  if (action === 'approve' || action === 'feature')
+    return { ...base, status: action === 'feature' ? 'featured' : 'approved', published_at: row.published_at || now, slug: row.slug || makeSlug(row) };
+  if (action === 'unfeature') return { ...base, status: 'approved' };
+  if (action === 'reject')    return { ...base, status: 'rejected' };
+  if (action === 'restore')   return { ...base, status: 'pending' };
+  return base;
+}
+
+let toastTimer;
+function toast(msg, isErr) {
+  let el = document.getElementById('toast');
+  if (!el) { el = document.createElement('div'); el.id = 'toast'; el.className = 'toast'; document.body.appendChild(el); }
+  el.textContent = msg;
+  el.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, 2600);
 }
 
 function esc(s) {
