@@ -47,20 +47,30 @@ test('computePremium() — Liberty Life (modular) member/nuclear', () => {
   );
 });
 
-test('computePremium() — Liberty Life extended charges perParent for each parent', () => {
+test('computePremium() — Liberty Life extended is a flat bundle regardless of parent count', () => {
+  // Revised Liberty rate card (Jul 2026): "Nuclear Family + 4 Parents" is one
+  // bundled premium — parents/in-laws (up to 4) carry no per-parent charge.
   const oneParent = LE.computePremium('heritage', {
     coverType: 'extended', coverOption: 1,
     dependents: [{ relationship: 'mother' }],
   });
-  // extended base uses the nuclear column (1130) + 1 * perParent[0] (1365)
-  assert.deepEqual(oneParent, { base: 1130, extras: 1365, total: 2495 });
+  assert.deepEqual(oneParent, { base: 3820, extras: 0, total: 3820 });
 
-  const twoParents = LE.computePremium('heritage', {
+  const fourParents = LE.computePremium('heritage', {
     coverType: 'extended', coverOption: 1,
-    dependents: [{ relationship: 'mother' }, { relationship: 'father' }],
+    dependents: [
+      { relationship: 'mother' }, { relationship: 'father' },
+      { relationship: 'mother_in_law' }, { relationship: 'father_in_law' },
+    ],
   });
-  assert.equal(twoParents.extras, 2 * 1365);
-  assert.equal(twoParents.total, 1130 + 2 * 1365);
+  assert.deepEqual(fourParents, { base: 3820, extras: 0, total: 3820 });
+
+  // Bundle premiums pinned to the revised rate card (KES 76.4 per 1,000 SA)
+  const expected = [3820, 5348, 7640, 11460, 15280, 19100, 22920, 26740, 30560, 38200];
+  expected.forEach((premium, i) => {
+    const r = LE.computePremium('heritage', { coverType: 'extended', coverOption: i + 1, dependents: [] });
+    assert.equal(r.total, premium);
+  });
 });
 
 test('computePremium() — extra children beyond the included 6, plus siblings, cost perParent', () => {
@@ -68,7 +78,8 @@ test('computePremium() — extra children beyond the included 6, plus siblings, 
   for (let i = 0; i < 8; i++) deps.push({ relationship: 'child' }); // 2 beyond the 6 cap
   deps.push({ relationship: 'sibling' });                            // +1 sibling
   const r = LE.computePremium('heritage', { coverType: 'extended', coverOption: 1, dependents: deps });
-  // 2 extra children + 1 sibling = 3 * perParent[0] (1365)
+  // 2 extra children + 1 sibling = 3 * perParent[0] (1365), on the extended bundle base
+  assert.equal(r.base, 3820);
   assert.equal(r.extras, 3 * 1365);
 });
 

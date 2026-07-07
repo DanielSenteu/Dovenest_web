@@ -54,8 +54,9 @@ Commands: `npm start` (run server), `npm test` (37 tests), `npm run build` (sync
   `family` for ABSA/Capex. Stored as `cover_scope`.
 - **Cover option / benefit tier** — the sum assured (KES). A 1-based `cover_option`
   indexes into the underwriter's `benefitTiers`.
-- **Pricing model** — `modular` (Liberty Life: member/nuclear base + per-parent
-  add-ons) or `base_addon` (ABSA/Capex: family base + extra-child / 25–29 child).
+- **Pricing model** — `modular` (Liberty Life: member / nuclear / extended-bundle
+  tables; extended includes up to 4 parents flat, siblings & extra children priced
+  per-additional) or `base_addon` (ABSA/Capex: family base + extra-child / 25–29 child).
 - **Group** — a chama, church, SACCO, alumni or welfare group applying together.
   Registers once → gets a **group code** → members apply individually with it.
 - **Application type** — `individual` or `group`.

@@ -13,8 +13,9 @@
  *   • coverTypes    — WHO is covered: 'member' | 'nuclear' | 'extended'.
  *                     Stored as `cover_scope`. Drives which dependents the
  *                     form allows and (for modular underwriters) the price.
- *   • pricing.model — 'modular'  : member / nuclear / perParent building blocks
- *                                   (Liberty Life)
+ *   • pricing.model — 'modular'  : member / nuclear / extended-bundle tables,
+ *                                   plus perAdditional for siblings & extra
+ *                                   children (Liberty Life)
  *                     'base_addon': one family base + extra-child / 25-29 child
  *                                   add-ons (ABSA, Capex — unchanged legacy)
  * ========================================================================== */
@@ -43,9 +44,15 @@
         // index-aligned with benefitTiers
         member:    [680,  952,  1345, 2018, 2660, 3325, 3955, 4614, 5215, 6450],
         nuclear:   [1130, 1582, 2240, 3360, 4440, 5550, 6590, 7688, 8695, 10755],
-        perParent: [1365, 1911, 2700, 4050, 5350, 6688, 7940, 9263, 10475, 12960], // also per extra child / sibling
+        // Extended family = flat bundle (nuclear family + up to 4 parents/in-laws)
+        // regardless of how many parents are actually added — revised Liberty
+        // rate card (Jul 2026), KES 76.4 per 1,000 sum assured.
+        extended:  [3820, 5348, 7640, 11460, 15280, 19100, 22920, 26740, 30560, 38200],
+        perParent: [1365, 1911, 2700, 4050, 5350, 6688, 7940, 9263, 10475, 12960], // per extra child / sibling only
       },
-      childBenefit: { pct: 0.5, cap: 200000, under10Cap: 100000 },
+      // Revised rate card (Jul 2026): children & parents covered at 50% of the
+      // main member across all tiers (up to 250,000 on option 10) — no 200k cap.
+      childBenefit: { pct: 0.5, cap: null, under10Cap: 100000 },
       minPremium: 50000,            // per policy
       ages: {
         principal:     { min: 18, max: 65 },
@@ -65,7 +72,7 @@
         'Payout within 48 working hours',
         'Up to 4 claims per family per year',
       ],
-      notes: 'Child benefit is 50% of the main member, capped at KES 200,000 (KES 100,000 if under 10). A minimum total premium of KES 50,000 applies to group schemes.',
+      notes: 'Children and parents are covered at 50% of the main member benefit (KES 100,000 maximum for children under 10). A minimum total premium of KES 50,000 applies to group schemes.',
     },
 
     /* ===== ABSA Life Assurance — legacy, unchanged ======================== */
@@ -208,15 +215,12 @@
       let base = 0;
       if (coverType === 'member')   base = u.pricing.member[idx];
       else if (coverType === 'nuclear')  base = u.pricing.nuclear[idx];
-      else if (coverType === 'extended') base = u.pricing.nuclear[idx];
+      // Extended is a flat bundle: parents / parents-in-law (up to 4) are
+      // included in the base — no per-parent charge.
+      else if (coverType === 'extended') base = u.pricing.extended[idx];
       else return null;
 
       let extras = 0;
-      if (coverType === 'extended') {
-        // Each parent / parent-in-law added is charged at perParent
-        const parentCount = deps.filter(d => PARENT_RELS.includes(d.relationship)).length;
-        extras += parentCount * u.pricing.perParent[idx];
-      }
       if (coverType === 'nuclear' || coverType === 'extended') {
         // Children beyond the 6 included, plus any dependent siblings, at perParent
         const childCount = deps.filter(d => d.relationship === 'child').length;
