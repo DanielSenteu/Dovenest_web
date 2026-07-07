@@ -194,6 +194,10 @@
     gap: 0.62rem;
 }
 
+#site-footer .footer-col li {
+    font-size: 0.9rem;
+}
+
 #site-footer .footer-col a,
 #site-footer .footer-bottom a {
     color: rgba(255,255,255,0.72);
