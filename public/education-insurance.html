@@ -404,9 +404,12 @@
       var form = document.getElementById('inq-form');
       if (!form) return;
       var csrfToken = '';
-      fetch('/api/csrf-token').then(function (r) { return r.json(); })
-        .then(function (d) { csrfToken = d.token; var el = document.getElementById('inq-csrf'); if (el) el.value = d.token; })
-        .catch(function () {});
+      function refreshCsrf() {
+        return fetch('/api/csrf-token').then(function (r) { return r.json(); })
+          .then(function (d) { csrfToken = d.token; var el = document.getElementById('inq-csrf'); if (el) el.value = d.token; })
+          .catch(function () {});
+      }
+      refreshCsrf();
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -420,6 +423,9 @@
         var submitBtn = form.querySelector('.inquiry-submit');
         var originalText = submitBtn.textContent;
         submitBtn.disabled = true; submitBtn.textContent = 'Sending…';
+
+        // The token fetched at page load expires after 30 min — refresh it now.
+        await refreshCsrf();
 
         var phoneEl = document.getElementById('inq-phone');
         var phone = (window.dnPhone && phoneEl) ? (dnPhone.getNumber(phoneEl) || phoneEl.value || '') : (phoneEl ? phoneEl.value : '');

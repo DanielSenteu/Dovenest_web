@@ -492,6 +492,10 @@
         return;
       }
 
+      // The token fetched at page load expires after 30 min — refresh it now so
+      // a slow-written review is never rejected as an "expired session".
+      await fetchCsrf();
+
       if (!serverAvailable) {
         showError('Online submissions are temporarily unavailable. Please call us on +254 726 001122 or email info@dovenestinsurance.com.');
         return;

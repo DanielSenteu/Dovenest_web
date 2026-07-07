@@ -832,7 +832,10 @@
   const addBtn     = document.getElementById('tq-add-traveller');
   const today      = new Date().toISOString().split('T')[0];
 
-  fetch('/api/csrf-token').then(r => r.json()).then(d => { csrfToken = d.token; }).catch(() => {});
+  function refreshCsrf() {
+    return fetch('/api/csrf-token').then(r => r.json()).then(d => { csrfToken = d.token; }).catch(() => {});
+  }
+  refreshCsrf();
 
   /* ── Country / City pickers (CountriesNow API) ── */
   const COUNTRIES_API = 'https://countriesnow.space/api/v0.1/countries/iso';
@@ -1505,6 +1508,9 @@
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spin"></span> Submitting\u2026';
     globalErr.classList.remove('visible');
+
+    // The token fetched at page load expires after 30 min — refresh it now.
+    await refreshCsrf();
 
     // Attach signature to documents
     tqDocuments['signature'] = signaturePad.toDataURL('image/png');

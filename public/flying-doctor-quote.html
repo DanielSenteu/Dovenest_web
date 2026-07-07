@@ -567,7 +567,10 @@
   const addBtn     = document.getElementById('fd-add-member');
   const today      = new Date().toISOString().split('T')[0];
 
-  fetch('/api/csrf-token').then(r => r.json()).then(d => { csrfToken = d.token; }).catch(() => {});
+  function refreshCsrf() {
+    return fetch('/api/csrf-token').then(r => r.json()).then(d => { csrfToken = d.token; }).catch(() => {});
+  }
+  refreshCsrf();
 
   /* ── Progress bar ── */
   function updateProgress() {
@@ -992,6 +995,9 @@
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spin"></span> Submitting…';
     globalErr.classList.remove('visible');
+
+    // The token fetched at page load expires after 30 min — refresh it now.
+    await refreshCsrf();
 
     // Attach signature
     documents['signature'] = signaturePad.toDataURL('image/png');

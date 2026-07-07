@@ -1182,6 +1182,9 @@
       submitBtn.classList.add('loading');
       submitBtn.disabled = true;
 
+      // The token fetched at page load expires after 30 min — refresh it now.
+      await fetchCsrf();
+
       const payload = {
         csrf_token:       csrfInput.value,
         policy_type:      state.policy_type,

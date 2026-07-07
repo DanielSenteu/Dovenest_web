@@ -1326,6 +1326,11 @@ function addPdfDownload(container, data) {
 }
 
 async function registerNewGroup() {
+  // Token from page load may have expired (30-min TTL) — refresh before submitting.
+  try {
+    const cr = await fetch('/api/csrf-token');
+    if (cr.ok) { const cd = await cr.json(); if (cd && cd.token) csrfToken = cd.token; }
+  } catch (_) { /* keep existing token */ }
   try {
     const res = await fetch('/api/last-expense/group/register', {
       method: 'POST',

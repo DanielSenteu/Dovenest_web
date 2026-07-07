@@ -1103,11 +1103,14 @@
 
     const form = document.getElementById('contactForm');
     let csrfToken = '';
-    fetch('/api/csrf-token').then(r => r.json()).then(d => {
-      csrfToken = d.token;
-      const csrfEl = document.getElementById('contact-csrf');
-      if (csrfEl) csrfEl.value = d.token;
-    }).catch(() => {});
+    function refreshCsrf() {
+      return fetch('/api/csrf-token').then(r => r.json()).then(d => {
+        csrfToken = d.token;
+        const csrfEl = document.getElementById('contact-csrf');
+        if (csrfEl) csrfEl.value = d.token;
+      }).catch(() => {});
+    }
+    refreshCsrf();
 
     const PRODUCT_CODE_MAP = {
       'Group Last Expense': 'group_last_expense',
@@ -1136,6 +1139,9 @@
         const submitBtn = form.querySelector('.send-btn');
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true; submitBtn.textContent = 'Sending…';
+
+        // The token fetched at page load expires after 30 min — refresh it now.
+        await refreshCsrf();
 
         const phoneEl = document.getElementById('phone');
         const phone = (window.dnPhone && phoneEl) ? (dnPhone.getNumber(phoneEl) || phoneEl.value || '') : (phoneEl ? phoneEl.value : '');
