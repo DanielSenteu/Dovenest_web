@@ -112,7 +112,7 @@ const PRODUCT_LABELS = {
   motor: 'Motor Insurance', health: 'Health Insurance', education: 'Education Insurance',
   diaspora: 'Diaspora Insurance', general: 'General Insurance', life_pension: 'Life & Pension Products',
   travel: 'Travel Insurance', flying_doctors: 'Amref Flying Doctors',
-  group_last_expense: 'Group Last Expense', other: 'Other',
+  group_last_expense: 'Last Expense Insurance', other: 'Other',
 };
 const UW_LABELS = { heritage: 'Liberty Life', absa: 'ABSA Life', capex: 'Capex Life' };
 const COVER_LABELS = { member: 'Principal only', nuclear: 'Nuclear family', extended: 'Extended family', family: 'Family' };
