@@ -80,7 +80,12 @@
       "Bash(echo \"=== /review pretty route ===\")",
       "Bash(cp /c/Users/sente/Downloads/IMG_0049.png public/images/first-assurance-visit-2.png)",
       "Bash(cp /c/Users/sente/Downloads/IMG_0050.png public/images/first-assurance-visit-1.png)",
-      "Bash(NODE_PATH=\"C:\\\\Users\\\\sente\\\\onedrive\\\\desktop\\\\dovenestinsurance\\\\node_modules\" node \"C:\\\\Users\\\\sente\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-sente-onedrive-desktop-dovenestinsurance\\\\06152e4e-0b8d-4141-b659-e55cf890c51e\\\\scratchpad\\\\make-guide-pdf.js\")"
+      "Bash(NODE_PATH=\"C:\\\\Users\\\\sente\\\\onedrive\\\\desktop\\\\dovenestinsurance\\\\node_modules\" node \"C:\\\\Users\\\\sente\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-sente-onedrive-desktop-dovenestinsurance\\\\06152e4e-0b8d-4141-b659-e55cf890c51e\\\\scratchpad\\\\make-guide-pdf.js\")",
+      "Bash(git commit -q -m 'Switch admin auth to email OTP; add corporate-update banner, First Assurance blog entry *)",
+      "Bash(git push *)",
+      "Bash(npm test:*)",
+      "Bash(git push:*)",
+      "Bash(perl:*)"
     ]
   }
 }

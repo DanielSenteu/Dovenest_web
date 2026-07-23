@@ -9,7 +9,7 @@
 // Config via .env:
 //   RESEND_API_KEY   required to actually send (absent → logs + skips)
 //   EMAIL_FROM       default: "DoveNest Insurance <info@dovenest.morsensolutions.com>"
-//   DOVENEST_INBOX   default: info@dovenestinsurance.com,senteudaniel3@gmail.com
+//   DOVENEST_INBOX   default: info@dovenestinsurance.com
 //                    (comma-separated — every internal notification goes to all)
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -17,7 +17,7 @@ const https = require('https');
 
 // Read config lazily so it works regardless of when .env is loaded.
 const FROM_DEFAULT  = 'DoveNest Insurance <info@dovenest.morsensolutions.com>';
-const INBOX_DEFAULT = 'info@dovenestinsurance.com,senteudaniel3@gmail.com';
+const INBOX_DEFAULT = 'info@dovenestinsurance.com';
 // Returns an array of recipients — send() accepts arrays directly.
 const inbox = () => (process.env.DOVENEST_INBOX || INBOX_DEFAULT)
   .split(',').map(s => s.trim()).filter(Boolean);
